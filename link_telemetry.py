@@ -13,9 +13,7 @@ from enum import Enum
 
 SERVER_NAME = "http://localhost:3000"
 YAML_FILE = Path("can.yaml")
-
-# TODO: remove
-DEBUG = False
+CAR_NAME = "Daybreak"
 
 # <----- InfluxDB constants ----->
 
@@ -30,22 +28,6 @@ URL = "http://localhost:8086"
 # TODO: start Grafana server here
 
 # <----- Class definitions ------>
-
-
-class MeasurementTypes(Enum):
-    BOOL = "bool"
-    UNSIGNED = "unsigned"
-    SIGNED = "signed"
-    INCREMENTAL = "incremental"
-
-
-type_processing_map = {
-        MeasurementTypes.BOOL: lambda x: int(x, 2),
-        MeasurementTypes.UNSIGNED: lambda x: int(x, 2),
-        # TODO: write two's complement function for this
-        MeasurementTypes.SIGNED: None,
-        MeasurementTypes.INCREMENTAL: lambda x: int(x, 2) * 0.1
-}
 
 
 class CANMessage:
@@ -100,7 +82,7 @@ class CANMessage:
         schema_data = schema.get(hex(self.identifier))
 
         if schema_data is None:
-            raise ValueError(f"WARNING: Schema not found for id={hex(self.identifier)}, make entry in {YAML_FILE}")
+            raise ValueError(f"WARNING: Schema not found for id={hex(self.identifier)}, make entry in {YAML_FILE}\n")
 
         measurements = schema_data.get("measurements")
 
@@ -134,7 +116,12 @@ class CANMessage:
                 extracted_value = self.bitstream[lower:upper+1]
 
             # convert binary bitstream values to integers
-            processed_value = int(extracted_value, 2)
+            processing_fn = TYPE_PROCESSING_MAP.get(measurement_type)
+
+            if processing_fn is None:
+                raise ValueError(f"WARNING: no entry for {measurement_type} found in {TYPE_PROCESSING_MAP=}\n")
+
+            processed_value = processing_fn(extracted_value)
 
             # place into measurement dictionary
             measurement_dict[name]["source"] = source
@@ -160,6 +147,56 @@ class CANMessage:
         for i in range(0, len(lst), n):
             yield lst[i: i+n]
 
+    @staticmethod
+    def twos_complement8(byte: str):
+        """
+        Interprets byte as two's complement signed integer.
+        NOTE: Byte is assumed to be big-endian (MSB first)
+        """
+
+        assert len(byte) == 8, "`byte` argument must be length 8"
+
+        sign = int(byte[0], 2)
+        tail = int(byte[1:], 2)
+
+        # if number is negative
+        if sign == 1:
+            # invert and add one
+            invert_tail = 127 - tail
+            value = invert_tail + 1
+            return -1 * value
+
+        return tail
+
+    @staticmethod
+    def twos_complement16(word: str):
+        """
+        Interprets word as two's complement signed integer.
+        NOTE: Word is assumed to be big-endian (MSB first)
+        """
+
+        assert len(word) == 16, "`word` argument must be length 16"
+
+        sign = int(word[0], 2)
+        tail = int(word[1:], 2)
+
+        # if number is negative
+        if sign == 1:
+            # invert and add one
+            invert_tail = 32767 - tail
+            value = invert_tail + 1
+            return -1 * value
+
+        return tail
+
+
+TYPE_PROCESSING_MAP = {
+        "bool": lambda x: True if int(x, 2) == 1 else False,
+        "unsigned": lambda x: int(x, 2),
+        "signed_8": CANMessage.twos_complement8,
+        "signed_16": CANMessage.twos_complement16,
+        "incremental": lambda x: int(x, 2) * 0.1
+}
 
 def main():
     # argument validation
@@ -182,43 +219,45 @@ def main():
         can_schema: dict = yaml.safe_load(f)
 
     while True:
-        # TODO: remove
-        if not DEBUG:
-            with serial.Serial() as ser:
-                # <----- Configure COM port ----->
-                ser.baudrate = baudrate
-                ser.port = port
-                ser.open()
+        with serial.Serial() as ser:
+            # <----- Configure COM port ----->
+            ser.baudrate = baudrate
+            ser.port = port
+            ser.open()
 
-                # read in bytes from COM port 
-                message = ser.readline()
+            # read in bytes from COM port
+            message = ser.readline()
 
-                if len(message) != CANMessage.EXPECTED_CAN_MSG_LENGTH:
-                    print(f"error got message length {len(message)}, expected {CANMessage.EXPECTED_CAN_MSG_LENGTH}")
-                    print("dropping message...")
-                    continue
-        else:
-            message = b'0000421F06264BCF26937F33D7007\n'
+            if len(message) != CANMessage.EXPECTED_CAN_MSG_LENGTH:
+                print(f"WARNING: got message length {len(message)}, expected {CANMessage.EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
+                continue
 
         can_msg = CANMessage(raw_string=message)
 
         # extract measurements from CAN message
         try:
             extracted_measurements = can_msg.extract_measurements(can_schema)
+
+            # print parsed CAN messages and extracted measurement
             print(can_msg)
             pp.pprint(extracted_measurements)
+
         except ValueError as exc:
             print(exc)
-        finally:
-            print()
+            continue
 
         # write all measurements to InfluxDB database
+        for measurement, data in extracted_measurements.items():
+            # unpack measurement data
+            source = data["source"]
+            m_class = data["class"]
+            value = data["value"]
 
-        # p = influxdb_client.Point("battery").tag("Car", "Daybreak").field("soc", int(can_msg.data[0]))
-        # print(p)
-        # write_api.write(bucket=BUCKET, org=ORG, record=p)
+            p = influxdb_client.Point(source).tag("car", CAR_NAME).tag("class", m_class).field(measurement, value)
+            print(p)
+        print()
+            # write_api.write(bucket=BUCKET, org=ORG, record=p)
 
 
 if __name__ == "__main__":
     main()
-
