@@ -1,0 +1,186 @@
+---
+"0x622":
+  source: "battery"
+  name: "state"
+  len: 7
+  measurements:
+    # byte 0
+    fault_state:
+      bits: [0]
+      type: "bool"
+    contactor_k1:
+      bits: [1]
+      type: "bool"
+    contactor_k2:
+      bits: [2]
+      type: "bool"
+    contactor_k3:
+      bits: [3]
+      type: "bool"
+    relay_fault:
+      bits: [4]
+      type: "bool"
+
+    # byte 1
+    startup_time:
+      bits: [8, 23]
+      type: "unsigned"
+
+    # byte 3
+    source_power:
+      bits: [24]
+      type: "bool"
+    load_power:
+      bits: [25]
+      type: "bool"
+    interlock_tripped:
+      bits: [26]
+      type: "bool"
+    hard_wire_contact_request:
+      bits: [27]
+      type: "bool"
+    can_contactor_request:
+      bits: [28]
+      type: "bool"
+    hlim:
+      bits: [29]
+      type: "bool"
+    llim:
+      bits: [30]
+      type: "bool"
+    fan_on:
+      bits: [31]
+      type: "bool"
+
+    # byte 4
+    fault_code:
+      bits: [32, 39]
+      type: "unsigned"
+
+    # byte 5
+    driving_off:
+      bits: [40]
+      type: "bool"
+    communication_fault:
+      bits: [42]
+      type: "bool"
+    charge_overcurrent:
+      bits: [43]
+      type: "bool"
+    discharge_overcurrent:
+      bits: [44]
+      type: "bool"
+    over_temperature:
+      bits: [45]
+      type: "bool"
+    under_voltage:
+      bits: [46]
+      type: "bool"
+    over_voltage:
+      bits: [47]
+      type: "bool"
+
+    # byte 6
+    cold_temperature:
+      bits: [52]
+      type: "bool"
+    hot_temperature:
+      bits: [53]
+      type: "bool"
+    low_soh:
+      bits: [54]
+      type: "bool"
+    isolation_fault:
+      bits: [55]
+      type: "bool"
+
+"0x623":
+  source: "battery"
+  name: "voltages"
+  len: 6
+  measurements:
+    # byte 0-1
+    pack_voltage:
+      bits: [0, 15]
+      type: "unsigned"
+
+    # byte 2
+    min_voltage:
+      bits: [16, 23]
+      type: "incremental"
+
+    # byte 3
+    min_voltage_idx:
+      bits: [24, 31]
+      type: "unsigned"
+
+    # byte 4
+    max_voltage:
+      bits: [32, 39]
+      type: "incremental"
+
+    # byte 5
+    max_voltage_idx:
+      bits: [40, 47]
+      type: "unsigned"
+
+"0x624":
+  source: "battery"
+  name: "currents"
+  len: 6
+  measurements:
+    # byte 0-1
+    current:
+      bits: [0, 15]
+      type: "signed"
+
+    # byte 2-3
+    charge_limit:
+      bits: [16, 31]
+      type: "unsigned"
+
+    # byte 4-5
+    discharge_limit:
+      bits: [32, 47]
+      type: "unsigned"
+
+"0x626":
+  source: "battery"
+  name: "metadata"
+  len: 7
+  measurements:
+    # byte 0
+    state_of_charge:
+      bits: [0, 7]
+      type: "unsigned"
+
+"0x627":
+  source: "battery"
+  name: "temperatures"
+  len: 6
+  measurements:
+    # byte 0
+    temperature:
+      bits: [0, 7]
+      type: "signed"
+
+    # byte 2
+    min_temperature:
+      bits: [16, 23]
+      type: "signed"
+
+    # byte 3
+    min_temperature_idx:
+      bits: [24, 31]
+      type: "unsigned"
+
+    # byte 4
+    max_temperature:
+      bits: [32, 39]
+      type: "signed"
+
+    # byte 5
+    max_temperature_idx:
+      bits: [40, 47]
+      type: "unsigned"
+
