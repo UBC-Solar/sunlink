@@ -1,4 +1,97 @@
 ---
+"0x501":
+  source: "motor"
+  name: "state"
+  len: 5
+  measurements:
+    # byte 0 (limit flags)
+    bridge_pwm_flag:
+      bits: [0]
+      type: "bool"
+    motor_current_flag:
+      bits: [1]
+      type: "bool"
+    velocity_flag:
+      bits: [2]
+      type: "bool"
+    bus_current_flag:
+      bits: [3]
+      type: "bool"
+    bus_voltage_upper_limit_flag:
+      bits: [4]
+      type: "bool"
+    bus_voltage_lower_limit_flag:
+      bits: [5]
+      type: "bool"
+    heat_sink_temp_flag:
+      bits: [6]
+      type: "bool"
+
+    # byte 1 (error flags)
+    hw_overcurrent:
+      bits: [0]
+      type: "bool"
+    sw_overcurrent:
+      bits: [1]
+      type: "bool"
+    dc_bus_overvoltage:
+      bits: [2]
+      type: "bool"
+    bad_hall_sequence:
+      bits: [3]
+      type: "bool"
+    watchdog_reset:
+      bits: [4]
+      type: "bool"
+    config_read_error:
+      bits: [5]
+      type: "bool"
+    undervoltage_lockout:
+      bits: [6]
+      type: "bool"
+
+"0x502":
+  source: "motor"
+  name: "bus_measurement"
+  len: 8
+  measurements:
+    # byte 0-3
+    bus_voltage:
+      bits: [0, 31]
+      type: "ieee32_float"
+    # byte 4-7
+    bus_current:
+      bits: [32, 63]
+      type: "ieee32_float"
+
+"0x503":
+  source: "motor"
+  name: "velocity_measurement"
+  len: 8
+  measurements:
+    # byte 0-3
+    motor_velocity:
+      bits: [0, 31]
+      type: "ieee32_float"
+    # byte 4-7
+    vehicle_velocity:
+      bits: [32, 63]
+      type: "ieee32_float"
+
+"0x50B":
+  source: "motor"
+  name: "temperature_measurement"
+  len: 8
+  measurements:
+    # byte 0-3
+    motor_temperature:
+      bits: [0, 31]
+      type: "ieee32_float"
+    # byte 4-7
+    heatsink_temperature:
+      bits: [32, 63]
+      type: "ieee32_float"
+
 "0x622":
   source: "battery"
   name: "state"
