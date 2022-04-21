@@ -132,7 +132,7 @@
     # byte 0-1
     current:
       bits: [0, 15]
-      type: "signed"
+      type: "signed_16"
 
     # byte 2-3
     charge_limit:
@@ -162,12 +162,12 @@
     # byte 0
     temperature:
       bits: [0, 7]
-      type: "signed"
+      type: "signed_8"
 
     # byte 2
     min_temperature:
       bits: [16, 23]
-      type: "signed"
+      type: "signed_8"
 
     # byte 3
     min_temperature_idx:
@@ -177,7 +177,7 @@
     # byte 4
     max_temperature:
       bits: [32, 39]
-      type: "signed"
+      type: "signed_8"
 
     # byte 5
     max_temperature_idx:
