@@ -8,6 +8,7 @@ from pathlib import Path
 import yaml
 import pprint
 from enum import Enum
+import struct
 
 # <----- Constants ----->
 
@@ -189,13 +190,19 @@ class CANMessage:
 
         return tail
 
+    @staticmethod
+    def ieee32_to_float(dword: str):
+        i = int(dword, 2)
+        return struct.unpack("f", struct.pack("I", i))[0]
+
 
 TYPE_PROCESSING_MAP = {
         "bool": lambda x: True if int(x, 2) == 1 else False,
         "unsigned": lambda x: int(x, 2),
         "signed_8": CANMessage.twos_complement8,
         "signed_16": CANMessage.twos_complement16,
-        "incremental": lambda x: int(x, 2) * 0.1
+        "incremental": lambda x: int(x, 2) * 0.1,
+        "ieee32_float": lambda x: round(CANMessage.ieee32_to_float(x), 2)
 }
 
 def main():
@@ -230,6 +237,7 @@ def main():
 
             if len(message) != CANMessage.EXPECTED_CAN_MSG_LENGTH:
                 print(f"WARNING: got message length {len(message)}, expected {CANMessage.EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
+                print(message)
                 continue
 
         can_msg = CANMessage(raw_string=message)
@@ -255,8 +263,8 @@ def main():
 
             p = influxdb_client.Point(source).tag("car", CAR_NAME).tag("class", m_class).field(measurement, value)
             print(p)
-        print()
             # write_api.write(bucket=BUCKET, org=ORG, record=p)
+        print()
 
 
 if __name__ == "__main__":
