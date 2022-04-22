@@ -131,16 +131,6 @@ class CANMessage:
 
         return measurement_dict
 
-        """
-        sample_dict = {
-                "state_of_charge": {
-                    "source": "",
-                    "message_name": "",
-                    "value": ""
-                    }
-                }
-        """
-
     @staticmethod
     def chunks(lst, n):
         """Yield successive n-sized chunks from list."""
@@ -206,7 +196,6 @@ TYPE_PROCESSING_MAP = {
 }
 
 def main():
-    # argument validation
     assert len(sys.argv) >= 2, "COM port not specified"
     assert len(sys.argv) >= 3, "Baudrate not specified"
 
@@ -253,7 +242,6 @@ def main():
 
         # write all measurements to InfluxDB database
         for measurement, data in extracted_measurements.items():
-            # unpack measurement data
             source = data["source"]
             m_class = data["class"]
             value = data["value"]
@@ -261,6 +249,7 @@ def main():
             p = influxdb_client.Point(source).tag("car", CAR_NAME).tag("class", m_class).field(measurement, value)
             print(p)
             write_api.write(bucket=BUCKET, org=ORG, record=p)
+
         print()
 
 
