@@ -42,7 +42,7 @@ class CANMessage:
         self.identifier = int(raw_string[8:12].decode(), 16)      # 4 bytes
         self.data_len = int(raw_string[28:29].decode(), 16)       # 1 byte
 
-        self.hex_identifier = hex(self.identifier)
+        self.hex_identifier = "0x" + hex(self.identifier)[2:].upper()
 
         data = list(self.chunks(raw_string[12:28], 2))            # 16 bytes
         data = list(map(bytes.decode, data))
@@ -80,10 +80,10 @@ class CANMessage:
         """
 
         # retrieve schema data for CAN ID
-        schema_data = schema.get(hex(self.identifier))
+        schema_data = schema.get(self.hex_identifier)
 
         if schema_data is None:
-            raise ValueError(f"WARNING: Schema not found for id={hex(self.identifier)}, make entry in {YAML_FILE}\n")
+            raise ValueError(f"WARNING: Schema not found for id={self.hex_identifier}, make entry in {YAML_FILE}\n")
 
         measurements = schema_data.get("measurements")
 
@@ -245,11 +245,8 @@ def main():
         # extract measurements from CAN message
         try:
             extracted_measurements = can_msg.extract_measurements(can_schema)
-
-            # print parsed CAN messages and extracted measurement
             print(can_msg)
             pp.pprint(extracted_measurements)
-
         except ValueError as exc:
             print(exc)
             continue
@@ -263,7 +260,7 @@ def main():
 
             p = influxdb_client.Point(source).tag("car", CAR_NAME).tag("class", m_class).field(measurement, value)
             print(p)
-            # write_api.write(bucket=BUCKET, org=ORG, record=p)
+            write_api.write(bucket=BUCKET, org=ORG, record=p)
         print()
 
 
