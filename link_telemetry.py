@@ -288,7 +288,7 @@ def main():
             p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                 "class", m_class).field(measurement, value)
             print(p)
-            # write_api.write(bucket=BUCKET, org=ORG, record=p)
+            write_api.write(bucket=BUCKET, org=ORG, record=p)
 
         print()
 
