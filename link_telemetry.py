@@ -9,6 +9,8 @@ import yaml
 import pprint
 from enum import Enum
 import struct
+import random
+import time
 
 # <----- Constants ----->
 
@@ -34,7 +36,7 @@ URL = "http://localhost:8086"
 class CANMessage:
     EXPECTED_CAN_MSG_LENGTH = 30
 
-    def __init__(self, raw_string):
+    def __init__(self, raw_string: bytes):
         assert len(raw_string) == CANMessage.EXPECTED_CAN_MSG_LENGTH, \
             f"raw_string not expected length of {EXPECTED_CAN_MSG_LENGTH}"
 
@@ -83,7 +85,8 @@ class CANMessage:
         schema_data = schema.get(self.hex_identifier)
 
         if schema_data is None:
-            raise ValueError(f"WARNING: Schema not found for id={self.hex_identifier}, make entry in {YAML_FILE}\n")
+            raise ValueError(
+                f"WARNING: Schema not found for id={self.hex_identifier}, make entry in {YAML_FILE}\n")
 
         measurements = schema_data.get("measurements")
 
@@ -120,7 +123,8 @@ class CANMessage:
             processing_fn = TYPE_PROCESSING_MAP.get(measurement_type)
 
             if processing_fn is None:
-                raise ValueError(f"WARNING: no entry for {measurement_type} found in {TYPE_PROCESSING_MAP=}\n")
+                raise ValueError(
+                    f"WARNING: no entry for {measurement_type} found in {TYPE_PROCESSING_MAP=}\n")
 
             processed_value = processing_fn(extracted_value)
 
@@ -187,20 +191,49 @@ class CANMessage:
 
 
 TYPE_PROCESSING_MAP = {
-        "bool": lambda x: True if int(x, 2) == 1 else False,
-        "unsigned": lambda x: int(x, 2),
-        "signed_8": CANMessage.twos_complement8,
-        "signed_16": CANMessage.twos_complement16,
-        "incremental": lambda x: int(x, 2) * 0.1,
-        "ieee32_float": lambda x: round(CANMessage.ieee32_to_float(x), 2)
+    "bool": lambda x: True if int(x, 2) == 1 else False,
+    "unsigned": lambda x: int(x, 2),
+    "signed_8": CANMessage.twos_complement8,
+    "signed_16": CANMessage.twos_complement16,
+    "incremental": lambda x: int(x, 2) * 0.1,
+    "ieee32_float": lambda x: round(CANMessage.ieee32_to_float(x), 2)
 }
 
-def main():
-    assert len(sys.argv) >= 2, "COM port not specified"
-    assert len(sys.argv) >= 3, "Baudrate not specified"
 
-    port = sys.argv[1]
-    baudrate = sys.argv[2]
+def random_can_str(can_schema) -> str:
+    can_ids = list(can_schema.keys())
+
+    # 0 to 2^32
+    random_timestamp = random.randint(0, pow(2, 32))
+    random_timestamp_str = "{0:0{1}x}".format(random_timestamp, 8)
+
+    # random identifier
+    random_identifier = int(random.choice(can_ids)[2:], 16)
+    random_id_str = "{0:0{1}x}".format(random_identifier, 4)
+
+    # random data
+    random_data = random.randint(0, pow(2, 64))
+    random_data_str = "{0:0{1}x}".format(random_data, 16)
+
+    # fixed data length
+    data_length = "8"
+
+    # collect into single string
+    can_str = random_timestamp_str + random_id_str + random_data_str \
+        + data_length + "\n"
+
+    return can_str
+
+
+def main():
+    read_com = False
+
+    if len(sys.argv) == 3:
+        port = sys.argv[1]
+        baudrate = sys.argv[2]
+        read_com = True
+    else:
+        print("No port and baudrate specified, random CAN messages will be generated")
 
     pp = pprint.PrettyPrinter(indent=1)
 
@@ -215,19 +248,25 @@ def main():
         can_schema: dict = yaml.safe_load(f)
 
     while True:
-        with serial.Serial() as ser:
-            # <----- Configure COM port ----->
-            ser.baudrate = baudrate
-            ser.port = port
-            ser.open()
+        if read_com:
+            with serial.Serial() as ser:
+                # <----- Configure COM port ----->
+                ser.baudrate = baudrate
+                ser.port = port
+                ser.open()
 
-            # read in bytes from COM port
-            message = ser.readline()
+                # read in bytes from COM port
+                message = ser.readline()
 
-            if len(message) != CANMessage.EXPECTED_CAN_MSG_LENGTH:
-                print(f"WARNING: got message length {len(message)}, expected {CANMessage.EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
-                print(message)
-                continue
+                if len(message) != CANMessage.EXPECTED_CAN_MSG_LENGTH:
+                    print(
+                        f"WARNING: got message length {len(message)}, expected {CANMessage.EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
+                    print(message)
+                    continue
+        else:
+            message = random_can_str(can_schema)
+            message = message.encode(encoding="UTF-8")
+            time.sleep(0.5)
 
         can_msg = CANMessage(raw_string=message)
 
@@ -246,9 +285,10 @@ def main():
             m_class = data["class"]
             value = data["value"]
 
-            p = influxdb_client.Point(source).tag("car", CAR_NAME).tag("class", m_class).field(measurement, value)
+            p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+                "class", m_class).field(measurement, value)
             print(p)
-            write_api.write(bucket=BUCKET, org=ORG, record=p)
+            # write_api.write(bucket=BUCKET, org=ORG, record=p)
 
         print()
 
