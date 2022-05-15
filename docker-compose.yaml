@@ -17,9 +17,17 @@ services:
     ports:
       - 8086:8086
     volumes:
-      - influxdb:/var/lib/influxdb
+      - influxdb-storage:/var/lib/influxdb2
+      - influxdb-config:/etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=ubcsolar
+      - DOCKER_INFLUXDB_INIT_ORG=UBC Solar
+      - DOCKER_INFLUXDB_INIT_BUCKET=Telemetry
     restart: unless-stopped
 
 volumes:
   grafana:
-  influxdb:
+  influxdb-storage:
+  influxdb-config:
