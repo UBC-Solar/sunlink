@@ -1,13 +1,10 @@
-import requests
 import serial
 import sys
 import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
-from collections import OrderedDict
 from pathlib import Path
 import yaml
 import pprint
-from enum import Enum
 import struct
 import random
 import time
