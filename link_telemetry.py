@@ -22,7 +22,7 @@ CAR_NAME = "Daybreak"
 
 BUCKET = "Telemetry"
 ORG = "UBC Solar"
-TOKEN = "T_30GSM8YENk9XFXxmTnqohRO7KSNMfp7YDcf03wAShj0Ti7B3ORQrWwE8ZIDgaRvi-dwAdHSvsw3H1iOr2OUQ=="
+TOKEN = "PZreIdWtOD02sk3RQTraXtCkazjI7VPPw8E_1NSPe_9TVt9JwjbW5h3xSNj5N9uoevmXMs8gAQrMrhqH57AKhQ=="
 URL = "http://localhost:8086"
 
 # <----- Server start-ups ----->
