@@ -55,7 +55,7 @@ generates CAN messages.
 To run the system in NORMAL mode:
 
 ```bash
-python link_telemetry.py <com_port> <baudrate>
+python link_telemetry.py -p <com_port> -b <baudrate>
 ```
 
 Where `com_port` is something like `COM9` or `/dev/ttyS0` and
@@ -64,6 +64,18 @@ Where `com_port` is something like `COM9` or `/dev/ttyS0` and
 To run the system in DEBUG mode:
 
 ```bash
-python link_telemetry.py
+python link_telemetry.py -d
+```
+
+To look at the help information:
+
+```bash
+python link_telemetry.py --help
+```
+
+Or:
+
+```bash
+python link_telemetry.py -h
 ```
 

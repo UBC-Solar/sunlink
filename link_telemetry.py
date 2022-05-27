@@ -8,6 +8,7 @@ import pprint
 import struct
 import random
 import time
+import argparse
 
 # <----- Constants ----->
 
@@ -223,14 +224,34 @@ def random_can_str(can_schema) -> str:
 
 
 def main():
-    read_com = False
 
-    if len(sys.argv) == 3:
-        port = sys.argv[1]
-        baudrate = sys.argv[2]
-        read_com = True
+    # <----- Argument parsing ----->
+
+    parser = argparse.ArgumentParser(
+        description="Link raw radio stream to frontend telemetry interface.")
+
+    normal_group = parser.add_argument_group("Normal operation")
+    debug_group = parser.add_argument_group("Debug operation")
+
+    debug_group.add_argument("-d", "--debug", action="store_true", help=("Enables debug mode. This allows using the "
+                                                                         "telemetry link with randomly generated CAN "
+                                                                         "data rather using an actual radio telemetry stream"))
+
+    normal_group.add_argument("-p", "--port", action="store",
+                              help=("Specifies the serial port to read radio data from. "
+                                    "Typical values include: COM5, /dev/ttyUSB0, etc."))
+    normal_group.add_argument("-b", "--baudrate", action="store",
+                              help=("Specifies the baudrate for the serial port specified. "
+                                    "Typical values include: 9600, 115200, 230400, etc."))
+
+    args = parser.parse_args()
+
+    if args.debug:
+        if args.port or args.baudrate:
+            parser.error("-d cannot be used with -p and -b options")
     else:
-        print("No port and baudrate specified, random CAN messages will be generated")
+        if not (args.port and args.baudrate):
+            parser.error("-p and -b options must both be specified")
 
     pp = pprint.PrettyPrinter(indent=1)
 
@@ -245,11 +266,15 @@ def main():
         can_schema: dict = yaml.safe_load(f)
 
     while True:
-        if read_com:
+        if args.debug:
+            message = random_can_str(can_schema)
+            message = message.encode(encoding="UTF-8")
+            time.sleep(0.5)
+        else:
             with serial.Serial() as ser:
                 # <----- Configure COM port ----->
-                ser.baudrate = baudrate
-                ser.port = port
+                ser.baudrate = args.baudrate
+                ser.port = args.port
                 ser.open()
 
                 # read in bytes from COM port
@@ -260,10 +285,6 @@ def main():
                         f"WARNING: got message length {len(message)}, expected {CANMessage.EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
                     print(message)
                     continue
-        else:
-            message = random_can_str(can_schema)
-            message = message.encode(encoding="UTF-8")
-            time.sleep(0.5)
 
         can_msg = CANMessage(raw_string=message)
 
@@ -285,6 +306,7 @@ def main():
             p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                 "class", m_class).field(measurement, value)
             print(p)
+
             write_api.write(bucket=BUCKET, org=ORG, record=p)
 
         print()
