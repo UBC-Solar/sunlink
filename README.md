@@ -70,7 +70,7 @@ To run the system in NORMAL mode:
 python link_telemetry.py -p [SERIAL_PORT] -b [BAUDRATE]
 ```
 
-Where `[SERIAL_PORT]` is something like `COM9` or `/dev/ttyS0` and
+Where `[SERIAL_PORT]` is something like `COM9` or `/dev/ttyUSB0` and
 `[BAUDRATE]` is something like `230400` or `9600`.
 
 To run the system in DEBUG mode:
