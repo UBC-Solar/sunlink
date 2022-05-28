@@ -40,6 +40,18 @@ docker compose up
 This will start a Grafana instance at `localhost:3000` and 
 an InfluxDB instance at `localhost:8086`.
 
+### Installing Python package requirements
+
+Before running the `link_telemetry.py` script, you must install the required python packages.
+It is recommended that you create a python virtual environment before running the following command.
+A detailed guide on how to create a python virtual environment can be found here: https://docs.python.org/3/library/venv.html.
+
+To install the requirements run:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
 ### Running the link
 
 There's two different ways to use the telemetry link: 
@@ -55,11 +67,11 @@ generates CAN messages.
 To run the system in NORMAL mode:
 
 ```bash
-python link_telemetry.py -p <com_port> -b <baudrate>
+python link_telemetry.py -p [SERIAL_PORT] -b [BAUDRATE]
 ```
 
-Where `com_port` is something like `COM9` or `/dev/ttyS0` and
-`baudrate` is something like `230400` or `9600`.
+Where `[SERIAL_PORT]` is something like `COM9` or `/dev/ttyS0` and
+`[BAUDRATE]` is something like `230400` or `9600`.
 
 To run the system in DEBUG mode:
 
