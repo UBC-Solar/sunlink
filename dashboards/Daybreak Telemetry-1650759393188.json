@@ -112,7 +112,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"motor\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"bus_voltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -195,7 +195,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"motor\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"bus_current\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -291,7 +291,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"motor\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"motor_temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -374,7 +374,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"motor\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"heatsink_temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -470,7 +470,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"motor\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"motor_velocity\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -553,7 +553,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"motor\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"vehicle_velocity\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -659,7 +659,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"metadata\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"state_of_charge\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -748,7 +748,7 @@
             {
               "datasource": {
                 "type": "influxdb",
-                "uid": "YVym9SQnk"
+                "uid": "nORym7r7z"
               },
               "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
               "refId": "A"
@@ -830,7 +830,7 @@
             {
               "datasource": {
                 "type": "influxdb",
-                "uid": "YVym9SQnk"
+                "uid": "nORym7r7z"
               },
               "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"max_temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
               "refId": "A"
@@ -888,7 +888,7 @@
             {
               "datasource": {
                 "type": "influxdb",
-                "uid": "YVym9SQnk"
+                "uid": "nORym7r7z"
               },
               "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"max_temperature_idx\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
               "refId": "A"
@@ -970,7 +970,7 @@
             {
               "datasource": {
                 "type": "influxdb",
-                "uid": "YVym9SQnk"
+                "uid": "nORym7r7z"
               },
               "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"min_temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
               "refId": "A"
@@ -1028,7 +1028,7 @@
             {
               "datasource": {
                 "type": "influxdb",
-                "uid": "YVym9SQnk"
+                "uid": "nORym7r7z"
               },
               "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"min_temperature_idx\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
               "refId": "A"
@@ -1127,7 +1127,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"currents\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"current\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1209,7 +1209,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"currents\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"charge_limit\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1291,7 +1291,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"currents\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"charge_limit\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1385,7 +1385,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pack_voltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1467,7 +1467,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"min_voltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1521,7 +1521,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"min_voltage_idx\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1603,7 +1603,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"max_voltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1657,7 +1657,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"max_voltage_idx\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1779,7 +1779,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"contactor_k1\" or r[\"_field\"] == \"contactor_k2\" or r[\"_field\"] == \"contactor_k3\"\r\nor r[\"_field\"] == \"fault_state\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1839,7 +1839,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"startup_time\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1897,7 +1897,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"fault_code\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2053,7 +2053,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"source_power\" or r[\"_field\"] == \"load_power\" or r[\"_field\"] == \"interlock_tripped\" or r[\"_field\"] == \"hard_wire_contact_request\" or r[\"_field\"] == \"can_contactor_request\" or r[\"_field\"] == \"llim\" or r[\"_field\"] == \"hlim\" or r[\"_field\"] == \"fan_on\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2110,7 +2110,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"over_voltage\" or r[\"_field\"] == \"under_voltage\" or r[\"_field\"] == \"over_temperature\" or r[\"_field\"] == \"discharge_overcurrent\" or r[\"_field\"] == \"charge_overcurrent\" or r[\"_field\"] == \"communication_fault\" or r[\"_field\"] == \"interlock_tripped\" or r[\"_field\"] == \"driving_off\")\r\n  |> sample(n: 10, pos: 1)\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2167,7 +2167,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "YVym9SQnk"
+            "uid": "nORym7r7z"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"battery\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"isolation_fault\" or r[\"_field\"] == \"hot_temperature\" or r[\"_field\"] == \"cold_temperature\" or r[\"_field\"] == \"low_soh\" or r[\"_field\"] == \"discharge_overcurrent\" or r[\"_field\"] == \"charge_overcurrent\")\r\n  |> sample(n: 10, pos: 1)\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
