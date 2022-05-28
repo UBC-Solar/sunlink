@@ -36,7 +36,7 @@ class CANMessage:
 
     def __init__(self, raw_string: bytes):
         assert len(raw_string) == CANMessage.EXPECTED_CAN_MSG_LENGTH, \
-            f"raw_string not expected length of {EXPECTED_CAN_MSG_LENGTH}"
+            f"raw_string not expected length of {CANMessage.EXPECTED_CAN_MSG_LENGTH}"
 
         self.timestamp = int(raw_string[0:8].decode(), 16)        # 8 bytes
         self.identifier = int(raw_string[8:12].decode(), 16)      # 4 bytes
@@ -245,6 +245,8 @@ def main():
                                     "Typical values include: 9600, 115200, 230400, etc."))
 
     args = parser.parse_args()
+
+    # <----- Argument validation ----->
 
     if args.debug:
         if args.port or args.baudrate:
