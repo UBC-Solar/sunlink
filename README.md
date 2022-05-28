@@ -1,4 +1,4 @@
-# Link Telemetry
+# UBC Solar's Telemetry Link
 
 This is the link between the raw radio module serial stream that
 comes from Daybreak's onboard telemetry system and the telemetry
