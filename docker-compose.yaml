@@ -9,7 +9,7 @@ services:
       - GF_INSTALL_PLUGINS=grafana-clock-panel
     volumes:
       - grafana:/var/lib/grafana
-    restart: unless-stopped
+    restart: always
 
   influxdb:
     image: influxdb:latest
@@ -25,7 +25,7 @@ services:
       - DOCKER_INFLUXDB_INIT_PASSWORD=ubcsolar
       - DOCKER_INFLUXDB_INIT_ORG=UBC Solar
       - DOCKER_INFLUXDB_INIT_BUCKET=Telemetry
-    restart: unless-stopped
+    restart: always
 
 volumes:
   grafana:
