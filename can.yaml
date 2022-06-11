@@ -1,4 +1,17 @@
 ---
+"0x401":
+  source: "speed_controller"
+  name: "drive_command"
+  len: 8
+  measurements:
+    # byte 0-3
+    desired_velocity:
+      bits: [0, 31]
+      type: "ieee32_float"
+    # byte 4-7
+    current_setpoint:
+      bits: [32, 63]
+      type: "ieee32_float"
 "0x501":
   source: "motor"
   name: "state"
