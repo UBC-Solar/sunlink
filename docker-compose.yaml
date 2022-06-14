@@ -7,7 +7,13 @@ services:
       - 3000:3000
     volumes:
       - grafana:/var/lib/grafana
+      - type: bind
+        source: ./plugins
+        target: /var/lib/grafana/plugins
+
     restart: always
+    environment:
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-mqtt-datasource
 
   influxdb:
     image: influxdb:latest
