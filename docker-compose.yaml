@@ -7,9 +7,10 @@ services:
       - 3000:3000
     volumes:
       - grafana:/var/lib/grafana
+      - grafana-plugins:/var/lib/grafana/plugins
       - type: bind
-        source: ./plugins
-        target: /var/lib/grafana/plugins
+        source: ./config/grafana.ini
+        target: /etc/grafana/grafana.ini
 
     restart: always
     environment:
@@ -33,5 +34,6 @@ services:
 
 volumes:
   grafana:
+  grafana-plugins:
   influxdb-storage:
   influxdb-config:
