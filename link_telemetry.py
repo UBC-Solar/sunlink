@@ -50,6 +50,8 @@ class CANMessage:
         # separated into bytes (each byte represented in decimal)
         self.data = list(map(lambda x: int(x, 16), data))
 
+        self.hex_data = list(map(lambda x: hex(x), self.data))
+
         # separated into bytes (each byte represented in binary)
         self.bytestream = list(map(lambda x: "{0:08b}".format(x), self.data))
 
@@ -65,6 +67,7 @@ class CANMessage:
         repr_str += f"{self.timestamp=}\n"
         repr_str += f"{self.data_len=}\n"
         repr_str += f"{self.data=}\n"
+        repr_str += f"{self.hex_data=}\n"
         repr_str += f"{self.bytestream=}\n"
         repr_str += f"{self.bitstream=}\n"
 
@@ -184,8 +187,16 @@ class CANMessage:
 
     @staticmethod
     def ieee32_to_float(dword: str):
+        # data = list(CANMessage.chunks(dword, 8))
+        # reversed_data = list(reversed(data))
+        # final_dword = "".join(reversed_data)
+        # print(f">>> DEBUGGING: {dword=}")
+        # print(f">>> DEBUGGING: {data=}")
+        # print(f">>> DEBUGGING: {reversed_data=}")
+        # print(f">>> DEBUGGING: {final_dword=}")
+        # i = int(final_dword, 2)
         i = int(dword, 2)
-        return struct.unpack("f", struct.pack("I", i))[0]
+        return struct.unpack(">f", struct.pack("I", i))[0]
 
 
 TYPE_PROCESSING_MAP = {
