@@ -23,10 +23,6 @@ ORG = "UBC Solar"
 TOKEN = "PZreIdWtOD02sk3RQTraXtCkazjI7VPPw8E_1NSPe_9TVt9JwjbW5h3xSNj5N9uoevmXMs8gAQrMrhqH57AKhQ=="
 URL = "http://localhost:8086"
 
-# <----- Server start-ups ----->
-
-# TODO: start InfluxDB server here
-# TODO: start Grafana server here
 
 # <----- Class definitions ------>
 
@@ -187,14 +183,9 @@ class CANMessage:
 
     @staticmethod
     def ieee32_to_float(dword: str):
-        # data = list(CANMessage.chunks(dword, 8))
-        # reversed_data = list(reversed(data))
-        # final_dword = "".join(reversed_data)
-        # print(f">>> DEBUGGING: {dword=}")
-        # print(f">>> DEBUGGING: {data=}")
-        # print(f">>> DEBUGGING: {reversed_data=}")
-        # print(f">>> DEBUGGING: {final_dword=}")
-        # i = int(final_dword, 2)
+        # dword must be a 32-bit binary number
+        assert len(dword) == 32, "dword is not length 32"
+
         i = int(dword, 2)
         return struct.unpack(">f", struct.pack("I", i))[0]
 
