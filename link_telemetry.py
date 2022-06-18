@@ -10,6 +10,9 @@ import random
 import time
 import argparse
 
+import asyncio
+import websockets
+
 # <----- Constants ----->
 
 SERVER_NAME = "http://localhost:3000"
@@ -225,7 +228,7 @@ def random_can_str(can_schema) -> str:
     return can_str
 
 
-def main():
+async def main():
 
     # <----- Argument parsing ----->
 
@@ -238,6 +241,7 @@ def main():
     debug_group.add_argument("-d", "--debug", action="store_true", help=("Enables debug mode. This allows using the "
                                                                          "telemetry link with randomly generated CAN "
                                                                          "data rather using an actual radio telemetry stream"))
+    debug_group.add_argument("--no-write", action="store_true", help=("Disables writing to InfluxDB bucket and Grafana live stream endpoints"))
 
     normal_group.add_argument("-p", "--port", action="store",
                               help=("Specifies the serial port to read radio data from. "
@@ -307,14 +311,22 @@ def main():
             m_class = data["class"]
             value = data["value"]
 
-            p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-                "class", m_class).field(measurement, value)
-            print(p)
+            endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
+            websocket_url = f"ws://localhost:3000/api/live/push/{endpoint_name}"
 
-            write_api.write(bucket=BUCKET, org=ORG, record=p)
+            async with websockets.connect(websocket_url, extra_headers={'Authorization': 'Bearer eyJrIjoiNW1ueXNiemJWZFpOVngwczJhZWN3MHVFVUJoQTVEOU4iLCJuIjoidGVsZW1ldHJ5LXdlYnNvY2tldCIsImlkIjoxfQ=='}) as websocket:
+                current_time = time.time_ns()
+                message = f"test value={value} {current_time}"
+                await websocket.send(message)
+
+            if args.no_write is False:
+                p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+                    "class", m_class).field(measurement, value)
+                print(p)
+                write_api.write(bucket=BUCKET, org=ORG, record=p)
 
         print()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
