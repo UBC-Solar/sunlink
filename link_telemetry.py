@@ -23,10 +23,6 @@ ORG = "UBC Solar"
 TOKEN = "PZreIdWtOD02sk3RQTraXtCkazjI7VPPw8E_1NSPe_9TVt9JwjbW5h3xSNj5N9uoevmXMs8gAQrMrhqH57AKhQ=="
 URL = "http://localhost:8086"
 
-# <----- Server start-ups ----->
-
-# TODO: start InfluxDB server here
-# TODO: start Grafana server here
 
 # <----- Class definitions ------>
 
@@ -50,6 +46,8 @@ class CANMessage:
         # separated into bytes (each byte represented in decimal)
         self.data = list(map(lambda x: int(x, 16), data))
 
+        self.hex_data = list(map(lambda x: hex(x), self.data))
+
         # separated into bytes (each byte represented in binary)
         self.bytestream = list(map(lambda x: "{0:08b}".format(x), self.data))
 
@@ -65,6 +63,7 @@ class CANMessage:
         repr_str += f"{self.timestamp=}\n"
         repr_str += f"{self.data_len=}\n"
         repr_str += f"{self.data=}\n"
+        repr_str += f"{self.hex_data=}\n"
         repr_str += f"{self.bytestream=}\n"
         repr_str += f"{self.bitstream=}\n"
 
@@ -184,8 +183,11 @@ class CANMessage:
 
     @staticmethod
     def ieee32_to_float(dword: str):
+        # dword must be a 32-bit binary number
+        assert len(dword) == 32, "dword is not length 32"
+
         i = int(dword, 2)
-        return struct.unpack("f", struct.pack("I", i))[0]
+        return struct.unpack(">f", struct.pack("I", i))[0]
 
 
 TYPE_PROCESSING_MAP = {
