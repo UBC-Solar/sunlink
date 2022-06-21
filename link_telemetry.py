@@ -13,23 +13,29 @@ import argparse
 import asyncio
 import websockets
 
+from dotenv import dotenv_values
+
 # <----- Constants ----->
 
-YAML_FILE = Path("can.yaml")
 CAR_NAME = "Daybreak"
+
+YAML_FILE = Path("can.yaml")
+ENV_FILE = Path(".env")
+
+ENV_CONFIG = dotenv_values(ENV_FILE)
 
 # <----- InfluxDB constants ----->
 
-INFLUX_URL = "http://localhost:8086"
-INFLUX_TOKEN = "PZreIdWtOD02sk3RQTraXtCkazjI7VPPw8E_1NSPe_9TVt9JwjbW5h3xSNj5N9uoevmXMs8gAQrMrhqH57AKhQ=="
+INFLUX_URL = ENV_CONFIG["INFLUX_URL"]
+INFLUX_TOKEN = ENV_CONFIG["INFLUX_TOKEN"]
 
-BUCKET = "Telemetry"
-ORG = "UBC Solar"
+INFLUX_BUCKET = ENV_CONFIG["INFLUX_BUCKET"]
+INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
 
 # <----- Grafana constants ----->
 
-GRAFANA_URL = "http://localhost:3000"
-GRAFANA_TOKEN = "eyJrIjoiNW1ueXNiemJWZFpOVngwczJhZWN3MHVFVUJoQTVEOU4iLCJuIjoidGVsZW1ldHJ5LXdlYnNvY2tldCIsImlkIjoxfQ=="
+GRAFANA_URL = ENV_CONFIG["GRAFANA_URL"]
+GRAFANA_TOKEN = ENV_CONFIG["GRAFANA_TOKEN"]
 
 # <----- Class definitions ------>
 
@@ -269,7 +275,7 @@ async def main():
 
     # <----- InfluxDB object set-up ----->
 
-    client = influxdb_client.InfluxDBClient(url=INFLUX_URL, org=ORG, token=INFLUX_TOKEN)
+    client = influxdb_client.InfluxDBClient(url=INFLUX_URL, org=INFLUX_ORG, token=INFLUX_TOKEN)
     write_api = client.write_api(write_options=ASYNCHRONOUS)
 
     # <----- Read in YAML CAN schema file ----->
@@ -327,7 +333,7 @@ async def main():
                 p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                     "class", m_class).field(measurement, value)
                 # print(p)
-                write_api.write(bucket=BUCKET, org=ORG, record=p)
+                write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=p)
 
         print()
 

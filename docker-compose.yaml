@@ -11,10 +11,22 @@ services:
       - type: bind
         source: ./config/grafana.ini
         target: /etc/grafana/grafana.ini
+      - type: bind
+        source: ./provisioning
+        target: /etc/grafana/provisioning
+    depends_on:
+      - influxdb
 
     restart: always
     environment:
-      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-mqtt-datasource
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - INFLUX_ADMIN_USERNAME=${INFLUX_ADMIN_USERNAME}
+      - INFLUX_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD}
+      - INFLUX_TOKEN=${INFLUX_TOKEN}
+      - INFLUX_ORG=${INFLUX_ORG}
+      - INFLUX_BUCKET=${INFLUX_BUCKET}
+      - INFLUX_DATASOURCE_UID=${INFLUX_DATASOURCE_UID}
 
   influxdb:
     image: influxdb:latest
@@ -26,10 +38,10 @@ services:
       - influxdb-config:/etc/influxdb2
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=ubcsolar
-      - DOCKER_INFLUXDB_INIT_ORG=UBC Solar
-      - DOCKER_INFLUXDB_INIT_BUCKET=Telemetry
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_ADMIN_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_ADMIN_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_BUCKET}
     restart: always
 
 volumes:
