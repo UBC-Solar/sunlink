@@ -1,7 +1,7 @@
 import serial
 import sys
 import influxdb_client
-from influxdb_client.client.write_api import SYNCHRONOUS
+from influxdb_client.client.write_api import ASYNCHRONOUS
 from pathlib import Path
 import yaml
 import pprint
@@ -10,19 +10,26 @@ import random
 import time
 import argparse
 
+import asyncio
+import websockets
+
 # <----- Constants ----->
 
-SERVER_NAME = "http://localhost:3000"
 YAML_FILE = Path("can.yaml")
 CAR_NAME = "Daybreak"
 
 # <----- InfluxDB constants ----->
 
+INFLUX_URL = "http://localhost:8086"
+INFLUX_TOKEN = "PZreIdWtOD02sk3RQTraXtCkazjI7VPPw8E_1NSPe_9TVt9JwjbW5h3xSNj5N9uoevmXMs8gAQrMrhqH57AKhQ=="
+
 BUCKET = "Telemetry"
 ORG = "UBC Solar"
-TOKEN = "PZreIdWtOD02sk3RQTraXtCkazjI7VPPw8E_1NSPe_9TVt9JwjbW5h3xSNj5N9uoevmXMs8gAQrMrhqH57AKhQ=="
-URL = "http://localhost:8086"
 
+# <----- Grafana constants ----->
+
+GRAFANA_URL = "http://localhost:3000"
+GRAFANA_TOKEN = "eyJrIjoiNW1ueXNiemJWZFpOVngwczJhZWN3MHVFVUJoQTVEOU4iLCJuIjoidGVsZW1ldHJ5LXdlYnNvY2tldCIsImlkIjoxfQ=="
 
 # <----- Class definitions ------>
 
@@ -225,7 +232,7 @@ def random_can_str(can_schema) -> str:
     return can_str
 
 
-def main():
+async def main():
 
     # <----- Argument parsing ----->
 
@@ -238,6 +245,7 @@ def main():
     debug_group.add_argument("-d", "--debug", action="store_true", help=("Enables debug mode. This allows using the "
                                                                          "telemetry link with randomly generated CAN "
                                                                          "data rather using an actual radio telemetry stream"))
+    debug_group.add_argument("--no-write", action="store_true", help=("Disables writing to InfluxDB bucket and Grafana live stream endpoints"))
 
     normal_group.add_argument("-p", "--port", action="store",
                               help=("Specifies the serial port to read radio data from. "
@@ -261,8 +269,8 @@ def main():
 
     # <----- InfluxDB object set-up ----->
 
-    client = influxdb_client.InfluxDBClient(url=URL, org=ORG, token=TOKEN)
-    write_api = client.write_api(write_options=SYNCHRONOUS)
+    client = influxdb_client.InfluxDBClient(url=INFLUX_URL, org=ORG, token=INFLUX_TOKEN)
+    write_api = client.write_api(write_options=ASYNCHRONOUS)
 
     # <----- Read in YAML CAN schema file ----->
 
@@ -296,7 +304,7 @@ def main():
         try:
             extracted_measurements = can_msg.extract_measurements(can_schema)
             print(can_msg)
-            pp.pprint(extracted_measurements)
+            # pp.pprint(extracted_measurements)
         except ValueError as exc:
             print(exc)
             continue
@@ -307,14 +315,22 @@ def main():
             m_class = data["class"]
             value = data["value"]
 
-            p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-                "class", m_class).field(measurement, value)
-            print(p)
+            endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
+            websocket_url = f"ws://{GRAFANA_URL}/api/live/push/{endpoint_name}"
 
-            write_api.write(bucket=BUCKET, org=ORG, record=p)
+            async with websockets.connect(websocket_url, extra_headers={f'Authorization': 'Bearer {GRAFANA_TOKEN}'}) as websocket:
+                current_time = time.time_ns()
+                message = f"test value={value} {current_time}"
+                await websocket.send(message)
+
+            if args.no_write is False:
+                p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+                    "class", m_class).field(measurement, value)
+                # print(p)
+                write_api.write(bucket=BUCKET, org=ORG, record=p)
 
         print()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
