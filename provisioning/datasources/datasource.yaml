@@ -1,16 +1,17 @@
 apiVersion: 1
 
 deleteDatasources:
-  - name: InfluxDB-provisioned
+  - name: InfluxDB
     orgId: 1
 
 datasources:
-  - name: InfluxDB-provisioned
+  - name: InfluxDB
     type: influxdb
     access: proxy
     uid: ${INFLUX_DATASOURCE_UID}
     url: http://influxdb:8086
     basicAuth: true
+    isDefault: true
     basicAuthUser: ${INFLUX_ADMIN_USERNAME}
     secureJsonData:
       token: ${INFLUX_TOKEN}
