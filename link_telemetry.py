@@ -1,7 +1,7 @@
 import serial
 import sys
 import influxdb_client
-from influxdb_client.client.write_api import SYNCHRONOUS
+from influxdb_client.client.write_api import ASYNCHRONOUS
 from pathlib import Path
 import yaml
 import pprint
@@ -266,7 +266,7 @@ async def main():
     # <----- InfluxDB object set-up ----->
 
     client = influxdb_client.InfluxDBClient(url=URL, org=ORG, token=TOKEN)
-    write_api = client.write_api(write_options=SYNCHRONOUS)
+    write_api = client.write_api(write_options=ASYNCHRONOUS)
 
     # <----- Read in YAML CAN schema file ----->
 
@@ -300,7 +300,7 @@ async def main():
         try:
             extracted_measurements = can_msg.extract_measurements(can_schema)
             print(can_msg)
-            pp.pprint(extracted_measurements)
+            # pp.pprint(extracted_measurements)
         except ValueError as exc:
             print(exc)
             continue
@@ -322,7 +322,7 @@ async def main():
             if args.no_write is False:
                 p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                     "class", m_class).field(measurement, value)
-                print(p)
+                # print(p)
                 write_api.write(bucket=BUCKET, org=ORG, record=p)
 
         print()
