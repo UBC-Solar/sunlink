@@ -15,17 +15,21 @@ import websockets
 
 # <----- Constants ----->
 
-SERVER_NAME = "http://localhost:3000"
 YAML_FILE = Path("can.yaml")
 CAR_NAME = "Daybreak"
 
 # <----- InfluxDB constants ----->
 
+INFLUX_URL = "http://localhost:8086"
+INFLUX_TOKEN = "PZreIdWtOD02sk3RQTraXtCkazjI7VPPw8E_1NSPe_9TVt9JwjbW5h3xSNj5N9uoevmXMs8gAQrMrhqH57AKhQ=="
+
 BUCKET = "Telemetry"
 ORG = "UBC Solar"
-TOKEN = "PZreIdWtOD02sk3RQTraXtCkazjI7VPPw8E_1NSPe_9TVt9JwjbW5h3xSNj5N9uoevmXMs8gAQrMrhqH57AKhQ=="
-URL = "http://localhost:8086"
 
+# <----- Grafana constants ----->
+
+GRAFANA_URL = "http://localhost:3000"
+GRAFANA_TOKEN = "eyJrIjoiNW1ueXNiemJWZFpOVngwczJhZWN3MHVFVUJoQTVEOU4iLCJuIjoidGVsZW1ldHJ5LXdlYnNvY2tldCIsImlkIjoxfQ=="
 
 # <----- Class definitions ------>
 
@@ -265,7 +269,7 @@ async def main():
 
     # <----- InfluxDB object set-up ----->
 
-    client = influxdb_client.InfluxDBClient(url=URL, org=ORG, token=TOKEN)
+    client = influxdb_client.InfluxDBClient(url=INFLUX_URL, org=ORG, token=INFLUX_TOKEN)
     write_api = client.write_api(write_options=ASYNCHRONOUS)
 
     # <----- Read in YAML CAN schema file ----->
@@ -312,9 +316,9 @@ async def main():
             value = data["value"]
 
             endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
-            websocket_url = f"ws://localhost:3000/api/live/push/{endpoint_name}"
+            websocket_url = f"ws://{GRAFANA_URL}/api/live/push/{endpoint_name}"
 
-            async with websockets.connect(websocket_url, extra_headers={'Authorization': 'Bearer eyJrIjoiNW1ueXNiemJWZFpOVngwczJhZWN3MHVFVUJoQTVEOU4iLCJuIjoidGVsZW1ldHJ5LXdlYnNvY2tldCIsImlkIjoxfQ=='}) as websocket:
+            async with websockets.connect(websocket_url, extra_headers={f'Authorization': 'Bearer {GRAFANA_TOKEN}'}) as websocket:
                 current_time = time.time_ns()
                 message = f"test value={value} {current_time}"
                 await websocket.send(message)
