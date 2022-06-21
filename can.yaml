@@ -91,6 +91,20 @@
       bits: [32, 63]
       type: "ieee32_float"
 
+"0x504":
+  source: "motor"
+  name: "phase_current"
+  len: 8
+  measurements:
+    # byte 0-3
+    phase_b_current:
+      bits: [0, 31]
+      type: "ieee32_float"
+    # byte 4-7
+    phase_a_current:
+      bits: [32, 63]
+      type: "ieee32_float"
+
 "0x50B":
   source: "motor"
   name: "temperature_measurement"
