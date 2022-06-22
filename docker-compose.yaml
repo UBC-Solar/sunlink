@@ -7,13 +7,15 @@ services:
       - 3000:3000
     volumes:
       - grafana:/var/lib/grafana
-      - grafana-plugins:/var/lib/grafana/plugins
       - type: bind
         source: ./config/grafana.ini
         target: /etc/grafana/grafana.ini
       - type: bind
         source: ./provisioning
         target: /etc/grafana/provisioning
+      - type: bind
+        source: ./dashboards
+        target: /var/lib/grafana/dashboards
     depends_on:
       - influxdb
 
@@ -26,7 +28,6 @@ services:
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_BUCKET=${INFLUX_BUCKET}
-      - INFLUX_DATASOURCE_UID=${INFLUX_DATASOURCE_UID}
 
   influxdb:
     image: influxdb:latest
@@ -46,6 +47,5 @@ services:
 
 volumes:
   grafana:
-  grafana-plugins:
   influxdb-storage:
   influxdb-config:
