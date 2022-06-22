@@ -27,7 +27,7 @@ docker --version
 
 ### Setting up environment variables
 
-Before starting up the docker instances, a `.env` file is required in the project root directory.
+Before starting up the docker instances, you must create a `.env` file in the project root directory.
 An example `.env` file is given in `./examples/environment/`. The contents of this file will look something like this:
 
 ```env
