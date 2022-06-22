@@ -1,15 +1,16 @@
 # UBC Solar's Telemetry Link
 
-This is the link between the raw radio module serial stream that
-comes from Daybreak's onboard telemetry system and the telemetry
-frontend that consists of Grafana and InfluxDB.
+This is the link between the raw radio module serial stream that comes from Daybreak's
+onboard telemetry system and the Grafana frontend. This project is responsible for CAN
+message parsing with Python, time-series data storage with InfluxDB,
+and finally, data visualization with Grafana.
 
 ## Getting started
 
 ### Pre-requisites
 
 - Python 3.8 or above (https://www.python.org/downloads/)
-- Docker & docker compose (https://docs.docker.com/get-docker/)
+- Docker & Docker Compose (https://docs.docker.com/get-docker/)
 
 Check your Python installation by running:
 
@@ -19,10 +20,10 @@ python --version
 
 NOTE: Ensure your Python version is 3.8 or higher.
 
-Check your Docker installation by running:
+Check your Docker Compose installation by running:
 
 ```bash
-docker --version
+docker compose version
 ```
 
 ### Setting up environment variables
@@ -85,6 +86,8 @@ GRAFANA_TOKEN=""
 
 As you can see, the `INFLUX_TOKEN` and `GRAFANA_TOKEN` keys are left without values.
 
+NOTE: make sure you correctly rename your environment variable file to `.env` otherwise Docker compose will not be able to read it. It should **not** have a `.txt` extension.
+
 ### Starting the docker container
 
 Before running the `link_telemetry.py` script, you must first
@@ -112,9 +115,9 @@ and the Grafana Live endpoint.
 
 ### Installing Python package requirements
 
-Before running the `link_telemetry.py` script, you must install the required python packages.
-It is recommended that you create a python virtual environment before running the following command.
-A detailed guide on how to create a python virtual environment can be found here: https://docs.python.org/3/library/venv.html.
+Before running the `link_telemetry.py` script, you must install the required Python packages.
+It is recommended that you create a Python virtual environment before running the following command.
+A detailed guide on how to create a Python virtual environment can be found here: https://docs.python.org/3/library/venv.html.
 
 To install the requirements run:
 
@@ -122,7 +125,7 @@ To install the requirements run:
 python -m pip install -r requirements.txt
 ```
 
-### Running the link
+## Running the link
 
 There's two different ways to use the telemetry link: 
 
