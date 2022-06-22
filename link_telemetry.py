@@ -37,6 +37,9 @@ INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
 GRAFANA_URL = ENV_CONFIG["GRAFANA_URL"]
 GRAFANA_TOKEN = ENV_CONFIG["GRAFANA_TOKEN"]
 
+# url without the 'http://'
+GRAFANA_URL_NAME = Path(GRAFANA_URL).name
+
 # <----- Class definitions ------>
 
 
@@ -322,9 +325,9 @@ async def main():
             value = data["value"]
 
             endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
-            websocket_url = f"ws://{GRAFANA_URL}/api/live/push/{endpoint_name}"
+            websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
 
-            async with websockets.connect(websocket_url, extra_headers={f'Authorization': 'Bearer {GRAFANA_TOKEN}'}) as websocket:
+            async with websockets.connect(websocket_url, extra_headers={'Authorization': f'Bearer {GRAFANA_TOKEN}'}) as websocket:
                 current_time = time.time_ns()
                 message = f"test value={value} {current_time}"
                 await websocket.send(message)
