@@ -42,25 +42,25 @@
 
     # byte 1 (error flags)
     hw_overcurrent:
-      bits: [0]
+      bits: [16]
       type: "bool"
     sw_overcurrent:
-      bits: [1]
+      bits: [17]
       type: "bool"
     dc_bus_overvoltage:
-      bits: [2]
+      bits: [18]
       type: "bool"
     bad_hall_sequence:
-      bits: [3]
+      bits: [19]
       type: "bool"
     watchdog_reset:
-      bits: [4]
+      bits: [20]
       type: "bool"
     config_read_error:
-      bits: [5]
+      bits: [21]
       type: "bool"
     undervoltage_lockout:
-      bits: [6]
+      bits: [22]
       type: "bool"
 
 "0x502":
