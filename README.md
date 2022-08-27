@@ -5,6 +5,10 @@ onboard telemetry system and the Grafana frontend. This project is responsible f
 message parsing with Python, time-series data storage with InfluxDB,
 and finally, data visualization with Grafana.
 
+## Table of contents
+
+[Getting started](https://github.com/UBC-Solar/link_telemetry#getting-started)
+
 ## Getting started
 
 ### Pre-requisites
