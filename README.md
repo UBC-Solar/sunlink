@@ -5,6 +5,49 @@ onboard telemetry system and the Grafana frontend. This project is responsible f
 message parsing with Python, time-series data storage with InfluxDB,
 and finally, data visualization with Grafana.
 
+## Table of contents
+
+- [System overview](#system-overview)
+- [Getting started](#getting-started)
+- [Running the link](#running-the-link)
+
+## System overview
+
+```
+                 CAR
+┌──────────────────────────────────┐
+│                                  │
+│ ┌───────────┐ ┌────────────────┐ │
+│ │ \\\\\\\\\ │ │    Telemetry   │ │
+│ │ \\\\\\\\\ │ │      board     │ │
+│ │ \\\\\\\\\ │ │                │ │
+│ │ \\\\\\\\\ │ │                │ │                                    ┌──────────────────┐
+│ │ ********* │ │                │ │                                    │                  │
+│ │ ********* │ │ ┌────────────┐ │ │     ┌───────────┐  serial stream   │                  │
+│ │ \\\\\\\\\ │ │ │   Radio    │~~~~~~~~>│   Radio   ├──────────────────►  Telemetry Link  ├──────────┐
+│ │ \\\\\\\\\ │ │ │ transmitter│~~~~~~~~>│  receiver │                  │                  │          │
+│ │ \\\\\\\\\ │ │ └────────────┘ │ │     └───────────┘                  │                  │          │
+│ │ \\\\\\\\\ │ │                │ │                                    └─┬─────┬──────────┘          │ live streaming
+│ └───────────┘ └──────▲──┬──────┘ │                                      │     │                     │   data over
+│                      │  │        │                                      │     │                     │   Websockets
+│   >>>>>>>>>>>>>>>>>>>│>>│>>>>>   │                     runtime logs     │     │                     │
+│   <<<<<<<<<<<<<<<<<<<<<<▼<<<<<   │                 ┌────────────────────┘     │ parsed              │
+│            CAN Bus               │                 │                          │  data         ┌─────▼─────┐
+│                                  │          ┌──────▼─────┐                    │               │           │
+└──────────────────────────────────┘          │            │              ┌─────▼──────┐        │  Grafana  │
+                                              │ *Log files │              │            │        │           │
+                                              │            │              │  InfluxDB  │        └─────▲─────┘
+                                              └────────────┘              │            │              │
+                                                                          └─────┬──────┘              │
+                                                                                │                     │
+                                                                                └─────────────────────┘
+                                                                                       parsed data
+```
+
+- **Telemetry Link:** parses the incoming serial stream
+- **InfluxDB:** stores the parsed measurements for manual access and Grafana access
+- **Grafana:** visualizes the parsed measurements
+
 ## Getting started
 
 ### Pre-requisites
