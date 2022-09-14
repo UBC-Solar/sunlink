@@ -13,36 +13,7 @@ and finally, data visualization with Grafana.
 
 ## System overview
 
-```
-                 CAR
-┌──────────────────────────────────┐
-│                                  │
-│ ┌───────────┐ ┌────────────────┐ │
-│ │ \\\\\\\\\ │ │    Telemetry   │ │
-│ │ \\\\\\\\\ │ │      board     │ │
-│ │ \\\\\\\\\ │ │                │ │
-│ │ \\\\\\\\\ │ │                │ │                                    ┌──────────────────┐
-│ │ ********* │ │                │ │                                    │                  │
-│ │ ********* │ │ ┌────────────┐ │ │     ┌───────────┐  serial stream   │                  │
-│ │ \\\\\\\\\ │ │ │   Radio    │~~~~~~~~>│   Radio   ├──────────────────►  Telemetry Link  ├──────────┐
-│ │ \\\\\\\\\ │ │ │ transmitter│~~~~~~~~>│  receiver │                  │                  │          │
-│ │ \\\\\\\\\ │ │ └────────────┘ │ │     └───────────┘                  │                  │          │
-│ │ \\\\\\\\\ │ │                │ │                                    └─┬─────┬──────────┘          │ live streaming
-│ └───────────┘ └──────▲──┬──────┘ │                                      │     │                     │   data over
-│                      │  │        │                                      │     │                     │   Websockets
-│   >>>>>>>>>>>>>>>>>>>│>>│>>>>>   │                     runtime logs     │     │                     │
-│   <<<<<<<<<<<<<<<<<<<<<<▼<<<<<   │                 ┌────────────────────┘     │ parsed              │
-│            CAN Bus               │                 │                          │  data         ┌─────▼─────┐
-│                                  │          ┌──────▼─────┐                    │               │           │
-└──────────────────────────────────┘          │            │              ┌─────▼──────┐        │  Grafana  │
-                                              │ *Log files │              │            │        │           │
-                                              │            │              │  InfluxDB  │        └─────▲─────┘
-                                              └────────────┘              │            │              │
-                                                                          └─────┬──────┘              │
-                                                                                │                     │
-                                                                                └─────────────────────┘
-                                                                                       parsed data
-```
+![Telemetry link high-level architecture](/images/link-telemetry-arch.png)
 
 - **Telemetry Link:** parses the incoming serial stream
 - **InfluxDB:** stores the parsed measurements for manual access and Grafana access
