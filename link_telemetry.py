@@ -318,21 +318,23 @@ async def main():
             print(exc)
             continue
 
-        # write all measurements to InfluxDB database
         for measurement, data in extracted_measurements.items():
             source = data["source"]
             m_class = data["class"]
             value = data["value"]
 
+            # compute Grafana websocket URL to livestream measurement
             endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
             websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
 
-            async with websockets.connect(websocket_url, extra_headers={'Authorization': f'Bearer {GRAFANA_TOKEN}'}) as websocket:
-                current_time = time.time_ns()
-                message = f"test value={value} {current_time}"
-                await websocket.send(message)
-
             if args.no_write is False:
+                # live-stream measurements to Grafana Live
+                async with websockets.connect(websocket_url, extra_headers={'Authorization': f'Bearer {GRAFANA_TOKEN}'}) as websocket:
+                    current_time = time.time_ns()
+                    message = f"test value={value} {current_time}"
+                    await websocket.send(message)
+
+                # write measurements to InfluxDB
                 p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                     "class", m_class).field(measurement, value)
                 # print(p)
