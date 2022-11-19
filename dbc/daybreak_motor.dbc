@@ -1,0 +1,87 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: speed_controller daybreak_motor_controller daybreak_bms
+
+
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ desired_velocity : 0|32@1- (1,0) [0|100] "m/s" Vector__XXX
+ SG_ desired_current : 32|32@1- (1,0) [0|1] "%" Vector__XXX
+
+BO_ 1281 motor_state: 8 daybreak_motor_controller
+ SG_ bridge_pwm_flag : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ motor_current_flag : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ velocity_flag : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ bus_current_flag : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ bus_voltage_upper_limit_flag : 4|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ bus_voltage_lower_limit_flag : 5|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ heat_sink_temp_flag : 6|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ hw_overcurrent : 16|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ sw_overcurrent : 17|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ dc_bus_overvoltage : 18|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ bad_hall_sequence : 19|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ watchdog_reset : 20|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ config_read_error : 21|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ undervoltage_lockout : 22|1@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1282 motor_bus: 8 daybreak_motor_controller
+ SG_ bus_voltage : 0|32@1- (1,0) [0|0] "V" Vector__XXX
+ SG_ bus_current : 32|32@1- (1,0) [0|0] "A" Vector__XXX
+
+BO_ 1283 motor_velocities: 8 daybreak_motor_controller
+ SG_ motor_velocity : 0|32@1- (1,0) [0|0] "m/s" Vector__XXX
+ SG_ vehicle_velocity : 32|32@1- (1,0) [0|0] "rpm" Vector__XXX
+
+BO_ 1284 motor_phase: 8 daybreak_motor_controller
+ SG_ phase_b_current : 0|32@1- (1,0) [0|0] "A" Vector__XXX
+ SG_ phase_a_current : 32|32@1- (1,0) [0|0] "A" Vector__XXX
+
+BO_ 1285 motor_temperatures: 8 daybreak_motor_controller
+ SG_ motor_temperature : 0|32@1- (1,0) [0|0] "degC" Vector__XXX
+ SG_ heatsink_temperature : 32|32@1- (1,0) [0|0] "degC" Vector__XXX
+
+
+
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "BusType" "CAN";
+SIG_VALTYPE_ 1282 bus_voltage : 1;
+SIG_VALTYPE_ 1282 bus_current : 1;
+SIG_VALTYPE_ 1283 motor_velocity : 1;
+SIG_VALTYPE_ 1283 vehicle_velocity : 1;
+SIG_VALTYPE_ 1284 phase_b_current : 1;
+SIG_VALTYPE_ 1284 phase_a_current : 1;
+SIG_VALTYPE_ 1285 motor_temperature : 1;
+SIG_VALTYPE_ 1285 heatsink_temperature : 1;
+
