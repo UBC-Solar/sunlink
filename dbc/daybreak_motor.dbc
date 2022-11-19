@@ -36,10 +36,6 @@ BS_:
 BU_: speed_controller daybreak_motor_controller daybreak_bms
 
 
-BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
- SG_ desired_velocity : 0|32@1- (1,0) [0|100] "m/s" Vector__XXX
- SG_ desired_current : 32|32@1- (1,0) [0|1] "%" Vector__XXX
-
 BO_ 1281 motor_state: 8 daybreak_motor_controller
  SG_ bridge_pwm_flag : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ motor_current_flag : 1|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -71,6 +67,10 @@ BO_ 1284 motor_phase: 8 daybreak_motor_controller
 BO_ 1285 motor_temperatures: 8 daybreak_motor_controller
  SG_ motor_temperature : 0|32@1- (1,0) [0|0] "degC" Vector__XXX
  SG_ heatsink_temperature : 32|32@1- (1,0) [0|0] "degC" Vector__XXX
+
+BO_ 1025 drive_command: 8 speed_controller
+ SG_ desired_velocity : 0|32@1- (1,0) [0|100] "m/s" Vector__XXX
+ SG_ desired_current : 32|32@1- (1,0) [0|1] "%" Vector__XXX
 
 
 
