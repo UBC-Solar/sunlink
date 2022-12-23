@@ -64,13 +64,13 @@ BO_ 1284 motor_phase: 8 daybreak_motor_controller
  SG_ phase_b_current : 0|32@1- (1,0) [0|0] "A" Vector__XXX
  SG_ phase_a_current : 32|32@1- (1,0) [0|0] "A" Vector__XXX
 
-BO_ 1285 motor_temperatures: 8 daybreak_motor_controller
+BO_ 1291 motor_temperatures: 8 daybreak_motor_controller
  SG_ motor_temperature : 0|32@1- (1,0) [0|0] "degC" Vector__XXX
  SG_ heatsink_temperature : 32|32@1- (1,0) [0|0] "degC" Vector__XXX
 
 BO_ 1025 drive_command: 8 speed_controller
  SG_ desired_velocity : 0|32@1- (1,0) [0|100] "m/s" Vector__XXX
- SG_ desired_current : 32|32@1- (1,0) [0|1] "%" Vector__XXX
+ SG_ current_setpoint : 32|32@1- (1,0) [0|1] "%" Vector__XXX
 
 
 
@@ -82,6 +82,8 @@ SIG_VALTYPE_ 1283 motor_velocity : 1;
 SIG_VALTYPE_ 1283 vehicle_velocity : 1;
 SIG_VALTYPE_ 1284 phase_b_current : 1;
 SIG_VALTYPE_ 1284 phase_a_current : 1;
-SIG_VALTYPE_ 1285 motor_temperature : 1;
-SIG_VALTYPE_ 1285 heatsink_temperature : 1;
+SIG_VALTYPE_ 1291 motor_temperature : 1;
+SIG_VALTYPE_ 1291 heatsink_temperature : 1;
+SIG_VALTYPE_ 1025 desired_velocity : 1;
+SIG_VALTYPE_ 1025 current_setpoint : 1;
 
