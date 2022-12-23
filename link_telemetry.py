@@ -194,7 +194,7 @@ async def main():
 
     # <----- Read in DBC file ----->
 
-    daybreak_dbc = cantools.database.load_file('./dbc/daybreak.dbc')
+    daybreak_dbc = cantools.database.load_file(DBC_FILE)
 
     while True:
         if args.debug:
