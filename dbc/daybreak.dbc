@@ -72,7 +72,7 @@ BO_ 1025 drive_command: 8 speed_controller
  SG_ desired_velocity : 0|32@1- (1,0) [0|100] "m/s" Vector__XXX
  SG_ current_setpoint : 32|32@1- (1,0) [0|1] "%" Vector__XXX
 
-BO_ 1570 battery_metadata: 8 daybreak_bms
+BO_ 1570 battery_state: 8 daybreak_bms
  SG_ fault_state : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ contactor_k1 : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ contactor_k2 : 2|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -118,10 +118,10 @@ BO_ 1572 battery_currents: 8 daybreak_bms
  SG_ discharge_limit : 39|16@0+ (1,0) [0|65536] "A" Vector__XXX
 
 BO_ 1573 battery_energies: 8 daybreak_bms
- SG_ battery_energy_in : 0|32@1+ (1,0) [0|4294967296] "kWh" Vector__XXX
- SG_ battery_energy_out : 32|32@1+ (1,0) [0|4294967296] "kWh" Vector__XXX
+ SG_ battery_energy_in : 7|32@0+ (1,0) [0|4294967296] "kWh" Vector__XXX
+ SG_ battery_energy_out : 39|32@0+ (1,0) [0|4294967296] "kWh" Vector__XXX
 
-BO_ 1574 battery_states: 8 daybreak_bms
+BO_ 1574 battery_metadata: 8 daybreak_bms
  SG_ state_of_charge : 0|8@1+ (1,0) [0|100] "%" Vector__XXX
  SG_ depth_of_discharge : 8|16@1+ (1,0) [0|65536] "Ah" Vector__XXX
  SG_ actual_capacity : 24|16@1+ (1,0) [0|65536] "Ah" Vector__XXX
