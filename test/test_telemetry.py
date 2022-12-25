@@ -116,36 +116,57 @@ class TestMotorMessages:
 
 class TestBatteryMessages:
     def test_battery_state(self, dbc):
-        msg = StandardFrame(b"0000A1FB06229800196D45920C007\n")
+        timestamp = b"0000FEE5"
+        id = b"0622"
+        payload = b"190019B6" + b"0A4B3D00"
+        size = b"8"
+
+        msg = StandardFrame(timestamp + id + payload + size + b"\n")
 
         measurements = msg.extract_measurements(dbc)
 
+        # state of system: byte 0
         assert measurements["fault_state"]["value"] == True
         assert measurements["contactor_k1"]["value"] == False
         assert measurements["contactor_k2"]["value"] == False
         assert measurements["contactor_k3"]["value"] == True
         assert measurements["relay_fault"]["value"] == True
+
+        # power-up time: byte 1-2
         assert measurements["startup_time"]["value"] == 25
+
+        # byte of flags: byte 3
         assert measurements["source_power"]["value"] == False
         assert measurements["load_power"]["value"] == True
         assert measurements["interlock_tripped"]["value"] == True
-        assert measurements["hard_wire_contact_request"]["value"] == False
+        assert measurements["hard_wire_contactor_request"]["value"] == False
         assert measurements["can_contactor_request"]["value"] == True
-        assert measurements["hlim"]["value"] == True
-        assert measurements["llim"]["value"] == False
+        assert measurements["hlim_set"]["value"] == True
+        assert measurements["llim_set"]["value"] == False
         assert measurements["fan_on"]["value"] == True
-        assert measurements["fault_code"]["value"] == 69
+
+        # fault code: byte 4
+        assert measurements["fault_code"]["value"] == 10
+
+        # level faults: byte 5
         assert measurements["driving_off"]["value"] == True
+        assert measurements["interlock_tripped"]["value"] == True
         assert measurements["communication_fault"]["value"] == False
         assert measurements["charge_overcurrent"]["value"] == True
         assert measurements["discharge_overcurrent"]["value"] == False
         assert measurements["over_temperature"]["value"] == False
         assert measurements["under_voltage"]["value"] == True
         assert measurements["over_voltage"]["value"] == False
-        assert measurements["cold_temperature"]["value"] == True
-        assert measurements["hot_temperature"]["value"] == True
-        assert measurements["low_soh"]["value"] == False
-        assert measurements["isolation_fault"]["value"] == False
+
+        # warnings: byte 6
+        assert measurements["low_voltage_warn"]["value"] == True
+        assert measurements["high_voltage_warn"]["value"] == False
+        assert measurements["charge_overcurrent_warn"]["value"] == True
+        assert measurements["discharge_overcurrent_warn"]["value"] == True
+        assert measurements["cold_temperature_warn"]["value"] == True
+        assert measurements["hot_temperature_warn"]["value"] == True
+        assert measurements["low_soh_warn"]["value"] == False
+        assert measurements["isolation_fault_warn"]["value"] == False
 
     def test_battery_voltages(self, dbc):
         msg = StandardFrame(b"0000A1FB0623001919F1A66215917\n")
@@ -159,13 +180,18 @@ class TestBatteryMessages:
         assert measurements["max_voltage_idx"]["value"] == 98
 
     def test_battery_currents(self, dbc):
-        msg = StandardFrame(b"0000A1FB0624FFE70015002C00FF7\n")
+        timestamp = b"0000A1FB"
+        id = b"0624"
+        payload = b"FFE71532" + b"0000A454"
+        size = b"8"
+
+        msg = StandardFrame(timestamp + id + payload + size + b"\n")
 
         measurements = msg.extract_measurements(dbc)
 
-        assert measurements["current"]["value"] == -25
-        assert measurements["charge_limit"]["value"] == 21
-        assert measurements["discharge_limit"]["value"] == 44
+        assert measurements["pack_current"]["value"] == -25
+        assert measurements["charge_limit"]["value"] == 5426
+        assert measurements["discharge_limit"]["value"] == 0
 
     def test_battery_metadata(self, dbc):
         msg = StandardFrame(b"0000A1FB062645000000000000007\n")
@@ -179,7 +205,7 @@ class TestBatteryMessages:
 
         measurements = msg.extract_measurements(dbc)
 
-        assert measurements["temperature"]["value"] == 85
+        assert measurements["pack_temperature"]["value"] == 85
         assert measurements["min_temperature"]["value"] == 50
         assert measurements["min_temperature_idx"]["value"] == 45
         assert measurements["max_temperature"]["value"] == 90
