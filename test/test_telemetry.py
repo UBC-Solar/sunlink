@@ -1,7 +1,6 @@
 from link_telemetry import StandardFrame
 from pathlib import Path
 import pprint
-import yaml
 import pytest
 import cantools
 
@@ -22,9 +21,12 @@ def dbc():
 
 # <---- tests ---->
 
-
 class TestSpeedControllerMessages:
     def test_speed_ctrl(self, dbc):
+        """
+        id: 0x401
+        description: motor drive command
+        """
         # instantiate StandardFrame
         timestamp = b"0000A1FB"
         id = b"0401"
@@ -45,6 +47,10 @@ class TestSpeedControllerMessages:
 
 class TestMotorMessages:
     def test_motor_state(self, dbc):
+        """
+        id: 0x501
+        description: motor status information
+        """
         timestamp = b"0000A1FB"
         id = b"0501"
         payload = b"0223FAAB" + b"00000000"
@@ -74,6 +80,10 @@ class TestMotorMessages:
         assert measurements["undervoltage_lockout"]["value"] == True
 
     def test_motor_bus(self, dbc):
+        """
+        id: 0x502
+        description: motor bus measurement
+        """
         msg = StandardFrame(b"0000A1FB0502cdcc52429a9999417\n")
 
         measurements = msg.extract_measurements(dbc)
@@ -84,6 +94,10 @@ class TestMotorMessages:
         assert check_equality(measurements["bus_current"]["value"], 19.2)
 
     def test_motor_vel(self, dbc):
+        """
+        id: 0x503
+        description: motor velocity measurement
+        """
         msg = StandardFrame(b"0000A1FB05030000b441cdcc87427\n")
 
         measurements = msg.extract_measurements(dbc)
@@ -94,6 +108,10 @@ class TestMotorMessages:
         assert check_equality(measurements["vehicle_velocity"]["value"], 67.9)
 
     def test_motor_phase_current(self, dbc):
+        """
+        id: 0x504
+        description: motor phase current measurement
+        """
         msg = StandardFrame(b"0000A1FB05049a99b24200003e427\n")
 
         measurements = msg.extract_measurements(dbc)
@@ -104,6 +122,10 @@ class TestMotorMessages:
         assert check_equality(measurements["phase_a_current"]["value"], 47.5)
 
     def test_motor_temp(self, dbc):
+        """
+        id: 0x50B
+        description: sink & motor temperature measurement
+        """
         msg = StandardFrame(b"0000A1FB050B6766b242c3759c428\n")
 
         measurements = msg.extract_measurements(dbc)
@@ -116,6 +138,10 @@ class TestMotorMessages:
 
 class TestBatteryMessages:
     def test_battery_state(self, dbc):
+        """
+        id: 0x622
+        description: battery state message (includes faults)
+        """
         timestamp = b"0000FEE5"
         id = b"0622"
         payload = b"190019B6" + b"0A4B3D00"
@@ -169,6 +195,10 @@ class TestBatteryMessages:
         assert measurements["isolation_fault_warn"]["value"] == False
 
     def test_battery_voltages(self, dbc):
+        """
+        id: 0x623
+        description: battery voltages (pack, min, max)
+        """
         msg = StandardFrame(b"0000A1FB0623001919F1A66215917\n")
 
         measurements = msg.extract_measurements(dbc)
@@ -180,6 +210,10 @@ class TestBatteryMessages:
         assert measurements["max_voltage_idx"]["value"] == 98
 
     def test_battery_currents(self, dbc):
+        """
+        id: 0x624
+        description: battery currents (pack, min, max)
+        """
         timestamp = b"0000A1FB"
         id = b"0624"
         payload = b"FFE71532" + b"0000A454"
@@ -193,7 +227,28 @@ class TestBatteryMessages:
         assert measurements["charge_limit"]["value"] == 5426
         assert measurements["discharge_limit"]["value"] == 0
 
+    def test_battery_energies(self, dbc):
+        """
+        id: 0x625
+        description: battery energy in and out
+        """
+        timestamp = b"929A288D"
+        id = b"0625"
+        payload = b"00871C65" + b"0054C8E6"
+        size = b"8"
+
+        msg = StandardFrame(timestamp + id + payload + size + b"\n")
+
+        measurements = msg.extract_measurements(dbc)
+
+        assert measurements["battery_energy_in"]["value"] == 8_854_629
+        assert measurements["battery_energy_out"]["value"] == 5_556_454
+
     def test_battery_metadata(self, dbc):
+        """
+        id: 0x626
+        description: battery metadata (SOC, SOC, DOD)
+        """
         msg = StandardFrame(b"0000A1FB062645000000000000007\n")
 
         measurements = msg.extract_measurements(dbc)
@@ -201,6 +256,10 @@ class TestBatteryMessages:
         assert measurements["state_of_charge"]["value"] == 69
 
     def test_battery_temp(self, dbc):
+        """
+        id: 0x627
+        description: battery temperature (pack, min, max)
+        """
         msg = StandardFrame(b"0000A1FB06275500322D5A5F00FF7\n")
 
         measurements = msg.extract_measurements(dbc)
