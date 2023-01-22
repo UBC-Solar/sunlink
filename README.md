@@ -10,6 +10,7 @@ and finally, data visualization with Grafana.
 - [System overview](#system-overview)
 - [Getting started](#getting-started)
 - [Running the link](#running-the-link)
+- [Screenshots](#screenshots)
 
 ## System overview
 
@@ -180,3 +181,18 @@ python link_telemetry.py -h
 
 Once the link starts running, you should be able to access some of the provisioned (i.e., preconfigured) Grafana dashboards in which
 you should see the graphs being updated. 
+
+## Screenshots
+
+Here are some screenshots of real data gathered from Daybreak using the telemetry system:
+
+![Battery state](/images/battery_state.png)
+
+![Battery voltages](/images/battery_voltages.png)
+
+![Current setpoint and bus current](/images/current_setpoint_and_bus_current.png)
+
+![Current setpoint and vehicle velocity](/images/current_setpoint_and_vehicle_velocity.png)
+
+![Vehicle velocity and motor velocity](/images/vehicle_velocity_and_motor_velocity.png)
+
