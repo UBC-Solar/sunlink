@@ -1,4 +1,4 @@
-from link_telemetry import StandardFrame
+from ..core.standard_frame import StandardFrame
 from pathlib import Path
 import pprint
 import pytest
