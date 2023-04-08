@@ -5,7 +5,11 @@ from influxdb_client.client.write_api import ASYNCHRONOUS
 from pathlib import Path
 import pprint
 import random
+import pynmea2
+from enum import Enum
+from random import randrange
 import time
+from nmeasim.simulator import Simulator
 import argparse
 
 import asyncio
@@ -15,6 +19,12 @@ from core.standard_frame import StandardFrame
 
 from dotenv import dotenv_values
 
+# <----- Msg Type ----->
+class MsgType(Enum):
+    MSG_TYPE_CAN = 0
+    MSG_TYPE_IMU = 1
+    MSG_TYPE_GPS = 2
+        
 # <----- Constants ----->
 
 CAR_NAME = "Daybreak"
@@ -40,8 +50,25 @@ GRAFANA_TOKEN = ENV_CONFIG["GRAFANA_TOKEN"]
 # url without the 'http://'
 GRAFANA_URL_NAME = Path(GRAFANA_URL).name
 
-# <----- Randomizer CAN functions ------>
-
+sim = Simulator()
+with sim.lock:
+    sim.gps.output = ("GGA", "GLL")
+    
+# <----- Randomizer functions ------>
+def random_imu_str(dbc) -> str:
+    random_axis = random.choice(["A", "G"])
+    random_type = random.choice(["X", "Y", "Z"])
+    # random data
+    random_data = random.randint(0, pow(2, 64))
+    random_data_str = "{0:0{1}x}".format(random_data, 16)
+    
+    imu_str = "@" + random_type + random_axis + "," + random_data_str + "\n"
+    return imu_str
+    
+def random_gps_str(dbc) -> str:
+    return list(sim.get_output(1))[0]
+    
+    
 def random_can_str(dbc) -> str:
     # collect CAN IDs
     can_ids = list()
@@ -68,8 +95,50 @@ def random_can_str(dbc) -> str:
         + data_length + "\n"
 
     return can_str
+    
+
+# <---- msg parse functions --->
+
+def can_parse(message, daybreak_dbc):
+    can_msg = StandardFrame(raw_string=message)
+    extracted_measurements = can_msg.extract_measurements(daybreak_dbc)
+    return can_msg, extracted_measurements
+
+def imu_parse(message, daybreak_dbc):
+    extracted_measurements = dict()
+    extracted_measurements["axis"] = message[1:2].decode('UTF-8')
+    extracted_measurements["type"] = message[2:3].decode('UTF-8')
+    extracted_measurements["value"] = float.fromhex(message[4:20].decode("utf-8"))
+    return message, extracted_measurements
+    
+def gps_parse(message, daybreak_dbc):
+    return message, pynmea2.parse(message.decode('UTF-8'))
+    
+# <---- msg misc functions ---->
+
+MSG_TABLE = {
+    MsgType.MSG_TYPE_CAN : (random_can_str, can_parse),
+    MsgType.MSG_TYPE_IMU : (random_imu_str, imu_parse),
+    MsgType.MSG_TYPE_GPS : (random_gps_str, gps_parse)
+}
+
+def random_str(dbc) -> str:  
+    msg_type = random.choice(list(MsgType))
+    return MSG_TABLE[msg_type][0](dbc)
 
 
+def get_msg_type(msg) -> MsgType:
+    if msg[0] == 64:
+        return MsgType.MSG_TYPE_IMU
+    elif msg[0] == 36:
+        return MsgType.MSG_TYPE_GPS
+    
+    return MsgType.MSG_TYPE_CAN
+
+def get_imu_field(axis, dev) -> str:
+    print(axis + "_" + dev)
+    return axis + "_" + dev
+    
 async def main():
 
     # <----- Argument parsing ----->
@@ -118,9 +187,10 @@ async def main():
 
     while True:
         if args.debug:
-            message = random_can_str(daybreak_dbc)
+            message = random_str(daybreak_dbc)
             message = message.encode(encoding="UTF-8")
-            time.sleep(0.5)
+         #   time.sleep(0.5)
+            input("Press Enter to continue...")
         else:
             with serial.Serial() as ser:
                 # <----- Configure COM port ----->
@@ -131,46 +201,65 @@ async def main():
                 # read in bytes from COM port
                 message = ser.readline()
 
-                if len(message) != StandardFrame.EXPECTED_CAN_MSG_LENGTH:
-                    print(
-                        f"WARNING: got message length {len(message)}, expected {StandardFrame.EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
-                    print(message)
-                    continue
+# stuff fro IMU messages and stuff? Nmea can have up to 128 characters...
+# need better error handling
+ #               for x in MSG_TABLE:
+ #                   if len(message)
+ #               print(
+ #                   f"WARNING: got message length {len(message)}, expected {StandardFrame.EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
+ #               print(message)
+ #               continue
 
-        can_msg = StandardFrame(raw_string=message)
+        msg_type = get_msg_type(message)
 
         # extract measurements from CAN message
         try:
-            extracted_measurements = can_msg.extract_measurements(daybreak_dbc)
-            print(can_msg)
+            msg, extracted_measurements = MSG_TABLE[msg_type][1](message, daybreak_dbc)
+            
+            print(msg_type)
+            print(msg)
             pp.pprint(extracted_measurements)
+            
         except ValueError as exc:
             print(exc)
             continue
 
-        for measurement, data in extracted_measurements.items():
-            source = data["source"]
-            m_class = data["class"]
-            value = data["value"]
-
-            # compute Grafana websocket URL to livestream measurement
-            endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
-            websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
-
-            if args.no_write is False:
-                # live-stream measurements to Grafana Live
-                async with websockets.connect(websocket_url, extra_headers={'Authorization': f'Bearer {GRAFANA_TOKEN}'}) as websocket:
-                    current_time = time.time_ns()
-                    message = f"test value={value} {current_time}"
-                    await websocket.send(message)
-
+        if msg_type == MsgType.MSG_TYPE_CAN:
+            for measurement, data in extracted_measurements.items():
+                source = data["source"]
+                m_class = data["class"]
+                value = data["value"]
+          
                 # write measurements to InfluxDB
                 p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                     "class", m_class).field(measurement, value)
                 # print(p)
                 write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=p)
+        
+        
+        elif msg_type == MsgType.MSG_TYPE_IMU:
+            p = influxdb_client.Point("imu").tag("car", CAR_NAME).field(get_imu_field(extracted_measurements["axis"], extracted_measurements["type"]), extracted_measurements["value"]) # extracted_measurements["value"]  
+            #     measurement is field (x_accel), value is value, m_class is like imu or smth
+            print(p)
+            write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=p)
+         # 
+        elif msg_type == MsgType.MSG_TYPE_GPS:
+            # pg 11 Any message type can be enabled
+            parse = vars(extracted_measurements)
+            print(parse["data"][0])
+            #python link_telemetry.py -d
+
+            # assume msg type is GGA, but CAN BE anything hence just hardcoded basic fields here
+            if parse["sentence_type"] == 'GGA':
+                #p = influxdb_client.Point("gps").tag("car", CAR_NAME).field("time", parse["data"][0]) # extracted_measurements["value"]
+                p = influxdb_client.Point("gps").tag("car", CAR_NAME).tag("talker", parse["talker"]).tag("msg_type", parse["sentence_type"]).field("BYE", int(float(parse["data"][0])))
+                #     measurement is field (x_accel), value is value, m_class is like imu or smth
+
+                write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=p)
+            
 
         print()
+        
 
 
 if __name__ == "__main__":
