@@ -29,6 +29,16 @@ services:
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_BUCKET=${INFLUX_BUCKET}
 
+  parser:
+    build: .
+    container_name: parser
+    ports:
+      - 5000:5000
+    restart: always
+    depends_on:
+      - influxdb
+      - grafana
+
   influxdb:
     image: influxdb:latest
     container_name: influxdb
