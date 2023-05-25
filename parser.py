@@ -2,12 +2,15 @@ import cantools
 import influxdb_client
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import ASYNCHRONOUS
+import requests
 from pathlib import Path
 import pprint
 import time
 import json
 import queue
+import threading
 import urllib
+from queue import Queue
 
 from websockets.sync.client import connect
 
@@ -45,9 +48,9 @@ GRAFANA_URL_NAME = Path(GRAFANA_URL).name
 
 # <----- InfluxDB object set-up ----->
 
-# client = influxdb_client.InfluxDBClient(
-#     url=INFLUX_URL, org=INFLUX_ORG, token=INFLUX_TOKEN)
-# write_api = client.write_api(write_options=SYNCHRONOUS)
+client = influxdb_client.InfluxDBClient(
+    url=INFLUX_URL, org=INFLUX_ORG, token=INFLUX_TOKEN)
+write_api = client.write_api(write_options=ASYNCHRONOUS)
 
 # <----- Read in DBC file ----->
 
@@ -60,6 +63,9 @@ pp = pprint.PrettyPrinter(indent=1)
 # <----- Flask ----->
 
 app = Flask(__name__)
+
+# create queue to hold points to write
+write_queue: 'queue.Queue' = queue.Queue()
 
 
 @app.route("/")
@@ -94,6 +100,7 @@ def parse_request():
             f"unable to extract measurements for CAN message with id={id}")
         return flask.make_response(f"unable to extract measurements for CAN message with id={id}", 400)
 
+
     for measurement, data in extracted_measurements.items():
         source = data["source"]
         m_class = data["class"]
@@ -112,25 +119,35 @@ def parse_request():
         #     message = f"test value={value} {current_time}"
         #     websocket.send(message)
 
-        # write measurements to InfluxDB
-        with InfluxDBClient(url=INFLUX_URL, token=INFLUX_TOKEN, org=INFLUX_ORG) as client:
-            write_api = client.write_api(write_options=ASYNCHRONOUS)
-
-            p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-                "class", m_class).field(measurement, value)
-            result = write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=p)
-            app.logger.info(f"Write result: {result.__dict__}")
-
-            write_api.flush()
-        # app.logger.info(f"Wrote measurement to org={INFLUX_ORG}, bucket={INFLUX_BUCKET}!")
+        # place point into queue
+        p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+            "class", m_class).field(measurement, value)
+        write_queue.put(p)
+        app.logger.info(f"Placed point={p} into queue!")
 
     return extracted_measurements
 
 
-def main():
-    # start the Flask app
-    app.run(host="0.0.0.0", debug=True)
+def write_point():
+    # NOTE: this InfluxDB write must be in another thread separate from the function that receives the parse request
+    # since otherwise, the write does not work. I assume it has something to do with the fact that the request thread
+    # dies as soon a response is returned and the InfluxDB write API is async.
+    while True:
+        # read from queue
+        point = write_queue.get()
+
+        # write to InfluxDB
+        write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=point)
+        app.logger.info(f"Wrote measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_BUCKET}!")
+
+        # mark task as completed
+        write_queue.task_done()
+
+
+# create thread to write to InfluxDB
+threading.Thread(target=write_point, daemon=True).start()
 
 
 if __name__ == "__main__":
-    main()
+    # start the Flask app
+    app.run(host="0.0.0.0", debug=True)
