@@ -1,19 +1,17 @@
 import serial
+import json
 import cantools
-import influxdb_client
-from influxdb_client.client.write_api import ASYNCHRONOUS
 from pathlib import Path
 import pprint
 import random
 import time
 import argparse
 
-import asyncio
-import websockets
-
 from core.standard_frame import StandardFrame
 
 from dotenv import dotenv_values
+
+import requests
 
 # <----- Constants ----->
 
@@ -24,21 +22,8 @@ ENV_FILE = Path(".env")
 
 ENV_CONFIG = dotenv_values(ENV_FILE)
 
-# <----- InfluxDB constants ----->
+PARSER_URL = ENV_CONFIG["PARSER_URL"]
 
-INFLUX_URL = ENV_CONFIG["INFLUX_URL"]
-INFLUX_TOKEN = ENV_CONFIG["INFLUX_TOKEN"]
-
-INFLUX_BUCKET = ENV_CONFIG["INFLUX_BUCKET"]
-INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
-
-# <----- Grafana constants ----->
-
-GRAFANA_URL = ENV_CONFIG["GRAFANA_URL"]
-GRAFANA_TOKEN = ENV_CONFIG["GRAFANA_TOKEN"]
-
-# url without the 'http://'
-GRAFANA_URL_NAME = Path(GRAFANA_URL).name
 
 # <----- Randomizer CAN functions ------>
 
@@ -70,7 +55,7 @@ def random_can_str(dbc) -> str:
     return can_str
 
 
-async def main():
+def main():
 
     # <----- Argument parsing ----->
 
@@ -106,20 +91,14 @@ async def main():
 
     pp = pprint.PrettyPrinter(indent=1)
 
-    # <----- InfluxDB object set-up ----->
-
-    client = influxdb_client.InfluxDBClient(
-        url=INFLUX_URL, org=INFLUX_ORG, token=INFLUX_TOKEN)
-    write_api = client.write_api(write_options=ASYNCHRONOUS)
-
     # <----- Read in DBC file ----->
 
     daybreak_dbc = cantools.database.load_file(DBC_FILE)
 
     while True:
         if args.debug:
-            message = random_can_str(daybreak_dbc)
-            message = message.encode(encoding="UTF-8")
+            message_str = random_can_str(daybreak_dbc)
+            message: bytes = message_str.encode(encoding="UTF-8")
             time.sleep(0.5)
         else:
             with serial.Serial() as ser:
@@ -129,7 +108,7 @@ async def main():
                 ser.open()
 
                 # read in bytes from COM port
-                message = ser.readline()
+                message: bytes = ser.readline()
 
                 if len(message) != StandardFrame.EXPECTED_CAN_MSG_LENGTH:
                     print(
@@ -137,41 +116,27 @@ async def main():
                     print(message)
                     continue
 
-        can_msg = StandardFrame(raw_string=message)
+                # TODO: check that all characters in message are valid ascii and are within [a-Z0-9] + "\n" + "\r"
 
-        # extract measurements from CAN message
-        try:
-            extracted_measurements = can_msg.extract_measurements(daybreak_dbc)
-            print(can_msg)
-            pp.pprint(extracted_measurements)
-        except ValueError as exc:
-            print(exc)
-            continue
+        # partition string into pieces
+        timestamp: str = message[0:8].decode()    # 8 bytes
+        id: str = message[8:12].decode()
+        data: str = message[12:28].decode()
+        data_len: str = message[28:29].decode()
 
-        for measurement, data in extracted_measurements.items():
-            source = data["source"]
-            m_class = data["class"]
-            value = data["value"]
+        payload = {
+                "timestamp": timestamp,
+                "id": id,
+                "data": data,
+                "data_length": data_len,
+                "stream": False,
+        }
 
-            # compute Grafana websocket URL to livestream measurement
-            endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
-            websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
+        r = requests.post(PARSER_URL + "parse", json=json.dumps(payload))
 
-            if args.no_write is False:
-                # live-stream measurements to Grafana Live
-                async with websockets.connect(websocket_url, extra_headers={'Authorization': f'Bearer {GRAFANA_TOKEN}'}) as websocket:
-                    current_time = time.time_ns()
-                    message = f"test value={value} {current_time}"
-                    await websocket.send(message)
-
-                # write measurements to InfluxDB
-                p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-                    "class", m_class).field(measurement, value)
-                # print(p)
-                write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=p)
-
-        print()
+        print(r.text)
+        print(r.status_code)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
