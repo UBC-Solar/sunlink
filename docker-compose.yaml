@@ -32,6 +32,8 @@ services:
   parser:
     build: .
     container_name: parser
+    volumes:
+      - .:/src
     ports:
       - 5000:5000
     restart: always
