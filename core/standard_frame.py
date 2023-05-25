@@ -1,22 +1,21 @@
+from typing import Iterable
+
 
 class StandardFrame:
     EXPECTED_CAN_MSG_LENGTH = 30
 
-    def __init__(self, raw_string: bytes):
-        assert len(raw_string) == StandardFrame.EXPECTED_CAN_MSG_LENGTH, \
-            f"raw_string not expected length of {StandardFrame.EXPECTED_CAN_MSG_LENGTH}"
-
-        self.timestamp = int(raw_string[0:8].decode(), 16)        # 8 bytes
-        self.identifier = int(raw_string[8:12].decode(), 16)      # 4 bytes
-        self.data_len = int(raw_string[28:29].decode(), 16)       # 1 byte
+    def __init__(self, id: str, data: str, timestamp: str, data_len: str):
+        self.timestamp = int(timestamp, 16)     # 8 bytes
+        self.identifier = int(id, 16)           # 4 bytes
+        self.data_len = int(data_len, 16)       # 1 byte
 
         self.hex_identifier = "0x" + hex(self.identifier)[2:].upper()
 
-        data = list(self.chunks(raw_string[12:28], 2))            # 16 bytes
-        data = list(map(bytes.decode, data))
+        self.data = list(self.chunks(data, 2))            # 16 bytes
+        # self.data = list(map(bytes.decode, self.data))
 
         # separated into bytes (each byte represented in decimal)
-        self.data = list(map(lambda x: int(x, 16), data))
+        self.data = list(map(lambda x: int(x, 16), self.data))
 
         # use this to decode the message
         self.data_bytes: bytes = bytearray(self.data)
@@ -74,7 +73,7 @@ class StandardFrame:
         return measurement_dict
 
     @staticmethod
-    def chunks(lst, n):
+    def chunks(lst: Iterable, n: int) -> Iterable[str]:
         """Yield successive n-sized chunks from list."""
 
         for i in range(0, len(lst), n):
