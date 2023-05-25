@@ -11,6 +11,7 @@ import queue
 import threading
 import urllib
 from queue import Queue
+from typing import Dict
 
 from websockets.sync.client import connect
 
@@ -71,6 +72,40 @@ write_queue: 'queue.Queue' = queue.Queue()
 @app.route("/")
 def welcome():
     return "Welcome to UBC Solar's Telemetry Parser!\n"
+
+
+@app.get("/ping")
+def ping():
+    return flask.Response(status=200)
+
+
+@app.get("/health")
+def check_health():
+    response_dict: Dict[str, str] = dict()
+
+    # try making a request to InfluxDB container
+    try:
+        influx_response = requests.get(INFLUX_URL + "ping")
+    except requests.exceptions.ConnectionError:
+        response_dict["influxdb"] = "INACCESSIBLE"
+    else:
+        if (influx_response.status_code == 204):
+            response_dict["influxdb"] = "UP"
+        else:
+            response_dict["influxdb"] = "UNEXPECTED_STATUS_CODE"
+
+    # try making a request to Grafana container
+    try:
+        grafana_response = requests.get(GRAFANA_URL + "api/health")
+    except requests.exceptions.ConnectionError:
+        response_dict["grafana"] = "INACCESSIBLE"
+    else:
+        if (grafana_response.status_code == 200):
+            response_dict["grafana"] = "UP"
+        else:
+            response_dict["grafana"] = "UNEXPECTED_STATUS_CODE"
+
+    return response_dict
 
 
 @app.post("/parse")
