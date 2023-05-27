@@ -87,7 +87,7 @@ def check_health():
     try:
         influx_response = requests.get(INFLUX_URL + "ping")
     except requests.exceptions.ConnectionError:
-        response_dict["influxdb"] = "INACCESSIBLE"
+        response_dict["influxdb"] = "DOWN"
     else:
         if (influx_response.status_code == 204):
             response_dict["influxdb"] = "UP"
@@ -98,7 +98,7 @@ def check_health():
     try:
         grafana_response = requests.get(GRAFANA_URL + "api/health")
     except requests.exceptions.ConnectionError:
-        response_dict["grafana"] = "INACCESSIBLE"
+        response_dict["grafana"] = "DOWN"
     else:
         if (grafana_response.status_code == 200):
             response_dict["grafana"] = "UP"
