@@ -126,8 +126,9 @@ def parse_request():
     # extract measurements from CAN message
     try:
         extracted_measurements = can_msg.extract_measurements(daybreak_dbc)
-        app.logger.info(can_msg)
-        app.logger.info(extracted_measurements)
+        # if parsing is successful, place extracted measurements in queue
+        write_queue.put(extracted_measurements)
+        return extracted_measurements
     except ValueError as exc:
         print(exc)
         app.logger.warn(
@@ -135,51 +136,48 @@ def parse_request():
         return flask.make_response(f"unable to extract measurements for CAN message with id={id}", 400)
 
 
-    for measurement, data in extracted_measurements.items():
-        source = data["source"]
-        m_class = data["class"]
-        value = data["value"]
-
-        # compute Grafana websocket URL to livestream measurement
-        endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
-        websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
-
-        # live-stream measurements to Grafana Live
-        # with connect(websocket_url,
-        #              additional_headers={
-        #                  'Authorization': f'Bearer {GRAFANA_TOKEN}'}
-        #              ) as websocket:
-        #     current_time = time.time_ns()
-        #     message = f"test value={value} {current_time}"
-        #     websocket.send(message)
-
-        # place point into queue
-        p = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-            "class", m_class).field(measurement, value)
-        write_queue.put(p)
-        app.logger.info(f"Placed point={p} into queue!")
-
-    return extracted_measurements
-
-
-def write_point():
-    # NOTE: this InfluxDB write must be in another thread separate from the function that receives the parse request
-    # since otherwise, the write does not work. I assume it has something to do with the fact that the request thread
-    # dies as soon a response is returned and the InfluxDB write API is async.
+def write_measurement():
+    # NOTE: the InfluxDB and Grafana write must be in a thread separate from the function that receives the parse request
+    # since the write does not work otherwise. I assume it has something to do with the fact that the request thread
+    # dies as soon a response is returned and the InfluxDB write API is async so the write never actually gets to
+    # complete before the request thread dies. Therefore, a daemon thread whose lifetime is not bound by each request
+    # is required to write data to Influx and Grafana.
     while True:
-        # read from queue
-        point = write_queue.get()
+        extracted_measurements = write_queue.get()
 
-        # write to InfluxDB
-        write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=point)
-        app.logger.info(f"Wrote measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_BUCKET}!")
+        for measurement, data in extracted_measurements.items():
+            source = data["source"]
+            m_class = data["class"]
+            value = data["value"]
+
+            # compute Grafana websocket URL to livestream measurement
+            endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
+            websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
+
+            # live-stream measurements to Grafana Live
+            with connect(websocket_url,
+                         additional_headers={
+                             'Authorization': f'Bearer {GRAFANA_TOKEN}'}
+                         ) as websocket:
+                current_time = time.time_ns()
+                message = f"test value={value} {current_time}"
+                websocket.send(message)
+
+            # place point into queue
+            point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+                "class", m_class).field(measurement, value)
+
+            # write to InfluxDB
+            write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=point)
+            app.logger.info(
+                f"Wrote measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_BUCKET}!")
 
         # mark task as completed
         write_queue.task_done()
 
 
 # create thread to write to InfluxDB
-threading.Thread(target=write_point, daemon=True).start()
+threading.Thread(target=write_measurement, daemon=True).start()
 
 
 if __name__ == "__main__":
