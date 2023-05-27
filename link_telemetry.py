@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import serial
 import json
 import cantools
@@ -6,12 +7,16 @@ import pprint
 import random
 import time
 import argparse
+import urllib.parse
 
 from core.standard_frame import StandardFrame
 
 from dotenv import dotenv_values
 
 import requests
+
+__PROGRAM__ = "link_telemetry"
+__VERSION__ = "0.4.0"
 
 # <----- Constants ----->
 
@@ -23,6 +28,12 @@ ENV_FILE = Path(".env")
 ENV_CONFIG = dotenv_values(ENV_FILE)
 
 PARSER_URL = ENV_CONFIG["PARSER_URL"]
+INFLUX_URL = ENV_CONFIG["INFLUX_URL"]
+GRAFANA_URL = ENV_CONFIG["GRAFANA_URL"]
+
+# ANSI sequences
+
+ANSI_ESCAPE = "\033[0m"
 
 
 # <----- Randomizer CAN functions ------>
@@ -56,14 +67,17 @@ def random_can_str(dbc) -> str:
 
 
 def main():
-
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
-        description="Link raw radio stream to frontend telemetry interface.")
+        description="Link raw radio stream to frontend telemetry interface.",
+        prog=__PROGRAM__)
 
     normal_group = parser.add_argument_group("Normal operation")
     debug_group = parser.add_argument_group("Debug operation")
+
+    parser.add_argument("--version", action="version",
+                        version=f"{__PROGRAM__} {__VERSION__}")
 
     debug_group.add_argument("-d", "--debug", action="store_true", help=("Enables debug mode. This allows using the "
                                                                          "telemetry link with randomly generated CAN "
