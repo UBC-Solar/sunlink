@@ -37,9 +37,6 @@ services:
     ports:
       - 5000:5000
     restart: always
-    depends_on:
-      - influxdb
-      - grafana
 
   influxdb:
     image: influxdb:latest
