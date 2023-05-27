@@ -115,7 +115,6 @@ def parse_request():
     data: str = parse_request["data"]
     timestamp: str = parse_request["timestamp"]
     data_length: str = parse_request["data_length"]
-    stream: bool = parse_request["stream"]
 
     app.logger.info(f"received msg: {id=}, {data=}")
 
