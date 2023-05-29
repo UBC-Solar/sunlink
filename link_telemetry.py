@@ -103,29 +103,29 @@ def main():
 
     # <----- Argument validation ----->
 
+    # TODO: put in custom ArgumentParser class
     if args.check_health:
         # make ping request to parser
         try:
-            ping_req = requests.get(PING_ENDPOINT)
             health_req = requests.get(HEALTH_ENDPOINT)
             health_status = health_req.json()
         except Exception:
-            print(f"Parser @ {PARSER_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
+            print(f"parser @ {PARSER_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
         else:
-            if ping_req.status_code == 200:
-                print(f"Parser @ {PARSER_URL} -\033[1;32m UP {ANSI_ESCAPE}")
+            if health_req.status_code == 200:
+                print(f"parser @ {PARSER_URL} -\033[1;32m UP {ANSI_ESCAPE}")
             else:
-                print(f"Parser @ {PARSER_URL} -\033[1;32m DOWN {ANSI_ESCAPE}")
+                print(f"parser @ {PARSER_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
 
-            if health_status["influxdb"] == "UP":
-                print(f"InfluxDB @ {INFLUX_URL} -\033[1;32m UP {ANSI_ESCAPE}")
-            else:
-                print(f"InfluxDB @ {INFLUX_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
+            for service in health_status["services"]:
+                name = service["name"]
+                url = service["url"]
+                status = service["status"]
 
-            if health_status["grafana"] == "UP":
-                print(f"Grafana @ {GRAFANA_URL} -\033[1;32m UP {ANSI_ESCAPE}")
-            else:
-                print(f"Grafana @ {GRAFANA_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
+                if status == "UP":
+                    print(f"{name} @ {url} -\033[1;32m UP {ANSI_ESCAPE}")
+                else:
+                    print(f"{name} @ {url} -\033[1;31m DOWN {ANSI_ESCAPE}")
 
         return 0
 
