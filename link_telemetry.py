@@ -3,11 +3,10 @@ import serial
 import json
 import cantools
 from pathlib import Path
-import pprint
 import random
 import time
 import argparse
-import urllib.parse
+from prettytable import PrettyTable
 
 from core.standard_frame import StandardFrame
 
@@ -32,8 +31,13 @@ INFLUX_URL = ENV_CONFIG["INFLUX_URL"]
 GRAFANA_URL = ENV_CONFIG["GRAFANA_URL"]
 
 # ANSI sequences
-
 ANSI_ESCAPE = "\033[0m"
+
+# API endpoints
+WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write"
+NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
+PING_ENDPOINT = f"{PARSER_URL}/api/v1/ping"
+HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
 
 # <----- Randomizer CAN functions ------>
@@ -91,10 +95,39 @@ def main():
     normal_group.add_argument("-b", "--baudrate", action="store",
                               help=("Specifies the baudrate for the serial port specified. "
                                     "Typical values include: 9600, 115200, 230400, etc."))
+    debug_group.add_argument("--check-health", action="store_true",
+                             help=("Allows checking whether the parser is reachable as well as if "
+                                   "the parser is able to reach the InfluxDB and Grafana processes."))
 
     args = parser.parse_args()
 
     # <----- Argument validation ----->
+
+    if args.check_health:
+        # make ping request to parser
+        try:
+            ping_req = requests.get(PING_ENDPOINT)
+            health_req = requests.get(HEALTH_ENDPOINT)
+            health_status = health_req.json()
+        except Exception:
+            print(f"Parser @ {PARSER_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
+        else:
+            if ping_req.status_code == 200:
+                print(f"Parser @ {PARSER_URL} -\033[1;32m UP {ANSI_ESCAPE}")
+            else:
+                print(f"Parser @ {PARSER_URL} -\033[1;32m DOWN {ANSI_ESCAPE}")
+
+            if health_status["influxdb"] == "UP":
+                print(f"InfluxDB @ {INFLUX_URL} -\033[1;32m UP {ANSI_ESCAPE}")
+            else:
+                print(f"InfluxDB @ {INFLUX_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
+
+            if health_status["grafana"] == "UP":
+                print(f"Grafana @ {GRAFANA_URL} -\033[1;32m UP {ANSI_ESCAPE}")
+            else:
+                print(f"Grafana @ {GRAFANA_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
+
+        return 0
 
     if args.debug:
         if args.port or args.baudrate:
