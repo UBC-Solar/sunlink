@@ -1,6 +1,5 @@
-from typing import Iterable
 from dataclasses import dataclass
-from typing import Union, List
+from typing import Union, List, Sized, Iterable, Any
 
 
 @dataclass
@@ -13,7 +12,7 @@ class Measurement:
     # the name of the value being measured
     name: str
 
-    # category that the measurement falls under
+    # category that the measurement falls under; often a single CAN ID maps to a single measurement category
     m_class: str
 
     # source CAN node of the message that contained the measurement
@@ -83,12 +82,16 @@ class StandardFrame:
         # decode message using DBC file
         measurements = dbc.decode_message(self.identifier, self.data_bytes)
 
-        # TODO: wrap in try-except
         message = dbc.get_message_by_frame_id(self.identifier)
 
         # where the data came from
         sources: list = message.senders
-        source: str = sources[0]
+
+        source: str
+        if len(sources) == 0:
+            source = "UNKNOWN"
+        else:
+            source = sources[0]
 
         measurement_list: List[Measurement] = list()
 
@@ -102,8 +105,8 @@ class StandardFrame:
         return measurement_list
 
     @staticmethod
-    def chunks(lst: Iterable, n: int) -> Iterable[str]:
+    def chunks(lst: Sized, n: int) -> Iterable[Any]:
         """Yield successive n-sized chunks from list."""
 
         for i in range(0, len(lst), n):
-            yield lst[i: i+n]
+            yield lst[i: i + n]
