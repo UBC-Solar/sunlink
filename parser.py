@@ -11,7 +11,8 @@ import queue
 import threading
 import urllib
 from queue import Queue
-from typing import Dict
+from typing import Dict, List
+from core.standard_frame import Measurement
 
 from websockets.sync.client import connect
 
@@ -30,6 +31,8 @@ DBC_FILE = Path("./dbc/daybreak.dbc")
 ENV_FILE = Path(".env")
 
 ENV_CONFIG = dotenv_values(ENV_FILE)
+
+API_PREFIX = "/api/v1"
 
 # <----- InfluxDB constants ----->
 
@@ -55,7 +58,7 @@ write_api = client.write_api(write_options=ASYNCHRONOUS)
 
 # <----- Read in DBC file ----->
 
-daybreak_dbc = cantools.database.load_file(DBC_FILE)
+DAYBREAK_DBC = cantools.database.load_file(DBC_FILE)
 
 # <----- Pretty printing ----->
 
@@ -74,12 +77,13 @@ def welcome():
     return "Welcome to UBC Solar's Telemetry Parser!\n"
 
 
-@app.get("/ping")
+# TODO: remove
+@app.get(f"{API_PREFIX}/ping")
 def ping():
     return flask.Response(status=200)
 
 
-@app.get("/health")
+@app.get(f"{API_PREFIX}/health")
 def check_health():
     response_dict: Dict[str, str] = dict()
 
@@ -108,15 +112,18 @@ def check_health():
     return response_dict
 
 
-@app.post("/parse")
+@app.post(f"{API_PREFIX}/parse")
 def parse_request():
+    """
+    Parses incoming request and sends back the parsed result.
+    """
     parse_request = json.loads(flask.request.json)
     id: str = parse_request["id"]
     data: str = parse_request["data"]
     timestamp: str = parse_request["timestamp"]
     data_length: str = parse_request["data_length"]
 
-    app.logger.info(f"received msg: {id=}, {data=}")
+    app.logger.info(f"Received message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
     # TODO: add logging messages
