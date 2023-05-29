@@ -132,33 +132,88 @@ def parse_request():
 
     # extract measurements from CAN message
     try:
-        extracted_measurements = can_msg.extract_measurements(daybreak_dbc)
+        extracted_measurements: List[Measurement] = can_msg.extract_measurements(DAYBREAK_DBC)
+        app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
+        return {
+            "result": "PARSE_OK",
+            "measurements": extracted_measurements,
+            "id": can_msg.identifier
+        }
+    except Exception:
+        app.logger.warn(
+            f"Unable to extract measurements for CAN message with id={id}")
+        return {
+            "result": "PARSE_FAIL",
+            "measurements": [],
+            "id": can_msg.identifier
+        }
+
+
+@app.post(f"{API_PREFIX}/parse/write")
+def parse_and_write_request():
+    """
+    Parses incoming request, sends back the parsed measurements, and writes the
+    extracted measurements to a queue for further processing.
+    """
+    parse_request = json.loads(flask.request.json)
+    id: str = parse_request["id"]
+    data: str = parse_request["data"]
+    timestamp: str = parse_request["timestamp"]
+    data_length: str = parse_request["data_length"]
+
+    app.logger.info(f"Received message: {id=}, {data=}")
+
+    # TODO: add validation for received JSON object
+    # TODO: add logging messages
+
+    can_msg = StandardFrame(id, data, timestamp, data_length)
+
+    # TODO: put common code between this function and the no-write function into
+    # separate function
+
+    # extract measurements from CAN message
+    try:
+        extracted_measurements: List[Measurement] = can_msg.extract_measurements(DAYBREAK_DBC)
         # if parsing is successful, place extracted measurements in queue
         write_queue.put(extracted_measurements)
-        return extracted_measurements
-    except ValueError as exc:
-        print(exc)
+        app.logger.info(f"Successfully parsed CAN message with id={can_msg.identifier}")
+        app.logger.info("Placed extracted measurements into queue")
+        return {
+            "result": "PARSE_OK",
+            "measurements": extracted_measurements,
+            "id": can_msg.identifier
+        }
+    except Exception:
         app.logger.warn(
             f"unable to extract measurements for CAN message with id={id}")
-        return flask.make_response(f"unable to extract measurements for CAN message with id={id}", 400)
+        return {
+            "result": "PARSE_FAIL",
+            "measurements": [],
+            "id": can_msg.identifier
+        }
 
 
-def write_measurement():
-    # NOTE: the InfluxDB and Grafana write must be in a thread separate from the function that receives the parse request
-    # since the write does not work otherwise. I assume it has something to do with the fact that the request thread
-    # dies as soon a response is returned and the InfluxDB write API is async so the write never actually gets to
-    # complete before the request thread dies. Therefore, a daemon thread whose lifetime is not bound by each request
-    # is required to write data to Influx and Grafana.
+def write_measurements():
+    """
+    Worker thread responsible for writing parsed measurements to InfluxDB and Grafana.
+
+    NOTE: the InfluxDB and Grafana write must be in a thread separate from the function that receives the parse request
+    since the write does not work otherwise. I assume it has something to do with the fact that the request thread
+    dies as soon a response is returned and the InfluxDB write API is async so the write never actually gets to
+    complete before the request thread dies. Therefore, a daemon thread whose lifetime is not bound by each request
+    is required to write data to Influx and Grafana.
+    """
     while True:
-        extracted_measurements = write_queue.get()
+        extracted_measurements: List[Measurement] = write_queue.get()
 
-        for measurement, data in extracted_measurements.items():
-            source = data["source"]
-            m_class = data["class"]
-            value = data["value"]
+        for measurement in extracted_measurements:
+            name = measurement.name
+            source = measurement.source
+            m_class = measurement.m_class
+            value = measurement.value
 
             # compute Grafana websocket URL to livestream measurement
-            endpoint_name = "_".join([CAR_NAME, source, m_class, measurement])
+            endpoint_name = "_".join([CAR_NAME, source, m_class, name])
             websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
 
             # live-stream measurements to Grafana Live
@@ -170,9 +225,8 @@ def write_measurement():
                 message = f"test value={value} {current_time}"
                 websocket.send(message)
 
-            # place point into queue
             point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-                "class", m_class).field(measurement, value)
+                "class", m_class).field(name, value)
 
             # write to InfluxDB
             write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=point)
@@ -183,10 +237,10 @@ def write_measurement():
         write_queue.task_done()
 
 
-# create thread to write to InfluxDB
-threading.Thread(target=write_measurement, daemon=True).start()
+# create thread to write to InfluxDB and stream to Grafana
+threading.Thread(target=write_measurements, daemon=True).start()
 
 
 if __name__ == "__main__":
     # start the Flask app
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=False)
