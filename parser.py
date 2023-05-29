@@ -77,37 +77,62 @@ def welcome():
     return "Welcome to UBC Solar's Telemetry Parser!\n"
 
 
-# TODO: remove
-@app.get(f"{API_PREFIX}/ping")
-def ping():
-    return flask.Response(status=200)
-
-
 @app.get(f"{API_PREFIX}/health")
 def check_health():
+    """
+    Sample response:
+        {
+            "services": [
+                {
+                    "name": "influxdb",
+                    "status": "UP",
+                    "url": "http://influxdb:8086/"
+                },
+                {
+                    "name": "grafana",
+                    "status": "UP",
+                    "url": "http://grafana:3000/"
+                },
+            ]
+        }
+    """
+
+    # build response dictionary
     response_dict: Dict[str, str] = dict()
+    response_dict["services"] = list()
 
     # try making a request to InfluxDB container
     try:
         influx_response = requests.get(INFLUX_URL + "ping")
     except requests.exceptions.ConnectionError:
-        response_dict["influxdb"] = "DOWN"
+        influx_status = "DOWN"
     else:
         if (influx_response.status_code == 204):
-            response_dict["influxdb"] = "UP"
+            influx_status = "UP"
         else:
-            response_dict["influxdb"] = "UNEXPECTED_STATUS_CODE"
+            influx_status = "UNEXPECTED_STATUS_CODE"
 
     # try making a request to Grafana container
     try:
         grafana_response = requests.get(GRAFANA_URL + "api/health")
     except requests.exceptions.ConnectionError:
-        response_dict["grafana"] = "DOWN"
+        grafana_status = "DOWN"
     else:
         if (grafana_response.status_code == 200):
-            response_dict["grafana"] = "UP"
+            grafana_status = "UP"
         else:
-            response_dict["grafana"] = "UNEXPECTED_STATUS_CODE"
+            grafana_status = "UNEXPECTED_STATUS_CODE"
+
+    response_dict["services"].append({
+        "name": "influxdb",
+        "url": INFLUX_URL,
+        "status": influx_status
+    })
+    response_dict["services"].append({
+        "name": "grafana",
+        "url": GRAFANA_URL,
+        "status": grafana_status
+    })
 
     return response_dict
 
