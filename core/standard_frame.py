@@ -1,10 +1,41 @@
 from typing import Iterable
+from dataclasses import dataclass
+from typing import Union, List
+
+
+@dataclass
+class Measurement:
+    """
+    Encapsulates a single measurement parsed from a given CAN message.
+    A single CAN message can be parsed into multiple measurements.
+    """
+
+    # the name of the value being measured
+    name: str
+
+    # category that the measurement falls under
+    m_class: str
+
+    # source CAN node of the message that contained the measurement
+    source: str
+
+    # value of the measurement
+    value: Union[int, float, bool]
 
 
 class StandardFrame:
     EXPECTED_CAN_MSG_LENGTH = 30
 
     def __init__(self, id: str, data: str, timestamp: str, data_len: str):
+        """
+        Encapsulates a single standard CAN frame.
+
+        Parameters:
+            id: the ID of the CAN message (0x000 - 0x7ff)
+            data: the payload of the CAN message
+            timestamp: the timestamp of the CAN message
+            data_len: the number of valid bytes in the CAN message payload (0-8)
+        """
         self.timestamp = int(timestamp, 16)     # 8 bytes
         self.identifier = int(id, 16)           # 4 bytes
         self.data_len = int(data_len, 16)       # 1 byte
@@ -12,7 +43,6 @@ class StandardFrame:
         self.hex_identifier = "0x" + hex(self.identifier)[2:].upper()
 
         self.data = list(self.chunks(data, 2))            # 16 bytes
-        # self.data = list(map(bytes.decode, self.data))
 
         # separated into bytes (each byte represented in decimal)
         self.data = list(map(lambda x: int(x, 16), self.data))
@@ -44,33 +74,32 @@ class StandardFrame:
 
         return repr_str
 
-    def extract_measurements(self, dbc):
+    def extract_measurements(self, dbc) -> List[Measurement]:
         """
         Extracts measurements from the CAN message depending on the entries in
-        the `schema` dict. Returns a measurement dict with the key as the measurement name
-        and the value as a dict containing data about the given measurement.
-
-        Raises exception if schema does not contain key entry that matches `self.identifier`.
+        the provided DBC file. Returns a list of measurement objects.
         """
 
         # decode message using DBC file
         measurements = dbc.decode_message(self.identifier, self.data_bytes)
 
+        # TODO: wrap in try-except
         message = dbc.get_message_by_frame_id(self.identifier)
 
         # where the data came from
         sources: list = message.senders
         source: str = sources[0]
 
-        measurement_dict = dict()
+        measurement_list: List[Measurement] = list()
 
         for name, data in measurements.items():
-            measurement_dict[name] = dict()
-            measurement_dict[name]["class"] = message.name
-            measurement_dict[name]["source"] = source
-            measurement_dict[name]["value"] = data
+            # build Measurement object
+            new_measurement = Measurement(name=name, m_class=message.name, source=source, value=data)
 
-        return measurement_dict
+            # append measurement to list
+            measurement_list.append(new_measurement)
+
+        return measurement_list
 
     @staticmethod
     def chunks(lst: Iterable, n: int) -> Iterable[str]:
