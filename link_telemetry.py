@@ -196,7 +196,8 @@ def main():
             measurements: list = parse_response["measurements"]
 
             for measurement in measurements:
-                table.add_row([parse_response["id"], measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
+                id = parse_response['id']
+                table.add_row([hex(id), measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
 
             print(table)
             print()
