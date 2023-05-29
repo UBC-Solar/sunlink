@@ -136,11 +136,17 @@ def main():
         if not (args.port and args.baudrate):
             parser.error("-p and -b options must both be specified")
 
-    pp = pprint.PrettyPrinter(indent=1)
+    # build the correct URL to make POST request to
+    if args.no_write:
+        PARSER_ENDPOINT = NO_WRITE_ENDPOINT
+    else:
+        PARSER_ENDPOINT = WRITE_ENDPOINT
 
     # <----- Read in DBC file ----->
 
     daybreak_dbc = cantools.database.load_file(DBC_FILE)
+
+    # TODO: add confirmation of all parameters before writing anything
 
     while True:
         if args.debug:
@@ -166,23 +172,37 @@ def main():
                 # TODO: check that all characters in message are valid ascii and are within [a-Z0-9] + "\n" + "\r"
 
         # partition string into pieces
-        timestamp: str = message[0:8].decode()    # 8 bytes
-        id: str = message[8:12].decode()
-        data: str = message[12:28].decode()
-        data_len: str = message[28:29].decode()
+        timestamp: str = message[0:8].decode()      # 8 bytes
+        id: str = message[8:12].decode()            # 4 bytes
+        data: str = message[12:28].decode()         # 16 bytes
+        data_len: str = message[28:29].decode()     # 1 byte
 
         payload = {
-                "timestamp": timestamp,
-                "id": id,
-                "data": data,
-                "data_length": data_len,
-                "stream": False,
+            "timestamp": timestamp,
+            "id": id,
+            "data": data,
+            "data_length": data_len,
         }
 
-        r = requests.post(PARSER_URL + "parse", json=json.dumps(payload))
+        print(f"request: {payload}")
 
-        print(r.text)
-        print(r.status_code)
+        # make parse request to hosted parser
+        r = requests.post(PARSER_ENDPOINT, json=json.dumps(payload))
+
+        parse_response: dict = r.json()
+
+        if parse_response["result"] == "PARSE_OK":
+            table = PrettyTable()
+            table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
+            measurements: list = parse_response["measurements"]
+
+            for measurement in measurements:
+                table.add_row([parse_response["id"], measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
+
+            print(table)
+            print()
+        else:
+            print(f"Failed to parse message with id={id}!\n")
 
 
 if __name__ == "__main__":
