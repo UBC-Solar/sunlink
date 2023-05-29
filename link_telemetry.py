@@ -7,11 +7,7 @@ import random
 import time
 import argparse
 from prettytable import PrettyTable
-
-from core.standard_frame import StandardFrame
-
 from dotenv import dotenv_values
-
 import requests
 
 __PROGRAM__ = "link_telemetry"
@@ -27,11 +23,13 @@ ENV_FILE = Path(".env")
 ENV_CONFIG = dotenv_values(ENV_FILE)
 
 PARSER_URL = ENV_CONFIG["PARSER_URL"]
-INFLUX_URL = ENV_CONFIG["INFLUX_URL"]
-GRAFANA_URL = ENV_CONFIG["GRAFANA_URL"]
+
+EXPECTED_CAN_MSG_LENGTH = 30
 
 # ANSI sequences
 ANSI_ESCAPE = "\033[0m"
+ANSI_RED = "\033[1;31m"
+ANSI_GREEN = "\033[1;32m"
 
 # API endpoints
 WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write"
@@ -110,12 +108,12 @@ def main():
             health_req = requests.get(HEALTH_ENDPOINT)
             health_status = health_req.json()
         except Exception:
-            print(f"parser @ {PARSER_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
+            print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
         else:
             if health_req.status_code == 200:
-                print(f"parser @ {PARSER_URL} -\033[1;32m UP {ANSI_ESCAPE}")
+                print(f"parser @ {PARSER_URL} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
             else:
-                print(f"parser @ {PARSER_URL} -\033[1;31m DOWN {ANSI_ESCAPE}")
+                print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
 
             for service in health_status["services"]:
                 name = service["name"]
@@ -123,9 +121,9 @@ def main():
                 status = service["status"]
 
                 if status == "UP":
-                    print(f"{name} @ {url} -\033[1;32m UP {ANSI_ESCAPE}")
+                    print(f"{name} @ {url} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
                 else:
-                    print(f"{name} @ {url} -\033[1;31m DOWN {ANSI_ESCAPE}")
+                    print(f"{name} @ {url} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
 
         return 0
 
@@ -152,6 +150,7 @@ def main():
         if args.debug:
             message_str = random_can_str(daybreak_dbc)
             message: bytes = message_str.encode(encoding="UTF-8")
+            # TODO: make this value configurable via the command line
             time.sleep(0.5)
         else:
             with serial.Serial() as ser:
@@ -163,9 +162,9 @@ def main():
                 # read in bytes from COM port
                 message: bytes = ser.readline()
 
-                if len(message) != StandardFrame.EXPECTED_CAN_MSG_LENGTH:
+                if len(message) != EXPECTED_CAN_MSG_LENGTH:
                     print(
-                        f"WARNING: got message length {len(message)}, expected {StandardFrame.EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
+                        f"WARNING: got message length {len(message)}, expected {EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
                     print(message)
                     continue
 

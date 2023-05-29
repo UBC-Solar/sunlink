@@ -23,8 +23,6 @@ class Measurement:
 
 
 class StandardFrame:
-    EXPECTED_CAN_MSG_LENGTH = 30
-
     def __init__(self, id: str, data: str, timestamp: str, data_len: str):
         """
         Encapsulates a single standard CAN frame.
