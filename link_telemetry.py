@@ -93,8 +93,8 @@ def main():
     normal_group.add_argument("-b", "--baudrate", action="store",
                               help=("Specifies the baudrate for the serial port specified. "
                                     "Typical values include: 9600, 115200, 230400, etc."))
-    parser.add_argument("--check-health", action="store_true",
-                        help=("Allows checking whether the parser is reachable as well as if "
+    parser.add_argument("--health", action="store_true",
+                        help=("Checks whether the parser is reachable as well as if "
                               "the parser is able to reach the InfluxDB and Grafana processes."))
 
     args = parser.parse_args()
@@ -102,7 +102,7 @@ def main():
     # <----- Argument validation ----->
 
     # TODO: put in custom ArgumentParser class
-    if args.check_health:
+    if args.health:
         # make ping request to parser
         try:
             health_req = requests.get(HEALTH_ENDPOINT)
