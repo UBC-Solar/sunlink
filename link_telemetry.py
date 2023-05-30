@@ -79,13 +79,13 @@ def main():
     debug_group = parser.add_argument_group("Debug operation")
 
     parser.add_argument("--version", action="version",
-                        version=f"{__PROGRAM__} {__VERSION__}")
+                        version=f"{__PROGRAM__} {__VERSION__}", help=("Show program's version number and exit"))
 
     debug_group.add_argument("-d", "--debug", action="store_true", help=("Enables debug mode. This allows using the "
                                                                          "telemetry link with randomly generated CAN "
-                                                                         "data rather using an actual radio telemetry stream"))
-    debug_group.add_argument("--no-write", action="store_true", help=(
-        "Disables writing to InfluxDB bucket and Grafana live stream endpoints"))
+                                                                         "data rather using an actual radio telemetry stream."))
+    parser.add_argument("--no-write", action="store_true", help=(
+        "Disables writing to InfluxDB bucket and Grafana live stream endpoints. Can be used both in NORMAL and DEBUG modes."))
 
     normal_group.add_argument("-p", "--port", action="store",
                               help=("Specifies the serial port to read radio data from. "
@@ -93,9 +93,9 @@ def main():
     normal_group.add_argument("-b", "--baudrate", action="store",
                               help=("Specifies the baudrate for the serial port specified. "
                                     "Typical values include: 9600, 115200, 230400, etc."))
-    debug_group.add_argument("--check-health", action="store_true",
-                             help=("Allows checking whether the parser is reachable as well as if "
-                                   "the parser is able to reach the InfluxDB and Grafana processes."))
+    parser.add_argument("--check-health", action="store_true",
+                        help=("Allows checking whether the parser is reachable as well as if "
+                              "the parser is able to reach the InfluxDB and Grafana processes."))
 
     args = parser.parse_args()
 
@@ -144,7 +144,26 @@ def main():
 
     daybreak_dbc = cantools.database.load_file(DBC_FILE)
 
-    # TODO: add confirmation of all parameters before writing anything
+    print(f"Running {__PROGRAM__} (v{__VERSION__}) with the following configuration...\n")
+
+    config_table = PrettyTable()
+    config_table.field_names = ["PARAM", "VALUE"]
+    config_table.add_row(["PARSER_URL", PARSER_URL])
+    config_table.add_row(["DEBUG", args.debug])
+
+    if args.debug:
+        config_table.add_row(["WRITE", not args.no_write])
+    else:
+        config_table.add_row(["WRITE", not args.no_write])
+        config_table.add_row(["PORT", args.port])
+        config_table.add_row(["BAUDRATE", args.baudrate])
+
+    print(config_table)
+    print()
+    choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
+
+    if choice.lower() != "y":
+        return
 
     while True:
         if args.debug:
@@ -195,6 +214,7 @@ def main():
             table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
             measurements: list = parse_response["measurements"]
 
+            # format response as a table
             for measurement in measurements:
                 id = parse_response['id']
                 table.add_row([hex(id), measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
