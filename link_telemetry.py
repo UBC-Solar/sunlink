@@ -144,6 +144,7 @@ def main():
 
     daybreak_dbc = cantools.database.load_file(DBC_FILE)
 
+    # TODO: put this in a function
     print(f"Running {__PROGRAM__} (v{__VERSION__}) with the following configuration...\n")
 
     config_table = PrettyTable()
@@ -170,7 +171,7 @@ def main():
             message_str = random_can_str(daybreak_dbc)
             message: bytes = message_str.encode(encoding="UTF-8")
             # TODO: make this value configurable via the command line
-            time.sleep(0.5)
+            time.sleep(0.1)
         else:
             with serial.Serial() as ser:
                 # <----- Configure COM port ----->
@@ -204,12 +205,18 @@ def main():
 
         print(f"request: {payload}")
 
-        # make parse request to hosted parser
-        r = requests.post(PARSER_ENDPOINT, json=json.dumps(payload))
+        # try making parse request to cloud parser
+        try:
+            r = requests.post(PARSER_ENDPOINT, json=json.dumps(payload))
+        except Exception:
+            # if cloud parser is down, try accessing local parser and write requests to text file
+            print(f"Unable to reach the parser @ {PARSER_URL}!\n")
+            # TODO: write request to a text file with a timestamp
+            continue
 
         parse_response: dict = r.json()
 
-        if parse_response["result"] == "PARSE_OK":
+        if parse_response["result"] == "OK":
             table = PrettyTable()
             table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
             measurements: list = parse_response["measurements"]
