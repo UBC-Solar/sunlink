@@ -8,10 +8,12 @@ DBC_FILE = Path("./dbc/daybreak.dbc")
 
 # <---- helper functions ---->
 
+
 def check_equality(first: float, second: float, threshold=0.1):
     return abs(first - second) <= threshold
 
 # <---- test fixtures ---->
+
 
 @pytest.fixture
 def dbc():
@@ -20,6 +22,7 @@ def dbc():
     return dbc
 
 # <---- tests ---->
+
 
 class TestSpeedControllerMessages:
     def test_speed_ctrl(self, dbc):
