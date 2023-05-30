@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Union, List, Sized, Iterable, Any
+from typing import Union, List, Sized, Iterable, Any, Dict
 
 
 @dataclass
@@ -101,6 +101,39 @@ class StandardFrame:
             measurement_list.append(new_measurement)
 
         return measurement_list
+
+    def extract_measurements_dict(self, dbc) -> Dict:
+        """
+        Extracts measurements from the CAN message depending on the entries in
+        the provided DBC file. Returns a dictionary with measurement names as keys.
+
+        NOTE: This is the legacy `extract_measurements` function. It has been kept
+        because changing this would mean considerable changes to the existing parser tests.
+        """
+
+        # decode message using DBC file
+        measurements = dbc.decode_message(self.identifier, self.data_bytes)
+
+        message = dbc.get_message_by_frame_id(self.identifier)
+
+        # where the data came from
+        sources: list = message.senders
+
+        source: str
+        if len(sources) == 0:
+            source = "UNKNOWN"
+        else:
+            source = sources[0]
+
+        measurement_dict: Dict = dict()
+
+        for name, data in measurements.items():
+            measurement_dict[name] = dict()
+            measurement_dict[name]["class"] = message.name
+            measurement_dict[name]["source"] = source
+            measurement_dict[name]["value"] = data
+
+        return measurement_dict
 
     @staticmethod
     def chunks(lst: Sized, n: int) -> Iterable[Any]:
