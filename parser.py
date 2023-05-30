@@ -1,7 +1,7 @@
 import cantools
 import influxdb_client
 from influxdb_client import InfluxDBClient
-from influxdb_client.client.write_api import ASYNCHRONOUS
+from influxdb_client.client.write_api import SYNCHRONOUS
 import requests
 from pathlib import Path
 import pprint
@@ -22,6 +22,9 @@ import flask
 from core.standard_frame import StandardFrame
 
 from dotenv import dotenv_values
+
+__PROGRAM__ = "parser"
+__VERSION__ = "0.4.0"
 
 # <----- Constants ----->
 
@@ -54,7 +57,7 @@ GRAFANA_URL_NAME = Path(GRAFANA_URL).name
 
 client = influxdb_client.InfluxDBClient(
     url=INFLUX_URL, org=INFLUX_ORG, token=INFLUX_TOKEN)
-write_api = client.write_api(write_options=ASYNCHRONOUS)
+write_api = client.write_api(write_options=SYNCHRONOUS)
 
 # <----- Read in DBC file ----->
 
@@ -68,8 +71,7 @@ pp = pprint.PrettyPrinter(indent=1)
 
 app = Flask(__name__)
 
-# create queue to hold points to write
-write_queue: 'queue.Queue' = queue.Queue()
+stream_queue: 'queue.Queue' = queue.Queue(maxsize=10)
 
 
 @app.route("/")
@@ -98,7 +100,7 @@ def check_health():
     """
 
     # build response dictionary
-    response_dict: Dict[str, str] = dict()
+    response_dict: Dict[str, List[Dict[str, str]]] = dict()
     response_dict["services"] = list()
 
     # try making a request to InfluxDB container
@@ -151,7 +153,6 @@ def parse_request():
     app.logger.info(f"Received message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
-    # TODO: add logging messages
 
     can_msg = StandardFrame(id, data, timestamp, data_length)
 
@@ -160,13 +161,13 @@ def parse_request():
         extracted_measurements: List[Measurement] = can_msg.extract_measurements(DAYBREAK_DBC)
         app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
         return {
-            "result": "PARSE_OK",
+            "result": "OK",
             "measurements": extracted_measurements,
             "id": can_msg.identifier
         }
     except Exception:
         app.logger.warn(
-            f"Unable to extract measurements for CAN message with id={id}")
+            f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
         return {
             "result": "PARSE_FAIL",
             "measurements": [],
@@ -177,59 +178,84 @@ def parse_request():
 @app.post(f"{API_PREFIX}/parse/write")
 def parse_and_write_request():
     """
-    Parses incoming request, sends back the parsed measurements, and writes the
-    extracted measurements to a queue for further processing.
+    Parses incoming request, writes the parsed measurements to InfluxDB instance,
+    and sends back parsed measurements back to client.
     """
     parse_request = json.loads(flask.request.json)
     id: str = parse_request["id"]
     data: str = parse_request["data"]
+    # TODO: use timestamp when writing to Influx
     timestamp: str = parse_request["timestamp"]
     data_length: str = parse_request["data_length"]
 
     app.logger.info(f"Received message: {id=}, {data=}")
+    app.logger.critical(f"{threading.enumerate()}")
 
     # TODO: add validation for received JSON object
-    # TODO: add logging messages
 
     can_msg = StandardFrame(id, data, timestamp, data_length)
 
-    # TODO: put common code between this function and the no-write function into
-    # separate function
-
-    # extract measurements from CAN message
+    # try extracting measurements from CAN message
     try:
         extracted_measurements: List[Measurement] = can_msg.extract_measurements(DAYBREAK_DBC)
-        # if parsing is successful, place extracted measurements in queue
-        write_queue.put(extracted_measurements)
-        app.logger.info(f"Successfully parsed CAN message with id={can_msg.identifier}")
-        app.logger.info("Placed extracted measurements into queue")
-        return {
-            "result": "PARSE_OK",
-            "measurements": extracted_measurements,
-            "id": can_msg.identifier
-        }
+        app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier}) and placed into queue")
     except Exception:
         app.logger.warn(
-            f"unable to extract measurements for CAN message with id={id}")
+            f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
         return {
             "result": "PARSE_FAIL",
             "measurements": [],
             "id": can_msg.identifier
         }
 
+    # try putting the extracted measurements in the queue for Grafana streaming
+    try:
+        stream_queue.put(extracted_measurements, block=False)
+    except queue.Full:
+        app.logger.warn(
+            "Stream queue full. Unable to add measurements to stream queue!"
+        )
+
+    # try writing the measurements extracted
+    for measurement in extracted_measurements:
+        name = measurement.name
+        source = measurement.source
+        m_class = measurement.m_class
+        value = measurement.value
+
+        point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+            "class", m_class).field(name, value)
+
+        # write to InfluxDB
+        try:
+            write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=point)
+            app.logger.info(
+                f"Wrote measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_BUCKET}!")
+        except Exception:
+            app.logger.warning("Unable to write measurement to InfluxDB!")
+            return {
+                "result": "INFLUX_WRITE_FAIL",
+                "measurements": extracted_measurements,
+                "id": can_msg.identifier
+            }
+
+    return {
+        "result": "OK",
+        "measurements": extracted_measurements,
+        "id": can_msg.identifier
+    }
+
 
 def write_measurements():
     """
-    Worker thread responsible for writing parsed measurements to InfluxDB and Grafana.
+    Worker thread responsible for live-streaming measurements to Grafana.
 
-    NOTE: the InfluxDB and Grafana write must be in a thread separate from the function that receives the parse request
-    since the write does not work otherwise. I assume it has something to do with the fact that the request thread
-    dies as soon a response is returned and the InfluxDB write API is async so the write never actually gets to
-    complete before the request thread dies. Therefore, a daemon thread whose lifetime is not bound by each request
-    is required to write data to Influx and Grafana.
+    NOTE: live-streaming measurements to Grafana is done in a separate thread since it is an optional feature and
+    it doesn't matter if it succeeds or not. Furthermore, having this in a separate thread reduces latency.
     """
+
     while True:
-        extracted_measurements: List[Measurement] = write_queue.get()
+        extracted_measurements: List[Measurement] = stream_queue.get()
 
         for measurement in extracted_measurements:
             name = measurement.name
@@ -242,24 +268,16 @@ def write_measurements():
             websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
 
             # live-stream measurements to Grafana Live
-            with connect(websocket_url,
-                         additional_headers={
-                             'Authorization': f'Bearer {GRAFANA_TOKEN}'}
-                         ) as websocket:
-                current_time = time.time_ns()
-                message = f"test value={value} {current_time}"
-                websocket.send(message)
-
-            point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-                "class", m_class).field(name, value)
-
-            # write to InfluxDB
-            write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=point)
-            app.logger.info(
-                f"Wrote measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_BUCKET}!")
-
-        # mark task as completed
-        write_queue.task_done()
+            try:
+                with connect(websocket_url,
+                             additional_headers={
+                                 'Authorization': f'Bearer {GRAFANA_TOKEN}'}
+                             ) as websocket:
+                    current_time = time.time_ns()
+                    message = f"test value={value} {current_time}"
+                    websocket.send(message)
+            except Exception:
+                app.logger.warning(f"Unable to stream measurement \"{name}\" to Grafana!")
 
 
 # create thread to write to InfluxDB and stream to Grafana
