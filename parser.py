@@ -1,6 +1,5 @@
 import cantools
 import influxdb_client
-from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
 import requests
 from pathlib import Path
@@ -9,8 +8,6 @@ import time
 import json
 import queue
 import threading
-import urllib
-from queue import Queue
 from typing import Dict, List
 from core.standard_frame import Measurement
 
