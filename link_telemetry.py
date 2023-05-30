@@ -227,9 +227,14 @@ def main():
                 table.add_row([hex(id), measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
 
             print(table)
-            print()
+        elif parse_response["result"] == "PARSE_FAIL":
+            print(f"Failed to parse message with id={id}!")
+        elif parse_response["result"] == "INFLUX_WRITE_FAIL":
+            print(f"Failed to write measurements for CAN message with id={id} to InfluxDB!")
         else:
-            print(f"Failed to parse message with id={id}!\n")
+            print(f"Unexpected response: {parse_response['result']}")
+
+        print()
 
 
 if __name__ == "__main__":
