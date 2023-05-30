@@ -77,6 +77,8 @@ class StandardFrame:
         the provided DBC file. Returns a list of measurement objects.
         """
 
+        # TODO: make this raise a custom exception
+
         # decode message using DBC file
         measurements = dbc.decode_message(self.identifier, self.data_bytes)
 
