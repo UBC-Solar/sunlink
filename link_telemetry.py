@@ -22,6 +22,8 @@ ENV_FILE = Path(".env")
 
 ENV_CONFIG = dotenv_values(ENV_FILE)
 
+# TODO: remove dependency on .env file
+# TODO: use a telemetry.conf file instead
 PARSER_URL = ENV_CONFIG["PARSER_URL"]
 
 EXPECTED_CAN_MSG_LENGTH = 30
@@ -68,6 +70,71 @@ def random_can_str(dbc) -> str:
     return can_str
 
 
+# <----- Utility functions ------>
+
+def check_health_handler():
+    """
+    Makes requests to the hosted parser to determine whether it is accessible
+    and if Influx and Grafana are accessible from the parser. Prints out
+    its results.
+    """
+
+    # make ping request to parser
+    try:
+        health_req = requests.get(HEALTH_ENDPOINT)
+        health_status = health_req.json()
+    except Exception:
+        print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+    else:
+        if health_req.status_code == 200:
+            print(f"parser @ {PARSER_URL} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
+        else:
+            print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+
+        for service in health_status["services"]:
+            name = service["name"]
+            url = service["url"]
+            status = service["status"]
+
+            if status == "UP":
+                print(f"{name} @ {url} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
+            else:
+                print(f"{name} @ {url} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+
+
+def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace'):
+    """
+    Ensures that certain argument patterns have been adhered to.
+    """
+    if args.debug:
+        if args.port or args.baudrate:
+            parser.error("-d cannot be used with -p and -b options")
+    else:
+        if not (args.port and args.baudrate):
+            parser.error("-p and -b options must both be specified")
+
+
+def print_config_table(args: 'argparse.Namespace'):
+    """
+    Prints a table containing the current configuration.
+    """
+    print(f"Running {__PROGRAM__} (v{__VERSION__}) with the following configuration...\n")
+    config_table = PrettyTable()
+    config_table.field_names = ["PARAM", "VALUE"]
+    config_table.add_row(["PARSER_URL", PARSER_URL])
+    config_table.add_row(["DEBUG", args.debug])
+
+    if args.debug:
+        config_table.add_row(["WRITE", not args.no_write])
+    else:
+        config_table.add_row(["WRITE", not args.no_write])
+        config_table.add_row(["PORT", args.port])
+        config_table.add_row(["BAUDRATE", args.baudrate])
+
+    print(config_table)
+    print()
+
+
 def main():
     # <----- Argument parsing ----->
 
@@ -99,40 +166,13 @@ def main():
 
     args = parser.parse_args()
 
-    # <----- Argument validation ----->
+    # <----- Argument validation and handling ----->
 
-    # TODO: put in custom ArgumentParser class
     if args.health:
-        # make ping request to parser
-        try:
-            health_req = requests.get(HEALTH_ENDPOINT)
-            health_status = health_req.json()
-        except Exception:
-            print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
-        else:
-            if health_req.status_code == 200:
-                print(f"parser @ {PARSER_URL} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
-            else:
-                print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
-
-            for service in health_status["services"]:
-                name = service["name"]
-                url = service["url"]
-                status = service["status"]
-
-                if status == "UP":
-                    print(f"{name} @ {url} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
-                else:
-                    print(f"{name} @ {url} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
-
+        check_health_handler()
         return 0
 
-    if args.debug:
-        if args.port or args.baudrate:
-            parser.error("-d cannot be used with -p and -b options")
-    else:
-        if not (args.port and args.baudrate):
-            parser.error("-p and -b options must both be specified")
+    validate_args(parser, args)
 
     # build the correct URL to make POST request to
     if args.no_write:
@@ -144,25 +184,10 @@ def main():
 
     daybreak_dbc = cantools.database.load_file(DBC_FILE)
 
-    # TODO: put this in a function
-    print(f"Running {__PROGRAM__} (v{__VERSION__}) with the following configuration...\n")
+    # <----- Configuration confirmation ----->
 
-    config_table = PrettyTable()
-    config_table.field_names = ["PARAM", "VALUE"]
-    config_table.add_row(["PARSER_URL", PARSER_URL])
-    config_table.add_row(["DEBUG", args.debug])
-
-    if args.debug:
-        config_table.add_row(["WRITE", not args.no_write])
-    else:
-        config_table.add_row(["WRITE", not args.no_write])
-        config_table.add_row(["PORT", args.port])
-        config_table.add_row(["BAUDRATE", args.baudrate])
-
-    print(config_table)
-    print()
+    print_config_table(args)
     choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
-
     if choice.lower() != "y":
         return
 
