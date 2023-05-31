@@ -186,7 +186,6 @@ def parse_and_write_request():
     data_length: str = parse_request["data_length"]
 
     app.logger.info(f"Received message: {id=}, {data=}")
-    app.logger.critical(f"{threading.enumerate()}")
 
     # TODO: add validation for received JSON object
 
@@ -227,7 +226,7 @@ def parse_and_write_request():
         try:
             write_api.write(bucket=INFLUX_BUCKET, org=INFLUX_ORG, record=point)
             app.logger.info(
-                f"Wrote measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_BUCKET}!")
+                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_BUCKET}!")
         except Exception:
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
