@@ -7,7 +7,6 @@ import random
 import time
 import argparse
 from prettytable import PrettyTable
-from dotenv import dotenv_values
 import requests
 
 __PROGRAM__ = "link_telemetry"
@@ -18,13 +17,9 @@ __VERSION__ = "0.4.0"
 CAR_NAME = "Daybreak"
 
 DBC_FILE = Path("./dbc/daybreak.dbc")
-ENV_FILE = Path(".env")
 
-ENV_CONFIG = dotenv_values(ENV_FILE)
-
-# TODO: remove dependency on .env file
-# TODO: use a telemetry.conf file instead
-PARSER_URL = ENV_CONFIG["PARSER_URL"]
+# TODO: use a telemetry.toml file instead
+PARSER_URL = "http://localhost:5000/"
 
 EXPECTED_CAN_MSG_LENGTH = 30
 
@@ -34,7 +29,8 @@ ANSI_RED = "\033[1;31m"
 ANSI_GREEN = "\033[1;32m"
 
 # API endpoints
-WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write"
+DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
+PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
 NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 PING_ENDPOINT = f"{PARSER_URL}/api/v1/ping"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
@@ -106,12 +102,26 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     Ensures that certain argument patterns have been adhered to.
     """
-    if args.debug:
+
+    if args.randomize:
         if args.port or args.baudrate:
-            parser.error("-d cannot be used with -p and -b options")
+            parser.error("-r cannot be used with -p and -b options")
+
+        if args.prod or args.debug:
+            parser.error("-r cannot be used with --prod since random data should not be written to the production database")
     else:
         if not (args.port and args.baudrate):
             parser.error("-p and -b options must both be specified")
+
+    if args.no_write:
+        if args.debug or args.prod:
+            parser.error("Conflicting configuration. Cannot specify --no-write with --debug or --prod.")
+    else:
+        if args.debug and args.prod:
+            parser.error("Conflicting configuration. Cannot specify both --debug and --prod. Must choose one.")
+
+        if args.debug is False and args.prod is False:
+            parser.error("Must specify one of --debug, --prod, or --no-write.")
 
 
 def print_config_table(args: 'argparse.Namespace'):
@@ -121,13 +131,22 @@ def print_config_table(args: 'argparse.Namespace'):
     print(f"Running {__PROGRAM__} (v{__VERSION__}) with the following configuration...\n")
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
-    config_table.add_row(["PARSER_URL", PARSER_URL])
-    config_table.add_row(["DEBUG", args.debug])
+    config_table.add_row(["STREAM SOURCE", "RANDOM" if args.randomize else "UART PORT"])
+    config_table.add_row(["PARSER URL", PARSER_URL])
 
-    if args.debug:
-        config_table.add_row(["WRITE", not args.no_write])
+    if args.no_write:
+        config_table.add_row(["WRITE TARGET", "WRITE DISABLED"])
     else:
-        config_table.add_row(["WRITE", not args.no_write])
+        config_table.add_row(["WRITE TARGET", "DEBUG" if args.debug else "PRODUCTION"])
+
+    # case 1: --randomize with --debug: generate random data and write to the `Test` bucket (LIKELY)
+    # case 2: --randomize without --debug: generate random data and write to the `Telemetry` bucket (SHOULD BE IMPOSSIBLE)
+    # case 3: -p and -b with --debug: parse radio data and write to the `Test` bucket (LIKELY)
+    # case 4: -p and -b without --debug: parse radio data and write to the `Telemetry` bucket (ACTUAL OPERATION MODE)
+
+    # TODO: add warnings for specific configs (like -r without --debug)
+
+    if not args.randomize:
         config_table.add_row(["PORT", args.port])
         config_table.add_row(["BAUDRATE", args.baudrate])
 
@@ -139,30 +158,39 @@ def main():
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
-        description="Link raw radio stream to frontend telemetry interface.",
+        description="Link raw radio stream to telemetry backend parser.",
         prog=__PROGRAM__)
 
-    normal_group = parser.add_argument_group("Normal operation")
-    debug_group = parser.add_argument_group("Debug operation")
+    # declare argument groups
+    source_group = parser.add_argument_group("Data stream selection")
+    write_group = parser.add_argument_group("Data write options")
 
     parser.add_argument("--version", action="version",
                         version=f"{__PROGRAM__} {__VERSION__}", help=("Show program's version number and exit"))
 
-    debug_group.add_argument("-d", "--debug", action="store_true", help=("Enables debug mode. This allows using the "
-                                                                         "telemetry link with randomly generated CAN "
-                                                                         "data rather using an actual radio telemetry stream."))
-    parser.add_argument("--no-write", action="store_true", help=(
-        "Disables writing to InfluxDB bucket and Grafana live stream endpoints. Can be used both in NORMAL and DEBUG modes."))
-
-    normal_group.add_argument("-p", "--port", action="store",
-                              help=("Specifies the serial port to read radio data from. "
-                                    "Typical values include: COM5, /dev/ttyUSB0, etc."))
-    normal_group.add_argument("-b", "--baudrate", action="store",
-                              help=("Specifies the baudrate for the serial port specified. "
-                                    "Typical values include: 9600, 115200, 230400, etc."))
     parser.add_argument("--health", action="store_true",
                         help=("Checks whether the parser is reachable as well as if "
                               "the parser is able to reach the InfluxDB and Grafana processes."))
+
+    write_group.add_argument("--debug", action="store_true",
+                             help=("Writes incoming data to a test InfluxDB bucket."))
+    write_group.add_argument("--prod", action="store_true",
+                             help=("Writes incoming data to the production InfluxDB bucket."))
+    write_group.add_argument("--no-write", action="store_true",
+                             help=("Disables writing to InfluxDB bucket and Grafana live "
+                                   "stream endpoints. Cannot be used with --debug and --prod options."))
+
+    source_group.add_argument("-p", "--port", action="store",
+                              help=("Specifies the serial port to read radio data from. "
+                                    "Typical values include: COM5, /dev/ttyUSB0, etc."))
+    source_group.add_argument("-b", "--baudrate", action="store",
+                              help=("Specifies the baudrate for the serial port specified. "
+                                    "Typical values include: 9600, 115200, 230400, etc."))
+
+    source_group.add_argument("-r", "--randomize", action="store_true",
+                              help=("Allows using the telemetry link with "
+                                    "randomly generated CAN data rather than "
+                                    "a real radio telemetry stream."))
 
     args = parser.parse_args()
 
@@ -177,8 +205,10 @@ def main():
     # build the correct URL to make POST request to
     if args.no_write:
         PARSER_ENDPOINT = NO_WRITE_ENDPOINT
+    elif args.debug:
+        PARSER_ENDPOINT = DEBUG_WRITE_ENDPOINT
     else:
-        PARSER_ENDPOINT = WRITE_ENDPOINT
+        PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
 
     # <----- Read in DBC file ----->
 
@@ -192,7 +222,7 @@ def main():
         return
 
     while True:
-        if args.debug:
+        if args.randomize:
             message_str = random_can_str(daybreak_dbc)
             message: bytes = message_str.encode(encoding="UTF-8")
             # TODO: make this value configurable via the command line
