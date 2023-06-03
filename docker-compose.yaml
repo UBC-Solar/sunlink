@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   grafana:
-    image: grafana/grafana-oss
+    image: grafana/grafana-oss:9.5.2
     container_name: grafana
     ports:
       - 3000:3000
@@ -39,7 +39,7 @@ services:
     restart: always
 
   influxdb:
-    image: influxdb:latest
+    image: influxdb:2.7.1
     container_name: influxdb
     ports:
       - 8086:8086
