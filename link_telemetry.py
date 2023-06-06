@@ -32,7 +32,6 @@ ANSI_GREEN = "\033[1;32m"
 DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
 PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
 NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
-PING_ENDPOINT = f"{PARSER_URL}/api/v1/ping"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
 
