@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 import serial
 import json
+import sys
+import signal
+import asyncio
+import aiohttp
 import cantools
 from pathlib import Path
 import random
@@ -153,6 +157,12 @@ def print_config_table(args: 'argparse.Namespace'):
     print()
 
 
+def sigint_handler(sig, frame):
+    print("Ctrl+C recv'd, exiting gracefully...")
+    # close async request session if exists
+    sys.exit(0)
+
+
 def main():
     # <----- Argument parsing ----->
 
@@ -292,4 +302,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # signal registration
+    signal.signal(signal.SIGINT, sigint_handler)
+    asyncio.run(main())
