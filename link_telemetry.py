@@ -107,8 +107,8 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
         if args.port or args.baudrate:
             parser.error("-r cannot be used with -p and -b options")
 
-        if args.prod or args.debug:
-            parser.error("-r cannot be used with --prod since random data should not be written to the production database")
+        if args.prod:
+            parser.error("-r cannot be used with --prod since randomly generated data should not be written to the production database")
     else:
         if not (args.port and args.baudrate):
             parser.error("-p and -b options must both be specified")
