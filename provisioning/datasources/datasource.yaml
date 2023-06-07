@@ -19,5 +19,5 @@ datasources:
     jsonData:
       version: Flux
       organization: ${INFLUX_ORG}
-      defaultBucket: ${INFLUX_BUCKET}
+      defaultBucket: ${INFLUX_PROD_BUCKET}
       tlsSkipVerify: true
