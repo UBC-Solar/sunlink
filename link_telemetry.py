@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 import serial
-import json
 import sys
 import signal
-import asyncio
-import aiohttp
 import cantools
-from pathlib import Path
 import random
 import time
 import argparse
-from prettytable import PrettyTable
 import requests
+
+from pathlib import Path
+from prettytable import PrettyTable
+from typing import Dict, Optional
+
+import concurrent.futures
 
 __PROGRAM__ = "link_telemetry"
 __VERSION__ = "0.4.0"
@@ -23,7 +24,8 @@ CAR_NAME = "Daybreak"
 DBC_FILE = Path("./dbc/daybreak.dbc")
 
 # TODO: use a telemetry.toml file instead
-PARSER_URL = "http://localhost:5000/"
+PARSER_URL = "http://143.198.12.56:5000/"
+# PARSER_URL = "http://localhost:5000/"
 
 EXPECTED_CAN_MSG_LENGTH = 30
 
@@ -38,10 +40,19 @@ PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
 NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
+MAX_WORKERS = 32
+
+executor: Optional[concurrent.futures.ThreadPoolExecutor] = None
 
 # <----- Randomizer CAN functions ------>
 
+
 def random_can_str(dbc) -> str:
+    """
+    Generates a random string (which represents a CAN message) that mimics
+    the format sent over by the telemetry board over radio. This function
+    is useful for debugging the telemetry system.
+    """
     # collect CAN IDs
     can_ids = list()
     for message in dbc.messages:
@@ -103,7 +114,7 @@ def check_health_handler():
 
 def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace'):
     """
-    Ensures that certain argument patterns have been adhered to.
+    Ensures that certain argument invariants have been adhered to.
     """
 
     if args.randomize:
@@ -129,7 +140,7 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
 
 def print_config_table(args: 'argparse.Namespace'):
     """
-    Prints a table containing the current configuration.
+    Prints a table containing the current script configuration.
     """
     print(f"Running {__PROGRAM__} (v{__VERSION__}) with the following configuration...\n")
     config_table = PrettyTable()
@@ -142,12 +153,12 @@ def print_config_table(args: 'argparse.Namespace'):
     else:
         config_table.add_row(["WRITE TARGET", "DEBUG" if args.debug else "PRODUCTION"])
 
-    # case 1: --randomize with --debug: generate random data and write to the `Test` bucket (LIKELY)
+    # CONFIGURATIONS
+
+    # case 1: --randomize with --debug: generate random data and write to the `Test` bucket (INTENDED USAGE)
     # case 2: --randomize without --debug: generate random data and write to the `Telemetry` bucket (SHOULD BE IMPOSSIBLE)
     # case 3: -p and -b with --debug: parse radio data and write to the `Test` bucket (LIKELY)
     # case 4: -p and -b without --debug: parse radio data and write to the `Telemetry` bucket (ACTUAL OPERATION MODE)
-
-    # TODO: add warnings for specific configs (like -r without --debug)
 
     if not args.randomize:
         config_table.add_row(["PORT", args.port])
@@ -157,10 +168,61 @@ def print_config_table(args: 'argparse.Namespace'):
     print()
 
 
+# <----- Signal handling ----->
+
 def sigint_handler(sig, frame):
     print("Ctrl+C recv'd, exiting gracefully...")
-    # close async request session if exists
+    # shutdown the executor
+    if executor is not None:
+        executor.shutdown(wait=False, cancel_futures=True)
+
     sys.exit(0)
+
+# <----- Co-routine definitions ----->
+
+
+def parser_request(payload: Dict, url: str):
+    """
+    Makes a parse request to the given `url`.
+    """
+    r = requests.post(url=url, json=payload)
+    return r
+
+
+def process_response(future: concurrent.futures.Future):
+    """
+    Function that defines the post-processing after receiving a response from the hosted parser.
+    Formats the parsed measurements into a table for convenience.
+
+    Is registered as a callback so that once a future is done executing and has
+    a result this function is called.
+    """
+
+    # get the response from the future
+    # TODO: add error handling here
+    response = future.result()
+
+    parse_response: dict = response.json()
+
+    if parse_response["result"] == "OK":
+        table = PrettyTable()
+        table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
+        measurements: list = parse_response["measurements"]
+
+        # format response as a table
+        for measurement in measurements:
+            id = parse_response['id']
+            table.add_row([hex(id), measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
+
+        print(table)
+    elif parse_response["result"] == "PARSE_FAIL":
+        print(f"Failed to parse message with id={parse_response['id']}!")
+    elif parse_response["result"] == "INFLUX_WRITE_FAIL":
+        print(f"Failed to write measurements for CAN message with id={parse_response['id']} to InfluxDB!")
+    else:
+        print(f"Unexpected response: {parse_response['result']}")
+
+    print()
 
 
 def main():
@@ -230,10 +292,20 @@ def main():
     if choice.lower() != "y":
         return
 
+    print("Telemetry link is up!")
+    print("Waiting for incoming messages...")
+
+    # <----- Create the thread pool ----->
+
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS)
+    print(f"Created thread pool with {MAX_WORKERS} workers!")
+
     while True:
+        message: bytes
+
         if args.randomize:
             message_str = random_can_str(daybreak_dbc)
-            message: bytes = message_str.encode(encoding="UTF-8")
+            message = message_str.encode(encoding="UTF-8")
             # TODO: make this value configurable via the command line
             time.sleep(0.1)
         else:
@@ -244,7 +316,7 @@ def main():
                 ser.open()
 
                 # read in bytes from COM port
-                message: bytes = ser.readline()
+                message = ser.readline()
 
                 if len(message) != EXPECTED_CAN_MSG_LENGTH:
                     print(
@@ -267,41 +339,13 @@ def main():
             "data_length": data_len,
         }
 
-        print(f"request: {payload}")
+        # submit to thread pool
+        future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
 
-        # try making parse request to cloud parser
-        try:
-            r = requests.post(PARSER_ENDPOINT, json=json.dumps(payload))
-        except Exception:
-            # if cloud parser is down, try accessing local parser and write requests to text file
-            print(f"Unable to reach the parser @ {PARSER_URL}!\n")
-            # TODO: write request to a text file with a timestamp
-            continue
-
-        parse_response: dict = r.json()
-
-        if parse_response["result"] == "OK":
-            table = PrettyTable()
-            table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
-            measurements: list = parse_response["measurements"]
-
-            # format response as a table
-            for measurement in measurements:
-                id = parse_response['id']
-                table.add_row([hex(id), measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
-
-            print(table)
-        elif parse_response["result"] == "PARSE_FAIL":
-            print(f"Failed to parse message with id={id}!")
-        elif parse_response["result"] == "INFLUX_WRITE_FAIL":
-            print(f"Failed to write measurements for CAN message with id={id} to InfluxDB!")
-        else:
-            print(f"Unexpected response: {parse_response['result']}")
-
-        print()
+        # register done callback with future
+        future.add_done_callback(process_response)
 
 
 if __name__ == "__main__":
-    # signal registration
     signal.signal(signal.SIGINT, sigint_handler)
-    asyncio.run(main())
+    main()
