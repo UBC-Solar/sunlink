@@ -40,7 +40,7 @@ PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
 NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
-MAX_WORKERS = 32
+DEFAULT_MAX_WORKERS = 32
 
 executor: Optional[concurrent.futures.ThreadPoolExecutor] = None
 
@@ -145,8 +145,9 @@ def print_config_table(args: 'argparse.Namespace'):
     print(f"Running {__PROGRAM__} (v{__VERSION__}) with the following configuration...\n")
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
-    config_table.add_row(["STREAM SOURCE", "RANDOM" if args.randomize else "UART PORT"])
+    config_table.add_row(["STREAM SOURCE", "RANDOM" if args.randomize else f"UART PORT ({args.port})"])
     config_table.add_row(["PARSER URL", PARSER_URL])
+    config_table.add_row(["MAX THREADS", args.jobs])
 
     if args.no_write:
         config_table.add_row(["WRITE TARGET", "WRITE DISABLED"])
@@ -242,6 +243,8 @@ def main():
     parser.add_argument("--health", action="store_true",
                         help=("Checks whether the parser is reachable as well as if "
                               "the parser is able to reach the InfluxDB and Grafana processes."))
+    parser.add_argument("-j", "--jobs", action="store", default=DEFAULT_MAX_WORKERS,
+                        help=("The max number of threads to use for making HTTP requests to the parser."))
 
     write_group.add_argument("--debug", action="store_true",
                              help=("Writes incoming data to a test InfluxDB bucket."))
@@ -297,8 +300,8 @@ def main():
 
     # <----- Create the thread pool ----->
 
-    executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS)
-    print(f"Created thread pool with {MAX_WORKERS} workers!")
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
+    print(f"Created thread pool with {DEFAULT_MAX_WORKERS} workers!")
 
     while True:
         message: bytes
