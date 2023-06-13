@@ -146,7 +146,7 @@ def parse_request():
     """
     Parses incoming request and sends back the parsed result.
     """
-    parse_request = json.loads(flask.request.json)
+    parse_request: Dict = flask.request.json
     id: str = parse_request["id"]
     data: str = parse_request["data"]
     timestamp: str = parse_request["timestamp"]
@@ -183,7 +183,7 @@ def parse_and_write_request():
     Parses incoming request, writes the parsed measurements to InfluxDB debug bucket,
     and sends back parsed measurements back to client.
     """
-    parse_request = json.loads(flask.request.json)
+    parse_request = flask.request.json
     id: str = parse_request["id"]
     data: str = parse_request["data"]
     # TODO: use timestamp when writing to Influx
@@ -253,7 +253,7 @@ def parse_and_write_request_to_prod():
     Parses incoming request, writes the parsed measurements to InfluxDB production bucket,
     and sends back parsed measurements back to client.
     """
-    parse_request = json.loads(flask.request.json)
+    parse_request = flask.request.json
     id: str = parse_request["id"]
     data: str = parse_request["data"]
     # TODO: use timestamp when writing to Influx
