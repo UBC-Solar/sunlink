@@ -19,8 +19,6 @@ __VERSION__ = "0.4.0"
 
 # <----- Constants ----->
 
-CAR_NAME = "Daybreak"
-
 DBC_FILE = Path("./dbc/daybreak.dbc")
 
 # TODO: use a telemetry.toml file instead
@@ -186,7 +184,7 @@ def parser_request(payload: Dict, url: str):
     """
     Makes a parse request to the given `url`.
     """
-    r = requests.post(url=url, json=payload)
+    r = requests.post(url=url, json=payload, timeout=5.0)
     return r
 
 
