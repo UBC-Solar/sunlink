@@ -34,6 +34,8 @@ ENV_CONFIG = dotenv_values(ENV_FILE)
 
 API_PREFIX = "/api/v1"
 
+STREAM_QUEUE_MAXSIZE = 256
+
 # <----- InfluxDB constants ----->
 
 INFLUX_URL = ENV_CONFIG["INFLUX_URL"]
@@ -69,7 +71,7 @@ pp = pprint.PrettyPrinter(indent=1)
 
 app = Flask(__name__)
 
-stream_queue: 'queue.Queue' = queue.Queue(maxsize=10)
+stream_queue: 'queue.Queue' = queue.Queue(maxsize=STREAM_QUEUE_MAXSIZE)
 
 
 @app.route("/")
