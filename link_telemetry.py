@@ -8,6 +8,9 @@ import time
 import argparse
 import requests
 
+import toml
+from toml.decoder import TomlDecodeError
+
 from pathlib import Path
 from prettytable import PrettyTable
 from typing import Dict, Optional
@@ -21,9 +24,23 @@ __VERSION__ = "0.4.0"
 
 DBC_FILE = Path("./dbc/daybreak.dbc")
 
-# TODO: use a telemetry.toml file instead
-PARSER_URL = "http://143.198.12.56:5000/"
-# PARSER_URL = "http://localhost:5000/"
+TOML_CONFIG_FILE = Path("./telemetry.toml")
+
+# <----- Read in TOML file ----->
+
+try:
+    config: Dict = toml.load(TOML_CONFIG_FILE)
+except TomlDecodeError:
+    print(f"Unable to read configuration from {TOML_CONFIG_FILE}!")
+    sys.exit(1)
+
+PARSER_URL = config["parser"]["url"]
+
+# API endpoints
+DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
+PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
+NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
+HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
 EXPECTED_CAN_MSG_LENGTH = 30
 
@@ -31,12 +48,6 @@ EXPECTED_CAN_MSG_LENGTH = 30
 ANSI_ESCAPE = "\033[0m"
 ANSI_RED = "\033[1;31m"
 ANSI_GREEN = "\033[1;32m"
-
-# API endpoints
-DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
-PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
-NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
-HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
 DEFAULT_MAX_WORKERS = 32
 
