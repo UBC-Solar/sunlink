@@ -1,15 +1,16 @@
 # UBC Solar's Telemetry Link
 
-This is the link between the raw radio module serial stream that comes from Daybreak's
-onboard telemetry system and the Grafana frontend. This project is responsible for CAN
-message parsing with Python, time-series data storage with InfluxDB,
-and finally, data visualization with Grafana.
+This repository contains all the components of UBC Solar's telemetry system. It contains the implementation of the Flask parser server, the client-side script (`link_telemetry.py`) that communicates with the server, and the Docker Compose file that brings up the entire system.
+
+The Flask parser is spun up as a Docker container along with two other services: InfluxDB and Grafana. InfluxDB is the time-series database that stores the incoming telemetry data and Grafana is the visualization platform used to graph the data.
 
 ## Table of contents
 
 - [System overview](#system-overview)
+- [(TODO) System configurations](#system-configurations)
 - [Getting started](#getting-started)
 - [Running the link](#running-the-link)
+- [Parser HTTP API](#parser-api)
 - [Screenshots](#screenshots)
 
 ## System overview
@@ -19,6 +20,8 @@ and finally, data visualization with Grafana.
 - **Telemetry Link:** parses the incoming serial stream
 - **InfluxDB:** stores the parsed measurements for manual access and Grafana access
 - **Grafana:** visualizes the parsed measurements
+
+## (TODO) System configurations
 
 ## Getting started
 
@@ -43,7 +46,22 @@ docker compose version
 
 ### Setting up environment variables
 
-Before starting up the docker instances, you must create a `.env` file in the project root directory.
+Before starting up the docker instances, you must create a `.env` file in the project root directory. It is easiest to create a file like this from the terminal:
+
+For Linux/macOS:
+
+```bash
+touch .env
+```
+
+For Windows:
+
+```powershell
+New-Item -Path . -Name ".env"
+```
+
+Then, you may use any code editor to edit the file.
+
 An example `.env` file is given in `./examples/environment/`. The contents of this file will look something like this:
 
 ```env
@@ -181,6 +199,10 @@ python link_telemetry.py -h
 
 Once the link starts running, you should be able to access some of the provisioned (i.e., preconfigured) Grafana dashboards in which
 you should see the graphs being updated. 
+
+## Parser API
+
+Refer to [API.md](/API.md) for the full documentation of the endpoints that the parser exposes.
 
 ## Screenshots
 
