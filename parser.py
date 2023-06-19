@@ -108,7 +108,6 @@ def verify_token(token):
 
 
 @app.route("/")
-@auth.login_required
 def welcome():
     return "Welcome to UBC Solar's Telemetry Parser!\n"
 
