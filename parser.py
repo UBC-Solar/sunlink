@@ -9,9 +9,9 @@ import flask
 import sys
 
 from influxdb_client.client.write_api import SYNCHRONOUS
+
 from pathlib import Path
 from typing import Dict, List
-from core.standard_frame import Measurement
 
 from websockets.sync.client import connect
 
@@ -19,6 +19,7 @@ from flask import Flask
 from flask_httpauth import HTTPTokenAuth
 
 from core.standard_frame import StandardFrame
+from core.standard_frame import Measurement
 
 from dotenv import dotenv_values
 
