@@ -33,7 +33,7 @@ services:
     build: .
     container_name: parser
     volumes:
-      - .:/src
+      - .:/link_telemetry
     ports:
       - 5000:5000
     restart: always
