@@ -26,15 +26,28 @@ DBC_FILE = Path("./dbc/daybreak.dbc")
 
 TOML_CONFIG_FILE = Path("./telemetry.toml")
 
+# file existence check
+if not TOML_CONFIG_FILE.is_file():
+    print(f"Unable to find expected TOML config file: \"{TOML_CONFIG_FILE.absolute()}\"")
+    sys.exit(1)
+
 # <----- Read in TOML file ----->
 
 try:
     config: Dict = toml.load(TOML_CONFIG_FILE)
 except TomlDecodeError:
-    print(f"Unable to read configuration from {TOML_CONFIG_FILE}!")
+    print(f"Unable to read configuration from {TOML_CONFIG_FILE.absolute()}!")
     sys.exit(1)
 
-PARSER_URL = config["parser"]["url"]
+try:
+    PARSER_URL = config["parser"]["url"]
+    SECRET_KEY = config["security"]["secret_key"]
+except KeyError:
+    print(f"{TOML_CONFIG_FILE} does not contain expected keys!")
+    sys.exit(1)
+
+# header to provide with each HTTP request to the parser for API authorization
+AUTH_HEADER = {"Authorization": f"Bearer {SECRET_KEY}"}
 
 # API endpoints
 DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
@@ -48,6 +61,7 @@ EXPECTED_CAN_MSG_LENGTH = 30
 ANSI_ESCAPE = "\033[0m"
 ANSI_RED = "\033[1;31m"
 ANSI_GREEN = "\033[1;32m"
+ANSI_BOLD = "\033[1m"
 
 DEFAULT_MAX_WORKERS = 32
 
@@ -100,25 +114,34 @@ def check_health_handler():
 
     # make ping request to parser
     try:
-        health_req = requests.get(HEALTH_ENDPOINT)
-        health_status = health_req.json()
+        health_req = requests.get(HEALTH_ENDPOINT, headers=AUTH_HEADER)
     except Exception:
         print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+        print("failed to connect to parser!")
+        sys.exit(1)
+
+    if health_req.status_code == 200:
+        print(f"parser @ {PARSER_URL} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
+    elif health_req.status_code == 401:
+        print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+        print(f"unauthorized access to parser API, secret key specified in \"{TOML_CONFIG_FILE}\" is invalid")
+        sys.exit(1)
     else:
-        if health_req.status_code == 200:
-            print(f"parser @ {PARSER_URL} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
+        print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+        print(f"request failed with HTTP status code {ANSI_BOLD}{health_req.status_code}{ANSI_ESCAPE}!")
+        sys.exit(1)
+
+    health_status = health_req.json()
+
+    for service in health_status["services"]:
+        name = service["name"]
+        url = service["url"]
+        status = service["status"]
+
+        if status == "UP":
+            print(f"{name} @ {url} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
         else:
-            print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
-
-        for service in health_status["services"]:
-            name = service["name"]
-            url = service["url"]
-            status = service["status"]
-
-            if status == "UP":
-                print(f"{name} @ {url} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
-            else:
-                print(f"{name} @ {url} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+            print(f"{name} @ {url} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
 
 
 def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace'):
@@ -133,7 +156,9 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
         if args.prod:
             parser.error("-r cannot be used with --prod since randomly generated data should not be written to the production database")
     else:
-        if not (args.port and args.baudrate):
+        if not args.port and not args.baudrate:
+            parser.error("Must specify either -r or both -p and -b arguments")
+        elif not (args.port and args.baudrate):
             parser.error("-p and -b options must both be specified")
 
     if args.no_write:
@@ -151,19 +176,19 @@ def print_config_table(args: 'argparse.Namespace'):
     """
     Prints a table containing the current script configuration.
     """
-    print(f"Running {__PROGRAM__} (v{__VERSION__}) with the following configuration...\n")
+    print(f"Running {ANSI_BOLD}{__PROGRAM__} (v{__VERSION__}){ANSI_ESCAPE} with the following configuration...\n")
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
-    config_table.add_row(["STREAM SOURCE", "RANDOM" if args.randomize else f"UART PORT ({args.port})"])
+    config_table.add_row(["DATA SOURCE", "RANDOMLY GENERATED" if args.randomize else f"UART PORT ({args.port})"])
     config_table.add_row(["PARSER URL", PARSER_URL])
     config_table.add_row(["MAX THREADS", args.jobs])
 
     if args.no_write:
         config_table.add_row(["WRITE TARGET", "WRITE DISABLED"])
     else:
-        config_table.add_row(["WRITE TARGET", "DEBUG" if args.debug else "PRODUCTION"])
+        config_table.add_row(["WRITE TARGET", "DEBUG BUCKET" if args.debug else "PRODUCTION BUCKET"])
 
-    # CONFIGURATIONS
+    # POSSIBLE CONFIGURATIONS
 
     # case 1: --randomize with --debug: generate random data and write to the `Test` bucket (INTENDED USAGE)
     # case 2: --randomize without --debug: generate random data and write to the `Telemetry` bucket (SHOULD BE IMPOSSIBLE)
@@ -195,7 +220,7 @@ def parser_request(payload: Dict, url: str):
     """
     Makes a parse request to the given `url`.
     """
-    r = requests.post(url=url, json=payload, timeout=5.0)
+    r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
     return r
 
 
@@ -209,7 +234,6 @@ def process_response(future: concurrent.futures.Future):
     """
 
     # get the response from the future
-    # TODO: add error handling here
     response = future.result()
 
     parse_response: dict = response.json()

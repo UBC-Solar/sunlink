@@ -11,6 +11,7 @@ colorama==0.4.5
 coverage==6.5.0
 diskcache==5.4.0
 Flask==2.3.2
+Flask-HTTPAuth==4.8.0
 idna==3.3
 influxdb-client==1.28.0
 iniconfig==1.1.1
@@ -38,10 +39,11 @@ requests==2.27.1
 Rx==3.2.0
 six==1.16.0
 textparser==0.24.0
+toml==0.10.2
 tomli==2.0.1
 typing_extensions==4.4.0
 urllib3==1.26.9
 wcwidth==0.2.6
-websockets==10.3
+websockets==11.0.3
 Werkzeug==2.3.4
 wrapt==1.14.1

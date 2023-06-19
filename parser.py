@@ -1,20 +1,22 @@
 import cantools
 import influxdb_client
-from influxdb_client.client.write_api import SYNCHRONOUS
 import requests
-from pathlib import Path
 import pprint
 import time
-import json
 import queue
 import threading
+import flask
+import sys
+
+from influxdb_client.client.write_api import SYNCHRONOUS
+from pathlib import Path
 from typing import Dict, List
 from core.standard_frame import Measurement
 
 from websockets.sync.client import connect
 
 from flask import Flask
-import flask
+from flask_httpauth import HTTPTokenAuth
 
 from core.standard_frame import StandardFrame
 
@@ -23,12 +25,24 @@ from dotenv import dotenv_values
 __PROGRAM__ = "parser"
 __VERSION__ = "0.4.0"
 
+# <----- Flask ----->
+
+app = Flask(__name__)
+
 # <----- Constants ----->
 
 CAR_NAME = "Daybreak"
 
 DBC_FILE = Path("./dbc/daybreak.dbc")
 ENV_FILE = Path(".env")
+
+if not DBC_FILE.is_file():
+    app.logger.critical(f"Unable to find expected existing DBC file: \"{DBC_FILE.absolute()}\"")
+    sys.exit(1)
+
+if not ENV_FILE.is_file():
+    app.logger.critical(f"Unable to find expected existing environment variable file: \"{ENV_FILE.absolute()}\"")
+    sys.exit(1)
 
 ENV_CONFIG = dotenv_values(ENV_FILE)
 
@@ -53,6 +67,8 @@ GRAFANA_TOKEN = ENV_CONFIG["GRAFANA_TOKEN"]
 # url without the 'http://'
 GRAFANA_URL_NAME = Path(GRAFANA_URL).name
 
+stream_queue: 'queue.Queue' = queue.Queue(maxsize=STREAM_QUEUE_MAXSIZE)
+
 # <----- InfluxDB object set-up ----->
 
 client = influxdb_client.InfluxDBClient(
@@ -67,23 +83,37 @@ DAYBREAK_DBC = cantools.database.load_file(DBC_FILE)
 
 pp = pprint.PrettyPrinter(indent=1)
 
-# <----- Flask ----->
+# <----- Flask authentication ----->
 
-app = Flask(__name__)
+auth = HTTPTokenAuth(scheme='bearer')
 
-stream_queue: 'queue.Queue' = queue.Queue(maxsize=STREAM_QUEUE_MAXSIZE)
+try:
+    SECRET_KEY = ENV_CONFIG["SECRET_KEY"]
+except KeyError:
+    app.logger.critical(f"Required SECRET_KEY field in {ENV_FILE.absolute()} not found!")
+    sys.exit(1)
+
+# maps between tokens and users
+tokens: Dict[str, str] = {
+    SECRET_KEY: "admin"
+}
+
+
+@auth.verify_token
+def verify_token(token):
+    if token in tokens:
+        return tokens[token]
+    return None
 
 
 @app.route("/")
+@auth.login_required
 def welcome():
     return "Welcome to UBC Solar's Telemetry Parser!\n"
 
 
-# TODO: add route that reports the information about the parser
-# such as version, commit, and parsable CAN message IDs
-
-
 @app.get(f"{API_PREFIX}/health")
+@auth.login_required
 def check_health():
     """
     Sample response:
@@ -144,6 +174,7 @@ def check_health():
 
 
 @app.post(f"{API_PREFIX}/parse")
+@auth.login_required
 def parse_request():
     """
     Parses incoming request and sends back the parsed result.
@@ -180,6 +211,7 @@ def parse_request():
 
 
 @app.post(f"{API_PREFIX}/parse/write/debug")
+@auth.login_required
 def parse_and_write_request():
     """
     Parses incoming request, writes the parsed measurements to InfluxDB debug bucket,
@@ -250,6 +282,7 @@ def parse_and_write_request():
 
 
 @app.post(f"{API_PREFIX}/parse/write/production")
+@auth.login_required
 def parse_and_write_request_to_prod():
     """
     Parses incoming request, writes the parsed measurements to InfluxDB production bucket,
@@ -351,6 +384,8 @@ def write_measurements():
                     websocket.send(message)
             except Exception:
                 app.logger.warning(f"Unable to stream measurement \"{name}\" to Grafana!")
+            else:
+                app.logger.debug(f"Streamed \"{m_class}\" measurement to Grafana instance!")
 
 
 # create thread to write to InfluxDB and stream to Grafana
