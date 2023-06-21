@@ -2,17 +2,15 @@
 
 The goal of UBC Solar's telemetry system is to extract, store, and visualize data produced by our solar cars in real-time.
 
-The system aims to provide unified access (whether manually or programmatically) to runtime car data to all Solar members.
-
-Collecting and visualizing this data is important since it allows for things like:
+Collecting and visualizing this data is useful since it allows for:
 
 1) Optimizing drive performance
 2) Debugging on-board electronic systems 
 3) Verifying race-strategy simulation models
 4) Enabling continuous race-strategy simulation recalculations
-5) Post-mortem detailed system analysis
+5) Post-mortem system analysis
 
-This repository contains all of the components for UBC Solar's telemetry system. It contains the implementation of the Flask parser server, the client-side script that communicates with the server, and the Docker Compose file that brings up the entire system.
+This repository contains all of the components for UBC Solar's telemetry system. It contains the implementation of the parser server, a client-side script that communicates with the server, and the Docker Compose file that brings up the entire system.
 
 ## Table of contents
 
@@ -30,21 +28,21 @@ Here is a high-level image showing all components (and the relationships between
 
 ![Telemetry link high-level architecture](/images/link-telemetry-arch.png)
 
-The core of the telemetry system is the telemetry cluster. This cluster consists of three Docker containers:
+The core of the telemetry system is the **telemetry cluster**. This cluster consists of three Docker containers:
 
-1. Parser - implemented as a Flask server which exposes an HTTP API that accepts parse requests.
-2. InfluxDB - the database instance that stores the time-series parsed telemetry data.
-3. Grafana - the visualization framework that allows building dashboards which clearly graph the parsed telemetry data.
+1. **Parser** - implemented as a Flask server which exposes an HTTP API that accepts parse requests.
+2. **InfluxDB** - the database instance that stores the time-series parsed telemetry data.
+3. **Grafana** - the observability framework that allows building dashboards for data visualization.
 
 There are two technologies that our cars utilize to transmit data: _radio_ and _cellular_. Due to differences in the way these work, they interact with the telemetry cluster in slightly different ways.
 
 The cellular module on Daybreak runs MicroPython and can make HTTP requests which means it can communicate with the telemetry cluster (specifically the parser) directly.
 
-The radio module, however, can only send a serial stream to a radio receiver. This radio receiver is connected to a host computer which makes available the stream of bytes coming from the radio transmitter. Unfortunately, this still leaves a gap between the incoming data and the telemetry cluster. 
+The radio module, however, is more complicated. It can only send a serial stream to a radio receiver. This radio receiver, when connected to a host computer, makes available the stream of bytes coming from the radio transmitter. Unfortunately, this still leaves a gap between the incoming data stream and the telemetry cluster. 
 
-This is where the `link_telemetry.py` script comes in. It bridges the gap between the incoming data stream by packaging each message in an HTTP request to the parser.
+This is where the `link_telemetry.py` script comes in. Its main function is to bridge the gap between the incoming data stream by splitting the data stream into individual messages, packaging each message in a JSON object, and finally making an HTTP request to the parser.
 
-It is important to note that the only way for a data source (e.g., radio, cellular, etc.) to access the telemetry cluster is to make an HTTP request to the parser. No direct access to the Influx or Grafana containers is available. Instead, only the parser can communicate with those services.
+> Note that the only way for a data source (e.g., radio, cellular, etc.) to access the telemetry cluster is to make HTTP requests to the parser. No direct access to the Influx or Grafana containers is available. Only the parser can directly communicate with those services.
 
 A more detailed description of the system components is given [here](/docs/SYSTEM.md).
 
