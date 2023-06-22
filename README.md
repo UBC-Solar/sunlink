@@ -46,7 +46,17 @@ This is where the `link_telemetry.py` script comes in. Its main function is to b
 
 A more detailed description of the system components is given [here](/docs/SYSTEM.md).
 
-## (TODO) Directory structure
+## Directory structure
+
+- `config`: stores config files for Grafana and Influx.
+- `core`: contains the CAN parsing Python implementation and some utility functions.
+- `dashboards`: contains the provisioned Grafana dashboard JSONs.
+- `dbc`: stores DBC files for CAN parsing.
+- `docs`: contains Markdown system documentation.
+- `examples/environment`: contains example `.env` config files.
+- `images`: contains images relevant to the telemetry system.
+- `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
+- `test`: contains test framework for the CAN parser.
 
 ## (TODO) System configurations
 
