@@ -14,13 +14,25 @@ This repository contains all of the components for UBC Solar's telemetry system.
 
 ## Table of contents
 
-- [System overview](#system-overview)
 - [Directory structure](#directory-structure)
-- [(TODO) System configurations](#system-configurations)
+- [System overview](#system-overview)
+- [Telemetry cluster](#telemetry-cluster)
 - [Getting started](#getting-started)
 - [Running the link](#running-the-link)
 - [Parser HTTP API](#parser-api)
 - [Screenshots](#screenshots)
+
+## Directory structure
+
+- `config`: stores config files for Grafana and Influx.
+- `core`: contains the CAN parsing Python implementation and some utility functions.
+- `dashboards`: contains the provisioned Grafana dashboard JSONs.
+- `dbc`: stores DBC files for CAN parsing.
+- `docs`: contains Markdown system documentation.
+- `examples/environment`: contains example `.env` config files.
+- `images`: contains images relevant to the telemetry system.
+- `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
+- `test`: contains test framework for the CAN parser.
 
 ## System overview
 
@@ -46,21 +58,27 @@ This is where the `link_telemetry.py` script comes in. Its main function is to b
 
 A more detailed description of the system components is given [here](/docs/SYSTEM.md).
 
-## Directory structure
+## Telemetry cluster
 
-- `config`: stores config files for Grafana and Influx.
-- `core`: contains the CAN parsing Python implementation and some utility functions.
-- `dashboards`: contains the provisioned Grafana dashboard JSONs.
-- `dbc`: stores DBC files for CAN parsing.
-- `docs`: contains Markdown system documentation.
-- `examples/environment`: contains example `.env` config files.
-- `images`: contains images relevant to the telemetry system.
-- `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
-- `test`: contains test framework for the CAN parser.
+Since the telemetry cluster consists of three Docker containers that are spun up with Docker Compose, it can easily be deployed on any (although preferably Linux) system.
 
-## (TODO) System configurations
+This means that there are two possibilities for running the telemetry cluster. You may either run it *locally* or *remotely*. Each has its advantages and disadvantages.
+
+**When running the cluster locally**, the total pipeline latency from data source to cluster is very small (~5ms). This makes it ideal for debugging applications where data is most time-sensitive. This is also the only option when running the telemetry system without a cellular/internet connection. 
+
+Furthermore, running the cluster locally only supports radio as a data source since cellular, by its very nature, can only transmit to devices with a cellular/internet connection. 
+
+**When running the cluster remotely**, latency from data source to cluster is higher (~200ms) since HTTP requests must be transmitted over the internet to the remote server that the telemetry cluster is being hosted on. However, since the cluster is hosted, it is accessible by cellular as well as radio. Furthermore, parsed data is stored in a centralized location and not on a single system.
+
+Before continuing with the telemetry cluster setup, it is important to decide whether you will setupthe telemetry cluster locally or remotely.
 
 ## Getting started
+
+When attempting to set up the telemetry system, it is important to decide which components need to be brought up.
+
+If the telemetry cluster has **already been set up** (either locally or remotely) and you would like to set up the client-side script `link_telemetry.py` to communicate with the parser, skip to [this section]().
+
+If the telemetry cluster has **not been set up**, continue onwards to set it up.
 
 ### Pre-requisites
 
@@ -78,8 +96,10 @@ NOTE: Ensure your Python version is 3.8 or higher.
 Check your Docker Compose installation by running:
 
 ```bash
-docker compose version
+sudo docker compose version
 ```
+
+## Telemetry cluster setup
 
 ### Setting up environment variables
 
@@ -107,16 +127,12 @@ An example `.env` file is given in `./examples/environment/`. The contents of th
 GRAFANA_ADMIN_USERNAME=""
 GRAFANA_ADMIN_PASSWORD=""
 
-GRAFANA_URL=http://localhost:3000/
-
 # InfluxDB environment variables
 
 INFLUX_ADMIN_USERNAME=""
 INFLUX_ADMIN_PASSWORD=""
 
-INFLUX_URL=http://localhost:8086/
-
-INFLUX_ORG=UBC Solar
+INFLUX_ORG="UBC Solar"
 INFLUX_BUCKET=""
 
 # Access tokens
@@ -136,17 +152,13 @@ starting the docker containers is given below:
 GRAFANA_ADMIN_USERNAME=admin
 GRAFANA_ADMIN_PASSWORD=new_password
 
-GRAFANA_URL=http://localhost:3000/
-
 # InfluxDB environment variables
 
 INFLUX_ADMIN_USERNAME=admin
 INFLUX_ADMIN_PASSWORD=new_password
 
-INFLUX_URL=http://localhost:8086/
-
-INFLUX_ORG=UBC Solar
-INFLUX_BUCKET=Telemetry
+INFLUX_ORG="UBC Solar"
+INFLUX_BUCKET="Telemetry"
 
 # Access tokens
 
@@ -195,7 +207,7 @@ To install the requirements run:
 python -m pip install -r requirements.txt
 ```
 
-## Running the link
+## Telemetry link setup
 
 There's two different ways to use the telemetry link: 
 
