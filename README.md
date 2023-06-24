@@ -26,7 +26,7 @@ This repository contains all of the components for UBC Solar's telemetry system.
 ## Directory structure
 
 - `config`: stores config files for Grafana and Influx.
-- `core`: contains the CAN parsing Python implementation and some utility functions.
+- `core`: contains the Python implementation of the CAN message class.
 - `dashboards`: contains the provisioned Grafana dashboard JSONs.
 - `dbc`: stores DBC files for CAN parsing.
 - `docs`: contains Markdown system documentation.
@@ -71,21 +71,15 @@ When attempting to set up the telemetry system, it is important to decide which 
 
 Since the telemetry cluster consists of three Docker containers that are spun up with Docker Compose, it can easily be deployed on any (although preferably Linux) system.
 
-This means that there are two possibilities for running the telemetry cluster. You may either run it *locally* or *remotely*. Each has its advantages and disadvantages.
+This means that there are two possibilities for running the telemetry cluster. You may either run it *locally* or *remotely*. Each has its characteristics:
 
-(TODO) format below as a table:
-
-| Local cluster | Remote cluster |
+| **Local cluster** | **Remote cluster** |
 | ------------- | -------------- |
-| Cluster is running on same host as the telemetry link | Test |
-| Total pipeline latency from data source to cluster is very small (~5ms) | Test  |
-| Ideal for debugging car control boards | Test |
-| Only supports radio as a data source | Test |
-| Only option when an Internet connection is unavailable or unreliable | Test  |
-
-**When running the cluster locally**, you have the cluster running on the *same* host as the telemetry link. This means the total pipeline latency from data source to cluster is very small (~5ms). This makes it ideal for debugging applications where data is most time-sensitive. This is also the only option when running the telemetry system on a host without an internet/cellular connection. Furthermore, running the cluster locally only supports radio as a data source since cellular, by its very nature, can only transmit to devices with a cellular/internet connection. 
-
-**When running the cluster remotely**, you have the cluster running on a *different* host from the telemetry link. Latency from data source to cluster is higher (~200ms) since HTTP requests must be transmitted over the internet to the server that the cluster is hosted on. However, since the cluster is hosted, it is accessible by cellular as well as radio. In this case, parsed telemetry data is stored in a centralized location and not just on a single system thus giving broader access to the data.
+| Cluster is running on same host as the telemetry link | Cluster is running on a different host as the telemetry link |
+| Total pipeline latency from data source to cluster is very small (~5ms) | Total pipeline latency from data source to cluster is higher (~200ms) |
+| Ideal for time-sensitive control board debug | Allows for a centralized, Internet-accessible storage location for the parsed data |
+| Required for when an Internet connection is unavailable or unreliable | Access to the cluster requires an Internet connection |
+| Only supports radio as a data source | Supports both radio and cellular as a data source |
 
 Whether you're setting up the cluster locally or remotely, the setup instructions are exactly the same.
 
