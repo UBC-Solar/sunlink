@@ -30,9 +30,9 @@ This repository contains all of the components for UBC Solar's telemetry system.
 - `dashboards`: contains the provisioned Grafana dashboard JSONs.
 - `dbc`: stores DBC files for CAN parsing.
 - `docs`: contains additional system documentation.
-- `templates`: contains a template `.env` config file.
 - `images`: contains images relevant to the telemetry system.
 - `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
+- `templates`: contains a template `.env` config file.
 - `test`: contains test framework for the CAN parser.
 
 ## System overview
@@ -53,7 +53,7 @@ The cellular module on Daybreak runs MicroPython and can make HTTP requests whic
 
 The radio module, however, is more complicated. It can only send a serial stream to a radio receiver. This radio receiver, when connected to a host computer, makes available the stream of bytes coming from the radio transmitter over a serial port. Unfortunately, this still leaves a gap between the incoming data stream and the telemetry cluster. 
 
-This is where the `link_telemetry.py` script comes in. Its main function is to bridge the gap between the incoming data stream by splitting the data stream into individual messages, packaging each message in a JSON object, and finally making an HTTP request to the parser.
+This is where the `link_telemetry.py` script (AKA the telemetry link) comes in. Its main function is to bridge the gap between the incoming data stream by splitting the data stream into individual messages, packaging each message in a JSON object, and finally making an HTTP request to the parser.
 
 > **NOTE:** the only way for a data source (e.g., radio, cellular, etc.) to access the telemetry cluster is to make HTTP requests to the parser. No direct access to the Influx or Grafana containers is available. Only the parser can directly communicate with those services.
 
@@ -274,7 +274,7 @@ curl --get localhost:5000/api/v1/health -H "Authorization: Bearer dsdsxt12pr364s
 
 If all your tokens are correctly setup, the parser should return the following:
 
-```
+```json
 {
   "services": [
     {
@@ -291,13 +291,16 @@ If all your tokens are correctly setup, the parser should return the following:
 }
 ```
 
-Congratulations, you've finished setting up the telemetry cluster!
+Congratulations, you've finished setting up the telemetry cluster! :heavy_check_mark:
 
 ## Telemetry link setup
+
+The telemetry link must be set up on the host machine on which the radio receiver is connected to. This allows using radio as a data source for the telemetry system.
 
 ### Pre-requisites
 
 - Python 3.8 or above (https://www.python.org/downloads/)
+- A functional and running telemetry cluster (either local or remote)
 
 Check your Python installation by running:
 
@@ -305,61 +308,92 @@ Check your Python installation by running:
 python --version
 ```
 
-> NOTE: Ensure your Python version is 3.8 or higher.
+> NOTE: In some cases, your python interpreter might be called `python3`.
+
+### Creating a Python virtual environment
+
+It is highly recommended that you create a Python virtual environment to avoid installing packages for your system Python interpreter.
+
+You may choose to create your virtual environment folder anywhere but I like to create it in the project root directory:
+
+```bash
+cd link_telemetry/
+python -m venv .
+```
+
+Execute the following to enter your virtual environment on Linux:
+
+```bash
+source env/bin/activate
+```
+
+And on Windows:
+
+```bash
+./env/bin/Activate.ps1
+```
+
+To exit your virtual environment:
+
+```bash
+deactivate
+```
 
 ### Installing Python package requirements
 
-Before running the `link_telemetry.py` script, you must install the required Python packages.
-It is recommended that you create a Python virtual environment before running the following command.
-A detailed guide on how to create a Python virtual environment can be found here: https://docs.python.org/3/library/venv.html.
+Before continuing, enter the Python virtual environment you just created.
 
-To install the requirements run:
+To install the package requirements for `link_telemetry.py`, go to the root directory, and execute:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
+All the required packages for `link_telemetry.py` should now be installed.
+
+### Telemetry link configuration
+
+The `telemetry_link.py` script expects a `telemetry.toml` file in the same directory as it. A template for this TOML file can be found in the `/templates` folder. Copy this template file into the project root directory and rename it to `telemetry.toml`.
+
+An example `telemetry.toml` would look like:
+
+```
+[parser]
+url = "http://143.198.12.56:5000/"
+
+[security]
+secret_key = "yLigbJTsQWmH6zzp5KHrqc1wCYqst3BdJvlPept84LY"
+```
+
+The `parser.url` field specifies the URL where the script can find the telemetry cluster parser. If you are running the cluster locally, the url would likely be: `http://localhost:5000/`.
+
+The `security.secret_key` field specifies the secret key to use in the HTTP authentication headers when making a request to the parser. 
+
+This secret key must match with the secret key configured for the telemetry cluster parser that you are trying to communicate with.
+
+If you set up the telemetry cluster locally then you already have access to this secret key. If the telemetry cluster was set up remotely, ask your software lead for the secret key. 
+
+Once all the fields are filled, the `link_telemetry.py` script is ready for use.
+
 ## Running the link
 
-There's two different ways to use the telemetry link: 
+Make sure you've entered your virtual environment before trying to run the script.
 
-- NORMAL mode: this requires that you have the XBee radio module 
-connected to the host machine. This mode should be used
-when collecting real telemetry information from the car.
-
-- DEBUG mode: this mode does not require that you have the XBee
-radio module connected. Instead, the python script randomly
-generates CAN messages.
-
-To run the system in NORMAL mode:
+`link_telemetry.py` takes many command-line arguments. The best way to learn what each one does is to look at the help menu:
 
 ```bash
-python link_telemetry.py -p [SERIAL_PORT] -b [BAUDRATE]
+./link_telemetry.py --help
 ```
 
-Where `[SERIAL_PORT]` is something like `COM9` or `/dev/ttyUSB0` and
-`[BAUDRATE]` is something like `230400` or `9600`.
+Here are some example invocations:
 
-To run the system in DEBUG mode:
+1) `./link_telemetry.py --health` => checks if the parser is available.
 
-```bash
-python link_telemetry.py -d
-```
+2) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and instructs the parser to write to the production InfluxDB bucket.
 
-To look at the help information:
+3) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and instructs the parser to only parse and not write data.
 
-```bash
-python link_telemetry.py --help
-```
-
-Or:
-
-```bash
-python link_telemetry.py -h
-```
-
-Once the link starts running, you should be able to access some of the provisioned (i.e., preconfigured) Grafana dashboards in which
-you should see the graphs being updated. 
+4) `./link_telemetry.py -r --debug` => makes the script randomly generate message data and instructs the parser to write to the debug InfluxDB bucket.
 
 ## Parser HTTP API
 
