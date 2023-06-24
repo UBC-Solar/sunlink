@@ -53,7 +53,7 @@ STREAM_QUEUE_MAXSIZE = 256
 
 # <----- InfluxDB constants ----->
 
-INFLUX_URL = ENV_CONFIG["INFLUX_URL"]
+INFLUX_URL = "http://influxdb:8086/"
 INFLUX_TOKEN = ENV_CONFIG["INFLUX_TOKEN"]
 
 INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
@@ -62,7 +62,7 @@ INFLUX_PROD_BUCKET = ENV_CONFIG["INFLUX_PROD_BUCKET"]
 
 # <----- Grafana constants ----->
 
-GRAFANA_URL = ENV_CONFIG["GRAFANA_URL"]
+GRAFANA_URL = "http://grafana:3000/"
 GRAFANA_TOKEN = ENV_CONFIG["GRAFANA_TOKEN"]
 
 # url without the 'http://'
