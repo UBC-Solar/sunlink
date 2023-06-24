@@ -14,14 +14,26 @@ This repository contains all of the components for UBC Solar's telemetry system.
 
 ## Table of contents
 
+- [Directory structure](#directory-structure)
 - [System overview](#system-overview)
 - [Getting started](#getting-started)
 - [Telemetry cluster setup](#telemetry-cluster-setup)
 - [Telemetry link setup](#telemetry-link-setup)
 - [Running the link](#running-the-link)
-- [Parser HTTP API](#parser-api)
-- [Directory structure](#directory-structure)
+- [Parser HTTP API](#parser-http-api)
 - [Screenshots](#screenshots)
+
+## Directory structure
+
+- `config`: stores config files for Grafana and Influx.
+- `core`: contains the CAN parsing Python implementation and some utility functions.
+- `dashboards`: contains the provisioned Grafana dashboard JSONs.
+- `dbc`: stores DBC files for CAN parsing.
+- `docs`: contains Markdown system documentation.
+- `templates`: contains a template `.env` config file.
+- `images`: contains images relevant to the telemetry system.
+- `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
+- `test`: contains test framework for the CAN parser.
 
 ## System overview
 
@@ -39,11 +51,11 @@ There are two technologies that our cars utilize to transmit data: _radio_ and _
 
 The cellular module on Daybreak runs MicroPython and can make HTTP requests which means it can communicate with the telemetry cluster (specifically the parser) directly.
 
-The radio module, however, is more complicated. It can only send a serial stream to a radio receiver. This radio receiver, when connected to a host computer, makes available the stream of bytes coming from the radio transmitter. Unfortunately, this still leaves a gap between the incoming data stream and the telemetry cluster. 
+The radio module, however, is more complicated. It can only send a serial stream to a radio receiver. This radio receiver, when connected to a host computer, makes available the stream of bytes coming from the radio transmitter over a serial port. Unfortunately, this still leaves a gap between the incoming data stream and the telemetry cluster. 
 
 This is where the `link_telemetry.py` script comes in. Its main function is to bridge the gap between the incoming data stream by splitting the data stream into individual messages, packaging each message in a JSON object, and finally making an HTTP request to the parser.
 
-> NOTE: the only way for a data source (e.g., radio, cellular, etc.) to access the telemetry cluster is to make HTTP requests to the parser. No direct access to the Influx or Grafana containers is available. Only the parser can directly communicate with those services.
+> **NOTE:** the only way for a data source (e.g., radio, cellular, etc.) to access the telemetry cluster is to make HTTP requests to the parser. No direct access to the Influx or Grafana containers is available. Only the parser can directly communicate with those services.
 
 A more detailed description of the system components is given [here](/docs/SYSTEM.md).
 
@@ -63,13 +75,21 @@ This means that there are two possibilities for running the telemetry cluster. Y
 
 (TODO) format below as a table:
 
+| Local cluster | Remote cluster |
+| ------------- | -------------- |
+| Cluster is running on same host as the telemetry link | Test |
+| Total pipeline latency from data source to cluster is very small (~5ms) | Test  |
+| Ideal for debugging car control boards | Test |
+| Only supports radio as a data source | Test |
+| Only option when an Internet connection is unavailable or unreliable | Test  |
+
 **When running the cluster locally**, you have the cluster running on the *same* host as the telemetry link. This means the total pipeline latency from data source to cluster is very small (~5ms). This makes it ideal for debugging applications where data is most time-sensitive. This is also the only option when running the telemetry system on a host without an internet/cellular connection. Furthermore, running the cluster locally only supports radio as a data source since cellular, by its very nature, can only transmit to devices with a cellular/internet connection. 
 
 **When running the cluster remotely**, you have the cluster running on a *different* host from the telemetry link. Latency from data source to cluster is higher (~200ms) since HTTP requests must be transmitted over the internet to the server that the cluster is hosted on. However, since the cluster is hosted, it is accessible by cellular as well as radio. In this case, parsed telemetry data is stored in a centralized location and not just on a single system thus giving broader access to the data.
 
-In any case, the setup instructions for the cluster are exactly the same.
+Whether you're setting up the cluster locally or remotely, the setup instructions are exactly the same.
 
-First, you must install the following prerequisites:
+First, you must install the following pre-requisites:
 
 ### Pre-requisites
 
@@ -88,7 +108,7 @@ Before spinning up the cluster, you must create a `.env` file in the project roo
 For Linux/macOS:
 
 ```bash
-cd link_telemetry
+cd link_telemetry/
 touch .env
 ```
 
@@ -102,7 +122,7 @@ Then, you may use any code editor to edit the file.
 
 > **NOTE:** make sure you correctly rename your environment variable file to `.env` otherwise Docker compose will not be able to read it. It should **not** have a `.txt` extension.
 
-An example `.env` file is given in `./examples/environment/`. The contents of this file will look something like this:
+A template `.env` file is given in `./examples/`. The contents of this file will look something like this:
 
 ```env
 # Grafana environment variables
@@ -118,10 +138,10 @@ INFLUX_ADMIN_PASSWORD=""
 INFLUX_ORG="UBC Solar"
 
 # used to store random data for debugging purposes
-INFLUX_DEBUG_BUCKET=Test
+INFLUX_DEBUG_BUCKET="Test"
 
 # used to store real data from the car
-INFLUX_PROD_BUCKET=Telemetry
+INFLUX_PROD_BUCKET="Telemetry"
 
 # Parser secret key
 
@@ -133,18 +153,18 @@ INFLUX_TOKEN=""
 GRAFANA_TOKEN=""
 ```
 
-The fields with empty values all need to be filled except for the access tokens. These fields should be manually filled once the docker containers are spun up. An example of what a valid `.env` file will look like **before** starting the docker containers is given below:
+The fields with empty values all need to be filled except for the access tokens. These fields should be manually filled once the docker containers are spun up. An example of what a valid `.env` file will look like **before** spinning up the cluster is given below:
 
 ```env
 # Grafana environment variables
 
 GRAFANA_ADMIN_USERNAME="admin"
-GRAFANA_ADMIN_PASSWORD="ubcsolar"
+GRAFANA_ADMIN_PASSWORD="new_password"
 
 # InfluxDB environment variables
 
 INFLUX_ADMIN_USERNAME="admin"
-INFLUX_ADMIN_PASSWORD="ubcsolar"
+INFLUX_ADMIN_PASSWORD="new_password"
 
 INFLUX_ORG="UBC Solar"
 
@@ -197,11 +217,9 @@ Use the generated key as your secret key.
 
 ### Starting the telemetry cluster
 
-Before running the `link_telemetry.py` script, you must first
-start the Grafana and InfluxDB instances using docker. 
+Before running the `link_telemetry.py` script, you must first start the Grafana and InfluxDB instances using docker. 
 
-Ensure your current working directory is the repository
-root folder before running the following command:
+Ensure your current working directory is the repository root folder before running the following command:
 
 ```bash 
 sudo docker compose up
@@ -217,17 +235,60 @@ This will start a Grafana instance at `http://localhost:3000` and an InfluxDB in
 
 3) `sudo docker compose restart` => restarts all running containers defined in Compose file
 
-4) `sudo docker exec -it <CONTAINER_NAME> /bin/bash` => start a shell instance inside <CONTAINER_NAME>
+4) `sudo docker compose up -d` => spins up all containers in detached mode (i.e., in the background)
+
+5) `sudo docker exec -it <CONTAINER_NAME> /bin/bash` => start a shell instance inside <CONTAINER_NAME>
 
 ### Finishing environment set-up
 
-Once the docker containers are up and running, you should be able to access InfluxDB and Grafana at `http://localhost:8086` and `http://localhost:3000`
+On startup, the InfluxDB container binds to port 8086, the Grafana container binds to port 3000, and the parser container binds to port 5000.
 
-* Login to the InfluxDB web application with the admin username and password. Generate a new API token. This token should be used as the value for the `INFLUX_TOKEN` key in your `.env` file.
-* Access Grafana and generate a new API token. This token should be used as the value for the `GRAFANA_TOKEN` key in your `.env` file.
+This means that once the cluster is up and running, you should be able to access InfluxDB, Grafana, and the parser at `http://localhost:8086`, `http://localhost:3000`, and `http://localhost:5000` respectively.
 
-NOTE: both the InfluxDB and Grafana token need to be given write access since the telemetry link uses them to write data to the InfluxDB bucket
-and the Grafana Live endpoint.
+Now we can generate the missing API tokens we left out of our `.env` file from before:
+
+* Go to the InfluxDB URL and login to the InfluxDB web application with the admin username and password you specified in your `.env` file. Generate a new API token. This token should be used as the value for the `INFLUX_TOKEN` key in your `.env` file.
+
+* Go to the Grafana URL and login to the Grafana web application with the admin username and password you specified in your `.env` file. Create a new service account and create an API token under this service account. This token should be used as the value for the `GRAFANA_TOKEN` key in your `.env` file.
+
+Both the [InfluxDB API docs](https://docs.influxdata.com/influxdb/v2.7/security/tokens/#Copyright) and [Grafana API docs](https://grafana.com/docs/grafana/latest/administration/service-accounts/) provide detailed guides on how to create API tokens for each platform.
+
+> **NOTE:** both the InfluxDB and Grafana token need to be given write access since the telemetry link uses them to write data to the InfluxDB bucket and the Grafana Live endpoint. **Ensure that the Grafana token has admin access since live-streaming data will not work otherwise**.
+
+Once you've filled in all the fields in your `.env` file, you can restart the cluster with:
+
+```bash
+sudo docker compose restart
+```
+
+### Checking your setup
+
+Now that you've finished setting up the cluster, you need to check that everything is up and running. The quickest way to do this would be to use cURL to query the health endpoint that the parser exposes. This does require HTTP authentication so make sure you have access to the `SECRET_KEY` variable in your `.env` file.
+
+Assuming the value of my `SECRET_KEY` was `dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4` and the parser was available on `localhost:5000/`, my cURL command would look like:
+
+```bash
+curl --get localhost:5000/api/v1/health -H "Authorization: Bearer dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
+```
+
+If all your tokens are correctly setup, the parser would return the following:
+
+```
+{
+  "services": [
+    {
+      "name": "influxdb",
+      "status": "UP",
+      "url": "http://influxdb:8086/"
+    },
+    {
+      "name": "grafana",
+      "status": "UP",
+      "url": "http://grafana:3000/"
+    }
+  ]
+}
+```
 
 ## Telemetry link setup
 
@@ -297,21 +358,9 @@ python link_telemetry.py -h
 Once the link starts running, you should be able to access some of the provisioned (i.e., preconfigured) Grafana dashboards in which
 you should see the graphs being updated. 
 
-## Parser API
+## Parser HTTP API
 
 Refer to [API.md](/docs/API.md) for the full documentation of the endpoints that the parser exposes.
-
-## Directory structure
-
-- `config`: stores config files for Grafana and Influx.
-- `core`: contains the CAN parsing Python implementation and some utility functions.
-- `dashboards`: contains the provisioned Grafana dashboard JSONs.
-- `dbc`: stores DBC files for CAN parsing.
-- `docs`: contains Markdown system documentation.
-- `examples/environment`: contains example `.env` config files.
-- `images`: contains images relevant to the telemetry system.
-- `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
-- `test`: contains test framework for the CAN parser.
 
 ## Screenshots
 
