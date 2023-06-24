@@ -10,7 +10,7 @@ Collecting and visualizing this data is useful since it allows for:
 4) Enabling continuous race-strategy simulation recalculations
 5) Post-mortem system analysis
 
-This repository contains all of the components for UBC Solar's telemetry system. It contains the implementation of the parser server, a client-side script that communicates with the server, and the Docker Compose file that brings up the entire system.
+This repository contains all of the components for UBC Solar's telemetry system.
 
 ## Table of contents
 
@@ -29,7 +29,7 @@ This repository contains all of the components for UBC Solar's telemetry system.
 - `core`: contains the Python implementation of the CAN message class.
 - `dashboards`: contains the provisioned Grafana dashboard JSONs.
 - `dbc`: stores DBC files for CAN parsing.
-- `docs`: contains Markdown system documentation.
+- `docs`: contains additional system documentation.
 - `templates`: contains a template `.env` config file.
 - `images`: contains images relevant to the telemetry system.
 - `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
@@ -49,7 +49,7 @@ The core of the telemetry system is the **telemetry cluster**. This cluster cons
 
 There are two technologies that our cars utilize to transmit data: _radio_ and _cellular_. Due to differences in the way these work, they interact with the telemetry cluster in slightly different ways.
 
-The cellular module on Daybreak runs MicroPython and can make HTTP requests which means it can communicate with the telemetry cluster (specifically the parser) directly.
+The cellular module on Daybreak runs MicroPython and can make HTTP requests which means it can communicate with the telemetry cluster directly.
 
 The radio module, however, is more complicated. It can only send a serial stream to a radio receiver. This radio receiver, when connected to a host computer, makes available the stream of bytes coming from the radio transmitter over a serial port. Unfortunately, this still leaves a gap between the incoming data stream and the telemetry cluster. 
 
@@ -63,7 +63,7 @@ A more detailed description of the system components is given [here](/docs/SYSTE
 
 When attempting to set up the telemetry system, it is important to decide which components need to be brought up. There are two components that need to be brought up: the **telemetry cluster** and the **telemetry link**.
 
-- If the telemetry cluster has **already been set up** and you would like to only set up the telemetry link to communicate with the cluster, skip to [this section]().
+- If the telemetry cluster has **already been set up** and you would like to only set up the telemetry link to communicate with the cluster, skip to [this section](#telemetry-link-setup).
 
 - If the telemetry cluster has **not been set up**, continue onwards to set it up.
 
@@ -71,23 +71,32 @@ When attempting to set up the telemetry system, it is important to decide which 
 
 Since the telemetry cluster consists of three Docker containers that are spun up with Docker Compose, it can easily be deployed on any (although preferably Linux) system.
 
-This means that there are two possibilities for running the telemetry cluster. You may either run it *locally* or *remotely*. Each has its characteristics:
+This means that there are two possibilities for running the telemetry cluster. You may either run it *locally* or *remotely*. Each has its advantages and disadvantages.
 
 | **Local cluster** | **Remote cluster** |
 | ------------- | -------------- |
-| Cluster is running on same host as the telemetry link | Cluster is running on a different host as the telemetry link |
+| Cluster is running on _same_ host as the telemetry link | Cluster is running on a _different_ host as the telemetry link |
 | Total pipeline latency from data source to cluster is very small (~5ms) | Total pipeline latency from data source to cluster is higher (~200ms) |
-| Ideal for time-sensitive control board debug | Allows for a centralized, Internet-accessible storage location for the parsed data |
-| Required for when an Internet connection is unavailable or unreliable | Access to the cluster requires an Internet connection |
+| Ideal for time-sensitive control board debugging | Allows for a centralized, Internet-accessible storage location for parsed data |
+| Useful for when an Internet connection is unavailable/unreliable | Access to the cluster requires an Internet connection |
 | Only supports radio as a data source | Supports both radio and cellular as a data source |
 
 Whether you're setting up the cluster locally or remotely, the setup instructions are exactly the same.
 
-First, you must install the following pre-requisites:
+> **NOTE:** at some point in the future, I envision being able to run a local and remote cluster _concurrently_. The telemetry link would then be able to decide which cluster to access depending on Internet connectivity.
 
 ### Pre-requisites
 
+- Python 3.8 or above (https://www.python.org/downloads/)
 - Docker & Docker Compose (https://docs.docker.com/get-docker/)
+
+Check your Python installation by running:
+
+```bash
+python --version
+```
+
+> NOTE: In some cases, your python interpreter might be called `python3`.
 
 Check your Docker Compose installation by running:
 
@@ -113,8 +122,6 @@ New-Item -Path . -Name ".env"
 ```
 
 Then, you may use any code editor to edit the file.
-
-> **NOTE:** make sure you correctly rename your environment variable file to `.env` otherwise Docker compose will not be able to read it. It should **not** have a `.txt` extension.
 
 A template `.env` file is given in `./examples/`. The contents of this file will look something like this:
 
@@ -211,7 +218,7 @@ Use the generated key as your secret key.
 
 ### Starting the telemetry cluster
 
-Before running the `link_telemetry.py` script, you must first start the Grafana and InfluxDB instances using docker. 
+Now that you've filled in the relevant parts of the `.env` file, you can now perform the initial telemetry cluster start up.
 
 Ensure your current working directory is the repository root folder before running the following command:
 
@@ -219,7 +226,7 @@ Ensure your current working directory is the repository root folder before runni
 sudo docker compose up
 ```
 
-This will start a Grafana instance at `http://localhost:3000` and an InfluxDB instance at `http://localhost:8086`.
+There should be flurry of text as the three services come online.
 
 ### Aside: handy docker commands
 
@@ -231,7 +238,7 @@ This will start a Grafana instance at `http://localhost:3000` and an InfluxDB in
 
 4) `sudo docker compose up -d` => spins up all containers in detached mode (i.e., in the background)
 
-5) `sudo docker exec -it <CONTAINER_NAME> /bin/bash` => start a shell instance inside <CONTAINER_NAME>
+5) `sudo docker exec -it <CONTAINER_NAME> /bin/bash` => start a shell instance inside `<CONTAINER_NAME>`
 
 ### Finishing environment set-up
 
@@ -265,7 +272,7 @@ Assuming the value of my `SECRET_KEY` was `dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqV
 curl --get localhost:5000/api/v1/health -H "Authorization: Bearer dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
 ```
 
-If all your tokens are correctly setup, the parser would return the following:
+If all your tokens are correctly setup, the parser should return the following:
 
 ```
 {
@@ -283,6 +290,8 @@ If all your tokens are correctly setup, the parser would return the following:
   ]
 }
 ```
+
+Congratulations, you've finished setting up the telemetry cluster!
 
 ## Telemetry link setup
 
