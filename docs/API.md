@@ -1,8 +1,6 @@
 # Parser API
 
-This is the formal description of the HTTP API provided by the hosted parser.
-
-The `link_telemetry.py` script makes direct use of this API.
+This is the formal description of the HTTP API provided by the hosted parser. The `link_telemetry.py` script makes direct use of this API.
 
 # Endpoints
 
@@ -47,11 +45,11 @@ The `link_telemetry.py` script makes direct use of this API.
 
 1. The `status` field can be one of `"UP"`, `"DOWN"`, or `"UNEXPECTED_STATUS_CODE"`.
 
-`"UP"` => The respective service is up and reachable.
+- `"UP"` => The respective service is up and reachable.
 
-`"DOWN"` => The respective service is down and unreachable. It is not recommended to run telemetry in this case.
+- `"DOWN"` => The respective service is down and unreachable. It is not recommended to run telemetry in this case.
 
-`"UNEXPECTED_STATUS_CODE"` => The respective service is reachable but it returned an unexpected status code. It is not recommended to run telemetry in this case as well.
+- `"UNEXPECTED_STATUS_CODE"` => The respective service is reachable but it returned an unexpected status code. It is not recommended to run telemetry in this case as well.
 
 ## Parse CAN message
 
@@ -97,9 +95,9 @@ The `link_telemetry.py` script makes direct use of this API.
 
 1. The `result` field can be one of `'OK'` or `'PARSE_FAIL'`.
 
-`'OK'` => parsing completed successfully
+- `'OK'` => parsing completed successfully
 
-`'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
+- `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
 
 2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
 
@@ -171,11 +169,11 @@ The `link_telemetry.py` script makes direct use of this API.
 
 1. The `result` field can be one of `'OK'`, `'PARSE_FAIL'`, `'INFLUX_WRITE_FAIL'`.
 
-`'OK'` => parsing completed successfully
+- `'OK'` => parsing completed successfully
 
-`'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
+- `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
 
-`'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. 
+- `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. 
 
 2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
 

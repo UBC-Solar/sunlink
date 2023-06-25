@@ -37,15 +37,19 @@ This repository contains all of the components for UBC Solar's telemetry system.
 
 ## System overview
 
-Here is a high-level image showing all components (and the relationships between them) of the telemetry system:
+Below is a complete block diagram of all system components:
 
 ![Telemetry link high-level architecture](/images/link-telemetry-arch.png)
+
+### Telemetry cluster
 
 The core of the telemetry system is the **telemetry cluster**. This cluster consists of three Docker containers:
 
 1. **Parser** - implemented as a Flask server which exposes an HTTP API that accepts parse requests.
 2. **InfluxDB** - the database instance that stores the time-series parsed telemetry data.
 3. **Grafana** - the observability framework that allows building dashboards for data visualization.
+
+### Radio and cellular
 
 There are two technologies that our cars utilize to transmit data: _radio_ and _cellular_. Due to differences in the way these work, they interact with the telemetry cluster in slightly different ways.
 
@@ -57,7 +61,7 @@ This is where the `link_telemetry.py` script (AKA the telemetry link) comes in. 
 
 > **NOTE:** the only way for a data source (e.g., radio, cellular, etc.) to access the telemetry cluster is to make HTTP requests to the parser. No direct access to the Influx or Grafana containers is available. Only the parser can directly communicate with those services.
 
-A more detailed description of the system components is given [here](/docs/SYSTEM.md).
+A detailed description of all system components is given [here](/docs/SYSTEM.md).
 
 ## Getting started
 
@@ -75,7 +79,7 @@ This means that there are two possibilities for running the telemetry cluster. Y
 
 | **Local cluster** | **Remote cluster** |
 | ------------- | -------------- |
-| Cluster is running on _same_ host as the telemetry link | Cluster is running on a _different_ host as the telemetry link |
+| Cluster runs on the _same_ host as the telemetry link | Cluster runs on a _different_ host as the telemetry link |
 | Total pipeline latency from data source to cluster is very small (~5ms) | Total pipeline latency from data source to cluster is higher (~200ms) |
 | Ideal for time-sensitive control board debugging | Allows for a centralized, Internet-accessible storage location for parsed data |
 | Useful for when an Internet connection is unavailable/unreliable | Access to the cluster requires an Internet connection |
@@ -83,12 +87,19 @@ This means that there are two possibilities for running the telemetry cluster. Y
 
 Whether you're setting up the cluster locally or remotely, the setup instructions are exactly the same.
 
-> **NOTE:** at some point in the future, I envision being able to run a local and remote cluster _concurrently_. The telemetry link would then be able to decide which cluster to access depending on Internet connectivity.
+> **NOTE:** at some point in the future, I envision being able to run a local and remote cluster _concurrently_. The telemetry link would then be able to decide which cluster to access depending on Internet connectivity. Currently, there's nothing stopping you from spinning up both a local and remote cluster, but the telemetry link cannot dynamically switch between them at runtime.
 
 ### Pre-requisites
 
 - Python 3.8 or above (https://www.python.org/downloads/)
 - Docker & Docker Compose (https://docs.docker.com/get-docker/)
+- A cloned copy of this repository
+
+Clone the repository with:
+
+```bash
+git clone https://github.com/UBC-Solar/link_telemetry.git
+```
 
 Check your Python installation by running:
 
@@ -118,12 +129,13 @@ touch .env
 For Windows:
 
 ```powershell
+cd link_telemetry/
 New-Item -Path . -Name ".env"
 ```
 
 Then, you may use any code editor to edit the file.
 
-A template `.env` file is given in `./examples/`. The contents of this file will look something like this:
+A template `.env` file is given in the `templates/` folder. The contents of this file will look something like this:
 
 ```env
 # Grafana environment variables
@@ -226,7 +238,7 @@ Ensure your current working directory is the repository root folder before runni
 sudo docker compose up
 ```
 
-There should be flurry of text as the three services come online.
+You should see a flurry of text as the three services come online.
 
 ### Aside: handy docker commands
 
@@ -272,7 +284,7 @@ Assuming the value of my `SECRET_KEY` was `dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqV
 curl --get localhost:5000/api/v1/health -H "Authorization: Bearer dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
 ```
 
-If all your tokens are correctly setup, the parser should return the following:
+If all your tokens are correctly set up, the parser should return the following:
 
 ```json
 {
@@ -291,16 +303,23 @@ If all your tokens are correctly setup, the parser should return the following:
 }
 ```
 
-Congratulations, you've finished setting up the telemetry cluster! :heavy_check_mark:
+:heavy_check_mark: Congratulations, you've finished setting up the telemetry cluster!
 
 ## Telemetry link setup
 
-The telemetry link must be set up on the host machine on which the radio receiver is connected to. This allows using radio as a data source for the telemetry system.
+The telemetry link must be set up on the host machine on which the radio receiver is connected. This links the radio module to the rest of the telemetry system and allows using radio as a data source.
 
 ### Pre-requisites
 
 - Python 3.8 or above (https://www.python.org/downloads/)
 - A functional and running telemetry cluster (either local or remote)
+- A cloned copy of this repository
+
+Clone the repository with:
+
+```bash
+git clone https://github.com/UBC-Solar/link_telemetry.git
+```
 
 Check your Python installation by running:
 
@@ -312,7 +331,7 @@ python --version
 
 ### Creating a Python virtual environment
 
-It is highly recommended that you create a Python virtual environment to avoid installing packages for your system Python interpreter.
+It is highly recommended that you create a Python virtual environment to avoid breaking your system-installed version of Python.
 
 You may choose to create your virtual environment folder anywhere but I like to create it in the project root directory:
 
@@ -327,7 +346,7 @@ Execute the following to enter your virtual environment on Linux:
 source env/bin/activate
 ```
 
-And on Windows:
+Or on Windows:
 
 ```bash
 ./env/bin/Activate.ps1
@@ -357,15 +376,15 @@ The `telemetry_link.py` script expects a `telemetry.toml` file in the same direc
 
 An example `telemetry.toml` would look like:
 
-```
+```toml
 [parser]
-url = "http://143.198.12.56:5000/"
+url = "http://143.120.12.53:5000/"
 
 [security]
-secret_key = "yLigbJTsQWmH6zzp5KHrqc1wCYqst3BdJvlPept84LY"
+secret_key = "dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
 ```
 
-The `parser.url` field specifies the URL where the script can find the telemetry cluster parser. If you are running the cluster locally, the url would likely be: `http://localhost:5000/`.
+The `parser.url` field specifies the URL where the script can find the telemetry cluster parser. If you are running the cluster locally, the url would likely be `http://localhost:5000/`.
 
 The `security.secret_key` field specifies the secret key to use in the HTTP authentication headers when making a request to the parser. 
 
