@@ -135,7 +135,7 @@ New-Item -Path . -Name ".env"
 
 Then, you may use any code editor to edit the file.
 
-A template `.env` file is given in the `templates/` folder. The contents of this file will look something like this:
+A template `.env` file is given in the `templates/` folder. Copy the contents of this file into your new `.env` file. Your `.env` file should look like the following:
 
 ```env
 # Grafana environment variables
@@ -166,7 +166,7 @@ INFLUX_TOKEN=""
 GRAFANA_TOKEN=""
 ```
 
-The fields with empty values all need to be filled except for the access tokens. These fields should be manually filled once the docker containers are spun up. An example of what a valid `.env` file will look like **before** spinning up the cluster is given below:
+The fields with empty values all need to be filled _except for the access tokens_. These fields should be manually filled once the cluster is spun up. An example of what a valid `.env` file will look like **before** spinning up the cluster is given below:
 
 ```env
 # Grafana environment variables
@@ -251,6 +251,8 @@ You should see a flurry of text as the three services come online.
 4) `sudo docker compose up -d` => spins up all containers in detached mode (i.e., in the background)
 
 5) `sudo docker exec -it <CONTAINER_NAME> /bin/bash` => start a shell instance inside `<CONTAINER_NAME>`
+
+6) `sudo docker system df` => show docker disk usage (includes containers, images, volumes, etc.)
 
 ### Finishing environment set-up
 
