@@ -61,6 +61,7 @@ EXPECTED_CAN_MSG_LENGTH = 30
 ANSI_ESCAPE = "\033[0m"
 ANSI_RED = "\033[1;31m"
 ANSI_GREEN = "\033[1;32m"
+ANSI_YELLOW = "\033[1;33m"
 ANSI_BOLD = "\033[1m"
 
 DEFAULT_MAX_WORKERS = 32
@@ -220,8 +221,12 @@ def parser_request(payload: Dict, url: str):
     """
     Makes a parse request to the given `url`.
     """
-    r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
-    return r
+    try:
+        r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
+    except requests.ConnectionError:
+        print(f"Unable to make POST request to {url=}!\n")
+    else:
+        return r
 
 
 def process_response(future: concurrent.futures.Future):
@@ -235,6 +240,15 @@ def process_response(future: concurrent.futures.Future):
 
     # get the response from the future
     response = future.result()
+
+    if response is None:
+        return
+
+    if response.status_code != 200:
+        print(f"response status code: {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}\n")
+        return
+
+    print(f"response status code: {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
 
     parse_response: dict = response.json()
 
@@ -328,13 +342,12 @@ def main():
     if choice.lower() != "y":
         return
 
-    print("Telemetry link is up!")
-    print("Waiting for incoming messages...")
-
     # <----- Create the thread pool ----->
 
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
-    print(f"Created thread pool with {DEFAULT_MAX_WORKERS} workers!")
+
+    print(f"{ANSI_GREEN}Telemetry link is up!{ANSI_ESCAPE}")
+    print("Waiting for incoming messages...")
 
     while True:
         message: bytes
