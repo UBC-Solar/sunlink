@@ -12,6 +12,8 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **DESCRIPTION:** Returns a welcome message.
 
+**AUTHENTICATION:** Not required.
+
 **SAMPLE RESPONSE:** `Welcome to UBC Solar's Telemetry Parser!`
 
 ## Health check
@@ -21,6 +23,8 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 **METHOD:** `GET`
 
 **DESCRIPTION:** Returns information about the parser's connected services. These are usually just InfluxDB and Grafana.
+
+**AUTHENTICATION:** Required.
 
 **SAMPLE RESPONSE:** 
 
@@ -58,6 +62,8 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 **METHOD:** `GET`
 
 **DESCRIPTION:** Parses the requested CAN message and sends back the parsed measurements.
+
+**AUTHENTICATION:** Required.
 
 **SAMPLE RESPONSES:** 
 
@@ -110,6 +116,8 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 **METHOD:** `GET`
 
 **DESCRIPTION:** Parses the requested CAN message, writes the measurements to a debug bucket (usually called "Test") on InfluxDB, and sends back the parsed measurements.
+
+**AUTHENTICATION:** Required.
 
 **SAMPLE RESPONSES:** 
 
@@ -186,6 +194,8 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 **METHOD:** `GET`
 
 **DESCRIPTION:** Parses the requested CAN message, writes the measurements to a production bucket (usually called "Telemetry") on InfluxDB, and sends back the parsed measurements.
+
+**AUTHENTICATION:** Required.
 
 **SAMPLE RESPONSES:**
 
