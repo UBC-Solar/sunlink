@@ -244,11 +244,16 @@ def process_response(future: concurrent.futures.Future):
     if response is None:
         return
 
-    if response.status_code != 200:
-        print(f"response status code: {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}\n")
+    if response.status_code == 401:
+        print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code} (unauthorized access){ANSI_ESCAPE}")
+        print(f"Check that your configured secret key matches the parser's ({PARSER_URL}) secret key!")
+        print(f"{ANSI_BOLD}Config file location:{ANSI_ESCAPE} \"{TOML_CONFIG_FILE.absolute()}\"\n")
         return
 
-    print(f"response status code: {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
+    if response.status_code != 200:
+        print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
+
+    print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
 
     parse_response: dict = response.json()
 
