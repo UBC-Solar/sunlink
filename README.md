@@ -20,6 +20,7 @@ This repository contains all of the components for UBC Solar's telemetry system.
 - [Telemetry cluster setup](#telemetry-cluster-setup)
 - [Telemetry link setup](#telemetry-link-setup)
 - [Running the link](#running-the-link)
+- [Running the tests](#running-the-tests)
 - [Parser HTTP API](#parser-http-api)
 - [Screenshots](#screenshots)
 
@@ -255,7 +256,7 @@ You should see a flurry of text as the three services come online.
 
 5) `sudo docker exec -it <CONTAINER_NAME> /bin/bash` => start a shell instance inside `<CONTAINER_NAME>`
 
-6) `sudo docker system df` => show docker disk usage (includes containers, images, volumes, etc.)
+6) `sudo docker system df` => show docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB data is taking.
 
 ### Finishing environment set-up
 
@@ -308,7 +309,7 @@ If all your tokens are correctly set up, the parser should return the following:
 }
 ```
 
-:heavy_check_mark: Congratulations, you've finished setting up the telemetry cluster!
+If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
 
 ## Telemetry link setup
 
@@ -418,6 +419,16 @@ Here are some example invocations:
 3) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and instructs the parser to only parse and not write data.
 
 4) `./link_telemetry.py -r --debug` => makes the script randomly generate message data and instructs the parser to write to the debug InfluxDB bucket.
+
+## Running the tests
+
+To run the parser tests, make sure you're in your virtual environment, go to the project root directory, and execute:
+
+```bash
+python -m pytest
+```
+
+Currently, the test framework only tests that the parser parses CAN messages as expected. It does not test any other part of the telemetry system. 
 
 ## Parser HTTP API
 
