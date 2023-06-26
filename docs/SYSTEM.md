@@ -45,6 +45,14 @@ When opening the radio receiver serial port, you will see something like the fol
 
 In the serial stream above, each line is a CAN message represented as ASCII characters. Each line is split up by the telemetry link into the following fields: timestamp, ID, payload, and payload length. The specific structure of the serial stream is defined in the documentation for the telemetry board firmware.
 
+When the telemetry board sends a serialized CAN message over **radio**, the message takes the following path through the telemetry system:
+
+```
+Radio module ----> Radio receiver ----> Telemetry link (`link_telemetry.py`) ----> Parser ----> InfluxDB
+                                                                                          |
+                                                                                          \---> Grafana
+```
+
 ## Cellular module
 
 As we have seen, the radio module transmits a serial stream which is received by a radio receiver. This serial stream needs to be sent to the parser which necessitates the `link_telemetry.py` script.
@@ -53,9 +61,17 @@ The cellular module does **not** require the `link_telemetry.py` script since it
 
 It is this discrepancy between the radio and cellular modules that required the parser to be implemented as an HTTP server since it provides a single unified interface to both modules.
 
+When the telemetry board sends a serialized CAN message over **cellular**, the message takes the following path through the telemetry system:
+
+```
+Cellular module ----> Parser ----> InfluxDB
+                             |
+                             \---> Grafana
+```
+
 ## Telemetry link 
 
-The telemetry link is the name for the single Python script `link_telemetry.py`. Its main job is to link the radio module to the rest of the telemetry system.
+The telemetry link is the name for the single Python script `link_telemetry.py`. Its main job is to link the radio receiver to the rest of the telemetry system.
 
 More specifically, it is responsible for reading the serial stream from the radio receiver, formatting each message into a JSON object, and making HTTP requests to the parser server. 
 
@@ -85,7 +101,7 @@ From the perspective of the data sources (radio, cellular, etc.), the parser is 
 
 ## InfluxDB
 
-![InfluxDB homepage](/images/influx.png)
+![InfluxDB homepage](/images/influxdb.png)
 
 InfluxDB is the database for the telemetry system and stores all parsed telemetry data. It is configured with two buckets: a _debug bucket_ and a _production bucket_.
 
@@ -100,6 +116,8 @@ Data is written to InfluxDB _only_ by the parser.
 ![Grafana homepage](/images/grafana.png)
 
 Grafana is the visualization platform that allows for user-friendly presentation of the parsed telemetry data.
+
+The Grafana instance is provisioned (pre-configured) to connect to the InfluxDB instance automatically.
 
 The main data presentation structure on Grafana is the dashboard. The Grafana instance is provisioned with two dashboards: "Daybreak Test Telemetry" and "Daybreak Telemetry". The first dashboard reads its data from the Influx debug bucket and the second dashboard reads its data from the Influx production bucket.
 
