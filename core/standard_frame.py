@@ -1,22 +1,48 @@
+from dataclasses import dataclass
+from typing import Union, List, Sized, Iterable, Any, Dict
+
+
+@dataclass
+class Measurement:
+    """
+    Encapsulates a single measurement parsed from a given CAN message.
+    A single CAN message can be parsed into multiple measurements.
+    """
+
+    # the name of the value being measured
+    name: str
+
+    # category that the measurement falls under; often a single CAN ID maps to a single measurement category
+    m_class: str
+
+    # source CAN node of the message that contained the measurement
+    source: str
+
+    # value of the measurement
+    value: Union[int, float, bool]
+
 
 class StandardFrame:
-    EXPECTED_CAN_MSG_LENGTH = 30
+    def __init__(self, id: str, data: str, timestamp: str, data_len: str):
+        """
+        Encapsulates a single standard CAN frame.
 
-    def __init__(self, raw_string: bytes):
-        assert len(raw_string) == StandardFrame.EXPECTED_CAN_MSG_LENGTH, \
-            f"raw_string not expected length of {StandardFrame.EXPECTED_CAN_MSG_LENGTH}"
-
-        self.timestamp = int(raw_string[0:8].decode(), 16)        # 8 bytes
-        self.identifier = int(raw_string[8:12].decode(), 16)      # 4 bytes
-        self.data_len = int(raw_string[28:29].decode(), 16)       # 1 byte
+        Parameters:
+            id: the ID of the CAN message (0x000 - 0x7ff)
+            data: the payload of the CAN message
+            timestamp: the timestamp of the CAN message
+            data_len: the number of valid bytes in the CAN message payload (0-8)
+        """
+        self.timestamp = int(timestamp, 16)     # 8 bytes
+        self.identifier = int(id, 16)           # 4 bytes
+        self.data_len = int(data_len, 16)       # 1 byte
 
         self.hex_identifier = "0x" + hex(self.identifier)[2:].upper()
 
-        data = list(self.chunks(raw_string[12:28], 2))            # 16 bytes
-        data = list(map(bytes.decode, data))
+        self.data = list(self.chunks(data, 2))            # 16 bytes
 
         # separated into bytes (each byte represented in decimal)
-        self.data = list(map(lambda x: int(x, 16), data))
+        self.data = list(map(lambda x: int(x, 16), self.data))
 
         # use this to decode the message
         self.data_bytes: bytes = bytearray(self.data)
@@ -45,13 +71,46 @@ class StandardFrame:
 
         return repr_str
 
-    def extract_measurements(self, dbc):
+    def extract_measurements(self, dbc) -> List[Measurement]:
         """
         Extracts measurements from the CAN message depending on the entries in
-        the `schema` dict. Returns a measurement dict with the key as the measurement name
-        and the value as a dict containing data about the given measurement.
+        the provided DBC file. Returns a list of measurement objects.
+        """
 
-        Raises exception if schema does not contain key entry that matches `self.identifier`.
+        # TODO: make this raise a custom exception
+
+        # decode message using DBC file
+        measurements = dbc.decode_message(self.identifier, self.data_bytes)
+
+        message = dbc.get_message_by_frame_id(self.identifier)
+
+        # where the data came from
+        sources: list = message.senders
+
+        source: str
+        if len(sources) == 0:
+            source = "UNKNOWN"
+        else:
+            source = sources[0]
+
+        measurement_list: List[Measurement] = list()
+
+        for name, data in measurements.items():
+            # build Measurement object
+            new_measurement = Measurement(name=name, m_class=message.name, source=source, value=data)
+
+            # append measurement to list
+            measurement_list.append(new_measurement)
+
+        return measurement_list
+
+    def extract_measurements_dict(self, dbc) -> Dict:
+        """
+        Extracts measurements from the CAN message depending on the entries in
+        the provided DBC file. Returns a dictionary with measurement names as keys.
+
+        NOTE: This is the legacy `extract_measurements` function. It has been kept
+        because changing this would mean considerable changes to the existing parser tests.
         """
 
         # decode message using DBC file
@@ -61,9 +120,14 @@ class StandardFrame:
 
         # where the data came from
         sources: list = message.senders
-        source: str = sources[0]
 
-        measurement_dict = dict()
+        source: str
+        if len(sources) == 0:
+            source = "UNKNOWN"
+        else:
+            source = sources[0]
+
+        measurement_dict: Dict = dict()
 
         for name, data in measurements.items():
             measurement_dict[name] = dict()
@@ -74,8 +138,8 @@ class StandardFrame:
         return measurement_dict
 
     @staticmethod
-    def chunks(lst, n):
+    def chunks(lst: Sized, n: int) -> Iterable[Any]:
         """Yield successive n-sized chunks from list."""
 
         for i in range(0, len(lst), n):
-            yield lst[i: i+n]
+            yield lst[i: i + n]

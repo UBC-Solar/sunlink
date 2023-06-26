@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   grafana:
-    image: grafana/grafana-oss
+    image: grafana/grafana-oss:9.5.2
     container_name: grafana
     ports:
       - 3000:3000
@@ -27,10 +27,19 @@ services:
       - INFLUX_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD}
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFLUX_ORG=${INFLUX_ORG}
-      - INFLUX_BUCKET=${INFLUX_BUCKET}
+      - INFLUX_BUCKET=${INFLUX_PROD_BUCKET}
+
+  parser:
+    build: .
+    container_name: parser
+    volumes:
+      - .:/link_telemetry
+    ports:
+      - 5000:5000
+    restart: always
 
   influxdb:
-    image: influxdb:latest
+    image: influxdb:2.7.1
     container_name: influxdb
     ports:
       - 8086:8086
@@ -42,7 +51,7 @@ services:
       - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_ADMIN_USERNAME}
       - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_ADMIN_PASSWORD}
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_ORG}
-      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_BUCKET}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_PROD_BUCKET}
     restart: always
 
 volumes:

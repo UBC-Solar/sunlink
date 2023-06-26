@@ -8,10 +8,12 @@ DBC_FILE = Path("./dbc/daybreak.dbc")
 
 # <---- helper functions ---->
 
+
 def check_equality(first: float, second: float, threshold=0.1):
     return abs(first - second) <= threshold
 
 # <---- test fixtures ---->
+
 
 @pytest.fixture
 def dbc():
@@ -21,6 +23,7 @@ def dbc():
 
 # <---- tests ---->
 
+
 class TestSpeedControllerMessages:
     def test_speed_ctrl(self, dbc):
         """
@@ -28,15 +31,15 @@ class TestSpeedControllerMessages:
         description: motor drive command
         """
         # instantiate StandardFrame
-        timestamp = b"0000A1FB"
-        id = b"0401"
-        payload = b"66662a42" + b"3333e341"
-        size = b"8"
+        timestamp = "0000A1FB"
+        id = "0401"
+        payload = "66662a42" + "3333e341"
+        size = "8"
 
-        msg = StandardFrame(timestamp + id + payload + size + b"\n")
+        msg = StandardFrame(id=id, data=payload, timestamp=timestamp, data_len=size)
 
         # extract messages
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         # checking 0x422a6666
         assert check_equality(measurements["desired_velocity"]["value"], 42.6)
@@ -51,15 +54,15 @@ class TestMotorMessages:
         id: 0x501
         description: motor status information
         """
-        timestamp = b"0000A1FB"
-        id = b"0501"
-        payload = b"0223FAAB" + b"00000000"
-        size = b"7"
+        timestamp = "0000A1FB"
+        id = "0501"
+        payload = "0223FAAB" + "00000000"
+        size = "7"
 
-        msg = StandardFrame(timestamp + id + payload + size + b"\n")
+        msg = StandardFrame(id=id, data=payload, timestamp=timestamp, data_len=size)
 
         # extract messages
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         # byte 0
         assert measurements["bridge_pwm_flag"]["value"] == False
@@ -84,9 +87,9 @@ class TestMotorMessages:
         id: 0x502
         description: motor bus measurement
         """
-        msg = StandardFrame(b"0000A1FB0502cdcc52429a9999417\n")
+        msg = StandardFrame(timestamp="0000A1FB", id="0502", data="cdcc52429a999941", data_len="7")
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         # check 0x4252cccd
         assert check_equality(measurements["bus_voltage"]["value"], 52.7)
@@ -98,9 +101,9 @@ class TestMotorMessages:
         id: 0x503
         description: motor velocity measurement
         """
-        msg = StandardFrame(b"0000A1FB05030000b441cdcc87427\n")
+        msg = StandardFrame(timestamp="0000A1FB", id="0503", data="0000b441cdcc8742", data_len="7")
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         # check 0x41b40000
         assert check_equality(measurements["motor_velocity"]["value"], 22.5)
@@ -112,9 +115,9 @@ class TestMotorMessages:
         id: 0x504
         description: motor phase current measurement
         """
-        msg = StandardFrame(b"0000A1FB05049a99b24200003e427\n")
+        msg = StandardFrame(timestamp="0000A1FB", id="0504", data="9a99b24200003e42", data_len="7")
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         # check 0x42b2999a
         assert check_equality(measurements["phase_b_current"]["value"], 89.3)
@@ -126,9 +129,9 @@ class TestMotorMessages:
         id: 0x50B
         description: sink & motor temperature measurement
         """
-        msg = StandardFrame(b"0000A1FB050B6766b242c3759c428\n")
+        msg = StandardFrame(timestamp="0000A1FB", id="050B", data="6766b242c3759c42", data_len="8")
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         # check 0x42b26667
         assert check_equality(measurements["motor_temperature"]["value"], 89.2)
@@ -142,14 +145,14 @@ class TestBatteryMessages:
         id: 0x622
         description: battery state message (includes faults)
         """
-        timestamp = b"0000FEE5"
-        id = b"0622"
-        payload = b"190019B6" + b"0A4B3D00"
-        size = b"8"
+        timestamp = "0000FEE5"
+        id = "0622"
+        payload = "190019B6" + "0A4B3D00"
+        size = "8"
 
-        msg = StandardFrame(timestamp + id + payload + size + b"\n")
+        msg = StandardFrame(timestamp=timestamp, id=id, data=payload, data_len=size)
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         # state of system: byte 0
         assert measurements["fault_state"]["value"] == True
@@ -199,9 +202,9 @@ class TestBatteryMessages:
         id: 0x623
         description: battery voltages (pack, min, max)
         """
-        msg = StandardFrame(b"0000A1FB0623001919F1A66215917\n")
+        msg = StandardFrame(timestamp="0000A1FB", id="0623", data="001919F1A6621591", data_len="7")
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         assert measurements["pack_voltage"]["value"] == 25
         assert measurements["min_voltage"]["value"] == 2.5
@@ -214,14 +217,14 @@ class TestBatteryMessages:
         id: 0x624
         description: battery currents (pack, min, max)
         """
-        timestamp = b"0000A1FB"
-        id = b"0624"
-        payload = b"FFE71532" + b"0000A454"
-        size = b"8"
+        timestamp = "0000A1FB"
+        id = "0624"
+        payload = "FFE71532" + "0000A454"
+        size = "8"
 
-        msg = StandardFrame(timestamp + id + payload + size + b"\n")
+        msg = StandardFrame(id=id, data=payload, timestamp=timestamp, data_len=size)
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         assert measurements["pack_current"]["value"] == -25
         assert measurements["charge_limit"]["value"] == 5426
@@ -232,14 +235,14 @@ class TestBatteryMessages:
         id: 0x625
         description: battery energy in and out
         """
-        timestamp = b"929A288D"
-        id = b"0625"
-        payload = b"00871C65" + b"0054C8E6"
-        size = b"8"
+        timestamp = "929A288D"
+        id = "0625"
+        payload = "00871C65" + "0054C8E6"
+        size = "8"
 
-        msg = StandardFrame(timestamp + id + payload + size + b"\n")
+        msg = StandardFrame(id=id, data=payload, timestamp=timestamp, data_len=size)
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         assert measurements["battery_energy_in"]["value"] == 8_854_629
         assert measurements["battery_energy_out"]["value"] == 5_556_454
@@ -249,9 +252,9 @@ class TestBatteryMessages:
         id: 0x626
         description: battery metadata (SOC, SOC, DOD)
         """
-        msg = StandardFrame(b"0000A1FB062645000000000000007\n")
+        msg = StandardFrame(timestamp="0000A1FB", id="0626", data="4500000000000000", data_len="7")
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         assert measurements["state_of_charge"]["value"] == 69
 
@@ -260,9 +263,9 @@ class TestBatteryMessages:
         id: 0x627
         description: battery temperature (pack, min, max)
         """
-        msg = StandardFrame(b"0000A1FB06275500322D5A5F00FF7\n")
+        msg = StandardFrame(timestamp="0000A1FB", id="0627", data="5500322D5A5F00FF", data_len="7")
 
-        measurements = msg.extract_measurements(dbc)
+        measurements = msg.extract_measurements_dict(dbc)
 
         assert measurements["pack_temperature"]["value"] == 85
         assert measurements["min_temperature"]["value"] == 50
