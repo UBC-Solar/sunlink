@@ -1,6 +1,6 @@
 # System description
 
-The telemetry system pipeline has multiple components distributed over numerous systems. 
+The telemetry system pipeline consists of multiple components distributed over numerous systems. 
 
 ![Telemetry link high-level architecture](/images/link-telemetry-arch.png)
 
@@ -8,7 +8,7 @@ A detailed look at each of the components shown in the diagram will be given her
 
 ## Table of contents
 
-- [Telemetry board](#telemetry-board-tel)
+- [Telemetry board (TEL)](#telemetry-board-tel)
 - [Radio module](#radio-module)
 - [Cellular module](#radio-module)
 - [Telemetry link](#telemetry-link)
@@ -19,7 +19,7 @@ A detailed look at each of the components shown in the diagram will be given her
 
 ## Telemetry board (TEL)
 
-The telemetry system could not exist without the telemetry board (TEL). This board houses the radio and cellular modules which are used in-tandem to wirelessly transmit data.
+The telemetry system could not exist without the telemetry board. This board houses the radio and cellular modules which are used in-tandem to wirelessly transmit data. Two transmission modes are used to improve the overall reliability of the system.
 
 At its simplest, the telemetry board is responsible for reading CAN messages from the car's CAN bus, encoding it in a serial format, and transmitting it over radio and cellular.
 
@@ -39,15 +39,15 @@ When opening the radio receiver serial port, you will see something like the fol
 ...
 34AE233006260333AA01420012BF8
 34AE2400050104A8BED283CD81848
-34AE2400050248D8215700DAA3298
+34AE24ab250248D8215700DAA3298
 ...
 ```
 
-In the serial stream above, each line is a CAN message represented as ASCII characters. Each line is split up by the telemetry link into the following fields: timestamp, ID, payload, and payload length. 
+In the serial stream above, each line is a CAN message represented as ASCII characters. Each line is split up by the telemetry link into the following fields: timestamp, ID, payload, and payload length. The specific structure of the serial stream is defined in the documentation for the telemetry board firmware.
 
 ## Cellular module
 
-As we have seen, the radio module produces a serial stream. This serial stream needs to be sent to the parser which necessitates the `link_telemetry.py` script.
+As we have seen, the radio module transmits a serial stream which is received by a radio receiver. This serial stream needs to be sent to the parser which necessitates the `link_telemetry.py` script.
 
 The cellular module does **not** require the `link_telemetry.py` script since it runs MicroPython and is itself able to make HTTP requests. This means it can bypass the `link_telemetry.py` script and talk to the parser directly.
 
@@ -57,9 +57,11 @@ It is this discrepancy between the radio and cellular modules that required the 
 
 The telemetry link is the name for the single Python script `link_telemetry.py`. Its main job is to link the radio module to the rest of the telemetry system.
 
-More specifically, it is responsible for reading the serial stream from the radio receiver, formatting each message into a JSON object, and making HTTP requests to the parser server.
+More specifically, it is responsible for reading the serial stream from the radio receiver, formatting each message into a JSON object, and making HTTP requests to the parser server. 
 
-It also provides other minor features like generating random CAN messages for debugging and checking the health of the telemetry cluster.
+Due to potentially long round-trip times (~150ms) for HTTP requests made to a remote telemetry cluster, the telemetry link uses a thread pool to initiate multiple HTTP requests concurrently which results in multiple in-flight requests and a much higher data throughput.
+
+The script also provides other minor features like generating random CAN messages for debugging and checking the health of the telemetry cluster.
 
 ## Telemetry cluster
 
@@ -73,15 +75,17 @@ The parser is deployed as a Docker container along with two other services: Infl
 
 ## Parser server
 
-The parser is responsible for parsing CAN messages (which are usually sent by `link_telemetry.py` but realistically could be sent by any application able to make HTTP requests), writing the parsed measurements to the Influx container, and optionally streaming the parsed measurements directly to the Grafana container.
+The parser is responsible for taking parse requests (which are usually sent by `link_telemetry.py` but realistically could be sent by any application able to make HTTP requests), parsing the data in the requests into measurements, writing the measurements to the Influx container, and optionally streaming the parsed measurements directly to the Grafana container.
 
 The parser is implemented as a Flask application and exposes an HTTP API. The `link_telemetry.py` script makes direct use of this API. Detailed API documentation can be found [here](/docs/API.md). 
 
 Most of the HTTP endpoints exposed by the parser require bearer token authentication. When the parser is initially set up, a secret key is generated by the user and provided to the server. The server then checks for this secret key in the HTTP authorization headers of any HTTP request it receives. This allows for a simple form of access control and dissuades malicious use of the parser. This is especially important since the telemetry cluster (if deployed remotely) is accessible over the Internet.
 
-From the perspective of the data sources (radio, cellular, etc.), the parser is the only entrypoint into the telemetry cluster. This means it is not possible to directly write data to the InfluxDB container or stream data to the Grafana container. All requests must go through the parser first.
+From the perspective of the data sources (radio, cellular, etc.), the parser is the only entrypoint into the telemetry cluster. This means it is not possible to directly write data to the InfluxDB container or stream data to the Grafana container. **All requests must go through the parser first.**
 
 ## InfluxDB
+
+![InfluxDB homepage](/images/influx.png)
 
 InfluxDB is the database for the telemetry system and stores all parsed telemetry data. It is configured with two buckets: a _debug bucket_ and a _production bucket_.
 
@@ -92,6 +96,8 @@ Once the InfluxDB container is spun up, it makes available a convenient GUI that
 Data is written to InfluxDB _only_ by the parser.
 
 ## Grafana
+
+![Grafana homepage](/images/grafana.png)
 
 Grafana is the visualization platform that allows for user-friendly presentation of the parsed telemetry data.
 

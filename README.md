@@ -390,7 +390,7 @@ The `security.secret_key` field specifies the secret key to use in the HTTP auth
 
 This secret key must match with the secret key configured for the telemetry cluster parser that you are trying to communicate with.
 
-If you set up the telemetry cluster locally then you already have access to this secret key. If the telemetry cluster was set up remotely, ask your software lead for the secret key. 
+If you set up the telemetry cluster locally then you already have access to this secret key. If the telemetry cluster was set up for you, ask your software lead for the secret key. 
 
 Once all the fields are filled, the `link_telemetry.py` script is ready for use.
 
