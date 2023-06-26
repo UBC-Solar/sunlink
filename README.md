@@ -32,6 +32,7 @@ This repository contains all of the components for UBC Solar's telemetry system.
 - `docs`: contains additional system documentation.
 - `images`: contains images relevant to the telemetry system.
 - `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
+- `scripts`: contains post-initialization scripts for InfluxDB.
 - `templates`: contains a template `.env` config file.
 - `test`: contains test framework for the CAN parser.
 
@@ -199,9 +200,11 @@ GRAFANA_TOKEN=""
 
 Note that the `INFLUX_TOKEN` and `GRAFANA_TOKEN` keys are left without values (for now).
 
-For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD`, you may choose any values. The same goes for all of the `INFLUX_*` environment variables.
+For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD`, you may choose any values. The same goes for the `INFLUX_ADMIN_USERNAME` and `INFLUX_ADMIN_PASSWORD` environment variables. 
 
 The `SECRET_KEY` field, however, must be generated.
+> 
+> :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_DEBUG_BUCKET`, and `INFLUX_PROD_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
 
 #### Generating the secret key
 
