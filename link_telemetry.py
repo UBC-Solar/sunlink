@@ -117,18 +117,18 @@ def check_health_handler():
     try:
         health_req = requests.get(HEALTH_ENDPOINT, headers=AUTH_HEADER)
     except Exception:
-        print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+        print(f"* parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
         print("failed to connect to parser!")
         sys.exit(1)
 
     if health_req.status_code == 200:
-        print(f"parser @ {PARSER_URL} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
+        print(f"* parser @ {PARSER_URL} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
     elif health_req.status_code == 401:
-        print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+        print(f"* parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
         print(f"unauthorized access to parser API, secret key specified in \"{TOML_CONFIG_FILE}\" is invalid")
         sys.exit(1)
     else:
-        print(f"parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+        print(f"* parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
         print(f"request failed with HTTP status code {ANSI_BOLD}{health_req.status_code}{ANSI_ESCAPE}!")
         sys.exit(1)
 
@@ -140,9 +140,11 @@ def check_health_handler():
         status = service["status"]
 
         if status == "UP":
-            print(f"{name} @ {url} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
+            print(f"|---> {name} @ {url} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
+        elif status == "UNAUTHORIZED":
+            print(f"|---> {name} @ {url} -{ANSI_YELLOW} UNAUTHORIZED {ANSI_ESCAPE}")
         else:
-            print(f"{name} @ {url} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
+            print(f"|---> {name} @ {url} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
 
 
 def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace'):
