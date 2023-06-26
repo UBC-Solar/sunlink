@@ -87,7 +87,9 @@ The telemetry cluster is the name given to the collection of three services each
 2) InfluxDB
 3) Grafana
 
-The parser is deployed as a Docker container along with two other services: InfluxDB and Grafana. InfluxDB is the time-series database that stores the incoming telemetry data and Grafana is the visualization platform used to graph the data. Together, these three services form the **telemetry cluster**. They are all spun up using Docker Compose and are configured to be connected to the same bridge network allowing for easy inter-container communication.
+The parser is deployed as a Docker container along with two other services: InfluxDB and Grafana. InfluxDB is the time-series database that stores the incoming telemetry data and Grafana is the visualization platform used to graph the data.
+
+Together, these three services form the **telemetry cluster**. They are all spun up using Docker Compose and are configured to be connected to the same bridge network allowing for easy inter-container communication over HTTP.
 
 ## Parser server
 
