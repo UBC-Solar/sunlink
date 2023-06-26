@@ -1,0 +1,5 @@
+[parser]
+url = ""
+
+[security]
+secret_key = ""
