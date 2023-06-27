@@ -18,8 +18,8 @@ from websockets.sync.client import connect
 from flask import Flask
 from flask_httpauth import HTTPTokenAuth
 
-from core.standard_frame import StandardFrame
-from core.standard_frame import Measurement
+from parser.standard_frame import StandardFrame
+from parser.standard_frame import Measurement
 
 from dotenv import dotenv_values
 
@@ -34,6 +34,7 @@ app = Flask(__name__)
 
 CAR_NAME = "Daybreak"
 
+# paths are relative to project root
 DBC_FILE = Path("./dbc/daybreak.dbc")
 ENV_FILE = Path(".env")
 
@@ -394,8 +395,3 @@ def write_measurements():
 
 # create thread to write to InfluxDB and stream to Grafana
 threading.Thread(target=write_measurements, daemon=True).start()
-
-
-if __name__ == "__main__":
-    # start the Flask app
-    app.run(host="0.0.0.0", debug=False)

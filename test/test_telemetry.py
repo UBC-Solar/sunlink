@@ -1,8 +1,9 @@
-from ..core.standard_frame import StandardFrame
-from pathlib import Path
-import pprint
 import pytest
 import cantools
+
+from pathlib import Path
+
+from ..parser.standard_frame import StandardFrame
 
 DBC_FILE = Path("./dbc/daybreak.dbc")
 

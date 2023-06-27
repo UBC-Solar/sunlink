@@ -27,11 +27,11 @@ This repository contains all of the components for UBC Solar's telemetry system.
 ## Directory structure
 
 - `config`: stores config files for Grafana and Influx.
-- `core`: contains the Python implementation of the CAN message class.
 - `dashboards`: contains the provisioned Grafana dashboard JSONs.
 - `dbc`: stores DBC files for CAN parsing.
 - `docs`: contains additional system documentation.
 - `images`: contains images relevant to the telemetry system.
+- `parser`: contains the Python implementation of the parser server.
 - `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
 - `scripts`: contains post-initialization scripts for InfluxDB.
 - `templates`: contains a template `.env` config file.
