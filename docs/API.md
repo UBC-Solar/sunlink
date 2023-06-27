@@ -53,6 +53,8 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 - `"DOWN"` => The respective service is down and unreachable. It is not recommended to run telemetry in this case.
 
+- `"UNAUTHORIZED"` => The respective service is reachable but the parser is not authorized to access its resources. This is usually because an API token has not been configured correctly in the `.env` file.
+
 - `"UNEXPECTED_STATUS_CODE"` => The respective service is reachable but it returned an unexpected status code. It is not recommended to run telemetry in this case as well.
 
 ## Parse CAN message

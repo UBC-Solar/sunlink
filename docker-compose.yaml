@@ -46,12 +46,16 @@ services:
     volumes:
       - influxdb-storage:/var/lib/influxdb2
       - influxdb-config:/etc/influxdb2
+      - type: bind
+        source: ./scripts
+        target: /docker-entrypoint-initdb.d
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_ADMIN_USERNAME}
       - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_ADMIN_PASSWORD}
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_ORG}
       - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_PROD_BUCKET}
+      - INFLUX_DEBUG_BUCKET=${INFLUX_DEBUG_BUCKET}
     restart: always
 
 volumes:

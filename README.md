@@ -20,6 +20,7 @@ This repository contains all of the components for UBC Solar's telemetry system.
 - [Telemetry cluster setup](#telemetry-cluster-setup)
 - [Telemetry link setup](#telemetry-link-setup)
 - [Running the link](#running-the-link)
+- [Running the tests](#running-the-tests)
 - [Parser HTTP API](#parser-http-api)
 - [Screenshots](#screenshots)
 
@@ -32,6 +33,7 @@ This repository contains all of the components for UBC Solar's telemetry system.
 - `docs`: contains additional system documentation.
 - `images`: contains images relevant to the telemetry system.
 - `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
+- `scripts`: contains post-initialization scripts for InfluxDB.
 - `templates`: contains a template `.env` config file.
 - `test`: contains test framework for the CAN parser.
 
@@ -135,7 +137,7 @@ New-Item -Path . -Name ".env"
 
 Then, you may use any code editor to edit the file.
 
-A template `.env` file is given in the `templates/` folder. The contents of this file will look something like this:
+A template `.env` file is given in the `templates/` folder. Copy the contents of this file into your new `.env` file. Your `.env` file should look like the following:
 
 ```env
 # Grafana environment variables
@@ -166,7 +168,7 @@ INFLUX_TOKEN=""
 GRAFANA_TOKEN=""
 ```
 
-The fields with empty values all need to be filled except for the access tokens. These fields should be manually filled once the docker containers are spun up. An example of what a valid `.env` file will look like **before** spinning up the cluster is given below:
+The fields with empty values all need to be filled _except for the access tokens_. These fields should be manually filled once the cluster is spun up. An example of what a valid `.env` file will look like **before** spinning up the cluster is given below:
 
 ```env
 # Grafana environment variables
@@ -199,9 +201,11 @@ GRAFANA_TOKEN=""
 
 Note that the `INFLUX_TOKEN` and `GRAFANA_TOKEN` keys are left without values (for now).
 
-For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD`, you may choose any values. The same goes for all of the `INFLUX_*` environment variables.
+For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD`, you may choose any values. The same goes for the `INFLUX_ADMIN_USERNAME` and `INFLUX_ADMIN_PASSWORD` environment variables. 
 
 The `SECRET_KEY` field, however, must be generated.
+> 
+> :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_DEBUG_BUCKET`, and `INFLUX_PROD_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
 
 #### Generating the secret key
 
@@ -251,6 +255,8 @@ You should see a flurry of text as the three services come online.
 4) `sudo docker compose up -d` => spins up all containers in detached mode (i.e., in the background)
 
 5) `sudo docker exec -it <CONTAINER_NAME> /bin/bash` => start a shell instance inside `<CONTAINER_NAME>`
+
+6) `sudo docker system df` => show docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB data is taking.
 
 ### Finishing environment set-up
 
@@ -303,7 +309,7 @@ If all your tokens are correctly set up, the parser should return the following:
 }
 ```
 
-:heavy_check_mark: Congratulations, you've finished setting up the telemetry cluster!
+If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
 
 ## Telemetry link setup
 
@@ -413,6 +419,16 @@ Here are some example invocations:
 3) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and instructs the parser to only parse and not write data.
 
 4) `./link_telemetry.py -r --debug` => makes the script randomly generate message data and instructs the parser to write to the debug InfluxDB bucket.
+
+## Running the tests
+
+To run the parser tests, make sure you're in your virtual environment, go to the project root directory, and execute:
+
+```bash
+python -m pytest
+```
+
+Currently, the test framework only tests that the parser parses CAN messages as expected. It does not test any other part of the telemetry system. 
 
 ## Parser HTTP API
 

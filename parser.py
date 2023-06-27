@@ -139,23 +139,27 @@ def check_health():
 
     # try making a request to InfluxDB container
     try:
-        influx_response = requests.get(INFLUX_URL + "ping")
+        influx_response = requests.get(INFLUX_URL + "api/v2/buckets", headers={"Authorization": f"Bearer {INFLUX_TOKEN}"})
     except requests.exceptions.ConnectionError:
         influx_status = "DOWN"
     else:
-        if (influx_response.status_code == 204):
+        if (influx_response.status_code == 200):
             influx_status = "UP"
+        elif (influx_response.status_code == 401):
+            influx_status = "UNAUTHORIZED"
         else:
             influx_status = "UNEXPECTED_STATUS_CODE"
 
     # try making a request to Grafana container
     try:
-        grafana_response = requests.get(GRAFANA_URL + "api/health")
+        grafana_response = requests.get(GRAFANA_URL + "api/frontend/settings", headers={"Authorization": f"Bearer {GRAFANA_TOKEN}"})
     except requests.exceptions.ConnectionError:
         grafana_status = "DOWN"
     else:
         if (grafana_response.status_code == 200):
             grafana_status = "UP"
+        elif (grafana_response.status_code == 401):
+            grafana_status = "UNAUTHORIZED"
         else:
             grafana_status = "UNEXPECTED_STATUS_CODE"
 

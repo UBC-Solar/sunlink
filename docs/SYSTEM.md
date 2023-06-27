@@ -87,11 +87,15 @@ The telemetry cluster is the name given to the collection of three services each
 2) InfluxDB
 3) Grafana
 
-The parser is deployed as a Docker container along with two other services: InfluxDB and Grafana. InfluxDB is the time-series database that stores the incoming telemetry data and Grafana is the visualization platform used to graph the data. Together, these three services form the **telemetry cluster**. They are all spun up using Docker Compose and are configured to be connected to the same bridge network allowing for easy inter-container communication.
+The parser is deployed as a Docker container along with two other services: InfluxDB and Grafana. InfluxDB is the time-series database that stores the incoming telemetry data and Grafana is the visualization platform used to graph the data.
+
+Together, these three services form the **telemetry cluster**. They are all spun up using Docker Compose and are configured to be connected to the same bridge network allowing for easy inter-container communication over HTTP.
 
 ## Parser server
 
 The parser is responsible for taking parse requests (which are usually sent by `link_telemetry.py` but realistically could be sent by any application able to make HTTP requests), parsing the data in the requests into measurements, writing the measurements to the Influx container, and optionally streaming the parsed measurements directly to the Grafana container.
+
+The parser uses DBC files to parse CAN messages. A detailed look into DBC files and the Python `cantools` package can be found [here](https://wiki.ubcsolar.com/en/subteams/software/cantools-and-dbc).
 
 The parser is implemented as a Flask application and exposes an HTTP API. The `link_telemetry.py` script makes direct use of this API. Detailed API documentation can be found [here](/docs/API.md). 
 
