@@ -414,11 +414,13 @@ Here are some example invocations:
 
 1) `./link_telemetry.py --health` => checks if the parser is available.
 
-2) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and instructs the parser to write to the production InfluxDB bucket.
+2) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the production InfluxDB bucket.
 
-3) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and instructs the parser to only parse and not write data.
+3) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB.
 
-4) `./link_telemetry.py -r --debug` => makes the script randomly generate message data and instructs the parser to write to the debug InfluxDB bucket.
+4) `./link_telemetry.py -r --debug` => makes the script randomly generate message data and requests the parser to write to the debug InfluxDB bucket.
+
+5) `./link_telemetry.py -r -f 100 --debug` => makes the script randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket.
 
 ## Running the tests
 

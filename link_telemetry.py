@@ -64,7 +64,11 @@ ANSI_GREEN = "\033[1;32m"
 ANSI_YELLOW = "\033[1;33m"
 ANSI_BOLD = "\033[1m"
 
+# default maximum number of worker threads for thread pool executor
 DEFAULT_MAX_WORKERS = 32
+
+# default frequency used to generate random messages
+DEFAULT_RANDOM_FREQUENCY_HZ = 10
 
 executor: Optional[concurrent.futures.ThreadPoolExecutor] = None
 
@@ -164,6 +168,9 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
         elif not (args.port and args.baudrate):
             parser.error("-p and -b options must both be specified")
 
+        if args.frequency_hz:
+            parser.error("-f cannot be specified without -r")
+
     if args.no_write:
         if args.debug or args.prod:
             parser.error("Conflicting configuration. Cannot specify --no-write with --debug or --prod.")
@@ -182,7 +189,8 @@ def print_config_table(args: 'argparse.Namespace'):
     print(f"Running {ANSI_BOLD}{__PROGRAM__} (v{__VERSION__}){ANSI_ESCAPE} with the following configuration...\n")
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
-    config_table.add_row(["DATA SOURCE", "RANDOMLY GENERATED" if args.randomize else f"UART PORT ({args.port})"])
+    config_table.add_row(["DATA SOURCE", f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" if args.randomize else f"UART PORT ({args.port})"])
+
     config_table.add_row(["PARSER URL", PARSER_URL])
     config_table.add_row(["MAX THREADS", args.jobs])
 
@@ -284,12 +292,13 @@ def main():
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
-        description="Link raw radio stream to telemetry backend parser.",
+        description="Link raw radio stream to telemetry cluster.",
         prog=__PROGRAM__)
 
     # declare argument groups
-    source_group = parser.add_argument_group("Data stream selection")
+    source_group = parser.add_argument_group("Data stream selection and options")
     write_group = parser.add_argument_group("Data write options")
+    threadpool_group = parser.add_argument_group("Thread pool options")
 
     parser.add_argument("--version", action="version",
                         version=f"{__PROGRAM__} {__VERSION__}", help=("Show program's version number and exit"))
@@ -297,8 +306,9 @@ def main():
     parser.add_argument("--health", action="store_true",
                         help=("Checks whether the parser is reachable as well as if "
                               "the parser is able to reach the InfluxDB and Grafana processes."))
-    parser.add_argument("-j", "--jobs", action="store", default=DEFAULT_MAX_WORKERS,
-                        help=("The max number of threads to use for making HTTP requests to the parser."))
+
+    threadpool_group.add_argument("-j", "--jobs", action="store", default=DEFAULT_MAX_WORKERS,
+                                  help=("The max number of threads to use for making HTTP requests to the parser."))
 
     write_group.add_argument("--debug", action="store_true",
                              help=("Writes incoming data to a test InfluxDB bucket."))
@@ -311,7 +321,7 @@ def main():
     source_group.add_argument("-p", "--port", action="store",
                               help=("Specifies the serial port to read radio data from. "
                                     "Typical values include: COM5, /dev/ttyUSB0, etc."))
-    source_group.add_argument("-b", "--baudrate", action="store",
+    source_group.add_argument("-b", "--baudrate", action="store", type=int,
                               help=("Specifies the baudrate for the serial port specified. "
                                     "Typical values include: 9600, 115200, 230400, etc."))
 
@@ -319,6 +329,11 @@ def main():
                               help=("Allows using the telemetry link with "
                                     "randomly generated CAN data rather than "
                                     "a real radio telemetry stream."))
+
+    source_group.add_argument("-f", "--frequency-hz", action="store", default=DEFAULT_RANDOM_FREQUENCY_HZ, type=int,
+                              help=((f"Specifies the frequency (in Hz) for random message generation. \
+                                    Default value is {DEFAULT_RANDOM_FREQUENCY_HZ}Hz. Values above 1kHz \
+                                    are discouraged.")))
 
     args = parser.parse_args()
 
@@ -337,6 +352,9 @@ def main():
         PARSER_ENDPOINT = DEBUG_WRITE_ENDPOINT
     else:
         PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
+
+    # compute the period to generate random messages at
+    period_s = 1 / args.frequency_hz
 
     # <----- Read in DBC file ----->
 
@@ -362,8 +380,7 @@ def main():
         if args.randomize:
             message_str = random_can_str(daybreak_dbc)
             message = message_str.encode(encoding="UTF-8")
-            # TODO: make this value configurable via the command line
-            time.sleep(0.1)
+            time.sleep(period_s)
         else:
             with serial.Serial() as ser:
                 # <----- Configure COM port ----->
@@ -380,7 +397,7 @@ def main():
                     print(message)
                     continue
 
-                # TODO: check that all characters in message are valid ascii and are within [a-Z0-9] + "\n" + "\r"
+                # TODO: check that all characters in message are valid ascii (can use str.isascii())
 
         # partition string into pieces
         timestamp: str = message[0:8].decode()      # 8 bytes
