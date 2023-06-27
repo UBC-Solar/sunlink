@@ -296,27 +296,27 @@ def main():
         prog=__PROGRAM__)
 
     # declare argument groups
+    threadpool_group = parser.add_argument_group("Thread pool options")
     source_group = parser.add_argument_group("Data stream selection and options")
     write_group = parser.add_argument_group("Data write options")
-    threadpool_group = parser.add_argument_group("Thread pool options")
 
     parser.add_argument("--version", action="version",
                         version=f"{__PROGRAM__} {__VERSION__}", help=("Show program's version number and exit"))
 
     parser.add_argument("--health", action="store_true",
-                        help=("Checks whether the parser is reachable as well as if "
-                              "the parser is able to reach the InfluxDB and Grafana processes."))
+                        help=("Checks the health of the telemetry cluster"))
 
     threadpool_group.add_argument("-j", "--jobs", action="store", default=DEFAULT_MAX_WORKERS,
-                                  help=("The max number of threads to use for making HTTP requests to the parser."))
+                                  help=(f"The max number of threads to use for making HTTP requests to \
+                                        the parser. Default is {DEFAULT_MAX_WORKERS}."))
 
     write_group.add_argument("--debug", action="store_true",
-                             help=("Writes incoming data to a test InfluxDB bucket."))
+                             help=("Requests parser to write parsed data to the debug InfluxDB bucket."))
     write_group.add_argument("--prod", action="store_true",
-                             help=("Writes incoming data to the production InfluxDB bucket."))
+                             help=("Requests parser to write parsed data to the production InfluxDB bucket."))
     write_group.add_argument("--no-write", action="store_true",
-                             help=("Disables writing to InfluxDB bucket and Grafana live "
-                                   "stream endpoints. Cannot be used with --debug and --prod options."))
+                             help=(("Requests parser to skip writing to the InfluxDB bucket and streaming"
+                                   "to Grafana. Cannot be used with --debug and --prod options.")))
 
     source_group.add_argument("-p", "--port", action="store",
                               help=("Specifies the serial port to read radio data from. "
