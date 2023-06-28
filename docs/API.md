@@ -8,7 +8,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **URL:** `/`
 
-**METHOD:** `GET`
+**METHOD:** `[GET]`
 
 **DESCRIPTION:** Returns a welcome message.
 
@@ -20,7 +20,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **URL:** `/api/v1/health`
 
-**METHOD:** `GET`
+**METHOD:** `[GET]`
 
 **DESCRIPTION:** Returns information about the parser's connected services. These are usually just InfluxDB and Grafana.
 
@@ -49,45 +49,57 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 1. The `status` field can be one of `"UP"`, `"DOWN"`, or `"UNEXPECTED_STATUS_CODE"`.
 
-- `"UP"` => The respective service is up and reachable.
+    - `"UP"` => The respective service is up and reachable.
 
-- `"DOWN"` => The respective service is down and unreachable. It is not recommended to run telemetry in this case.
+    - `"DOWN"` => The respective service is down and unreachable. It is not recommended to run telemetry in this case.
 
-- `"UNAUTHORIZED"` => The respective service is reachable but the parser is not authorized to access its resources. This is usually because an API token has not been configured correctly in the `.env` file.
+    - `"UNAUTHORIZED"` => The respective service is reachable but the parser is not authorized to access its resources. This is usually because an API token has not been configured correctly in the `.env` file.
 
-- `"UNEXPECTED_STATUS_CODE"` => The respective service is reachable but it returned an unexpected status code. It is not recommended to run telemetry in this case as well.
+    - `"UNEXPECTED_STATUS_CODE"` => The respective service is reachable but it returned an unexpected status code. It is not recommended to run telemetry in this case as well.
 
 ## Parse CAN message
 
 **URL:** `/api/v1/parse`
 
-**METHOD:** `GET`
+**METHOD:** `[POST]`
+
+**REQUEST CONTENT TYPE:** `application/json`
 
 **DESCRIPTION:** Parses the requested CAN message and sends back the parsed measurements.
 
 **AUTHENTICATION:** Required.
 
+**SAMPLE REQUEST:** 
+
+```json
+{
+    "id": "0401",
+    "timestamp": "deadbeef" ,
+    "data": "000089426666e63e",
+    "data_length": "8",
+}
+```
+
 **SAMPLE RESPONSES:** 
 
 ```json
 {
-    "id": 1025,
-    "measurements": 
-        [
-            {
-                "m_class": "drive_command",
-                "name": "desired_velocity",
-                "source": "speed_controller",
-                "value": 56.31
-            },
-            {
-                "m_class": "drive_command", 
-                "name": "current_setpoint", 
-                "source": "speed_controller",
-                "value": 0.44
-            }
-        ],
-    "result": "OK"
+  "id": 1025,
+  "measurements": [
+    {
+      "m_class": "drive_command",
+      "name": "desired_velocity",
+      "source": "speed_controller",
+      "value": 68.5
+    },
+    {
+      "m_class": "drive_command",
+      "name": "current_setpoint",
+      "source": "speed_controller",
+      "value": 0.44999998807907104
+    }
+  ],
+  "result": "OK"
 }
 ```
 
@@ -103,9 +115,9 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 1. The `result` field can be one of `'OK'` or `'PARSE_FAIL'`.
 
-- `'OK'` => parsing completed successfully
+    - `'OK'` => parsing completed successfully
 
-- `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
+    - `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
 
 2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
 
@@ -115,11 +127,24 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **URL:** `/api/v1/parse/write/debug`
 
-**METHOD:** `GET`
+**METHOD:** `[POST]`
+
+**REQUEST CONTENT TYPE:** `application/json`
 
 **DESCRIPTION:** Parses the requested CAN message, writes the measurements to a debug bucket (usually called "Test") on InfluxDB, and sends back the parsed measurements.
 
 **AUTHENTICATION:** Required.
+
+**SAMPLE REQUEST:** 
+
+```json
+{
+    "id": "0401",
+    "timestamp": "deadbeef" ,
+    "data": "000089426666e63e",
+    "data_length": "8",
+}
+```
 
 **SAMPLE RESPONSES:** 
 
@@ -179,11 +204,11 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 1. The `result` field can be one of `'OK'`, `'PARSE_FAIL'`, `'INFLUX_WRITE_FAIL'`.
 
-- `'OK'` => parsing completed successfully
+    - `'OK'` => parsing completed successfully.
 
-- `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
+    - `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser).
 
-- `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. 
+    - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. 
 
 2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
 
@@ -193,7 +218,9 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **URL:** `/api/v1/parse/write/production`
 
-**METHOD:** `GET`
+**METHOD:** `[POST]`
+
+**REQUEST CONTENT TYPE:** `application/json`
 
 **DESCRIPTION:** Parses the requested CAN message, writes the measurements to a production bucket (usually called "Telemetry") on InfluxDB, and sends back the parsed measurements.
 
