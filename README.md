@@ -339,23 +339,23 @@ python --version
 
 It is highly recommended that you create a Python virtual environment to avoid breaking your system-installed version of Python.
 
-You may choose to create your virtual environment folder anywhere but I like to create it in the project root directory:
+You may choose to create your virtual environment folder anywhere but I like to create it in its own `environment` subdirectory in the project root directory:
 
 ```bash
 cd link_telemetry/
-python -m venv .
+python -m venv environment
 ```
 
 Execute the following to enter your virtual environment on Linux:
 
 ```bash
-source env/bin/activate
+source environment/bin/activate
 ```
 
 Or on Windows:
 
 ```bash
-./env/bin/Activate.ps1
+.\environment\Scripts\Activate.ps1
 ```
 
 To exit your virtual environment:
