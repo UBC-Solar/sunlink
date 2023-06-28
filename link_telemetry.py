@@ -168,9 +168,6 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
         elif not (args.port and args.baudrate):
             parser.error("-p and -b options must both be specified")
 
-        if args.frequency_hz:
-            parser.error("-f cannot be specified without -r")
-
     if args.no_write:
         if args.debug or args.prod:
             parser.error("Conflicting configuration. Cannot specify --no-write with --debug or --prod.")
