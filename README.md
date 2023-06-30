@@ -67,7 +67,7 @@ A detailed description of all system components is given [here](/docs/SYSTEM.md)
 
 ## Getting started
 
-When attempting to set up the telemetry system, it is important to decide which components need to be brought up. There are two components that need to be brought up: the **telemetry cluster** and the **telemetry link**.
+When attempting to set up the telemetry system, it is important to decide whether you want to set up both the telemetry cluster and telemetry link or just the telemetry link.
 
 - If the telemetry cluster has **already been set up** and you would like to only set up the telemetry link to communicate with the cluster, skip to [this section](#telemetry-link-setup).
 
@@ -204,7 +204,7 @@ Note that the `INFLUX_TOKEN` and `GRAFANA_TOKEN` keys are left without values (f
 For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD`, you may choose any values. The same goes for the `INFLUX_ADMIN_USERNAME` and `INFLUX_ADMIN_PASSWORD` environment variables. 
 
 The `SECRET_KEY` field, however, must be generated.
-> 
+
 > :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_DEBUG_BUCKET`, and `INFLUX_PROD_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
 
 #### Generating the secret key
@@ -246,17 +246,14 @@ You should see a flurry of text as the three services come online.
 
 ### Aside: handy docker commands
 
-1) `sudo docker ps` => lists all running containers
-
-2) `sudo docker compose stop` => stops all running containers defined in Compose file
-
-3) `sudo docker compose restart` => restarts all running containers defined in Compose file
-
-4) `sudo docker compose up -d` => spins up all containers in detached mode (i.e., in the background)
-
-5) `sudo docker exec -it <CONTAINER_NAME> /bin/bash` => start a shell instance inside `<CONTAINER_NAME>`
-
-6) `sudo docker system df` => show docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB data is taking.
+| **Command** | **Description** |
+| ------------- | -------------- |
+| `sudo docker ps` | Lists all running containers|
+| `sudo docker compose stop` | Stops all running containers defined in Compose file |
+| `sudo docker compose restart` | Restarts all running containers defined in Compose file |
+| `sudo docker compose up -d` | Spins up all containers in detached mode (i.e., in the background) |
+| `sudo docker exec -it <CONTAINER_NAME> /bin/bash` | Start a shell instance inside `<CONTAINER_NAME>` |
+| `sudo docker system df` | Show docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB data is taking. |
 
 ### Finishing environment set-up
 
