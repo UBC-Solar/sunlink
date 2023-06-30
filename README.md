@@ -248,12 +248,12 @@ You should see a flurry of text as the three services come online.
 
 | **Command** | **Description** |
 | ------------- | -------------- |
-| `sudo docker ps` | Lists all running containers|
-| `sudo docker compose stop` | Stops all running containers defined in Compose file |
-| `sudo docker compose restart` | Restarts all running containers defined in Compose file |
-| `sudo docker compose up -d` | Spins up all containers in detached mode (i.e., in the background) |
-| `sudo docker exec -it <CONTAINER_NAME> /bin/bash` | Start a shell instance inside `<CONTAINER_NAME>` |
-| `sudo docker system df` | Show docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB data is taking. |
+| `sudo docker ps` | Lists all running containers. |
+| `sudo docker compose stop` | Stops all running containers defined in Compose file. |
+| `sudo docker compose restart` | Restarts all running containers defined in Compose file. |
+| `sudo docker compose up -d` | Spins up all containers in detached mode (i.e., in the background). |
+| `sudo docker exec -it <CONTAINER_NAME> /bin/bash` | Starts a shell instance inside `<CONTAINER_NAME>`.|
+| `sudo docker system df` | Shows docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB data is taking. |
 
 ### Finishing environment set-up
 
@@ -409,15 +409,13 @@ Make sure you've entered your virtual environment before trying to run the scrip
 
 Here are some example invocations:
 
-1) `./link_telemetry.py --health` => checks if the parser is available.
-
-2) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the production InfluxDB bucket.
-
-3) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB.
-
-4) `./link_telemetry.py -r --debug` => makes the script randomly generate message data and requests the parser to write to the debug InfluxDB bucket.
-
-5) `./link_telemetry.py -r -f 100 --debug` => makes the script randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket.
+| **Command** | **Description** |
+| ------------- | -------------- |
+| `./link_telemetry.py --health` | Checks if the parser is available. |
+| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the production InfluxDB bucket. |
+| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB. | 
+| `./link_telemetry.py -r --debug` | Makes the link randomly generate message data and requests the parser to write to the debug InfluxDB bucket. |
+| `./link_telemetry.py -r -f 100 --debug` | Makes the link randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket. |
 
 ## Running the tests
 
