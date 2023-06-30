@@ -67,7 +67,7 @@ A detailed description of all system components is given [here](/docs/SYSTEM.md)
 
 ## Getting started
 
-When attempting to set up the telemetry system, it is important to decide which components need to be brought up. There are two components that need to be brought up: the **telemetry cluster** and the **telemetry link**.
+When attempting to set up the telemetry system, it is important to decide whether you want to set up both the telemetry cluster and telemetry link or just the telemetry link.
 
 - If the telemetry cluster has **already been set up** and you would like to only set up the telemetry link to communicate with the cluster, skip to [this section](#telemetry-link-setup).
 
@@ -204,7 +204,7 @@ Note that the `INFLUX_TOKEN` and `GRAFANA_TOKEN` keys are left without values (f
 For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD`, you may choose any values. The same goes for the `INFLUX_ADMIN_USERNAME` and `INFLUX_ADMIN_PASSWORD` environment variables. 
 
 The `SECRET_KEY` field, however, must be generated.
-> 
+
 > :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_DEBUG_BUCKET`, and `INFLUX_PROD_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
 
 #### Generating the secret key
@@ -246,17 +246,14 @@ You should see a flurry of text as the three services come online.
 
 ### Aside: handy docker commands
 
-1) `sudo docker ps` => lists all running containers
-
-2) `sudo docker compose stop` => stops all running containers defined in Compose file
-
-3) `sudo docker compose restart` => restarts all running containers defined in Compose file
-
-4) `sudo docker compose up -d` => spins up all containers in detached mode (i.e., in the background)
-
-5) `sudo docker exec -it <CONTAINER_NAME> /bin/bash` => start a shell instance inside `<CONTAINER_NAME>`
-
-6) `sudo docker system df` => show docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB data is taking.
+| **Command** | **Description** |
+| ------------- | -------------- |
+| `sudo docker ps` | Lists all running containers. |
+| `sudo docker compose stop` | Stops all running containers defined in Compose file. |
+| `sudo docker compose restart` | Restarts all running containers defined in Compose file. |
+| `sudo docker compose up -d` | Spins up all containers in detached mode (i.e., in the background). |
+| `sudo docker exec -it <CONTAINER_NAME> /bin/bash` | Starts a shell instance inside `<CONTAINER_NAME>`.|
+| `sudo docker system df` | Shows docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB data is taking. |
 
 ### Finishing environment set-up
 
@@ -339,23 +336,23 @@ python --version
 
 It is highly recommended that you create a Python virtual environment to avoid breaking your system-installed version of Python.
 
-You may choose to create your virtual environment folder anywhere but I like to create it in the project root directory:
+You may choose to create your virtual environment folder anywhere but I like to create it in its own `environment` subdirectory in the project root directory:
 
 ```bash
 cd link_telemetry/
-python -m venv .
+python -m venv environment
 ```
 
 Execute the following to enter your virtual environment on Linux:
 
 ```bash
-source env/bin/activate
+source environment/bin/activate
 ```
 
 Or on Windows:
 
 ```bash
-./env/bin/Activate.ps1
+.\environment\Scripts\Activate.ps1
 ```
 
 To exit your virtual environment:
@@ -412,15 +409,13 @@ Make sure you've entered your virtual environment before trying to run the scrip
 
 Here are some example invocations:
 
-1) `./link_telemetry.py --health` => checks if the parser is available.
-
-2) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the production InfluxDB bucket.
-
-3) `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` => specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB.
-
-4) `./link_telemetry.py -r --debug` => makes the script randomly generate message data and requests the parser to write to the debug InfluxDB bucket.
-
-5) `./link_telemetry.py -r -f 100 --debug` => makes the script randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket.
+| **Command** | **Description** |
+| ------------- | -------------- |
+| `./link_telemetry.py --health` | Checks if the parser is available. |
+| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the production InfluxDB bucket. |
+| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB. | 
+| `./link_telemetry.py -r --debug` | Makes the link randomly generate message data and requests the parser to write to the debug InfluxDB bucket. |
+| `./link_telemetry.py -r -f 100 --debug` | Makes the link randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket. |
 
 ## Running the tests
 
