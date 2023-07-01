@@ -394,7 +394,7 @@ def main():
                     print(message)
                     continue
 
-                # TODO: check that all characters in message are valid ascii (can use str.isascii())
+                # TODO: check that all characters in message are either hex characters ([0-9A-F]) or a carriage return
 
         # partition string into pieces
         timestamp: str = message[0:8].decode()      # 8 bytes
