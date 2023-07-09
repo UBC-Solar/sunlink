@@ -1,8 +1,8 @@
 # System description
 
-The telemetry system pipeline consists of multiple components distributed over numerous systems. 
+Sunlink's data pipeline consists of multiple components distributed over numerous systems.
 
-![Telemetry link high-level architecture](/images/link-telemetry-arch.png)
+![Sunlink high-level architecture](/images/sunlink-arch.png)
 
 A detailed look at each of the components shown in the diagram will be given here.
 
@@ -19,13 +19,13 @@ A detailed look at each of the components shown in the diagram will be given her
 
 ## Telemetry board (TEL)
 
-The telemetry system could not exist without the telemetry board. This board houses the radio and cellular modules which are used in-tandem to wirelessly transmit data. Two transmission modes are used to improve the overall reliability of the system.
+Sunlink would be effectively useless without the telemetry board. This board houses the radio and cellular modules which are used in-tandem to wirelessly transmit data. The two transmission modes of radio and cellular improve the overall reliability of the system.
 
 At its simplest, the telemetry board is responsible for reading CAN messages from the car's CAN bus, encoding it in a serial format, and transmitting it over radio and cellular.
 
 Future versions of the telemetry board will support reading IMU and GPS data in addition to CAN messages.
 
-The radio and cellular modules, while exactly the same in their overall function, have notable differences that influence the architecture of the telemetry system.
+The radio and cellular modules, while exactly the same in their overall function, have notable differences that influence Sunlink's system architecture.
 
 ## Radio module
 
@@ -39,13 +39,13 @@ When opening the radio receiver serial port, you will see something like the fol
 ...
 34AE233006260333AA01420012BF8
 34AE2400050104A8BED283CD81848
-34AE24ab250248D8215700DAA3298
+34AE24ab050248D8215700DAA3298
 ...
 ```
 
 In the serial stream above, each line is a CAN message represented as ASCII characters. Each line is split up by the telemetry link into the following fields: timestamp, ID, payload, and payload length. The specific structure of the serial stream is defined in the documentation for the telemetry board firmware.
 
-When the telemetry board sends a serialized CAN message over **radio**, the message takes the following path through the telemetry system:
+When the telemetry board sends a serialized CAN message over **radio**, the message takes the following path through Sunlink:
 
 ```
 Radio module ----> Radio receiver ----> Telemetry link (`link_telemetry.py`) ----> Parser ----> InfluxDB
@@ -59,7 +59,7 @@ As we have seen, the radio module transmits a serial stream which is received by
 
 The cellular module does **not** require the `link_telemetry.py` script since it runs MicroPython and is itself able to make HTTP requests. This means it can bypass the `link_telemetry.py` script and talk to the parser directly.
 
-It is this discrepancy between the radio and cellular modules that required the parser to be implemented as an HTTP server since it provides a single unified interface to both modules.
+It is this discrepancy between the radio and cellular modules that requires the parser to be implemented as an HTTP server since it provides a single unified interface to both modules.
 
 When the telemetry board sends a serialized CAN message over **cellular**, the message takes the following path through the telemetry system:
 
@@ -71,11 +71,11 @@ Cellular module ----> Parser ----> InfluxDB
 
 ## Telemetry link 
 
-The telemetry link is the name for the single Python script `link_telemetry.py`. Its main job is to link the radio receiver to the rest of the telemetry system.
+The telemetry link is the name for the single stand-alone Python script `link_telemetry.py`. Its main job is to link the radio receiver to the telemetry cluster.
 
 More specifically, it is responsible for reading the serial stream from the radio receiver, formatting each message into a JSON object, and making HTTP requests to the parser server. 
 
-Due to potentially long round-trip times (~150ms) for HTTP requests made to a remote telemetry cluster, the telemetry link uses a thread pool to initiate multiple HTTP requests concurrently which results in multiple in-flight requests and a much higher data throughput.
+Due to potentially long round-trip times (~200ms) for HTTP requests made to a remote telemetry cluster, the telemetry link uses a thread pool to initiate multiple HTTP requests concurrently which results in multiple in-flight requests and a much higher data throughput.
 
 The script also provides other minor features like generating random CAN messages for debugging and checking the health of the telemetry cluster.
 
@@ -93,11 +93,11 @@ Together, these three services form the **telemetry cluster**. They are all spun
 
 ## Parser server
 
-The parser is responsible for taking parse requests (which are usually sent by `link_telemetry.py` but realistically could be sent by any application able to make HTTP requests), parsing the data in the requests into measurements, writing the measurements to the Influx container, and optionally streaming the parsed measurements directly to the Grafana container.
+The parser is responsible for taking parse requests (which are usually sent by `link_telemetry.py` but realistically could be sent by any application able to make HTTP requests such as the cellular module), parsing the data in the requests into measurements, writing the measurements to the Influx container, and optionally streaming the parsed measurements directly to the Grafana container.
 
 The parser uses DBC files to parse CAN messages. A detailed look into DBC files and the Python `cantools` package can be found [here](https://wiki.ubcsolar.com/en/subteams/software/cantools-and-dbc).
 
-The parser is implemented as a Flask application and exposes an HTTP API. The `link_telemetry.py` script makes direct use of this API. Detailed API documentation can be found [here](/docs/API.md). 
+The parser is implemented as a Flask application and exposes an HTTP API which the `link_telemetry.py` script makes direct use of. Detailed API documentation can be found [here](/docs/API.md). 
 
 Most of the HTTP endpoints exposed by the parser require bearer token authentication. When the parser is initially set up, a secret key is generated by the user and provided to the server. The server then checks for this secret key in the HTTP authorization headers of any HTTP request it receives. This allows for a simple form of access control and dissuades malicious use of the parser. This is especially important since the telemetry cluster (if deployed remotely) is accessible over the Internet.
 
@@ -107,9 +107,9 @@ From the perspective of the data sources (radio, cellular, etc.), the parser is 
 
 ![InfluxDB homepage](/images/influxdb.png)
 
-InfluxDB is the database for the telemetry system and stores all parsed telemetry data. It is configured with two buckets: a _debug bucket_ and a _production bucket_.
+InfluxDB is used as Sunlink's internal time-series database and stores all parsed telemetry data. It is configured with two buckets: a _debug bucket_ and a _production bucket_.
 
-The debug bucket is usually used when writing randomly generated data. It is intended to be a test bucket for use while working on the telemetry system itself. The production bucket is used when receiving actual data from the car. 
+The debug bucket is usually used when writing randomly generated data. It is intended to be a test bucket for use while developing Sunlink. The production bucket is used when receiving actual data from the car. 
 
 Once the InfluxDB container is spun up, it makes available a convenient GUI that is served on port 8086 by default.
 
@@ -119,16 +119,16 @@ Data is written to InfluxDB _only_ by the parser.
 
 ![Grafana homepage](/images/grafana.png)
 
-Grafana is the visualization platform that allows for user-friendly presentation of the parsed telemetry data.
+Grafana is the visualization platform that allows for user-friendly presentation of parsed telemetry data.
 
 The Grafana instance is provisioned (pre-configured) to connect to the InfluxDB instance automatically.
 
-The main data presentation structure on Grafana is the dashboard. The Grafana instance is provisioned with two dashboards: "Daybreak Test Telemetry" and "Daybreak Telemetry". The first dashboard reads its data from the Influx debug bucket and the second dashboard reads its data from the Influx production bucket.
+The main data presentation element Grafana provides is the dashboard. Currently, the Grafana instance is provisioned with two dashboards: "Daybreak Test Telemetry" and "Daybreak Telemetry". The first dashboard reads its data from the Influx debug bucket and the second dashboard reads its data from the Influx production bucket.
 
 Like the InfluxDB container, the Grafana container makes available a GUI that is served on port 3000 by default.
 
 ### Livestreaming
 
-Most of the data in the dashboards is queried by Grafana from the InfluxDB buckets but this is sometimes too slow for more time-sensitive telemetry applications. This is why the parser, in addition to writing to the InfluxDB buckets, streams all parsed data directly to the Grafana dashboard frontend. This results in a much lower total latency between the initial CAN message generation and the final data visualization on Grafana. 
+Most of the data in the dashboards is queried by Grafana from the InfluxDB buckets but this is sometimes too slow for more time-sensitive telemetry applications. This is why the parser, in addition to writing to the InfluxDB buckets, streams all parsed data directly to the Grafana dashboard frontend. This results in a much lower total latency between the initial CAN message generation and the final data visualization on Grafana.
 
 The parser streams data to Grafana in a background thread so it does not interfere with the main task of writing to Influx.
