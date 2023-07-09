@@ -41,7 +41,7 @@ This repository contains all of the components that make up Sunlink.
 
 Below is a complete block diagram of all system components:
 
-![Telemetry link high-level architecture](/images/link-telemetry-arch.png)
+![Sunlink high-level architecture](/images/sunlink-arch.png)
 
 ### Telemetry cluster
 
@@ -201,9 +201,9 @@ GRAFANA_TOKEN=""
 
 Note that the `INFLUX_TOKEN` and `GRAFANA_TOKEN` keys are left without values (for now).
 
-For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD`, you may choose any values. The same goes for the `INFLUX_ADMIN_USERNAME` and `INFLUX_ADMIN_PASSWORD` environment variables. 
+For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD` fields, you may choose any values. The same goes for the `INFLUX_ADMIN_USERNAME` and `INFLUX_ADMIN_PASSWORD` fields. **For the passwords, however, ensure they are long enough otherwise Grafana and InfluxDB will reject them.**
 
-The `SECRET_KEY` field, however, must be generated.
+The `SECRET_KEY` field must be generated.
 
 > :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_DEBUG_BUCKET`, and `INFLUX_PROD_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
 

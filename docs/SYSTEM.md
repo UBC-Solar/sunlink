@@ -39,7 +39,7 @@ When opening the radio receiver serial port, you will see something like the fol
 ...
 34AE233006260333AA01420012BF8
 34AE2400050104A8BED283CD81848
-34AE24ab050248D8215700DAA3298
+34AE24AB050248D8215700DAA3298
 ...
 ```
 
@@ -61,7 +61,7 @@ The cellular module does **not** require the `link_telemetry.py` script since it
 
 It is this discrepancy between the radio and cellular modules that requires the parser to be implemented as an HTTP server since it provides a single unified interface to both modules.
 
-When the telemetry board sends a serialized CAN message over **cellular**, the message takes the following path through the telemetry system:
+When the telemetry board sends a serialized CAN message over **cellular**, the message takes the following path through Sunlink:
 
 ```
 Cellular module ----> Parser ----> InfluxDB
