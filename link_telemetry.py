@@ -7,8 +7,8 @@ import random
 import time
 import argparse
 import requests
-
 import toml
+
 from toml.decoder import TomlDecodeError
 
 from pathlib import Path
@@ -70,7 +70,8 @@ DEFAULT_MAX_WORKERS = 32
 # default frequency used to generate random messages
 DEFAULT_RANDOM_FREQUENCY_HZ = 10
 
-executor: Optional[concurrent.futures.ThreadPoolExecutor] = None
+# global flag that indicates whether a SIGINT signal was received
+SIGINT_RECVD = False
 
 # <----- Randomizer CAN functions ------>
 
@@ -215,7 +216,13 @@ def print_config_table(args: 'argparse.Namespace'):
 
 def sigint_handler(sig, frame):
     print("Ctrl+C recv'd, exiting gracefully...")
+
+    # set SIGINT_RECVD flag to prevent future done callbacks from running
+    global SIGINT_RECVD
+    SIGINT_RECVD = True
+
     # shutdown the executor
+    global executor
     if executor is not None:
         executor.shutdown(wait=False, cancel_futures=True)
 
@@ -249,6 +256,10 @@ def process_response(future: concurrent.futures.Future):
     response = future.result()
 
     if response is None:
+        return
+
+    # if a SIGINT was received by the main thread, abandon printing of parse results
+    if SIGINT_RECVD:
         return
 
     if response.status_code == 401:
@@ -301,7 +312,7 @@ def main():
                         version=f"{__PROGRAM__} {__VERSION__}", help=("Show program's version number and exit"))
 
     parser.add_argument("--health", action="store_true",
-                        help=("Checks the health of the telemetry cluster"))
+                        help=("Checks the health of the telemetry cluster."))
 
     threadpool_group.add_argument("-j", "--jobs", action="store", default=DEFAULT_MAX_WORKERS,
                                   help=(f"The max number of threads to use for making HTTP requests to \
@@ -366,6 +377,7 @@ def main():
 
     # <----- Create the thread pool ----->
 
+    global executor
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
 
     print(f"{ANSI_GREEN}Telemetry link is up!{ANSI_ESCAPE}")
