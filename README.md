@@ -1,6 +1,6 @@
-# UBC Solar's Telemetry System
+# UBC Solar's Sunlink
 
-The goal of UBC Solar's telemetry system is to extract, store, and visualize data produced by our solar cars in real-time.
+Sunlink is UBC Solar's radio and cellular-based telemetry system. It allows us to process, store, and visualize data produced by our solar cars in real-time.
 
 Collecting and visualizing this data is useful since it allows for:
 
@@ -10,7 +10,7 @@ Collecting and visualizing this data is useful since it allows for:
 4) Enabling continuous race-strategy simulation recalculations
 5) Post-mortem system analysis
 
-This repository contains all of the components for UBC Solar's telemetry system.
+This repository contains all of the components that make up Sunlink.
 
 ## Table of contents
 
@@ -30,7 +30,7 @@ This repository contains all of the components for UBC Solar's telemetry system.
 - `dashboards`: contains the provisioned Grafana dashboard JSONs.
 - `dbc`: stores DBC files for CAN parsing.
 - `docs`: contains additional system documentation.
-- `images`: contains images relevant to the telemetry system.
+- `images`: contains images relevant to Sunlink.
 - `parser`: contains the Python implementation of the parser server.
 - `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
 - `scripts`: contains post-initialization scripts for InfluxDB.
@@ -41,11 +41,11 @@ This repository contains all of the components for UBC Solar's telemetry system.
 
 Below is a complete block diagram of all system components:
 
-![Telemetry link high-level architecture](/images/link-telemetry-arch.png)
+![Sunlink high-level architecture](/images/sunlink-arch.png)
 
 ### Telemetry cluster
 
-The core of the telemetry system is the **telemetry cluster**. This cluster consists of three Docker containers:
+The **telemetry cluster** forms the core of Sunlink. The cluster consists of three Docker containers:
 
 1. **Parser** - implemented as a Flask server which exposes an HTTP API that accepts parse requests.
 2. **InfluxDB** - the database instance that stores the time-series parsed telemetry data.
@@ -57,9 +57,9 @@ There are two technologies that our cars utilize to transmit data: _radio_ and _
 
 The cellular module on Daybreak runs MicroPython and can make HTTP requests which means it can communicate with the telemetry cluster directly.
 
-The radio module, however, is more complicated. It can only send a serial stream to a radio receiver. This radio receiver, when connected to a host computer, makes available the stream of bytes coming from the radio transmitter over a serial port. Unfortunately, this still leaves a gap between the incoming data stream and the telemetry cluster. 
+The radio module, however, is more complicated. It can only send a serial stream to a radio receiver. This radio receiver, when connected to a host computer, makes the stream of bytes coming from the radio transmitter available over a serial port. Unfortunately, this still leaves a gap between the incoming data stream and the telemetry cluster. 
 
-This is where the `link_telemetry.py` script (AKA the telemetry link) comes in. Its main function is to bridge the gap between the incoming data stream by splitting the data stream into individual messages, packaging each message in a JSON object, and finally making an HTTP request to the parser.
+This is where the `link_telemetry.py` script (AKA the telemetry link) comes in. Its main function is to bridge the gap between the incoming data stream and the telemetry cluster by splitting the data stream into individual messages, packaging each message in a JSON object, and finally making an HTTP request to the cluster.
 
 > **NOTE:** the only way for a data source (e.g., radio, cellular, etc.) to access the telemetry cluster is to make HTTP requests to the parser. No direct access to the Influx or Grafana containers is available. Only the parser can directly communicate with those services.
 
@@ -67,7 +67,7 @@ A detailed description of all system components is given [here](/docs/SYSTEM.md)
 
 ## Getting started
 
-When attempting to set up the telemetry system, it is important to decide whether you want to set up both the telemetry cluster and telemetry link or just the telemetry link.
+When attempting to set up Sunlink, it is important to decide whether you want to set up both the telemetry cluster and telemetry link or just the telemetry link.
 
 - If the telemetry cluster has **already been set up** and you would like to only set up the telemetry link to communicate with the cluster, skip to [this section](#telemetry-link-setup).
 
@@ -100,7 +100,7 @@ Whether you're setting up the cluster locally or remotely, the setup instruction
 Clone the repository with:
 
 ```bash
-git clone https://github.com/UBC-Solar/link_telemetry.git
+git clone https://github.com/UBC-Solar/sunlink.git
 ```
 
 Check your Python installation by running:
@@ -124,14 +124,14 @@ Before spinning up the cluster, you must create a `.env` file in the project roo
 For Linux/macOS:
 
 ```bash
-cd link_telemetry/
+cd sunlink/
 touch .env
 ```
 
 For Windows:
 
 ```powershell
-cd link_telemetry/
+cd sunlink\
 New-Item -Path . -Name ".env"
 ```
 
@@ -201,9 +201,9 @@ GRAFANA_TOKEN=""
 
 Note that the `INFLUX_TOKEN` and `GRAFANA_TOKEN` keys are left without values (for now).
 
-For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD`, you may choose any values. The same goes for the `INFLUX_ADMIN_USERNAME` and `INFLUX_ADMIN_PASSWORD` environment variables. 
+For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD` fields, you may choose any values. The same goes for the `INFLUX_ADMIN_USERNAME` and `INFLUX_ADMIN_PASSWORD` fields. **For the passwords, however, ensure they are long enough otherwise Grafana and InfluxDB will reject them.**
 
-The `SECRET_KEY` field, however, must be generated.
+The `SECRET_KEY` field must be generated.
 
 > :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_DEBUG_BUCKET`, and `INFLUX_PROD_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
 
@@ -253,7 +253,7 @@ You should see a flurry of text as the three services come online.
 | `sudo docker compose restart` | Restarts all running containers defined in Compose file. |
 | `sudo docker compose up -d` | Spins up all containers in detached mode (i.e., in the background). |
 | `sudo docker exec -it <CONTAINER_NAME> /bin/bash` | Starts a shell instance inside `<CONTAINER_NAME>`.|
-| `sudo docker system df` | Shows docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB data is taking. |
+| `sudo docker system df` | Shows docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB volume is taking. |
 
 ### Finishing environment set-up
 
@@ -274,8 +274,11 @@ Both the [InfluxDB API docs](https://docs.influxdata.com/influxdb/v2.7/security/
 Once you've filled in all the fields in your `.env` file, you can restart the cluster with:
 
 ```bash
-sudo docker compose restart
+sudo docker compose stop
+sudo docker compose up
 ```
+
+> **NOTE:** You may also try using `sudo docker compose restart` but sometimes it causes Grafana to be unable to authorize its connection to InfluxDB.
 
 ### Checking your setup
 
@@ -306,11 +309,13 @@ If all your tokens are correctly set up, the parser should return the following:
 }
 ```
 
-If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
+- If your output doesn't look like the above, double-check the tokens you entered into the `.env` file and ensure that you **restarted the docker containers** after changing the tokens. Of course, make sure your docker containers are running in the first place. For more information about the parser API health endpoint, go [here](#parser-http-api).
+
+- If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
 
 ## Telemetry link setup
 
-The telemetry link must be set up on the host machine on which the radio receiver is connected. This links the radio module to the rest of the telemetry system and allows using radio as a data source.
+The telemetry link must be set up on the host machine on which the radio receiver is connected. This links the radio module to the telemetry cluster and enables using radio as a data source.
 
 ### Pre-requisites
 
@@ -321,7 +326,7 @@ The telemetry link must be set up on the host machine on which the radio receive
 Clone the repository with:
 
 ```bash
-git clone https://github.com/UBC-Solar/link_telemetry.git
+git clone https://github.com/UBC-Solar/sunlink.git
 ```
 
 Check your Python installation by running:
@@ -339,7 +344,7 @@ It is highly recommended that you create a Python virtual environment to avoid b
 You may choose to create your virtual environment folder anywhere but I like to create it in its own `environment` subdirectory in the project root directory:
 
 ```bash
-cd link_telemetry/
+cd sunlink/
 python -m venv environment
 ```
 
@@ -425,7 +430,7 @@ To run the parser tests, make sure you're in your virtual environment, go to the
 python -m pytest
 ```
 
-Currently, the test framework only tests that the parser parses CAN messages as expected. It does not test any other part of the telemetry system. 
+Currently, the test framework only tests that the parser parses CAN messages as expected. It does not test any other part of Sunlink.
 
 ## Parser HTTP API
 
@@ -433,7 +438,7 @@ Refer to [API.md](/docs/API.md) for the full documentation of the endpoints that
 
 ## Screenshots
 
-Here are some screenshots of real data gathered from Daybreak using the telemetry system:
+Here are some screenshots of real data gathered from Daybreak using Sunlink:
 
 ![Battery state](/images/battery_state.png)
 
