@@ -24,7 +24,7 @@ from parser.standard_frame import Measurement
 from dotenv import dotenv_values
 
 __PROGRAM__ = "parser"
-__VERSION__ = "0.4.0"
+__VERSION__ = "0.4"
 
 # <----- Flask ----->
 
@@ -117,6 +117,9 @@ def welcome():
 @auth.login_required
 def check_health():
     """
+    Returns the health of the parser and if it is
+    able to connect to the relevant services.
+
     Sample response:
         {
             "services": [

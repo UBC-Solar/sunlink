@@ -13,12 +13,12 @@ from toml.decoder import TomlDecodeError
 
 from pathlib import Path
 from prettytable import PrettyTable
-from typing import Dict, Optional
+from typing import Dict
 
 import concurrent.futures
 
 __PROGRAM__ = "link_telemetry"
-__VERSION__ = "0.4.0"
+__VERSION__ = "0.4"
 
 # <----- Constants ----->
 
@@ -80,7 +80,7 @@ def random_can_str(dbc) -> str:
     """
     Generates a random string (which represents a CAN message) that mimics
     the format sent over by the telemetry board over radio. This function
-    is useful for debugging the telemetry system.
+    is useful when debugging the telemetry system.
     """
     # collect CAN IDs
     can_ids = list()
@@ -215,6 +215,9 @@ def print_config_table(args: 'argparse.Namespace'):
 # <----- Signal handling ----->
 
 def sigint_handler(sig, frame):
+    """
+    Handles ctrl+C (SIGINT). Contains all telemetry link deinitialization steps.
+    """
     print("Ctrl+C recv'd, exiting gracefully...")
 
     # set SIGINT_RECVD flag to prevent future done callbacks from running
@@ -245,11 +248,11 @@ def parser_request(payload: Dict, url: str):
 
 def process_response(future: concurrent.futures.Future):
     """
-    Function that defines the post-processing after receiving a response from the hosted parser.
+    Implements the post-processing after receiving a response from the parser.
     Formats the parsed measurements into a table for convenience.
 
-    Is registered as a callback so that once a future is done executing and has
-    a result this function is called.
+    This function should be registered as a "done callback". This means that once a
+    future is done executing, this function should be automatically called.
     """
 
     # get the response from the future
@@ -297,6 +300,9 @@ def process_response(future: concurrent.futures.Future):
 
 
 def main():
+    """
+    Main telemetry link entrypoint.
+    """
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
@@ -309,7 +315,7 @@ def main():
     write_group = parser.add_argument_group("Data write options")
 
     parser.add_argument("--version", action="version",
-                        version=f"{__PROGRAM__} {__VERSION__}", help=("Show program's version number and exit"))
+                        version=f"{__PROGRAM__} v{__VERSION__}", help=("Show program's version number and exit"))
 
     parser.add_argument("--health", action="store_true",
                         help=("Checks the health of the telemetry cluster."))
