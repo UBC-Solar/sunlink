@@ -9,6 +9,8 @@ import argparse
 import requests
 import toml
 
+from datetime import datetime
+
 from toml.decoder import TomlDecodeError
 
 from pathlib import Path
@@ -224,6 +226,13 @@ def sigint_handler(sig, frame):
     global SIGINT_RECVD
     SIGINT_RECVD = True
 
+    global start_time
+    end_time = datetime.now()
+
+    print(f"{ANSI_BOLD}Link start time:{ANSI_ESCAPE} {start_time}")
+    print(f"{ANSI_BOLD}Link end time:{ANSI_ESCAPE} {end_time}")
+    print(f"{ANSI_BOLD}Link elapsed time:{ANSI_ESCAPE} {end_time - start_time}")
+
     # shutdown the executor
     global executor
     if executor is not None:
@@ -242,6 +251,8 @@ def parser_request(payload: Dict, url: str):
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
     except requests.ConnectionError:
         print(f"Unable to make POST request to {url=}!\n")
+    except requests.Timeout:
+        print(f"Connection timeout when making request to {url=}!\n")
     else:
         return r
 
@@ -385,6 +396,9 @@ def main():
 
     global executor
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
+
+    global start_time
+    start_time = datetime.now()
 
     print(f"{ANSI_GREEN}Telemetry link is up!{ANSI_ESCAPE}")
     print("Waiting for incoming messages...")
