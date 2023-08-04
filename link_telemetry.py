@@ -3,6 +3,7 @@ import serial
 import sys
 import signal
 import cantools
+import can
 import random
 import time
 import argparse
@@ -44,6 +45,8 @@ except TomlDecodeError:
 try:
     PARSER_URL = config["parser"]["url"]
     SECRET_KEY = config["security"]["secret_key"]
+    OFFLINE_CAN_CHANNEL = config["offline"]["channel"]
+    OFFLINE_CAN_BITRATE = config["offline"]["bitrate"]
 except KeyError:
     print(f"{TOML_CONFIG_FILE} does not contain expected keys!")
     sys.exit(1)
@@ -354,6 +357,10 @@ def main():
                               help=("Allows using the telemetry link with "
                                     "randomly generated CAN data rather than "
                                     "a real radio telemetry stream."))
+    
+    source_group.add_argument("-o", "--offline", action="store_true",
+                              help=("Allows using the telemetry link with "
+                                    "the data recieved directly from the CAN bus "))
 
     source_group.add_argument("-f", "--frequency-hz", action="store", default=DEFAULT_RANDOM_FREQUENCY_HZ, type=int,
                               help=((f"Specifies the frequency (in Hz) for random message generation. \
@@ -403,6 +410,8 @@ def main():
     print(f"{ANSI_GREEN}Telemetry link is up!{ANSI_ESCAPE}")
     print("Waiting for incoming messages...")
 
+    
+
     while True:
         message: bytes
 
@@ -410,6 +419,26 @@ def main():
             message_str = random_can_str(daybreak_dbc)
             message = message_str.encode(encoding="UTF-8")
             time.sleep(period_s)
+
+            # partition string into pieces
+            timestamp: str = message[0:8].decode()      # 8 bytes
+            id: str = message[8:12].decode()            # 4 bytes
+            data: str = message[12:28].decode()         # 16 bytes
+            data_len: str = message[28:29].decode()     # 1 byte`
+       
+        elif args.offline:     
+            # Defining the Can bus
+            can_bus = can.interface.Bus(bustype='pcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)   #TODO: change the parameters for can_bus
+
+            # read in bytes from CAN bus
+            message = can_bus.recv()
+            
+            # partition string into pieces
+            timestamp: str = str(message.timestamp)       # float
+            id: str = str(message.arbitration_id)         # int
+            data: str = (message.data).decode('ascii')    # bytearray
+            data_len: str = str(message.dlc)              # int
+
         else:
             with serial.Serial() as ser:
                 # <----- Configure COM port ----->
@@ -426,13 +455,15 @@ def main():
                     print(message)
                     continue
 
-                # TODO: check that all characters in message are either hex characters ([0-9A-F]) or a carriage return
+            # partition string into pieces
+            timestamp: str = message[0:8].decode()      # 8 bytes
+            id: str = message[8:12].decode()            # 4 bytes
+            data: str = message[12:28].decode()         # 16 bytes
+            data_len: str = message[28:29].decode()     # 1 byte
+                
+            # TODO: check that all characters in message are either hex characters ([0-9A-F]) or a carriage return
 
-        # partition string into pieces
-        timestamp: str = message[0:8].decode()      # 8 bytes
-        id: str = message[8:12].decode()            # 4 bytes
-        data: str = message[12:28].decode()         # 16 bytes
-        data_len: str = message[28:29].decode()     # 1 byte
+    
 
         payload = {
             "timestamp": timestamp,
