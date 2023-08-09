@@ -9,6 +9,7 @@ import time
 import argparse
 import requests
 import toml
+import numpy as np 
 
 from toml.decoder import TomlDecodeError
 
@@ -273,14 +274,13 @@ def process_response(future: concurrent.futures.Future):
         print(f"Check that your configured secret key matches the parser's ({PARSER_URL}) secret key!")
         print(f"{ANSI_BOLD}Config file location:{ANSI_ESCAPE} \"{TOML_CONFIG_FILE.absolute()}\"\n")
         return
-
+    
     if response.status_code != 200:
         print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
-
     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
-
+    
     parse_response: dict = response.json()
-
+       
     if parse_response["result"] == "OK":
         table = PrettyTable()
         table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
@@ -364,7 +364,7 @@ def main():
         check_health_handler()
         return 0
 
-    validate_args(parser, args)
+    #validate_args(parser, args)
 
     # build the correct URL to make POST request to
     if args.no_write:
@@ -414,16 +414,17 @@ def main():
        
         elif args.offline:     
             # Defining the Can bus
-            can_bus = can.interface.Bus(bustype='pcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)   #TODO: change the parameters for can_bus
+            can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)   #TODO: change the parameters for can_bus
 
             # read in bytes from CAN bus
-            message = can_bus.recv()
-            
+            message = can_bus.recv()          
+
             # partition string into pieces
-            timestamp: str = str(message.timestamp)       # float
-            id: str = str(message.arbitration_id)         # int
-            data: str = (message.data).decode('ascii')    # bytearray
-            data_len: str = str(message.dlc)              # int
+            # timestamp: str = np.format_float_positional(message.timestamp)      # float
+            timestamp: str = "000000"                           #TODO: convert float to string
+            id: str = str(hex(message.arbitration_id))          # int
+            data: str = (message.data).hex()                    # bytearray
+            data_len: str = str(message.dlc)                    # int
 
         else:
             with serial.Serial() as ser:
