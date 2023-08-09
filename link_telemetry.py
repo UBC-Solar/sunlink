@@ -428,16 +428,17 @@ def main():
        
         elif args.offline:     
             # Defining the Can bus
-            can_bus = can.interface.Bus(bustype='pcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)   #TODO: change the parameters for can_bus
+            can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)   #TODO: change the parameters for can_bus
 
             # read in bytes from CAN bus
-            message = can_bus.recv()
-            
+            message = can_bus.recv()          
+
             # partition string into pieces
-            timestamp: str = str(message.timestamp)       # float
-            id: str = str(message.arbitration_id)         # int
-            data: str = (message.data).decode('ascii')    # bytearray
-            data_len: str = str(message.dlc)              # int
+            # timestamp: str = np.format_float_positional(message.timestamp)      # float
+            timestamp: str = "000000"                           #TODO: convert float to string
+            id: str = str(hex(message.arbitration_id))          # int
+            data: str = (message.data).hex()                    # bytearray
+            data_len: str = str(message.dlc)                    # int
 
         else:
             with serial.Serial() as ser:
