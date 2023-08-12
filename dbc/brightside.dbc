@@ -137,7 +137,7 @@ BO_ 1574 ModuleVoltages: 5 BMS
  SG_ Voltage32 m7 : 32|8@1+ (0.019607843137,0) [0|5] "V" Vector__XXX
 
 BO_ 1575 ModuleTemps: 5 BMS
- SG_ MultiplexingBits : 0|3@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MultiplexingBits M : 0|3@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Temp1 m0 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
  SG_ Temp2 m0 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
  SG_ Temp3 m0 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
