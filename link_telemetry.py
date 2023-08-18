@@ -26,7 +26,7 @@ __VERSION__ = "0.4"
 
 # <----- Constants ----->
 
-DBC_FILE = Path("./dbc/daybreak.dbc")
+DBC_FILE = Path("./dbc/brightside.dbc")
 
 TOML_CONFIG_FILE = Path("./telemetry.toml")
 
@@ -390,7 +390,7 @@ def main():
 
     # <----- Read in DBC file ----->
 
-    daybreak_dbc = cantools.database.load_file(DBC_FILE)
+    car_dbc = cantools.database.load_file(DBC_FILE)
 
     # <----- Configuration confirmation ----->
 
@@ -416,16 +416,21 @@ def main():
         message: bytes
 
         if args.randomize:
-            message_str = random_can_str(daybreak_dbc)
+            message_str = random_can_str(car_dbc)
             message = message_str.encode(encoding="UTF-8")
             time.sleep(period_s)
 
+            #print(message)
             # partition string into pieces
             timestamp: str = message[0:8].decode()      # 8 bytes
             id: str = message[8:12].decode()            # 4 bytes
             data: str = message[12:28].decode()         # 16 bytes
             data_len: str = message[28:29].decode()     # 1 byte`
-       
+            
+            print(timestamp)
+            print(id)
+            print(data)
+            print(data_len)
         elif args.offline:     
             # Defining the Can bus
             can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)   #TODO: change the parameters for can_bus
