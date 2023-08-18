@@ -32,10 +32,10 @@ app = Flask(__name__)
 
 # <----- Constants ----->
 
-CAR_NAME = "Daybreak"
+CAR_NAME = "Brightside"
 
 # paths are relative to project root
-DBC_FILE = Path("./dbc/daybreak.dbc")
+DBC_FILE = Path("./dbc/brightside.dbc")
 ENV_FILE = Path(".env")
 
 if not DBC_FILE.is_file():
@@ -52,6 +52,15 @@ API_PREFIX = "/api/v1"
 
 STREAM_QUEUE_MAXSIZE = 256
 
+# <----- InfluxDB constants ----->
+
+INFLUX_URL = "http://influxdb:8086/"
+INFLUX_TOKEN = ENV_CONFIG["INFLUX_TOKEN"]
+
+INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
+INFLUX_DEBUG_BUCKET = ENV_CONFIG["INFLUX_DEBUG_BUCKET"]
+INFLUX_PROD_BUCKET = ENV_CONFIG["INFLUX_PROD_BUCKET"]
+
 # <----- Grafana constants ----->
 
 GRAFANA_URL = "http://grafana:3000/"
@@ -62,9 +71,15 @@ GRAFANA_URL_NAME = Path(GRAFANA_URL).name
 
 stream_queue: 'queue.Queue' = queue.Queue(maxsize=STREAM_QUEUE_MAXSIZE)
 
+# <----- InfluxDB object set-up ----->
+
+client = influxdb_client.InfluxDBClient(
+    url=INFLUX_URL, org=INFLUX_ORG, token=INFLUX_TOKEN)
+write_api = client.write_api(write_options=SYNCHRONOUS)
+
 # <----- Read in DBC file ----->
 
-DAYBREAK_DBC = cantools.database.load_file(DBC_FILE)
+CAR_DBC = cantools.database.load_file(DBC_FILE)
 
 # <----- Pretty printing ----->
 
@@ -98,6 +113,74 @@ def welcome():
     return "Welcome to UBC Solar's Telemetry Parser!\n"
 
 
+@app.get(f"{API_PREFIX}/health")
+@auth.login_required
+def check_health():
+    """
+    Returns the health of the parser and if it is
+    able to connect to the relevant services.
+
+    Sample response:
+        {
+            "services": [
+                {
+                    "name": "influxdb",
+                    "status": "UP",
+                    "url": "http://influxdb:8086/"
+                },
+                {
+                    "name": "grafana",
+                    "status": "UP",
+                    "url": "http://grafana:3000/"
+                },
+            ]
+        }
+    """
+
+    # build response dictionary
+    response_dict: Dict[str, List[Dict[str, str]]] = dict()
+    response_dict["services"] = list()
+
+    # try making a request to InfluxDB container
+    try:
+        influx_response = requests.get(INFLUX_URL + "api/v2/buckets", headers={"Authorization": f"Bearer {INFLUX_TOKEN}"})
+    except requests.exceptions.ConnectionError:
+        influx_status = "DOWN"
+    else:
+        if (influx_response.status_code == 200):
+            influx_status = "UP"
+        elif (influx_response.status_code == 401):
+            influx_status = "UNAUTHORIZED"
+        else:
+            influx_status = "UNEXPECTED_STATUS_CODE"
+
+    # try making a request to Grafana container
+    try:
+        grafana_response = requests.get(GRAFANA_URL + "api/frontend/settings", headers={"Authorization": f"Bearer {GRAFANA_TOKEN}"})
+    except requests.exceptions.ConnectionError:
+        grafana_status = "DOWN"
+    else:
+        if (grafana_response.status_code == 200):
+            grafana_status = "UP"
+        elif (grafana_response.status_code == 401):
+            grafana_status = "UNAUTHORIZED"
+        else:
+            grafana_status = "UNEXPECTED_STATUS_CODE"
+
+    response_dict["services"].append({
+        "name": "influxdb",
+        "url": INFLUX_URL,
+        "status": influx_status
+    })
+    response_dict["services"].append({
+        "name": "grafana",
+        "url": GRAFANA_URL,
+        "status": grafana_status
+    })
+
+    return response_dict
+
+
 @app.post(f"{API_PREFIX}/parse")
 @auth.login_required
 def parse_request():
@@ -118,7 +201,7 @@ def parse_request():
 
     # extract measurements from CAN message
     try:
-        extracted_measurements: List[Measurement] = can_msg.extract_measurements(DAYBREAK_DBC)
+        extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
         app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
         return {
             "result": "OK",
@@ -133,6 +216,149 @@ def parse_request():
             "measurements": [],
             "id": can_msg.identifier
         }
+
+
+@app.post(f"{API_PREFIX}/parse/write/debug")
+@auth.login_required
+def parse_and_write_request():
+    """
+    Parses incoming request, writes the parsed measurements to InfluxDB debug bucket,
+    and sends back parsed measurements back to client.
+    """
+    parse_request = flask.request.json
+    id: str = parse_request["id"]
+    data: str = parse_request["data"]
+    # TODO: use timestamp when writing to Influx
+    timestamp: str = parse_request["timestamp"]
+    data_length: str = parse_request["data_length"]
+
+    app.logger.info(f"Received message: {id=}, {data=}")
+
+    # TODO: add validation for received JSON object
+
+    can_msg = StandardFrame(id, data, timestamp, data_length)
+
+    # try extracting measurements from CAN message
+    try:
+        extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
+        app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier}) and placed into queue")
+    except Exception:
+        app.logger.warn(
+            f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
+        return {
+            "result": "PARSE_FAIL",
+            "measurements": [],
+            "id": can_msg.identifier
+        }
+
+    # try putting the extracted measurements in the queue for Grafana streaming
+    try:
+        stream_queue.put(extracted_measurements, block=False)
+    except queue.Full:
+        app.logger.warn(
+            "Stream queue full. Unable to add measurements to stream queue!"
+        )
+
+    # try writing the measurements extracted
+    for measurement in extracted_measurements:
+        name = measurement.name
+        source = measurement.source
+        m_class = measurement.m_class
+        value = measurement.value
+
+        point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+            "class", m_class).field(name, value)
+
+        # write to InfluxDB
+        try:
+            write_api.write(bucket=INFLUX_DEBUG_BUCKET, org=INFLUX_ORG, record=point)
+            app.logger.info(
+                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
+        except Exception:
+            app.logger.warning("Unable to write measurement to InfluxDB!")
+            return {
+                "result": "INFLUX_WRITE_FAIL",
+                "measurements": extracted_measurements,
+                "id": can_msg.identifier
+            }
+
+    return {
+        "result": "OK",
+        "measurements": extracted_measurements,
+        "id": can_msg.identifier
+    }
+
+
+@app.post(f"{API_PREFIX}/parse/write/production")
+@auth.login_required
+def parse_and_write_request_to_prod():
+    """
+    Parses incoming request, writes the parsed measurements to InfluxDB production bucket,
+    and sends back parsed measurements back to client.
+    """
+    parse_request = flask.request.json
+    id: str = parse_request["id"]
+    data: str = parse_request["data"]
+    # TODO: use timestamp when writing to Influx
+    timestamp: str = parse_request["timestamp"]
+    data_length: str = parse_request["data_length"]
+
+    app.logger.info(f"Received message: {id=}, {data=}")
+
+    # TODO: add validation for received JSON object
+
+    can_msg = StandardFrame(id, data, timestamp, data_length)
+
+    # try extracting measurements from CAN message
+    try:
+        extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
+        app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier}) and placed into queue")
+    except Exception:
+        app.logger.warn(
+            f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
+        return {
+            "result": "PARSE_FAIL",
+            "measurements": [],
+            "id": can_msg.identifier
+        }
+
+    # try putting the extracted measurements in the queue for Grafana streaming
+    try:
+        stream_queue.put(extracted_measurements, block=False)
+    except queue.Full:
+        app.logger.warn(
+            "Stream queue full. Unable to add measurements to stream queue!"
+        )
+
+    # try writing the measurements extracted
+    for measurement in extracted_measurements:
+        name = measurement.name
+        source = measurement.source
+        m_class = measurement.m_class
+        value = measurement.value
+
+        point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+            "class", m_class).field(name, value)
+
+        # write to InfluxDB
+        try:
+            write_api.write(bucket=INFLUX_PROD_BUCKET, org=INFLUX_ORG, record=point)
+            app.logger.info(
+                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_PROD_BUCKET}!")
+        except Exception:
+            app.logger.warning("Unable to write measurement to InfluxDB!")
+            return {
+                "result": "INFLUX_WRITE_FAIL",
+                "measurements": extracted_measurements,
+                "id": can_msg.identifier
+            }
+
+    return {
+        "result": "OK",
+        "measurements": extracted_measurements,
+        "id": can_msg.identifier
+    }
+
 
 def write_measurements():
     """
