@@ -412,14 +412,17 @@ def main():
             id: str = message[8:12].decode()            # 4 bytes
             data: str = message[12:28].decode()         # 16 bytes
             data_len: str = message[28:29].decode()     # 1 byte`
-            
-            print(timestamp)
-            print(id)
-            print(data)
-            print(data_len)
+
         elif args.offline:     
             # Defining the Can bus
-            can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)   #TODO: change the parameters for can_bus
+            can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)from(bucket: "Test")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "BMS")
+  |> filter(fn: (r) => r["class"] == "Faults")
+  |> filter(fn: (r) => r["_field"] == "SlaveBoardComm" or r["_field"] == "BMSSelfTest" or r["_field"] == "OverTemp" or r["_field"] == "UnderVoltage" or r["_field"] == "OverVoltage" or r["_field"] == "IsoLost" or r["_field"] == "ChargeOvercurrent" or r["_field"] == "VoltOutofRange" or r["_field"] == "TempOutofRange" or r["_field"] == "PackBalancingActive" or r["_field"] == "LLIMActive" or r["_field"] == "HLIMActive" or r["_field"] == "ChargeOverTemp" or r["_field"] == "RequestRegenOff")
+  |> sample(n: 10, pos: 1)
+  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)
+  |> yield(name: "last")
 
             # read in bytes from CAN bus
             message = can_bus.recv()          
