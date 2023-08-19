@@ -37,6 +37,7 @@ CAR_NAME = "Brightside"
 # paths are relative to project root
 DBC_FILE = Path("./dbc/brightside.dbc")
 ENV_FILE = Path(".env")
+TXT_FILE = Path("./dbc/output.txt")
 
 if not DBC_FILE.is_file():
     app.logger.critical(f"Unable to find expected existing DBC file: \"{DBC_FILE.absolute()}\"")
@@ -245,6 +246,7 @@ def parse_and_write_request():
     except Exception:
         app.logger.warn(
             f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
+        app.logger.warn(str(extract_measurements))
         return {
             "result": "PARSE_FAIL",
             "measurements": [],
