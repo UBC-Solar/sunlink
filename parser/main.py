@@ -246,6 +246,7 @@ def parse_and_write_request():
     except Exception:
         app.logger.warn(
             f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
+        app.logger.warn(str(extract_measurements))
         return {
             "result": "PARSE_FAIL",
             "measurements": [],
