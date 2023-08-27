@@ -4,7 +4,7 @@ services:
     image: grafana/grafana-oss:9.5.2
     container_name: grafana
     ports:
-      - 3000:3000
+      - 127.0.0.1:3000:3000
     volumes:
       - grafana:/var/lib/grafana
       - type: bind
@@ -35,14 +35,14 @@ services:
     volumes:
       - .:/sunlink
     ports:
-      - 5000:5000
+      - 127.0.0.1:5000:5000
     restart: always
 
   influxdb:
     image: influxdb:2.7.1
     container_name: influxdb
     ports:
-      - 8086:8086
+      - 127.0.0.1:8086:8086
     volumes:
       - influxdb-storage:/var/lib/influxdb2
       - influxdb-config:/etc/influxdb2
