@@ -11,8 +11,6 @@ import requests
 import toml
 import numpy as np 
 
-from datetime import datetime
-
 from toml.decoder import TomlDecodeError
 
 from pathlib import Path
