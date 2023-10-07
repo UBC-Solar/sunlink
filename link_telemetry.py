@@ -196,6 +196,7 @@ def print_config_table(args: 'argparse.Namespace'):
     config_table.add_row(["DATA SOURCE", f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" if args.randomize else f"UART PORT ({args.port})"])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
+    config_table.add_row(["DBC FILE", DBC_FILE])
     config_table.add_row(["MAX THREADS", args.jobs])
 
     if args.no_write:
@@ -361,6 +362,10 @@ def main():
     source_group.add_argument("-o", "--offline", action="store_true",
                               help=("Allows using the telemetry link with "
                                     "the data recieved directly from the CAN bus "))
+    
+    source_group.add_argument("--dbc", action="store",
+                              help="Specifies the dbc file to use. For example: ./dbc/brightside.dbc"
+                              "Default: ./dbc/brightside.dbc")
 
     source_group.add_argument("-f", "--frequency-hz", action="store", default=DEFAULT_RANDOM_FREQUENCY_HZ, type=int,
                               help=((f"Specifies the frequency (in Hz) for random message generation. \
@@ -389,8 +394,13 @@ def main():
     period_s = 1 / args.frequency_hz
 
     # <----- Read in DBC file ----->
-
-    car_dbc = cantools.database.load_file(DBC_FILE)
+        
+    if (args.dbc):
+        PROVIDED_DBC_FILE = Path(args.dbc)
+        car_dbc = cantools.database.load_file(PROVIDED_DBC_FILE)
+    else:
+        car_dbc = cantools.database.load_file(DBC_FILE)
+        
 
     # <----- Configuration confirmation ----->
 
