@@ -437,7 +437,7 @@ def main():
     print("Waiting for incoming messages...")
 
     # <----- Create Empty Log File ----->
-    if not os.path.exists(LOG_DIRECTORY):
+    if LOG_FILE and not os.path.exists(LOG_DIRECTORY):
         os.makedirs(LOG_DIRECTORY)
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
     
@@ -505,9 +505,10 @@ def main():
         }
 
         # Write to log file
-        with open(LOG_FILE_NAME, "a") as output_log_file:
-            json.dump(payload, output_log_file, indent=2)
-            output_log_file.write('\n')
+        if LOG_FILE:
+            with open(LOG_FILE_NAME, "a") as output_log_file:
+                json.dump(payload, output_log_file, indent=2)
+                output_log_file.write('\n')
 
 
         # submit to thread pool
