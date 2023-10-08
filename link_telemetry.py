@@ -9,10 +9,12 @@ import time
 import argparse
 import requests
 import toml
-import numpy as np 
+import numpy as np
+import json
+import os
 
+from datetime import datetime 
 from toml.decoder import TomlDecodeError
-
 from pathlib import Path
 from prettytable import PrettyTable
 from typing import Dict
@@ -195,12 +197,15 @@ def print_config_table(args: 'argparse.Namespace'):
 
     config_table.add_row(["PARSER URL", PARSER_URL])
     config_table.add_row(["DBC FILE", DBC_FILE])
+    if LOG_FILE: config_table.add_row(["LOG FILE", "{}{}".format(LOG_DIRECTORY, LOG_FILE)]) # Only show row if log file option selected
     config_table.add_row(["MAX THREADS", args.jobs])
 
-    if args.no_write:
-        config_table.add_row(["WRITE TARGET", "WRITE DISABLED"])
+    if args.prod:
+        config_table.add_row(["WRITE TARGET", "PRODUCTION BUCKET"])
+    elif args.debug:
+        config_table.add_row(["WRITE TARGET", "DEBUG BUCKET"])
     else:
-        config_table.add_row(["WRITE TARGET", "DEBUG BUCKET" if args.debug else "PRODUCTION BUCKET"])
+        config_table.add_row(["WRITE TARGET", "WRITE DISABLED"])
 
     # POSSIBLE CONFIGURATIONS
 
@@ -344,6 +349,8 @@ def main():
     write_group.add_argument("--no-write", action="store_true",
                              help=(("Requests parser to skip writing to the InfluxDB bucket and streaming"
                                    "to Grafana. Cannot be used with --debug and --prod options.")))
+    write_group.add_argument("--log", action="store_true",
+                             help=("Write data to json log file at current date/time"))
 
     source_group.add_argument("-p", "--port", action="store",
                               help=("Specifies the serial port to read radio data from. "
@@ -381,12 +388,22 @@ def main():
     #validate_args(parser, args)
 
     # build the correct URL to make POST request to
-    if args.no_write:
-        PARSER_ENDPOINT = NO_WRITE_ENDPOINT
+    if args.prod:
+        PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
     elif args.debug:
         PARSER_ENDPOINT = DEBUG_WRITE_ENDPOINT
     else:
-        PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
+        PARSER_ENDPOINT = NO_WRITE_ENDPOINT
+
+    # Check if logging is selected
+    global LOG_FILE
+    global LOG_DIRECTORY
+    LOG_FILE = ''
+    LOG_DIRECTORY = './logfiles/'
+
+    if args.log:
+        current_log_time = datetime.now()
+        LOG_FILE = Path('link_telemetry_log_{}.json'.format(current_log_time))
 
     # compute the period to generate random messages at
     period_s = 1 / args.frequency_hz
@@ -418,6 +435,10 @@ def main():
     print(f"{ANSI_GREEN}Telemetry link is up!{ANSI_ESCAPE}")
     print("Waiting for incoming messages...")
 
+    # <----- Create Empty Log File ----->
+    if not os.path.exists(LOG_DIRECTORY):
+        os.makedirs(LOG_DIRECTORY)
+    LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
     
 
     while True:
@@ -481,6 +502,12 @@ def main():
             "data": data,
             "data_length": data_len,
         }
+
+        # Write to log file
+        with open(LOG_FILE_NAME, "a") as output_log_file:
+            json.dump(payload, output_log_file, indent=2)
+            output_log_file.write('\n')
+
 
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
