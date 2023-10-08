@@ -131,3 +131,6 @@ dmypy.json
 
 # toml files
 telemetry.toml
+
+# Log Files
+logfiles/*
