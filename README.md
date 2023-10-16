@@ -421,6 +421,8 @@ Here are some example invocations:
 | `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB. | 
 | `./link_telemetry.py -r --debug` | Makes the link randomly generate message data and requests the parser to write to the debug InfluxDB bucket. |
 | `./link_telemetry.py -r -f 100 --debug` | Makes the link randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket. |
+| `./link_telemetry.py -o --debug` | Makes the link to recieve data from PCAN and requests the parser to write to the debug InfluxDB bucket. |
+| `./link_telemetry.py -o --prod` | Makes the link to recieve data from PCAN and requests the parser to write to the production InfluxDB bucket. |
 
 ## Running the tests
 
