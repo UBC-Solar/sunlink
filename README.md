@@ -95,6 +95,7 @@ Whether you're setting up the cluster locally or remotely, the setup instruction
 
 - Python 3.8 or above (https://www.python.org/downloads/)
 - Docker & Docker Compose (https://docs.docker.com/get-docker/)
+- Linux PCAN Driver (https://www.peak-system.com/fileadmin/media/linux/index.htm)
 - A cloned copy of this repository
 
 Clone the repository with:
@@ -116,7 +117,17 @@ Check your Docker Compose installation by running:
 ```bash
 sudo docker compose version
 ```
+Set the PCAN status UP:
+```bash
+sudo ip link set can0 up type can bitrate 500000
+```
+> NOTE: Make sure you added the usb port for PCAN on the Ubuntu from the settings.
 
+Check if PCAN is connected properly:
+```bash
+candump -H -td -x -c can0
+```
+This should output what is on the PCAN at the moment.
 ### Setting up environment variables
 
 Before spinning up the cluster, you must create a `.env` file in the project root directory (i.e., the same directory as the `docker-compose.yaml` file). I find that it is easiest to create the file from the terminal:
@@ -313,6 +324,10 @@ If all your tokens are correctly set up, the parser should return the following:
 
 - If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
 
+## Seting up PCAN drivers
+
+ 
+
 ## Telemetry link setup
 
 The telemetry link must be set up on the host machine on which the radio receiver is connected. This links the radio module to the telemetry cluster and enables using radio as a data source.
@@ -390,6 +405,10 @@ url = "http://143.120.12.53:5000/"
 
 [security]
 secret_key = "dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
+
+[offline]
+channel = "can0"
+bitrate = "500000"
 ```
 
 The `parser.url` field specifies the URL where the script can find the telemetry cluster parser. If you are running the cluster locally, the url would likely be `http://localhost:5000/`.
@@ -399,6 +418,8 @@ The `security.secret_key` field specifies the secret key to use in the HTTP auth
 This secret key must match with the secret key configured for the telemetry cluster parser that you are trying to communicate with.
 
 If you set up the telemetry cluster locally then you already have access to this secret key. If the telemetry cluster was set up for you, ask your software lead for the secret key. 
+
+The `offline.channel` and `offline.bitrate` fields specify the channel and bitrate of the PCAN.   
 
 Once all the fields are filled, the `link_telemetry.py` script is ready for use.
 
