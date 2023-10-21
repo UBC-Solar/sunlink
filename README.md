@@ -117,6 +117,14 @@ Check your Docker Compose installation by running:
 ```bash
 sudo docker compose version
 ```
+Add PCAN USB port to Ubuntu from Virtual Box settings:
+
+- Go to settings from Virtual Box.
+- Click on the green + as shown in the picture below.
+- Add the USB port the PCAN is connected to and click OK. 
+
+![Battery state](/images/virtualbox_usb.png) 
+
 Set the PCAN status UP:
 ```bash
 sudo ip link set can0 up type can bitrate 500000
