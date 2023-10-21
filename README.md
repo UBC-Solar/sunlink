@@ -117,6 +117,11 @@ Check your Docker Compose installation by running:
 ```bash
 sudo docker compose version
 ```
+
+> [!NOTE]  
+> If you plan to use the offline mode with the linktelemetry.py script, please see the below settings for VirtualBox and bringing up the CAN interface
+
+
 Add PCAN USB port to Ubuntu from Virtual Box settings:
 
 - Go to settings from Virtual Box.
@@ -430,6 +435,9 @@ This secret key must match with the secret key configured for the telemetry clus
 If you set up the telemetry cluster locally then you already have access to this secret key. If the telemetry cluster was set up for you, ask your software lead for the secret key. 
 
 The `offline.channel` and `offline.bitrate` fields specify the channel and bitrate of the PCAN.   
+
+> [!IMPORTANT]
+> The [offline] fields are only required if you plan to use the offline mode with PCAN.
 
 Once all the fields are filled, the `link_telemetry.py` script is ready for use.
 
