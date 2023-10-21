@@ -125,9 +125,10 @@ Add PCAN USB port to Ubuntu from Virtual Box settings:
 
 ![Battery state](/images/virtualbox_usb.png) 
 
-Set the PCAN status UP:
+Bringing CAN interface up:
 ```bash
-sudo ip link set can0 up type can bitrate 500000
+$ sudo ip link set can0 type can bitrate 500000
+$ sudo ip link set up can0
 ```
 > NOTE: Make sure you added the usb port for PCAN on the Ubuntu from the settings.
 
@@ -344,6 +345,7 @@ The telemetry link must be set up on the host machine on which the radio receive
 
 - Python 3.8 or above (https://www.python.org/downloads/)
 - A functional and running telemetry cluster (either local or remote)
+- Linux PCAN Driver (https://www.peak-system.com/fileadmin/media/linux/index.htm)
 - A cloned copy of this repository
 
 Clone the repository with:
