@@ -32,11 +32,12 @@ app = Flask(__name__)
 
 # <----- Constants ----->
 
-CAR_NAME = "Daybreak"
+CAR_NAME = "Brightside"
 
 # paths are relative to project root
-DBC_FILE = Path("./dbc/daybreak.dbc")
+DBC_FILE = Path("./dbc/brightside.dbc")
 ENV_FILE = Path(".env")
+TXT_FILE = Path("./dbc/output.txt")
 
 if not DBC_FILE.is_file():
     app.logger.critical(f"Unable to find expected existing DBC file: \"{DBC_FILE.absolute()}\"")
@@ -79,7 +80,7 @@ write_api = client.write_api(write_options=SYNCHRONOUS)
 
 # <----- Read in DBC file ----->
 
-DAYBREAK_DBC = cantools.database.load_file(DBC_FILE)
+CAR_DBC = cantools.database.load_file(DBC_FILE)
 
 # <----- Pretty printing ----->
 
@@ -201,7 +202,7 @@ def parse_request():
 
     # extract measurements from CAN message
     try:
-        extracted_measurements: List[Measurement] = can_msg.extract_measurements(DAYBREAK_DBC)
+        extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
         app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
         return {
             "result": "OK",
@@ -240,11 +241,12 @@ def parse_and_write_request():
 
     # try extracting measurements from CAN message
     try:
-        extracted_measurements: List[Measurement] = can_msg.extract_measurements(DAYBREAK_DBC)
+        extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
         app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier}) and placed into queue")
     except Exception:
         app.logger.warn(
             f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
+        app.logger.warn(str(extract_measurements))
         return {
             "result": "PARSE_FAIL",
             "measurements": [],
@@ -311,7 +313,7 @@ def parse_and_write_request_to_prod():
 
     # try extracting measurements from CAN message
     try:
-        extracted_measurements: List[Measurement] = can_msg.extract_measurements(DAYBREAK_DBC)
+        extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
         app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier}) and placed into queue")
     except Exception:
         app.logger.warn(

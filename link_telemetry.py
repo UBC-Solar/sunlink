@@ -3,16 +3,19 @@ import serial
 import sys
 import signal
 import cantools
+import can
 import random
 import time
 import argparse
 import requests
 import toml
+import numpy as np
+import json
+import os
 
 from datetime import datetime
 
 from toml.decoder import TomlDecodeError
-
 from pathlib import Path
 from prettytable import PrettyTable
 from typing import Dict
@@ -24,7 +27,7 @@ __VERSION__ = "0.4"
 
 # <----- Constants ----->
 
-DBC_FILE = Path("./dbc/daybreak.dbc")
+DBC_FILE = Path("./dbc/brightside.dbc")
 
 TOML_CONFIG_FILE = Path("./telemetry.toml")
 
@@ -44,6 +47,8 @@ except TomlDecodeError:
 try:
     PARSER_URL = config["parser"]["url"]
     SECRET_KEY = config["security"]["secret_key"]
+    OFFLINE_CAN_CHANNEL = config["offline"]["channel"]
+    OFFLINE_CAN_BITRATE = config["offline"]["bitrate"]
 except KeyError:
     print(f"{TOML_CONFIG_FILE} does not contain expected keys!")
     sys.exit(1)
@@ -192,12 +197,16 @@ def print_config_table(args: 'argparse.Namespace'):
     config_table.add_row(["DATA SOURCE", f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" if args.randomize else f"UART PORT ({args.port})"])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
+    config_table.add_row(["DBC FILE", DBC_FILE])
+    if LOG_FILE: config_table.add_row(["LOG FILE", "{}{}".format(LOG_DIRECTORY, LOG_FILE)]) # Only show row if log file option selected
     config_table.add_row(["MAX THREADS", args.jobs])
 
-    if args.no_write:
-        config_table.add_row(["WRITE TARGET", "WRITE DISABLED"])
+    if args.prod:
+        config_table.add_row(["WRITE TARGET", "PRODUCTION BUCKET"])
+    elif args.debug:
+        config_table.add_row(["WRITE TARGET", "DEBUG BUCKET"])
     else:
-        config_table.add_row(["WRITE TARGET", "DEBUG BUCKET" if args.debug else "PRODUCTION BUCKET"])
+        config_table.add_row(["WRITE TARGET", "WRITE DISABLED"])
 
     # POSSIBLE CONFIGURATIONS
 
@@ -281,14 +290,13 @@ def process_response(future: concurrent.futures.Future):
         print(f"Check that your configured secret key matches the parser's ({PARSER_URL}) secret key!")
         print(f"{ANSI_BOLD}Config file location:{ANSI_ESCAPE} \"{TOML_CONFIG_FILE.absolute()}\"\n")
         return
-
+    
     if response.status_code != 200:
         print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
-
     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
-
+    
     parse_response: dict = response.json()
-
+       
     if parse_response["result"] == "OK":
         table = PrettyTable()
         table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
@@ -342,6 +350,8 @@ def main():
     write_group.add_argument("--no-write", action="store_true",
                              help=(("Requests parser to skip writing to the InfluxDB bucket and streaming"
                                    "to Grafana. Cannot be used with --debug and --prod options.")))
+    write_group.add_argument("--log", action="store_true",
+                             help=("Write data to json log file at current date/time"))
 
     source_group.add_argument("-p", "--port", action="store",
                               help=("Specifies the serial port to read radio data from. "
@@ -354,6 +364,14 @@ def main():
                               help=("Allows using the telemetry link with "
                                     "randomly generated CAN data rather than "
                                     "a real radio telemetry stream."))
+    
+    source_group.add_argument("-o", "--offline", action="store_true",
+                              help=("Allows using the telemetry link with "
+                                    "the data recieved directly from the CAN bus "))
+    
+    source_group.add_argument("--dbc", action="store",
+                              help="Specifies the dbc file to use. For example: ./dbc/brightside.dbc"
+                              "Default: ./dbc/brightside.dbc")
 
     source_group.add_argument("-f", "--frequency-hz", action="store", default=DEFAULT_RANDOM_FREQUENCY_HZ, type=int,
                               help=((f"Specifies the frequency (in Hz) for random message generation. \
@@ -368,22 +386,37 @@ def main():
         check_health_handler()
         return 0
 
-    validate_args(parser, args)
+    #validate_args(parser, args)
 
     # build the correct URL to make POST request to
-    if args.no_write:
-        PARSER_ENDPOINT = NO_WRITE_ENDPOINT
+    if args.prod:
+        PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
     elif args.debug:
         PARSER_ENDPOINT = DEBUG_WRITE_ENDPOINT
     else:
-        PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
+        PARSER_ENDPOINT = NO_WRITE_ENDPOINT
+
+    # Check if logging is selected
+    global LOG_FILE
+    global LOG_DIRECTORY
+    LOG_FILE = ''
+    LOG_DIRECTORY = './logfiles/'
+
+    if args.log:
+        current_log_time = datetime.now()
+        LOG_FILE = Path('link_telemetry_log_{}.json'.format(current_log_time))
 
     # compute the period to generate random messages at
     period_s = 1 / args.frequency_hz
 
     # <----- Read in DBC file ----->
-
-    daybreak_dbc = cantools.database.load_file(DBC_FILE)
+        
+    if (args.dbc):
+        PROVIDED_DBC_FILE = Path(args.dbc)
+        car_dbc = cantools.database.load_file(PROVIDED_DBC_FILE)
+    else:
+        car_dbc = cantools.database.load_file(DBC_FILE)
+        
 
     # <----- Configuration confirmation ----->
 
@@ -403,13 +436,41 @@ def main():
     print(f"{ANSI_GREEN}Telemetry link is up!{ANSI_ESCAPE}")
     print("Waiting for incoming messages...")
 
+    # <----- Create Empty Log File ----->
+    if LOG_FILE and not os.path.exists(LOG_DIRECTORY):
+        os.makedirs(LOG_DIRECTORY)
+    LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
+    
+
     while True:
         message: bytes
 
         if args.randomize:
-            message_str = random_can_str(daybreak_dbc)
+            message_str = random_can_str(car_dbc)
             message = message_str.encode(encoding="UTF-8")
             time.sleep(period_s)
+
+            #print(message)
+            # partition string into pieces
+            timestamp: str = message[0:8].decode()      # 8 bytes
+            id: str = message[8:12].decode()            # 4 bytes
+            data: str = message[12:28].decode()         # 16 bytes
+            data_len: str = message[28:29].decode()     # 1 byte`
+
+        elif args.offline:     
+            # Defining the Can bus
+            can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
+
+            # read in bytes from CAN bus
+            message = can_bus.recv()          
+
+            # partition string into pieces
+            # timestamp: str = np.format_float_positional(message.timestamp)      # float
+            timestamp: str = "000000"                           #TODO: convert float to string
+            id: str = str(hex(message.arbitration_id))          # int
+            data: str = (message.data).hex()                    # bytearray
+            data_len: str = str(message.dlc)                    # int
+
         else:
             with serial.Serial() as ser:
                 # <----- Configure COM port ----->
@@ -426,13 +487,15 @@ def main():
                     print(message)
                     continue
 
-                # TODO: check that all characters in message are either hex characters ([0-9A-F]) or a carriage return
+            # partition string into pieces
+            timestamp: str = message[0:8].decode()      # 8 bytes
+            id: str = message[8:12].decode()            # 4 bytes
+            data: str = message[12:28].decode()         # 16 bytes
+            data_len: str = message[28:29].decode()     # 1 byte
+                
+            # TODO: check that all characters in message are either hex characters ([0-9A-F]) or a carriage return
 
-        # partition string into pieces
-        timestamp: str = message[0:8].decode()      # 8 bytes
-        id: str = message[8:12].decode()            # 4 bytes
-        data: str = message[12:28].decode()         # 16 bytes
-        data_len: str = message[28:29].decode()     # 1 byte
+    
 
         payload = {
             "timestamp": timestamp,
@@ -440,6 +503,13 @@ def main():
             "data": data,
             "data_length": data_len,
         }
+
+        # Write to log file
+        if LOG_FILE:
+            with open(LOG_FILE_NAME, "a") as output_log_file:
+                json.dump(payload, output_log_file, indent=2)
+                output_log_file.write('\n')
+
 
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)

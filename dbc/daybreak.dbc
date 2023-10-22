@@ -169,4 +169,3 @@ SIG_VALTYPE_ 1291 motor_temperature : 1;
 SIG_VALTYPE_ 1291 heatsink_temperature : 1;
 SIG_VALTYPE_ 1025 desired_velocity : 1;
 SIG_VALTYPE_ 1025 current_setpoint : 1;
-
