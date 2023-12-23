@@ -28,7 +28,7 @@ services:
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_BUCKET=${INFLUX_PROD_BUCKET}
-
+      - DS_INFLUXDB=${DS_INFLUXDB}
   parser:
     build: .
     container_name: parser
@@ -56,6 +56,8 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_ORG}
       - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_PROD_BUCKET}
       - INFLUX_DEBUG_BUCKET=${INFLUX_DEBUG_BUCKET}
+      - DS_INFLUXDB=${DS_INFLUXDB}
+
     restart: always
 
 volumes:

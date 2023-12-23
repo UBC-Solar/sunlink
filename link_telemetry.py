@@ -416,6 +416,9 @@ def main():
     else:
         car_dbc = cantools.database.load_file(DBC_FILE)
         
+    if args.offline:
+        # Defining the Can bus
+        can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
 
     # <----- Configuration confirmation ----->
 
@@ -457,9 +460,7 @@ def main():
             data_len: str = message[28:29].decode()     # 1 byte`
 
         elif args.offline:     
-            # Defining the Can bus
-            can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
-
+            
             # read in bytes from CAN bus
             message = can_bus.recv()          
 
