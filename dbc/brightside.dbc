@@ -142,34 +142,34 @@ BO_ 1575 ModuleTemps: 5 BMS
  SG_ Temp2 m0 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
  SG_ Temp3 m0 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
  SG_ Temp4 m0 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp5 m1 : 8|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp6 m1 : 16|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp7 m1 : 24|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp8 m1 : 32|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp9 m2 : 8|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp10 m2 : 16|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp11 m2 : 24|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp12 m2 : 32|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp13 m3 : 8|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp14 m3 : 16|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp15 m3 : 24|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp16 m3 : 32|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp17 m4 : 8|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp18 m4 : 16|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp19 m4 : 24|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp20 m4 : 32|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp21 m5 : 8|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp22 m5 : 16|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp23 m5 : 24|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp24 m5 : 32|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp25 m6 : 8|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp26 m6 : 16|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp27 m6 : 24|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp28 m6 : 32|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp29 m7 : 8|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp30 m7 : 16|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp31 m7 : 24|8@1+ (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp32 m7 : 32|8@1+ (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp5 m1 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp6 m1 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp7 m1 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp8 m1 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp9 m2 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp10 m2 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp11 m2 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp12 m2 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp13 m3 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp14 m3 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp15 m3 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp16 m3 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp17 m4 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp18 m4 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp19 m4 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp20 m4 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp21 m5 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp22 m5 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp23 m5 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp24 m5 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp25 m6 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp26 m6 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp27 m6 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp28 m6 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp29 m7 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp30 m7 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp31 m7 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp32 m7 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
 
 BO_ 1104 ECUCurrentStatus: 3 ECU
  SG_ PackCurrent : 0|8@1- (1,0) [-127|127] "A" Vector__XXX
