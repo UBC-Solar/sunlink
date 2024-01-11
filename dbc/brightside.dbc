@@ -42,6 +42,14 @@ BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ Unused : 0|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ DOC_COC : 24|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RESERVED : 48|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ PackCurrent : 0|16@1- (0.015259021897,0) [0|0] "A" Vector__XXX
+ SG_ LVcurrent : 16|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
+ SG_ SuppBattVoltage : 24|16@1+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ PackOverDischargeWarning : 40|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ PackOverchargeWarning : 41|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DOC : 42|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ESTOPpressed : 44|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -173,7 +181,7 @@ BO_ 1575 ModuleTemps: 5 BMS
  SG_ Temp31 m7 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
  SG_ Temp32 m7 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
 
-BO_ 1104 ECUCurrentStatus: 6 ECU
+BO_ 1104 ECUStatuAndCurrent: 6 ECU
  SG_ PackCurrent : 0|16@1- (0.015259021897,0) [-127|127] "A" Vector__XXX
  SG_ LVCurrent : 16|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
  SG_ SuppBattVoltage : 24|16@1+ (0.001,0) [0|0] "V" Vector__XXX
@@ -277,16 +285,6 @@ BO_ 1012 EcuChargerModes: 8 ECU
  SG_ MaxChargingCurrent : 16|16@1+ (0.1,0) [0|0] "A" Vector__XXX
  SG_ ChargerEnables : 32|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ ChargingModes : 40|8@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1104 ECUstatusAndCurrent: 6 ECU
- SG_ PackCurrent : 0|16@1- (0.015259021897,0) [0|0] "A" Vector__XXX
- SG_ LVcurrent : 16|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
- SG_ SuppBattVoltage : 24|16@1+ (0.001,0) [0|0] "V" Vector__XXX
- SG_ PackOverDischargeWarning : 40|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ PackOverchargeWarning : 41|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ DOC : 42|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ ESTOPpressed : 44|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 997 OBCStatus: 8 OBC
  SG_ OutputVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
