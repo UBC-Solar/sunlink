@@ -33,13 +33,15 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MDU MCB SDL TEL
+BU_: AMB BMS DID ECU MDU MCB SDL TEL OBC
 
 
 BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ ConfigReadError : 21|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ WatchdogCausedLast : 20|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Unused : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DOC_COC : 24|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RESERVED : 48|8@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -142,39 +144,44 @@ BO_ 1575 ModuleTemps: 5 BMS
  SG_ Temp2 m0 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
  SG_ Temp3 m0 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
  SG_ Temp4 m0 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp5 m1 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp6 m1 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp7 m1 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp8 m1 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp9 m2 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp10 m2 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp11 m2 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp12 m2 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp13 m3 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp14 m3 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp15 m3 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp16 m3 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp17 m4 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp18 m4 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp19 m4 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp20 m4 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp21 m5 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp22 m5 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp23 m5 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp24 m5 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp25 m6 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp26 m6 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp27 m6 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp28 m6 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp29 m7 : 8|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp30 m7 : 16|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp31 m7 : 24|8@1- (1,0) [-127|127] "C" Vector__XXX
- SG_ Temp32 m7 : 32|8@1- (1,0) [-127|127] "C" Vector__XXX
+ SG_ Temp5 m1 : 8|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp6 m1 : 16|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp7 m1 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp8 m1 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp9 m2 : 8|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp10 m2 : 16|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp11 m2 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp12 m2 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp13 m3 : 8|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp14 m3 : 16|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp15 m3 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp16 m3 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp17 m4 : 8|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp18 m4 : 16|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp19 m4 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp20 m4 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp21 m5 : 8|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp22 m5 : 16|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp23 m5 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp24 m5 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp25 m6 : 8|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp26 m6 : 16|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp27 m6 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp28 m6 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp29 m7 : 8|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp30 m7 : 16|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp31 m7 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
+ SG_ Temp32 m7 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
 
-BO_ 1104 ECUCurrentStatus: 3 ECU
- SG_ PackCurrent : 0|8@1- (1,0) [-127|127] "A" Vector__XXX
- SG_ LVCurrent : 8|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
- SG_ DOC_COC : 16|1@1+ (1,0) [0|0] "" Vector__XXX
+BO_ 1104 ECUCurrentStatus: 6 ECU
+ SG_ PackCurrent : 0|16@1- (0.015259021897,0) [-127|127] "A" Vector__XXX
+ SG_ LVCurrent : 16|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
+ SG_ SuppBattVoltage : 24|16@1+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ PackOverDischargeWarning : 40|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ PackOverChargeWarning : 41|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DOC : 42|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ESTOPpressed : 44|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1280 Information: 8 MDU
  SG_ TritiumID : 0|32@1+ (1,0) [0|0] "" Vector__XXX
@@ -216,14 +223,15 @@ BO_ 1024 DriverInterface: 2 MCB
  SG_ NextScreenPressed : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ CruiseEnabled : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Unused : 2|6@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DriveState : 8|8@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1025 MotorDriveCommand: 8 MCB
  SG_ MotorVelocity : 0|32@1+ (1,0) [0|0] "m/s" Vector__XXX
- SG_ MotorCurrent : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorCurrent : 32|32@1+ (1,0) [0|0] "%" Vector__XXX
 
 BO_ 1026 MotorPowerCommand: 8 MCB
  SG_ Reserved : 8|24@1+ (1,0) [0|0] "" Vector__XXX
- SG_ BusCurrent : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ BusCurrent : 32|32@1+ (1,0) [0|0] "%" Vector__XXX
  SG_ ResetCommand : 0|8@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1576 ModuleStatuses: 5 BMS
@@ -264,8 +272,50 @@ BO_ 1576 ModuleStatuses: 5 BMS
 BO_ 1577 BalancingStatus: 5 BMS
  SG_ ModuleStatusofBits : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 1012 EcuChargerModes: 8 ECU
+ SG_ MaxChargingVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
+ SG_ MaxChargingCurrent : 16|16@1+ (0.1,0) [0|0] "A" Vector__XXX
+ SG_ ChargerEnables : 32|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ChargingModes : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1104 ECUstatusAndCurrent: 6 ECU
+ SG_ PackCurrent : 0|16@1- (0.015259021897,0) [0|0] "A" Vector__XXX
+ SG_ LVcurrent : 16|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
+ SG_ SuppBattVoltage : 24|16@1+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ PackOverDischargeWarning : 40|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ PackOverchargeWarning : 41|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DOC : 42|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ESTOPpressed : 44|1@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 997 OBCStatus: 8 OBC
+ SG_ OutputVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
+ SG_ OutputCurrent : 16|16@1+ (0.1,0) [0|0] "A" Vector__XXX
+ SG_ HardwareProtection : 32|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ TemepratureProtection : 33|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ InputVoltageStatus : 34|2@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OutputUnderVoltage : 36|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OutputOverVoltage : 37|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OutputOverCurrent : 38|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OutputShortCircuit : 39|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CommunicationStatus : 40|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ WorkingStatus : 41|2@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CompletionOfInitialization : 43|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ FanEnable : 44|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CoolingPumpFanEnable : 45|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CCsignalStatus : 48|2@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CPSignalStatus : 50|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ChargingSocketTempFault : 51|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ElectronicLockState : 52|3@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ S2SwitchControlStatus : 55|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Temperaturre : 56|8@1+ (1,-40) [0|0] "C" Vector__XXX
+
+BO_ 1872 SimulationSpeed: 4 TEL
+ SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
 
+
+CM_ SG_ 3221225472 DOC_COC "Discharge and Charge Overcurrent Status";
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
 CM_ SG_ 1573 AverageTemp "Twos Complement";
@@ -305,14 +355,65 @@ CM_ SG_ 1575 Temp30 "Twos Complement
 ";
 CM_ SG_ 1575 Temp31 "Twos Complement";
 CM_ SG_ 1575 Temp32 "Twos Complement";
-CM_ SG_ 1104 PackCurrent "Twos Complement positive into pack ";
-CM_ SG_ 1104 DOC_COC "Discharge and Charge Overcurrent Status";
-CM_ SG_ 1280 TritiumID "char[4]string";
+CM_ SG_ 1104 PackCurrent "int16_t, positive is into PACK(divide by 65.535 to get value in A) Must cast back to int16_t if retrieving value from CAN bus";
+CM_ SG_ 1104 LVCurrent "Unsigned, 0-30A (divide by 8.5 to get value in A)
+
+
+";
+CM_ SG_ 1104 SuppBattVoltage "
+uint16_t, divide by 1000 to get V";
+CM_ SG_ 1104 PackOverDischargeWarning "Active High
+";
+CM_ SG_ 1104 PackOverChargeWarning "Active High
+";
+CM_ SG_ 1104 DOC "Discharge overcurrent
+";
+CM_ SG_ 1104 COC "Charge overcurrent
+";
+CM_ SG_ 1104 ESTOPpressed "Active High
+";
+CM_ SG_ 1280 TritiumID "Unused char[4]string";
+CM_ SG_ 1280 SerialNumber "Unused";
+CM_ SG_ 1024 DriveState "Drive state of the MCB: INVALID = 0x00, DRIVE= 0x02, REGEN = 0x03,  CRUISE = 0x04,  PARK = 0x06, REVERSE = 0x07";
 CM_ SG_ 1025 MotorCurrent "Percentage of max current
 ";
 CM_ SG_ 1026 BusCurrent "Percentage of the max bus current";
 CM_ SG_ 1026 ResetCommand "Unused";
 CM_ SG_ 1577 ModuleStatusofBits "Each bit indicates bal status (active high)";
+CM_ SG_ 1012 ChargerEnables "0x00: Start charger
+0x01: Close output of charger
+0x02: Stop charging (sleep mode)
+Other values: Unused";
+CM_ SG_ 1012 ChargingModes "0x00: charging mode
+0x01: Heating mode(charger heats the heating film inside the battery, the charger does not need to detect the output voltage to work. When designing the resistance value of the heating film, it should be noted that the working voltage of the heating film must be between the MIN voltage and the MAX voltage of the battery. Preferably close to the battery's maximum voltage. It is best to turn off the output before switching modes)
+Other values: Unused";
+CM_ SG_ 997 HardwareProtection "0: Normal, 1: Hardware Protection";
+CM_ SG_ 997 TemepratureProtection "0: Normal, 1: Internal Temp. Protection";
+CM_ SG_ 997 InputVoltageStatus "0: Normal, 1: Input under voltage, 2: Input over voltage, 3: No Input Voltage";
+CM_ SG_ 997 OutputUnderVoltage "0: Normal, 1: Fault";
+CM_ SG_ 997 OutputOverVoltage "0: Normal, 1: Fault";
+CM_ SG_ 997 OutputOverCurrent "0: Normal, 1: Fault";
+CM_ SG_ 997 OutputShortCircuit "0: Normal, 1: Fault";
+CM_ SG_ 997 CommunicationStatus "0: Communication is normal 1: Receive communication timeout";
+CM_ SG_ 997 WorkingStatus "0: Undefined, 1: work, 2: Stop, 3: Stop or standby";
+CM_ SG_ 997 CompletionOfInitialization "0: Not Complete, 1: Complete";
+CM_ SG_ 997 FanEnable "0: Close, 1: Open";
+CM_ SG_ 997 CoolingPumpFanEnable "0: Close, 1: Open";
+CM_ SG_ 997 CCsignalStatus "CC: Resistance value inside charger gun, 1.5k ohms = max 8A, 680 ohms = 16A, 220 ohms = 32A
+
+0: Not Connected, 1: Half Connected, 2: Normally Connected, 3: Resistance detection error";
+CM_ SG_ 997 CPSignalStatus "CP: Power supply capacity depending on duty cycle
+
+0: No CP signal detected, 1: CP signal normal";
+CM_ SG_ 997 ChargingSocketTempFault "0: Normal, 1: Overheating
+
+Overheating fault occurs when temp is > 90 degrees
+ and >15 min or if temp is >120 degrees";
+CM_ SG_ 997 ElectronicLockState "0: in Judgment, 1: Locked, 2: Unlocked, 3: Unlock fault, 4: Locked fault";
+CM_ SG_ 997 S2SwitchControlStatus "0: Switch off, 1: Closed";
+CM_ SG_ 997 Temperaturre "";
+CM_ SG_ 1872 SimulationSpeedRec "UNITS + FACTOR TBD
+";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
