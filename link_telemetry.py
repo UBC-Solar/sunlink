@@ -487,21 +487,9 @@ def main():
                     print(message)
                     continue
 
-            # partition string into pieces
-            timestamp: str = message[0:8].decode()      # 8 bytes
-            id: str = message[8:12].decode()            # 4 bytes
-            data: str = message[12:28].decode()         # 16 bytes
-            data_len: str = message[28:29].decode()     # 1 byte
-                
-            # TODO: check that all characters in message are either hex characters ([0-9A-F]) or a carriage return
-
-    
 
         payload = {
-            "timestamp": timestamp,
-            "id": id,
-            "data": data,
-            "data_length": data_len,
+            "message" : message
         }
 
         # Write to log file

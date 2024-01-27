@@ -21,6 +21,10 @@ from flask_httpauth import HTTPTokenAuth
 from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
+# New imports
+from parser.Message import Message
+from parser.create_message import create_message
+
 from dotenv import dotenv_values
 
 __PROGRAM__ = "parser"
@@ -189,16 +193,18 @@ def parse_request():
     Parses incoming request and sends back the parsed result.
     """
     parse_request: Dict = flask.request.json
-    id: str = parse_request["id"]
-    data: str = parse_request["data"]
-    timestamp: str = parse_request["timestamp"]
-    data_length: str = parse_request["data_length"]
 
-    app.logger.info(f"Received message: {id=}, {data=}")
+    msg, msg_type = create_message(parse_request["msg"])      # Message object (CAN, GPS, IMU Wrapper)
+
+    id = msg.data.get("identifier", "NO GPS ID")
+    data = msg.data.get("data_bytes", "NOT CAN DATA")
+    app.logger.info(f"Received a {msg_type} message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
+    # TODO: Add functionality for GPS and IMU messages
 
-    can_msg = StandardFrame(id, data, timestamp, data_length)
+    # Only CAN messages are supported for now
+    can_msg = (StandardFrame(id, data, msg.data.get("timestamp"), msg.data.get("data_len")) if msg_type == "CAN" else msg)
 
     # extract measurements from CAN message
     try:
@@ -227,17 +233,17 @@ def parse_and_write_request():
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
-    id: str = parse_request["id"]
-    data: str = parse_request["data"]
-    # TODO: use timestamp when writing to Influx
-    timestamp: str = parse_request["timestamp"]
-    data_length: str = parse_request["data_length"]
+    msg, msg_type = create_message(parse_request["msg"])      # Message object (CAN, GPS, IMU Wrapper)
 
-    app.logger.info(f"Received message: {id=}, {data=}")
+    id = msg.data.get("identifier", "NO GPS ID")
+    data = msg.data.get("data_bytes", "NOT CAN DATA")
+    app.logger.info(f"Received a {msg_type} message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
+    # TODO: Add functionality for GPS and IMU messages
 
-    can_msg = StandardFrame(id, data, timestamp, data_length)
+    # Only CAN messages are supported for now
+    can_msg = (StandardFrame(id, data, msg.data.get("timestamp"), msg.data.get("data_len")) if msg_type == "CAN" else msg)
 
     # try extracting measurements from CAN message
     try:
@@ -246,7 +252,7 @@ def parse_and_write_request():
     except Exception:
         app.logger.warn(
             f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
-        app.logger.warn(str(extract_measurements))
+        app.logger.warn(str(extracted_measurements))
         return {
             "result": "PARSE_FAIL",
             "measurements": [],
@@ -299,17 +305,18 @@ def parse_and_write_request_to_prod():
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
-    id: str = parse_request["id"]
-    data: str = parse_request["data"]
-    # TODO: use timestamp when writing to Influx
-    timestamp: str = parse_request["timestamp"]
-    data_length: str = parse_request["data_length"]
+    msg, msg_type = create_message(parse_request["msg"])      # Message object (CAN, GPS, IMU Wrapper)
 
-    app.logger.info(f"Received message: {id=}, {data=}")
+    id = msg.data.get("identifier", "NO GPS ID")
+    data = msg.data.get("data_bytes", "NOT CAN DATA")
+    app.logger.info(f"Received a {msg_type} message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
+    # TODO: Add functionality for GPS and IMU messages
 
-    can_msg = StandardFrame(id, data, timestamp, data_length)
+    # Only CAN messages are supported for now
+    can_msg = (StandardFrame(id, data, msg.data.get("timestamp"), msg.data.get("data_len")) if msg_type == "CAN" else msg)
+
 
     # try extracting measurements from CAN message
     try:
@@ -360,7 +367,7 @@ def parse_and_write_request_to_prod():
         "measurements": extracted_measurements,
         "id": can_msg.identifier
     }
-
+Measurement
 
 def write_measurements():
     """

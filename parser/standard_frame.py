@@ -39,10 +39,7 @@ class StandardFrame:
 
         self.hex_identifier = "0x" + hex(self.identifier)[2:].upper()
 
-        self.data = list(self.chunks(data, 2))            # 16 bytes
-
-        # separated into bytes (each byte represented in decimal)
-        self.data = list(map(lambda x: int(x, 16), self.data))
+        self.data = list(data)            # 16 bytes
 
         # use this to decode the message
         self.data_bytes: bytes = bytearray(self.data)
@@ -51,6 +48,34 @@ class StandardFrame:
 
         # separated into bytes (each byte represented in binary)
         self.bytestream = list(map(lambda x: "{0:08b}".format(x), self.data))
+
+        # single binary number representing the CAN message data
+        self.bitstream = "".join(self.bytestream)
+
+    def __init__(self, id: str, data: str, timestamp: str, data_len: str):
+        """
+        Encapsulates a single standard CAN frame.
+
+        Parameters:
+            id: the ID of the CAN message (0x000 - 0x7ff)
+            data: the payload of the CAN message
+            timestamp: the timestamp of the CAN message
+            data_len: the number of valid bytes in the CAN message payload (0-8)
+        """
+        self.timestamp = int(timestamp, 16)     # 8 bytes
+        self.identifier = int(id, 16)           # 4 bytes
+        self.data_len = int(data_len, 16)       # 1 byte
+
+        self.hex_identifier = "0x" + hex(self.identifier)[2:].upper()
+
+        self.data = list(map(lambda x: ord(x), data))            # 16 bytes
+        self.hex_data = list(map(lambda x: hex(x), self.data))
+        # separated into bytes (each byte represented in decimal)
+
+        self.data_bytes: bytes = bytearray(map(lambda x: ord(x), data))
+
+        # separated into bytes (each byte represented in binary)
+        self.bytestream = list(map(lambda x: "{0:08b}".format(ord(x)), data))
 
         # single binary number representing the CAN message data
         self.bitstream = "".join(self.bytestream)
@@ -143,3 +168,8 @@ class StandardFrame:
 
         for i in range(0, len(lst), n):
             yield lst[i: i + n]
+
+hex_strings = ['0xDE', '0xAD', '0xBE', '0xEF', '0xDE', '0xAD', '0xBE', '0xEF']
+char_string = ''.join(chr(int(hex_str, 16)) for hex_str in hex_strings)
+can_msg = StandardFrame("111", char_string, "CCCCCCCC", "8")
+print(can_msg)
