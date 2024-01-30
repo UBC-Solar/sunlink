@@ -12,6 +12,7 @@ import toml
 import numpy as np
 import json
 import os
+import struct
 
 from datetime import datetime 
 from toml.decoder import TomlDecodeError
@@ -466,7 +467,10 @@ def main():
 
             # partition string into pieces
             # timestamp: str = np.format_float_positional(message.timestamp)      # float
-            timestamp: str = "000000"                           #TODO: convert float to string
+            epoch_time = int(time.time())                       # epoch time as integer
+            ascii_bytes = struct.pack("!Q", epoch_time)         # Convert to bytes (!Q for unsigned long long --> 8 bytes)
+            
+            timestamp: str = ascii_bytes                        #TODO: convert float to string
             id: str = str(hex(message.arbitration_id))          # int
             data: str = (message.data).hex()                    # bytearray
             data_len: str = str(message.dlc)                    # int
