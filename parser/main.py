@@ -60,7 +60,7 @@ INFLUX_TOKEN = ENV_CONFIG["INFLUX_TOKEN"]
 
 INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
 INFLUX_DEBUG_BUCKET = ENV_CONFIG["INFLUX_DEBUG_BUCKET"]
-INFLUX_PROD_BUCKET = ENV_CONFIG["INFLUX_PROD_BUCKET"]
+INFLUX_CAN_BUCKET = ENV_CONFIG["INFLUX_CAN_BUCKET"]
 
 # <----- Grafana constants ----->
 
@@ -229,7 +229,6 @@ def parse_and_write_request():
     parse_request = flask.request.json
     id: str = parse_request["id"]
     data: str = parse_request["data"]
-    # TODO: use timestamp when writing to Influx
     timestamp: str = parse_request["timestamp"]
     data_length: str = parse_request["data_length"]
 
@@ -295,13 +294,12 @@ def parse_and_write_request():
 @auth.login_required
 def parse_and_write_request_to_prod():
     """
-    Parses incoming request, writes the parsed measurements to InfluxDB production bucket,
+    Parses incoming request, writes the parsed measurements to production InfluxDB buckets,
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
     id: str = parse_request["id"]
     data: str = parse_request["data"]
-    # TODO: use timestamp when writing to Influx
     timestamp: str = parse_request["timestamp"]
     data_length: str = parse_request["data_length"]
 
@@ -344,9 +342,9 @@ def parse_and_write_request_to_prod():
 
         # write to InfluxDB
         try:
-            write_api.write(bucket=INFLUX_PROD_BUCKET, org=INFLUX_ORG, record=point)
+            write_api.write(bucket=INFLUX_CAN_BUCKET, org=INFLUX_ORG, record=point)
             app.logger.info(
-                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_PROD_BUCKET}!")
+                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_CAN_BUCKET}!")
         except Exception:
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
