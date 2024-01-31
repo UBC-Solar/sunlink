@@ -463,6 +463,15 @@ Here are some example invocations:
 | `./link_telemetry.py -o --debug` | Makes the link to recieve data from PCAN and requests the parser to write to the debug InfluxDB bucket. |
 | `./link_telemetry.py -o --prod` | Makes the link to recieve data from PCAN and requests the parser to write to the production InfluxDB bucket. |
 
+## Running the Offline Log Uploader
+To run the offline log uploader `log_upload.py` you must have your readable log file in the **same** directory as the `log_upload.py` script. Then run the following command:
+
+```python log_upload.py --log-file FILE_NAME```
+
+where `FILE_NAME` is replaced with your log file name. For example, if you log file is named `logs.txt` then run:
+
+```python log_upload.py --log-file FILE_NAME```
+
 ## Running the tests
 
 To run the parser tests, make sure you're in your virtual environment, go to the project root directory, and execute:
