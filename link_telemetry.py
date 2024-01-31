@@ -256,6 +256,11 @@ def parser_request(payload: Dict, url: str):
     """
     Makes a parse request to the given `url`.
     """
+    # Write to log file
+    # Characters might not show up as expetced in the log file
+    with open(LOG_FILE_NAME, "a") as output_log_file:
+        json.dump(payload, output_log_file, indent=2)
+        output_log_file.write('\n')
     try:
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
     except requests.ConnectionError:
@@ -350,9 +355,6 @@ def main():
     write_group.add_argument("--no-write", action="store_true",
                              help=(("Requests parser to skip writing to the InfluxDB bucket and streaming"
                                    "to Grafana. Cannot be used with --debug and --prod options.")))
-    write_group.add_argument("--log", action="store_true",
-                             help=("Write data to json log file at current date/time"))
-
     source_group.add_argument("-p", "--port", action="store",
                               help=("Specifies the serial port to read radio data from. "
                                     "Typical values include: COM5, /dev/ttyUSB0, etc."))
@@ -402,9 +404,8 @@ def main():
     LOG_FILE = ''
     LOG_DIRECTORY = './logfiles/'
 
-    if args.log:
-        current_log_time = datetime.now()
-        LOG_FILE = Path('link_telemetry_log_{}.json'.format(current_log_time))
+    current_log_time = datetime.now()
+    LOG_FILE = Path('link_telemetry_log_{}.json'.format(current_log_time))
 
     # compute the period to generate random messages at
     period_s = 1 / args.frequency_hz
@@ -439,6 +440,7 @@ def main():
     # <----- Create Empty Log File ----->
     if LOG_FILE and not os.path.exists(LOG_DIRECTORY):
         os.makedirs(LOG_DIRECTORY)
+    global LOG_FILE_NAME 
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
     
 
@@ -481,22 +483,9 @@ def main():
                 # read in bytes from COM port
                 message = ser.readline()
 
-                if len(message) != EXPECTED_CAN_MSG_LENGTH:
-                    print(
-                        f"WARNING: got message length {len(message)}, expected {EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
-                    print(message)
-                    continue
-
-
         payload = {
             "message" : message
         }
-
-        # Write to log file
-        if LOG_FILE:
-            with open(LOG_FILE_NAME, "a") as output_log_file:
-                json.dump(payload, output_log_file, indent=2)
-                output_log_file.write('\n')
 
 
         # submit to thread pool

@@ -194,7 +194,7 @@ def parse_request():
     """
     parse_request: Dict = flask.request.json
 
-    msg, msg_type = create_message(parse_request["msg"])      # Message object (CAN, GPS, IMU Wrapper)
+    msg, msg_type = create_message(parse_request["message"])      # Message object (CAN, GPS, IMU Wrapper)
 
     id = msg.data.get("identifier", "NO GPS ID")
     data = msg.data.get("data_bytes", "NOT CAN DATA")

@@ -24,7 +24,7 @@ class CAN(Message):
     CHANGES:
         data field is now 8 bytes (Before: FF is sent as 2 letter Fs, now it is sent as 1 byte char with value 255)
     """
-    def __init__(self, id: str, data: str, timestamp: str, data_len: str):
+    def __init__(self, message: bytes) -> None:  
         """
         Encapsulates a single standard CAN frame.
 
@@ -34,6 +34,12 @@ class CAN(Message):
             timestamp: the timestamp of the CAN message
             data_len: the number of valid bytes in the CAN message payload (0-8)
         """
+                
+        timestamp: str = message[0:8].decode()
+        id: str = message[8:12].decode()
+        data: str = message[12:20].decode()
+        data_len: str = message[20:21].decode()
+
         self.timestamp = int(timestamp, 16)     # 8 bytes
         self.identifier = int(id, 16)           # 4 bytes
         self.data_len = int(data_len, 16)       # 1 byte
