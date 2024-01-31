@@ -200,7 +200,7 @@ def main():
             break
 
         # Create payload
-        payload = {"msg": log_line}
+        payload = {"message": log_line}
 
         # Submit to thread pool BASED ON length of line in the file 
         if len(log_line) == CAN_LENGTH:
@@ -219,4 +219,3 @@ def main():
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, sigint_handler)
     main()
-    
