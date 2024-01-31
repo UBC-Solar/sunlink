@@ -89,6 +89,7 @@ def random_can_str(dbc) -> str:
     the format sent over by the telemetry board over radio. This function
     is useful when debugging the telemetry system.
     """
+    
     # collect CAN IDs
     can_ids = list()
     for message in dbc.messages:
