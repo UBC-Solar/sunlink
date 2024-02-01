@@ -1,12 +1,5 @@
 import random
 import struct
-import time
-import cantools
-from pathlib import Path
-
-# Test imports
-from Message import Message
-from create_message import create_message
 
 """
 Class to provide random message generaters for testing purposes.
