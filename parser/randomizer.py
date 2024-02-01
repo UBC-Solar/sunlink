@@ -4,9 +4,6 @@ import time
 import cantools
 from pathlib import Path
 
-import sys
-sys.path.append('sunlink/parser')
-
 # Test imports
 from Message import Message
 from create_message import create_message
