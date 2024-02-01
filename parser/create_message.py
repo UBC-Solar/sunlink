@@ -9,7 +9,7 @@ from GPS_Msg import GPS      # GPS message
 CAN_LENGTH_MIN      = 21
 CAN_LENGTH_MAX      = 23
 GPS_LENGTH_MIN      = 117
-GPS_LENGTH_MAX      = 126
+GPS_LENGTH_MAX      = 128
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 
