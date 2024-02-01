@@ -24,7 +24,7 @@ self.type = "GPS"
 class GPS(Message):
     def __init__(self, message: bytes) -> None:   
         # Convert it to a string 
-        str_msg = message.decode("utf-8")
+        str_msg = message.decode("latin-1")
 
         # Parse all data fields and set type
         self.data = self.parseGPS_str(str_msg)

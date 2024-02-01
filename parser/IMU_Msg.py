@@ -20,7 +20,7 @@ self.type = "IMU"
 class IMU(Message):
     def __init__(self, message: bytes) -> None:   
         # Convert it to a string
-        str_msg = message.decode("utf-8")
+        str_msg = message.decode("latin-1")
 
         # Parse all data fields and set type
         self.data = self.parseIMU_str(str_msg)
@@ -35,7 +35,7 @@ class IMU(Message):
     Returns:
         a dictionary containing the data fields of the IMU message
     """
-    def parseIMU_str(str_msg: str) -> dict:
+    def parseIMU_str(self, str_msg: str) -> dict:
         # Extract the parts of the message
         timestamp = str_msg[:8]
         id = str_msg[9:11]      # skip the @

@@ -35,10 +35,10 @@ class CAN(Message):
             data_len: the number of valid bytes in the CAN message payload (0-8)
         """
                 
-        timestamp: str = message[0:8].decode()
-        id: str = message[8:12].decode()
-        data: str = message[12:20].decode()
-        data_len: str = message[20:21].decode()
+        timestamp: str = message[0:8].decode("latin-1")
+        id: str = message[8:12].decode("latin-1")
+        data: str = message[12:20].decode("latin-1")
+        data_len: str = message[20:21].decode("latin-1")
 
         self.timestamp = int(timestamp, 16)     # 8 bytes
         self.identifier = int(id, 16)           # 4 bytes

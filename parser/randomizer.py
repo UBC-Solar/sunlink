@@ -4,6 +4,13 @@ import time
 import cantools
 from pathlib import Path
 
+import sys
+sys.path.append('sunlink/parser')
+
+# Test imports
+from Message import Message
+from create_message import create_message
+
 """
 Class to provide random message generaters for testing purposes.
 Currently creates random messages for CAN, GPS, and IMU.
@@ -16,14 +23,14 @@ class RandomMessage:
         dbc - dbc object from cantools library
 
     Returns
-        string - random CAN message in string format
+        byte array - random CAN message as an encoded string with latin-1 encoding:
                  "TTTTTTTTIIIIDDDDDDDDL\n"
                     T - timestamp       = 8 bytes
                     I - identifier      = 4 bytes
                     D - data            = 8 bytes
                     L - data length     = 1 byte
     """
-    def random_can_str(self, dbc) -> str:
+    def random_can_bytes(self, dbc) -> bytes:
         """
         Generates a random string (which represents a CAN message) that mimics
         the format sent over by the telemetry board over radio. This function
@@ -43,18 +50,21 @@ class RandomMessage:
         random_identifier = random.choice(can_ids)
         random_id_str = "{0:0{1}x}".format(random_identifier, 4)
 
-        # random data 8 bytes
+        # random data 8 bytes. Then 2 HEX to ASCII
         random_data = random.randint(0, pow(2, 64))
-        random_data_str = "{0:0{1}x}".format(random_data, 8)
+        random_data_str = "{0:0{1}x}".format(random_data, 16)
+        hex_pairs = [random_data_str[i:i+2] for i in range(0, len(random_data_str), 2)] # split into pairs
+        ascii_chars = [chr(int(h, 16)) for h in hex_pairs]  # convert to ASCII
+        random_data_str = ''.join(ascii_chars)  # join into string
 
         # fixed data length
         data_length = "8"
 
         # collect into single string
         can_str = random_timestamp_str + random_id_str + random_data_str \
-            + data_length + "\n"
+             + data_length + "\n"
 
-        return can_str
+        return can_str.encode("latin-1")
 
     """
     Returns a random GPS message in NMEA format.
@@ -64,9 +74,9 @@ class RandomMessage:
         None
     
     Returns:
-        string - random GPS message in NMEA format
+        byte array - random GPS message in NMEA format as a string encoded to bytes with latin-1 encoding
     """
-    def random_gps_data(self) -> str:
+    def random_gps_bytes(self) -> bytes:
         latitude = random.uniform(-90, 90)
         latSide = 'S' if latitude < 0 else 'N'
         longitude = random.uniform(-180, 180)
@@ -85,9 +95,9 @@ class RandomMessage:
             lastMeasure)
 
         # Convert the NMEA message to hexadecimal
-        nmea_msg_hex = nmea_msg.encode("utf-8").hex()
+        nmea_msg = nmea_msg.encode("latin-1")
 
-        return nmea_msg_hex
+        return nmea_msg
 
     """
     Returns a random IMU message in the format:
@@ -96,15 +106,16 @@ class RandomMessage:
         None
     
     Returns:
-        string - random IMU message in the format:
-                 "TTTTTTTT@IIIIFFFFFFFF\n"
+        byte array - random IMU message in the format as a string encoded to bytes:
+                 "TTTTTTTT@IIFFFF\n"
                     T - timestamp       = 8 bytes
                     I - identifier      = 2 bytes
                     F - data            = 4 bytes
     """
-    def random_imu_str(self) -> str:
+    def random_imu_bytes(self) -> bytes:
         # Generate a random timestamp
-        timestamp = "{:08x}".format(int(time.time()))
+        timestamp = random.randint(0, pow(2, 32))
+        timestamp = "{0:0{1}x}".format(timestamp, 8)
 
         # Generate a random identifier
         types = ['A', 'G']
@@ -114,20 +125,8 @@ class RandomMessage:
         # Generate a random value
         value = random.uniform(-1000, 1000)
         value_bytes = struct.pack('>f', value)
-        value_str = ''.join('{:02x}'.format(b) for b in value_bytes)
 
-        # Combine all parts into a single string
-        imu_str = timestamp + "@" + identifier + value_str
+        # Combine all parts into a single bytes object
+        imu_bytes = timestamp.encode('latin-1') + b"@" + identifier.encode('latin-1') + value_bytes
 
-        # Convert the IMU message to hexadecimal
-        imu_str_hex = imu_str.encode("utf-8").hex()
-
-        return imu_str_hex
-
-
-DBC_FILE = Path("./dbc/brightside.dbc")
-car_dbc = cantools.database.load_file(DBC_FILE)
-r = RandomMessage()
-print(r.random_can_str(car_dbc))
-print(r.random_gps_data())
-print(r.random_imu_str())
+        return imu_bytes
