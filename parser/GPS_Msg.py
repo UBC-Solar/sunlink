@@ -1,7 +1,7 @@
 import re
 
 # Superclass import
-from Message import Message, Measurement
+from Message import Message
 
 """
 Subclass GPS implements the extract_measurements and getter
@@ -30,6 +30,38 @@ class GPS(Message):
         self.data = self.parseGPS_str(str_msg)
         self.type = "GPS"
 
+
+    """
+    Extracts measurements from a GPS message based on a specified format
+    Keys of the dict are column headings. Values are data (as strings) in column.
+
+    Parameters:
+        format_specifier: None for GPS messages (as of now)
+        
+    Returns:
+        display_data dictionary with the following form
+        {
+            "Latitude": [val + latside],
+            "Longitude": [val + longside],
+            "Altitude": [],
+            "HDOP": [],
+            "Satellites": [],
+            "Fix": [],
+            "Time": []
+        }
+    """
+    def extract_measurements(self, format_specifier=None) -> dict:
+        display_data = {
+            "Latitude": [str(self.data['latitude']) + " " + self.data['latSide']],
+            "Longitude": [str(self.data['longitude']) + " " + self.data['lonSide']],
+            "Altitude": [str(self.data['altitude'])],
+            "HDOP": [str(self.data['hdop'])],
+            "Satellites": [str(self.data['satelliteCount'])],
+            "Fix": [str(self.data['fix'])],
+            "Time": [str(self.data['lastMeasure'])]
+        }
+
+        return display_data
 
     """
     Parses a GPS message string into a dictionary of fields using regex
@@ -64,11 +96,6 @@ class GPS(Message):
             return gps_data
         else:
             return None
-
-    # TODO: Implement this method
-    def extract_measurements(self, format_specifier) -> list[Measurement]:
-        measurement_list: list[Measurement] = list()
-        return measurement_list
 
     def data(self) -> dict:
         return self.data

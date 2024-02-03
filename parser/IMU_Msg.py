@@ -1,7 +1,7 @@
 import struct
 
 # Superclass import
-from Message import Message, Measurement
+from Message import Message
 
 """
 Subclass IMU implements the extract_measurements and getter
@@ -25,6 +25,29 @@ class IMU(Message):
         # Parse all data fields and set type
         self.data = self.parseIMU_str(str_msg)
         self.type = "IMU"
+
+    """
+    Extracts measurements from a IMU message based on a specified format
+    Keys of the dict are column headings. Values are data (as strings) in column.
+    
+    Parameters:
+        format_specifier: None for IMU messages (as of now)
+        
+    Returns:
+        display_data dictionary with the following form
+        {
+            "Type": [],
+            "Dimension": [],
+            "Value": []
+        }
+    """
+    def extract_measurements(self, format_specifier=None) -> dict:
+        display_data = {
+            "Type": [self.data['type']],
+            "Dimension": [self.data['dimension']],
+            "Value": [str(self.data['value'])]
+        }
+        return display_data
 
     """
     Parses a IMU message string into a dictionary of fields
@@ -53,11 +76,6 @@ class IMU(Message):
             'dimension': id[1]
         }
         return output
-
-    # TODO: Implement this method
-    def extract_measurements(self, format_specifier) -> list[Measurement]:
-        measurement_list: list[Measurement] = list()
-        return measurement_list
 
     def data(self) -> dict:
         return self.data

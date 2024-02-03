@@ -233,21 +233,21 @@ def parse_and_write_request():
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
-    msg, msg_type = create_message(parse_request["msg"])      # Message object (CAN, GPS, IMU Wrapper)
+    msg = create_message(parse_request["msg"])      # Message object (CAN, GPS, IMU Wrapper)
 
     id = msg.data.get("identifier", "NO GPS ID")
     data = msg.data.get("data_bytes", "NOT CAN DATA")
-    app.logger.info(f"Received a {msg_type} message: {id=}, {data=}")
+    app.logger.info(f"Received a {msg.type} message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
     # TODO: Add functionality for GPS and IMU messages
 
     # Only CAN messages are supported for now
-    can_msg = (StandardFrame(id, data, msg.data.get("timestamp"), msg.data.get("data_len")) if msg_type == "CAN" else msg)
+    can_msg = (StandardFrame(id, data, msg.data.get("timestamp"), msg.data.get("data_len")) if msg.type == "CAN" else msg)
 
     # try extracting measurements from CAN message
     try:
-        extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
+        extracted_measurements: dict = can_msg.extract_measurements(CAR_DBC)
         app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier}) and placed into queue")
     except Exception:
         app.logger.warn(

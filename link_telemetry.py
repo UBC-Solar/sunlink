@@ -19,6 +19,7 @@ from toml.decoder import TomlDecodeError
 from pathlib import Path
 from prettytable import PrettyTable
 from typing import Dict
+from parser.randomizer import RandomMessage
 
 import concurrent.futures
 
@@ -79,43 +80,6 @@ DEFAULT_RANDOM_FREQUENCY_HZ = 10
 
 # global flag that indicates whether a SIGINT signal was received
 SIGINT_RECVD = False
-
-# <----- Randomizer CAN functions ------>
-
-
-def random_can_str(dbc) -> str:
-    """
-    Generates a random string (which represents a CAN message) that mimics
-    the format sent over by the telemetry board over radio. This function
-    is useful when debugging the telemetry system.
-    """
-    
-    # collect CAN IDs
-    can_ids = list()
-    for message in dbc.messages:
-        can_ids.append(message.frame_id)
-
-    # 0 to 2^32
-    random_timestamp = random.randint(0, pow(2, 32))
-    random_timestamp_str = "{0:0{1}x}".format(random_timestamp, 8)
-
-    # random identifier
-    random_identifier = random.choice(can_ids)
-    random_id_str = "{0:0{1}x}".format(random_identifier, 4)
-
-    # random data
-    random_data = random.randint(0, pow(2, 64))
-    random_data_str = "{0:0{1}x}".format(random_data, 16)
-
-    # fixed data length
-    data_length = "8"
-
-    # collect into single string
-    can_str = random_timestamp_str + random_id_str + random_data_str \
-        + data_length + "\n"
-
-    return can_str
-
 
 # <----- Utility functions ------>
 
@@ -449,16 +413,8 @@ def main():
         message: bytes
 
         if args.randomize:
-            message_str = random_can_str(car_dbc)
-            message = message_str.encode(encoding="UTF-8")
+            message = RandomMessage().random_message_bytes(car_dbc)
             time.sleep(period_s)
-
-            #print(message)
-            # partition string into pieces
-            timestamp: str = message[0:8].decode()      # 8 bytes
-            id: str = message[8:12].decode()            # 4 bytes
-            data: str = message[12:28].decode()         # 16 bytes
-            data_len: str = message[28:29].decode()     # 1 byte`
 
         elif args.offline:     
             # Defining the Can bus

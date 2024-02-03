@@ -35,6 +35,13 @@ Superclass Message (interface):
 """
 class Message(ABC):
     """
+    Constructor for the Message interface
+    """
+    @abstractmethod
+    def __init__(self, message: bytes) -> None:
+        pass
+
+    """
     Extracts measurements from a Message based on a specified format
 
     Parameters:
@@ -44,7 +51,7 @@ class Message(ABC):
         a list of Measurement objects containing fields formatted to the InfluxDB buckets 
     """
     @abstractmethod
-    def extract_measurements(self, format_specifier) -> list[Measurement]:
+    def extract_measurements(self, format_specifier=None) -> dict:
         pass
 
     """
@@ -53,7 +60,7 @@ class Message(ABC):
     """
     @abstractmethod
     def data(self) -> dict:
-        return self.data
+        pass
 
     """
     Returns:
@@ -61,7 +68,8 @@ class Message(ABC):
     """
     @abstractmethod
     def type(self) -> str:
-        return self.type
+        pass
+
 
 
 def create_message(message: bytes) -> Message:

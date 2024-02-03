@@ -1,11 +1,33 @@
 import random
 import struct
 
+
 """
 Class to provide random message generaters for testing purposes.
 Currently creates random messages for CAN, GPS, and IMU.
 """
 class RandomMessage:
+    """
+    Returns a random message of a random type (Currently CAN, GPS, or IMU).
+    
+    Parameters:
+        dbc - dbc object from cantools library for CAN message generation
+        
+    Returns:
+        byte array - random message of a random type as a string encoded to bytes with latin-1 encoding
+    """
+    def random_message_bytes(self, dbc) -> bytes:
+        """
+        Randomly selects a message type and returns a random message of that type.
+        """
+        message_type = random.choice(['CAN', 'GPS', 'IMU'])
+        if message_type == 'CAN':
+            return self.random_can_bytes(dbc)
+        elif message_type == 'GPS':
+            return self.random_gps_bytes()
+        elif message_type == 'IMU':
+            return self.random_imu_bytes()
+        
     """
     CREDIT: Mihir .N taken from link_telemetry
 

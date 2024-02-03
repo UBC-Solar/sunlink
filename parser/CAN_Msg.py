@@ -1,5 +1,10 @@
 # Superclass import
-from Message import Message, Measurement
+from Message import Message
+from randomizer import RandomMessage
+import cantools
+from pathlib import Path
+import os
+
 
 
 """
@@ -24,17 +29,7 @@ class CAN(Message):
     CHANGES:
         data field is now 8 bytes (Before: FF is sent as 2 letter Fs, now it is sent as 1 byte char with value 255)
     """
-    def __init__(self, message: bytes) -> None:  
-        """
-        Encapsulates a single standard CAN frame.
-
-        Parameters:
-            id: the ID of the CAN message (0x000 - 0x7ff)
-            data: the payload of the CAN message
-            timestamp: the timestamp of the CAN message
-            data_len: the number of valid bytes in the CAN message payload (0-8)
-        """
-                
+    def __init__(self, message: bytes) -> None:             
         timestamp: str = message[0:8].decode("latin-1")
         id: str = message[8:12].decode("latin-1")
         data: str = message[12:20].decode("latin-1")
@@ -65,7 +60,7 @@ class CAN(Message):
             "data_len": self.data_len,
             "hex_identifier": self.hex_identifier,
             "data_list": self.data_list,
-            "data_bytes": self.data_bytes.hex(),
+            "data_bytes": self.data_bytes,
             "hex_data": self.hex_data,
             "bytestream": self.bytestream,
             "bitstream": self.bitstream
@@ -75,18 +70,28 @@ class CAN(Message):
 
 
     """
-    CREDIT: Mihir. N for this method's implementation
-
-    Extracts measurements from the CAN message depending on the entries in
-    the provided DBC file. Returns a list of measurement objects.
+    CREDIT: Mihir. N and Aarjav. J
+    Will create a dictionary whose keys are the column headings to the pretty table
+    and whose values are data in those columns. Dictionary is string to list.
+    The list will be the same length as the number of rows in the pretty table.
+    This is done to match list length to number of measurement in CAN message to list
+    
+    Parameters:
+        format_specifier: file path to a file containing a format specifier
+        
+    Returns:
+        display_data dictionary with the following form
+        {
+            "ID": [id1, id1, id1, ...],
+            "Source": [source1, source1, source1, ...],
+            "Class": [class1, class1, class1, ...],
+            "Measurment": [measurement1, measurement2, measurement3, ...],
+            "Value": [value1, value2, value3, ...]
+        }
     """
-    def extract_measurements(self, format_specifier) -> list[Measurement]:
-        # TODO: make this raise a custom exception
-
-        # decode message using DBC file
-        measurements = format_specifier.decode_message(self.identifier, self.data_bytes)
-
-        message = format_specifier.get_message_by_frame_id(self.identifier)
+    def extract_measurements(self, format_specifier=None) -> dict:
+        measurements = format_specifier.decode_message(self.data["identifier"], self.data["data_bytes"])
+        message = format_specifier.get_message_by_frame_id(self.data["identifier"])
 
         # where the data came from
         sources: list = message.senders
@@ -97,16 +102,24 @@ class CAN(Message):
         else:
             source = sources[0]
 
-        measurement_list: list[Measurement] = list()
+        # Initilization
+        display_data = {
+            "ID": [],
+            "Source": [],
+            "Class": [],
+            "Measurement": [],
+            "Value": []
+        }
 
+        # Now add each field to the list
         for name, data in measurements.items():
-            # build Measurement object
-            new_measurement = Measurement(name=name, m_class=message.name, source=source, value=data)
-
-            # append measurement to list
-            measurement_list.append(new_measurement)
-
-        return measurement_list
+            display_data["ID"].append(self.data["hex_identifier"])
+            display_data["Source"].append(source)
+            display_data["Class"].append(message.name)
+            display_data["Measurement"].append(name)
+            display_data["Value"].append(data)
+        
+        return display_data
 
     def data(self) -> dict:
         return self.data
