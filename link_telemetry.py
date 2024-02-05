@@ -160,8 +160,9 @@ def print_config_table(args: 'argparse.Namespace'):
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
 
-    msg_types = f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" 
+    msg_types = f"RANDOMLY GENERATED "
     msg_types += ' '.join([item.upper() for item in args.randomList])
+    msg_types += f" @ {args.frequency_hz} Hz" 
     msg_types += f" {'UART PORT ({args.port})' if not args.randomList else ''}" 
     config_table.add_row(["DATA SOURCE", msg_types])
 
