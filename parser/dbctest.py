@@ -17,7 +17,7 @@ for i in range(4):  # assuming the loop runs 4 times
     sublist = [my_dict[key][i] for key in my_dict]
     result_list.append(sublist)
 
-print(result_list)
+print(str(my_dict))
 
 
 # dbc = cantools.database.load_file(str(Path(os.getcwd()) / "dbc" / "brightside.dbc"))
