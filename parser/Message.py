@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod     # Enfore interface <-> subclass contract
 from dataclasses import dataclass       # Dataclass - for measurements
 from typing import Union
-from CAN_Msg import CAN
+from parser.CAN_Msg import CAN
 
 
 
