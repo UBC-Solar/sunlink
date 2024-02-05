@@ -11,13 +11,21 @@ my_dict = {
     'key5': [17, 18, 19, 20]
 }
 
-result_list = []
+# result_list = []
 
-for i in range(4):  # assuming the loop runs 4 times
-    sublist = [my_dict[key][i] for key in my_dict]
-    result_list.append(sublist)
+# for i in range(4):  # assuming the loop runs 4 times
+#     sublist = [my_dict[key][i] for key in my_dict]
+#     result_list.append(sublist)
 
-print(str(my_dict))
+
+for i in range(len(my_dict[list(my_dict.keys())[0]])):
+    name = my_dict["key1"][i]
+    source = my_dict["key2"][i]
+    m_class = my_dict["key3"][i]
+    value = my_dict["key4"][i]
+
+    print(name, source, m_class, value)
+
 
 
 # dbc = cantools.database.load_file(str(Path(os.getcwd()) / "dbc" / "brightside.dbc"))
