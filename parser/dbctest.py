@@ -3,27 +3,21 @@ from pathlib import Path
 import os
 
 
-class Potato:
-    def __init__(self, name):
-        self.name = name
-    def __str__(self):
-        return "Potato"
-    
-class Cheese:
-    def __init__(self, name):
-        self.name = name
-    def __str__(self):
-        return "Cheese"
+my_dict = {
+    'key1': [1, 2, 3, 4],
+    'key2': [5, 6, 7, 8],
+    'key3': [9, 10, 11, 12],
+    'key4': [13, 14, 15, 16],
+    'key5': [17, 18, 19, 20]
+}
 
-def create(num):
-    if (num == 1):
-        return Potato("p")
-    else:
-        return Cheese("q")
-    
+result_list = []
 
-string: str = type(create(0))
-print(string)
+for i in range(4):  # assuming the loop runs 4 times
+    sublist = [my_dict[key][i] for key in my_dict]
+    result_list.append(sublist)
+
+print(result_list)
 
 
 # dbc = cantools.database.load_file(str(Path(os.getcwd()) / "dbc" / "brightside.dbc"))
