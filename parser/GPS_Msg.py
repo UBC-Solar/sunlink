@@ -1,7 +1,6 @@
 import re
 
 # Superclass import
-from Message import Message
 
 """
 Subclass GPS implements the extract_measurements and getter
@@ -21,7 +20,7 @@ Data fields are below:
 
 self.type = "GPS"
 """
-class GPS(Message):
+class GPS:
     def __init__(self, message: str) -> None:   
         # Parse all data fields and set type
         self.data = self.parseGPS_str(message)

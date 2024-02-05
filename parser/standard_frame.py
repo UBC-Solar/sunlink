@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from typing import Union, List, Sized, Iterable, Any, Dict
-from abc import ABC, abstractmethod     # Enfore interface <-> subclass contract
 
 
 @dataclass
@@ -23,7 +22,7 @@ class Measurement:
     value: Union[int, float, bool]
 
 
-class StandardFrame(ABC):
+class StandardFrame:
     def __init__(self, id: str, data: str, timestamp: str, data_len: str):
         """
         Encapsulates a single standard CAN frame.

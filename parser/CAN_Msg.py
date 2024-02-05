@@ -1,9 +1,5 @@
 # Superclass import
-from parser.Message import Message
-from parser.randomizer import RandomMessage
 import cantools
-from pathlib import Path
-import os
 
 
 
@@ -23,7 +19,7 @@ methods from the interface Message. Data fields are:
 
 self.type = "CAN"
 """
-class CAN(Message):
+class CAN:
     """
     CREDIT: Mihir. N for his implementation
     CHANGES:

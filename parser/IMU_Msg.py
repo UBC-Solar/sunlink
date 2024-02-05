@@ -1,7 +1,6 @@
 import struct
 
 # Superclass import
-from Message import Message
 
 """
 Subclass IMU implements the extract_measurements and getter
@@ -17,7 +16,7 @@ Data fields are below:
 
 self.type = "IMU"
 """
-class IMU(Message):
+class IMU:
     def __init__(self, message: str) -> None:   
         # Parse all data fields and set type
         self.data = self.parseIMU_str(message)
