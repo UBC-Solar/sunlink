@@ -288,7 +288,7 @@ def parse_and_write_request():
             }
 
     return {
-        "t" : "WE MADE IT BOYS WE MADE IT BOYS WE MADE IT BOYS",
+        "message" : message,
         "result": "OK",
         "measurements": extracted_measurements,
         "id": can_msg.identifier
