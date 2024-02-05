@@ -16,7 +16,7 @@ Data fields are below:
 'hdop':       (double) horizontal dilution of precision
 'satellites': (int) number of satellites
 'fix':        (int) 0 or 1 -- 0 = no fix, 1 = fix
-'time':       (double) seconds since last measurement
+'timestamp':       (double) seconds since last measurement
 
 self.type = "GPS"
 """
@@ -88,6 +88,7 @@ class GPS:
             gps_data['hdop'] = float(gps_data['hdop'])
             gps_data['satelliteCount'] = int(gps_data['satelliteCount'])
             gps_data['fix'] = int(gps_data['fix'])
+            gps_data['timestamp'] = float(gps_data['lastMeasure'])
             
             return gps_data
         else:
