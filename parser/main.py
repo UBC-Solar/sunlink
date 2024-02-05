@@ -21,6 +21,7 @@ from flask_httpauth import HTTPTokenAuth
 from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
+from parser.randomizer import RandomMessage
 # from parser.Message import Message
 
 # # New imports
