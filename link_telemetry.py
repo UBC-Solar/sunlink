@@ -455,7 +455,7 @@ def main():
         message: bytes
 
         if args.randomize:
-            # message = RandomMessage().random_message_str(car_dbc)
+            message_n = RandomMessage().random_message_str(car_dbc)
 
             message_str = random_can_str(car_dbc)
             message = message_str.encode(encoding="UTF-8")
@@ -500,6 +500,7 @@ def main():
                 
                 
         payload = {
+            "message" : message_n,
             "timestamp": timestamp,
             "id": id,
             "data": data,
