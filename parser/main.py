@@ -211,9 +211,6 @@ def parse_request():
         print("1")
         return {
             "t" : 1,
-            "result": "OK",
-            "measurements": extracted_measurements,
-            "id": can_msg.identifier
         }
     except Exception:
         app.logger.warn(
@@ -299,9 +296,6 @@ def parse_and_write_request():
         
     return {
         "t" : 2,
-        "result": "OK",
-        "measurements": fake_json,
-        "id": can_msg.identifier
     }
 
 
@@ -371,9 +365,6 @@ def parse_and_write_request_to_prod():
 
     return {
         "t" : 3,
-        "result": "OK",
-        "measurements": extracted_measurements,
-        "id": can_msg.identifier
     }
 
 
