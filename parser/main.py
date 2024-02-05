@@ -307,7 +307,7 @@ def parse_and_write_request():
     string: str = type(create_message(message))
 
     return {
-        "message" : string,
+        "message" : "WE MADE IT",
         "result": "OK",
         "measurements": extracted_measurements,
         "id": can_msg.identifier
