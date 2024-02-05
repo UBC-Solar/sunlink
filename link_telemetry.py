@@ -129,7 +129,7 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     Ensures that certain argument invariants have been adhered to.
     """
 
-    if args.randomAll:
+    if args.randomList:
         if args.port or args.baudrate:
             parser.error("-r cannot be used with -p and -b options")
 
@@ -160,7 +160,9 @@ def print_config_table(args: 'argparse.Namespace'):
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
 
-    msg_types = f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" + f" {'CAN' if args.randomCAN else ''}" + f" {'GPS' if args.randomGPS else ''}" + f" {'IMU' if args.randomIMU else ''}" if args.randomAll else "UART PORT"
+    msg_types = f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" 
+    msg_types += ' '.join([item.upper() for item in args.randomList])
+    msg_types += f" {'UART PORT ({args.port})' if not args.randomList else ''}" 
     config_table.add_row(["DATA SOURCE", msg_types])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
@@ -182,7 +184,7 @@ def print_config_table(args: 'argparse.Namespace'):
     # case 3: -p and -b with --debug: parse radio data and write to the `Test` bucket (LIKELY)
     # case 4: -p and -b without --debug: parse radio data and write to the `Telemetry` bucket (ACTUAL OPERATION MODE)
 
-    if not args.randomAll:
+    if not args.randomList:
         config_table.add_row(["PORT", args.port])
         config_table.add_row(["BAUDRATE", args.baudrate])
 
@@ -362,25 +364,10 @@ def main():
                               help=("Specifies the baudrate for the serial port specified. "
                                     "Typical values include: 9600, 115200, 230400, etc."))
 
-    source_group.add_argument("-r", "--randomAll", action="store_true",
+    source_group.add_argument("-r", "--randomList", action="append",
                               help=("Allows using the telemetry link with "
-                                    "all randomly generated message types rather than "
-                                    "a real radio telemetry stream."))
-    
-    source_group.add_argument("-can", "--randomCAN", action="store_true",
-                            help=("Allows using the telemetry link with "
-                                "randomly generated CAN data rather than "
-                                "a real radio telemetry stream."))
-    
-    source_group.add_argument("-gps", "--randomGPS", action="store_true",
-                        help=("Allows using the telemetry link with "
-                            "randomly generated GPS data rather than "
-                            "a real radio telemetry stream."))
-    
-    source_group.add_argument("-imu", "--randomIMU", action="store_true",
-                    help=("Allows using the telemetry link with "
-                        "randomly generated IMU data rather than "
-                        "a real radio telemetry stream."))
+                                    "chosen randomly generated message types rather than "
+                                    "a real radio telemetry stream. do -r can -r gps -r imu"))
 
     source_group.add_argument("-o", "--offline", action="store_true",
                               help=("Allows using the telemetry link with "
@@ -462,7 +449,7 @@ def main():
     while True:
         message: bytes
 
-        if args.randomAll:
+        if args.randomList:
             message_n = RandomMessage().random_message_str(car_dbc)
 
             message_str = random_can_str(car_dbc)
