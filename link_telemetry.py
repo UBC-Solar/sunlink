@@ -224,6 +224,7 @@ def parser_request(payload: Dict, url: str):
     # Write to log file
     # Characters might not show up as expetced in the log file
     with open(LOG_FILE_NAME, "a") as output_log_file:
+        print("ATTEMPTING TO WRITE TO LOG FILE")
         json.dump(payload, output_log_file, indent=2)
         output_log_file.write('\n')
     try:
@@ -417,6 +418,7 @@ def main():
 
         if args.randomize:
             message = RandomMessage().random_message_str(car_dbc)
+            print("RANDOM MESSAGE CREATED: ", message)
             time.sleep(period_s)
 
         elif args.offline:     
@@ -450,6 +452,7 @@ def main():
 
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
+        print(f"PAYLOAD SUBMITTED {PARSER_ENDPOINT}...")
 
         # register done callback with future
         future.add_done_callback(process_response)
