@@ -168,8 +168,3 @@ class StandardFrame:
 
         for i in range(0, len(lst), n):
             yield lst[i: i + n]
-
-hex_strings = ['0xDE', '0xAD', '0xBE', '0xEF', '0xDE', '0xAD', '0xBE', '0xEF']
-char_string = ''.join(chr(int(hex_str, 16)) for hex_str in hex_strings)
-can_msg = StandardFrame("111", char_string, "CCCCCCCC", "8")
-print(can_msg)
