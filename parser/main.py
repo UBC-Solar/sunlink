@@ -21,6 +21,11 @@ from flask_httpauth import HTTPTokenAuth
 from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
+# New imports
+from parser.Message import Message
+from parser.create_message import create_message
+
+
 from dotenv import dotenv_values
 
 __PROGRAM__ = "parser"
@@ -286,15 +291,9 @@ def parse_and_write_request():
                 "measurements": extracted_measurements,
                 "id": can_msg.identifier
             }
-        
-    fake_data = {
-        "message" : message,
-        "result": "OK",
-        "id": can_msg.identifier
-    }
 
     return {
-        "message" : fake_data,
+        "message" : create_message(message).extract_measurements(CAR_DBC),
         "result": "OK",
         "measurements": extracted_measurements,
         "id": can_msg.identifier
