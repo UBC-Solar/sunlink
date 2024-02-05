@@ -416,7 +416,7 @@ def main():
         message: bytes
 
         if args.randomize:
-            message = RandomMessage().random_message_bytes(car_dbc)
+            message = RandomMessage().random_message_str(car_dbc)
             time.sleep(period_s)
 
         elif args.offline:     

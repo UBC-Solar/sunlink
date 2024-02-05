@@ -38,7 +38,7 @@ class Message(ABC):
     Constructor for the Message interface
     """
     @abstractmethod
-    def __init__(self, message: bytes) -> None:
+    def __init__(self, message: str) -> None:
         pass
 
     """
@@ -70,15 +70,3 @@ class Message(ABC):
     def type(self) -> str:
         pass
 
-
-
-def create_message(message: bytes) -> Message:
-    """
-    Factory method for creating a Message object based on the message type
-
-    Parameters:
-        message: the message to be parsed
-
-    Returns:
-        a Message object (CAN, GPS, IMU, etc.)
-    """

@@ -18,12 +18,9 @@ Data fields are below:
 self.type = "IMU"
 """
 class IMU(Message):
-    def __init__(self, message: bytes) -> None:   
-        # Convert it to a string
-        str_msg = message.decode("latin-1")
-
+    def __init__(self, message: str) -> None:   
         # Parse all data fields and set type
-        self.data = self.parseIMU_str(str_msg)
+        self.data = self.parseIMU_str(message)
         self.type = "IMU"
 
     """

@@ -7,20 +7,17 @@ from IMU_Msg import IMU
 from randomizer import RandomMessage
 
 # dbc = cantools.database.load_file(str(Path(os.getcwd()) / "dbc" / "brightside.dbc"))
-# msg = RandomMessage().random_can_bytes(dbc)
+# msg = RandomMessage().random_can_str(dbc)
+# print(msg)
 # can = CAN(msg)
 # print(can.extract_measurements(dbc))
 
-# gps = RandomMessage().random_gps_bytes()
+# gps = RandomMessage().random_gps_str()
 # print(gps)
 # gps = GPS(gps)
 # print(gps.extract_measurements())
 
-# imu = RandomMessage().random_imu_bytes()
-# print(imu)
-# imu = IMU(imu)
-# print(imu.extract_measurements())
-
-my_dict = {'a': 1, 'b': 2, 'c': 3}
-for key in my_dict.keys():
-    print(key)
+imu = RandomMessage().random_imu_str()
+print(imu)
+imu = IMU(imu)
+print(imu.extract_measurements())

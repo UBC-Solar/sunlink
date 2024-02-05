@@ -34,7 +34,7 @@ Parameters:
 Returns:
     a Message object (CAN, GPS, IMU, etc.)
 """
-def create_message(message: bytes) -> Message:
+def create_message(message: str) -> Message:
     if CAN_LENGTH_MIN <= len(message) <= CAN_LENGTH_MAX:
         return CAN(message)
     elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:

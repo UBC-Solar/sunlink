@@ -29,7 +29,10 @@ class CAN(Message):
     CHANGES:
         data field is now 8 bytes (Before: FF is sent as 2 letter Fs, now it is sent as 1 byte char with value 255)
     """
-    def __init__(self, message: bytes) -> None:             
+    def __init__(self, message: str) -> None:      
+        # Convert string message to bytes
+        message = message.encode("latin-1")
+              
         timestamp: str = message[0:8].decode("latin-1")
         id: str = message[8:12].decode("latin-1")
         data: str = message[12:20].decode("latin-1")

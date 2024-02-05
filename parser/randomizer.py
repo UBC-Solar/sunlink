@@ -14,19 +14,19 @@ class RandomMessage:
         dbc - dbc object from cantools library for CAN message generation
         
     Returns:
-        byte array - random message of a random type as a string encoded to bytes with latin-1 encoding
+        string - random message of a random type as a string with latin-1 decoding
     """
-    def random_message_bytes(self, dbc) -> bytes:
+    def random_message_str(self, dbc) -> str:
         """
         Randomly selects a message type and returns a random message of that type.
         """
         message_type = random.choice(['CAN', 'GPS', 'IMU'])
         if message_type == 'CAN':
-            return self.random_can_bytes(dbc)
+            return self.random_can_str(dbc)
         elif message_type == 'GPS':
-            return self.random_gps_bytes()
+            return self.random_gps_str()
         elif message_type == 'IMU':
-            return self.random_imu_bytes()
+            return self.random_imu_str()
         
     """
     CREDIT: Mihir .N taken from link_telemetry
@@ -35,14 +35,14 @@ class RandomMessage:
         dbc - dbc object from cantools library
 
     Returns
-        byte array - random CAN message as an encoded string with latin-1 encoding:
+        string - random CAN message as string with latin-1 decoding:
                  "TTTTTTTTIIIIDDDDDDDDL\n"
                     T - timestamp       = 8 bytes
                     I - identifier      = 4 bytes
                     D - data            = 8 bytes
                     L - data length     = 1 byte
     """
-    def random_can_bytes(self, dbc) -> bytes:
+    def random_can_str(self, dbc) -> str:
         """
         Generates a random string (which represents a CAN message) that mimics
         the format sent over by the telemetry board over radio. This function
@@ -76,7 +76,7 @@ class RandomMessage:
         can_str = random_timestamp_str + random_id_str + random_data_str \
              + data_length + "\n"
 
-        return can_str.encode("latin-1")
+        return can_str
 
     """
     Returns a random GPS message in NMEA format.
@@ -86,9 +86,9 @@ class RandomMessage:
         None
     
     Returns:
-        byte array - random GPS message in NMEA format as a string encoded to bytes with latin-1 encoding
+        string - random GPS message in NMEA format as a string with latin-1 decoding
     """
-    def random_gps_bytes(self) -> bytes:
+    def random_gps_str(self) -> str:
         latitude = random.uniform(-90, 90)
         latSide = 'S' if latitude < 0 else 'N'
         longitude = random.uniform(-180, 180)
@@ -106,9 +106,6 @@ class RandomMessage:
             satelliteCount, fix,
             lastMeasure)
 
-        # Convert the NMEA message to hexadecimal
-        nmea_msg = nmea_msg.encode("latin-1")
-
         return nmea_msg
 
     """
@@ -118,13 +115,13 @@ class RandomMessage:
         None
     
     Returns:
-        byte array - random IMU message in the format as a string encoded to bytes:
+        string - random IMU message in the format as a string with latin-1 decoding:
                  "TTTTTTTT@IIFFFF\n"
                     T - timestamp       = 8 bytes
                     I - identifier      = 2 bytes
                     F - data            = 4 bytes
     """
-    def random_imu_bytes(self) -> bytes:
+    def random_imu_str(self) -> str:
         # Generate a random timestamp
         timestamp = random.randint(0, pow(2, 32))
         timestamp = "{0:0{1}x}".format(timestamp, 8)
@@ -139,6 +136,6 @@ class RandomMessage:
         value_bytes = struct.pack('>f', value)
 
         # Combine all parts into a single bytes object
-        imu_bytes = timestamp.encode('latin-1') + b"@" + identifier.encode('latin-1') + value_bytes
+        imu_bytes = timestamp + "@" + identifier + value_bytes.decode('latin-1')
 
         return imu_bytes
