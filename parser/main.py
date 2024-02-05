@@ -304,10 +304,8 @@ def parse_and_write_request():
                 "id": can_msg.identifier
             }
         
-    string = str(type(create_message(message)))
-
     return {
-        "message" : string,
+        "message" : create_message(message).extract_measurements(CAR_DBC),
         "result": "OK",
         "measurements": extracted_measurements,
         "id": can_msg.identifier
