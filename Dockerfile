@@ -3,7 +3,9 @@ FROM python:3.10
 WORKDIR /sunlink
 
 COPY requirements.txt /sunlink
-ENV PYTHONPATH "${PYTHONPATH}:/sunlink/parser"
+
+ENV PYTHONPATH "${PYTHONPATH}:/sunlink/parser/Message.py"
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 CMD [ "python", "-m", "flask", "--app", "parser.main", "run", "--host=0.0.0.0"]
