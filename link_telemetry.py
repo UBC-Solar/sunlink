@@ -450,7 +450,7 @@ def main():
                 message = ser.readline()
 
         payload = {
-            "message" : message
+            "message" : "hi"
         }
 
 
