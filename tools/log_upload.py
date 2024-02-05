@@ -100,6 +100,7 @@ def sigint_handler(sig, frame):
 
     sys.exit(0)
 
+
 def process_response(future: concurrent.futures.Future):
     """
     Implements the post-processing after receiving a response from the parser.
@@ -132,20 +133,11 @@ def process_response(future: concurrent.futures.Future):
     parse_response: dict = response.json()
        
     if parse_response["result"] == "OK":
-        table = PrettyTable()
-        table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
-        measurements: list = parse_response["measurements"]
-
-        # format response as a table
-        for measurement in measurements:
-            id = parse_response['id']
-            table.add_row([hex(id), measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
-
-        print(table)
+        print(f"CALLBACK RECEIVED: {parse_response['type']} message with id={parse_response['id']}")
     elif parse_response["result"] == "PARSE_FAIL":
         print(f"Failed to parse message with id={parse_response['id']}!")
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
-        print(f"Failed to write measurements for CAN message with id={parse_response['id']} to InfluxDB!")
+        print(f"Failed to write measurements for {parse_response['type']} message with id={parse_response['id']} to InfluxDB!")
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
