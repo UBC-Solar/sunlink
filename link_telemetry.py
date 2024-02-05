@@ -159,7 +159,9 @@ def print_config_table(args: 'argparse.Namespace'):
     print(f"Running {ANSI_BOLD}{__PROGRAM__} (v{__VERSION__}){ANSI_ESCAPE} with the following configuration...\n")
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
-    config_table.add_row(["DATA SOURCE", f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" if args.randomAll else f"UART PORT ({args.port})"])
+
+    msg_types = f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" + f" {'CAN' if args.randomCAN else ''}" + f" {'GPS' if args.randomGPS else ''}" + f" {'IMU' if args.randomIMU else ''}" if args.randomAll else "UART PORT"
+    config_table.add_row(["DATA SOURCE", msg_types])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
     config_table.add_row(["DBC FILE", DBC_FILE])
