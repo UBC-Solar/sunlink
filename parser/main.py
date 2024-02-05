@@ -22,7 +22,7 @@ from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
 from parser.randomizer import RandomMessage
-# from parser.Message import Message
+from parser.Message import Message
 
 # # New imports
 # from parser.create_message import create_message
