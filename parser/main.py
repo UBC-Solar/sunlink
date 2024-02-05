@@ -251,6 +251,11 @@ def parse_and_write_request():
     data_length: str = parse_request["data_length"]
     message: str = parse_request["message"]
 
+    msg = create_message(message)
+    extracted_measurements = msg.extract_measurements(CAR_DBC)
+    id = extracted_measurements.get("ID", ["UNKNOWN"])[0]
+    type = msg.type
+
     app.logger.info(f"Received message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
@@ -301,10 +306,6 @@ def parse_and_write_request():
                 "measurements": extracted_measurements,
                 "id": can_msg.identifier
             }
-    msg = create_message(message)
-    extracted_measurements = msg.extract_measurements(CAR_DBC)
-    id = extracted_measurements.get("ID", ["UNKNOWN"])[0]
-    type = msg.type
 
     return {
         "message": msg.extract_measurements(CAR_DBC),
