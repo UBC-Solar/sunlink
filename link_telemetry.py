@@ -270,20 +270,17 @@ def process_response(future: concurrent.futures.Future):
     if parse_response["result"] == "OK":
         table = PrettyTable()
 
-        # Get Table data
-        extracted_measurements = parse_response["measurements"][0]
-        print(extracted_measurements)
-        table.field_names = list(extracted_measurements.keys())     # Keys are column headings
+        table.field_names = list(parse_response["message"].keys())     # Keys are column headings
+        extracted_measurements = parse_response["message"]
         for i in range(len(extracted_measurements[table.field_names[0]])):
             row_data = [extracted_measurements[key][i] for key in table.field_names]
             table.add_row(row_data)
 
-        # Print it
         print(table)
     elif parse_response["result"] == "PARSE_FAIL":
         print(f"Failed to parse message with id={parse_response['id']}!")
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
-        print(f"Failed to write measurements for message with id={parse_response['id']} to InfluxDB!")
+        print(f"Failed to write measurements for CAN message with id={parse_response['id']} to InfluxDB!")
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
@@ -502,7 +499,7 @@ def main():
 
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
-
+        
         # register done callback with future
         future.add_done_callback(process_response)
 

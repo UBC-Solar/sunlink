@@ -303,8 +303,8 @@ def parse_and_write_request():
             }
         
     return {
+        "message" : create_message(message).extract_measurements(CAR_DBC),
         "result": "OK",
-        "measurements" : create_message(message).extract_measurements(CAR_DBC),
         "id": can_msg.identifier
     }
 
