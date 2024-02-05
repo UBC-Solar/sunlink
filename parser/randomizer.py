@@ -39,7 +39,7 @@ class RandomMessage:
 
     Returns
         string - random CAN message as string with latin-1 decoding:
-                 "TTTTTTTTIIIIDDDDDDDDL\n"
+                 "TTTTTTTTIIIIDDDDDDDDL"
                     T - timestamp       = 8 bytes
                     I - identifier      = 4 bytes
                     D - data            = 8 bytes
@@ -77,7 +77,7 @@ class RandomMessage:
 
         # collect into single string
         can_str = random_timestamp_str + random_id_str + random_data_str \
-             + data_length + "\n"
+             + data_length"
 
         return can_str
 
