@@ -12,9 +12,9 @@ Subclass CAN implements the extract_measurements and getter
 methods from the interface Message. Data fields are:
 
 'timestamp':      the timestamp of the CAN message (All D's right now)
-'identifier':     the ID of the CAN message (0x000 - 0x7ff)
+'identifier':     the ID of the CAN message in decimal
 'data_len':       the number of valid bytes in the CAN message payload (0-8)
-'hex_identifier': the ID of the CAN message in hex
+'hex_identifier': the ID of the CAN message in hex (0x000 - 0x7ff)
 'data_list':      the payload of the CAN message as a list of ints
 'data_bytes':     the payload of the CAN message as a bytearray
 'hex_data':       the payload of the CAN message separated into bytes (hex)

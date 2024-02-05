@@ -269,13 +269,17 @@ def process_response(future: concurrent.futures.Future):
        
     if parse_response["result"] == "OK":
         table = PrettyTable()
-        table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
-        measurements: list = parse_response["measurements"]
+        table.field_names = list(parse_response.keys())     # Keys are column headings
 
-        # format response as a table
-        for measurement in measurements:
+        extracted_measurements = parse_response["measurements"]
+        for i in range(len(extracted_measurements["ID"])):
+            name = extracted_measurements["Measurement"][i]
+            source = extracted_measurements["Source"][i]
+            m_class = extracted_measurements["Class"][i]
+            value = extracted_measurements["Value"][i]
+
             id = parse_response['id']
-            table.add_row([hex(id), measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
+            table.add_row([hex(id), source, m_class, name, value])
 
         print(table)
     elif parse_response["result"] == "PARSE_FAIL":
@@ -286,7 +290,6 @@ def process_response(future: concurrent.futures.Future):
         print(f"Unexpected response: {parse_response['result']}")
 
     print()
-
 
 def main():
     """
