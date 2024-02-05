@@ -246,6 +246,12 @@ def parse_and_write_request():
     parse_request = flask.request.json
     msg = create_message(parse_request["message"])
 
+    return {
+        "result": "OK",
+        "message": "hi",
+        "id": 69
+    }
+
     id = msg.data.get("identifier", "NO GPS ID")
     data = msg.data.get("data_bytes", "NOT CAN DATA")
     app.logger.info(f"Received a {msg.type} message: {id=}, {data=}")
