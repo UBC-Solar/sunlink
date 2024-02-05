@@ -21,15 +21,15 @@ from flask_httpauth import HTTPTokenAuth
 from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
-# New imports
-from parser.create_message import create_message
+# # New imports
+# from parser.create_message import create_message
 
-# All additional imports
-from parser.CAN_Msg import CAN
-from parser.IMU_Msg import IMU
-from parser.GPS_Msg import GPS
+# # All additional imports
+# from parser.CAN_Msg import CAN
+# from parser.IMU_Msg import IMU
+# from parser.GPS_Msg import GPS
 
-from parser.randomizer import RandomMessage
+# from parser.randomizer import RandomMessage
 
 
 from dotenv import dotenv_values
