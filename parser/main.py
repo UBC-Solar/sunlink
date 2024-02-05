@@ -208,6 +208,7 @@ def parse_request():
     try:
         extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
         app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
+        print("1")
         return {
             "result": "OK",
             "measurements": extracted_measurements,
@@ -294,7 +295,8 @@ def parse_and_write_request():
                 "measurements": extracted_measurements,
                 "id": can_msg.identifier
             }
-
+        
+    print("2")
     return {
         "result": "OK",
         "measurements": fake_json,
@@ -366,6 +368,7 @@ def parse_and_write_request_to_prod():
                 "id": can_msg.identifier
             }
 
+    print("3")
     return {
         "result": "OK",
         "measurements": extracted_measurements,
