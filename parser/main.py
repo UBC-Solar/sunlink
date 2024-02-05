@@ -275,7 +275,7 @@ def parse_and_write_request():
 
     # try writing the measurements extracted
     if type == "CAN":
-        for i in range(len(ex_mes[ex_mes.keys()[0]])):
+        for i in range(1):
             name = ex_mes["Measurement"][i]
             source = ex_mes["Source"][i]
             m_class = ex_mes["Class"][i]
