@@ -21,6 +21,10 @@ from flask_httpauth import HTTPTokenAuth
 from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
+# New imports
+from parser.Message import Message
+from parser.create_message import create_message
+
 from dotenv import dotenv_values
 
 __PROGRAM__ = "parser"
@@ -242,6 +246,10 @@ def parse_and_write_request():
 
     can_msg = StandardFrame(id, data, timestamp, data_length)
 
+    fake_json = {
+        "hi": []
+    }
+
     # try extracting measurements from CAN message
     try:
         extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
@@ -289,7 +297,7 @@ def parse_and_write_request():
 
     return {
         "result": "OK",
-        "measurements": extracted_measurements,
+        "measurements": fake_json,
         "id": can_msg.identifier
     }
 
