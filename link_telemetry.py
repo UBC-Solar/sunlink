@@ -451,18 +451,7 @@ def main():
         message: bytes
 
         if args.randomList:
-            message_n = RandomMessage().random_message_str(car_dbc, args.randomList)
-
-            message_str = random_can_str(car_dbc)
-            message = message_str.encode(encoding="UTF-8")
-
-            #print(message)
-            # partition string into pieces
-            timestamp: str = message[0:8].decode()      # 8 bytes
-            id: str = message[8:12].decode()            # 4 bytes
-            data: str = message[12:28].decode()         # 16 bytes
-            data_len: str = message[28:29].decode()     # 1 byte`
-
+            message = RandomMessage().random_message_str(car_dbc, args.randomList)
             time.sleep(period_s)
 
         elif args.offline:     
@@ -491,7 +480,7 @@ def main():
  
                 
         payload = {
-            "message" : message_n,
+            "message" : message,
         }
 
 
