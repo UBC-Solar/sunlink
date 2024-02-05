@@ -244,36 +244,35 @@ def parse_and_write_request():
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
-    message: str = parse_request["message"]
 
-    msg = create_message(message)
-    ex_mes = msg.extract_measurements(CAR_DBC)
-    iden = ex_mes.get("ID", ["UNKNOWN"])[0]
-    type = msg.type
+    message = create_message(parse_request["message"])
+    extracted_measurements = message.extract_measurements(CAR_DBC)
+    id = extracted_measurements.get("ID", ["UNKNOWN"])[0]
+    type = message.type
 
-    app.logger.info(f"Received a {msg.type} message. ID = {iden=}")
+    app.logger.info(f"Received a {message.type} message. ID = {id=}")
 
 
     # try extracting measurements from CAN message
     try:
-        app.logger.info(f"Successfully parsed {type} message with id={iden} and placed into queue")
+        app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
     except Exception:
         app.logger.warn(
-            f"Unable to extract measurements for {type} message with id={iden}")
-        app.logger.warn(str(ex_mes))
+            f"Unable to extract measurements for {type} message with id={id}")
+        app.logger.warn(str(extracted_measurements))
         return {
             "result": "PARSE_FAIL",
             "message": [],
-            "id": iden
+            "id": id
         }
 
     # try writing the measurements extracted
     if type == "CAN":
-        for i in range(len(ex_mes[list(ex_mes.keys())[0]])):
-            name = ex_mes["Measurement"][i]
-            source = ex_mes["Source"][i]
-            m_class = ex_mes["Class"][i]
-            value = ex_mes["Value"][i]
+        for i in range(len(extracted_measurements[list(extracted_measurements.keys())[0]])):
+            name = extracted_measurements["Measurement"][i]
+            source = extracted_measurements["Source"][i]
+            m_class = extracted_measurements["Class"][i]
+            value = extracted_measurements["Value"][i]
 
             point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                 "class", m_class).field(name, value)
@@ -287,15 +286,15 @@ def parse_and_write_request():
                 app.logger.warning("Unable to write measurement to InfluxDB!")
                 return {
                     "result": "INFLUX_WRITE_FAIL",
-                    "message": ex_mes,
-                    "id": iden,
+                    "message": extracted_measurements,
+                    "id": id,
                     "type": type
                 }
 
     return {
         "result": "OK",
-        "message": ex_mes,
-        "id": iden,
+        "message": extracted_measurements,
+        "id": id,
         "type": type
     }
 
