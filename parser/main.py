@@ -22,10 +22,10 @@ from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
 # # New imports
-from parser.message_factory import create_message
+# from parser.message_factory import create_message
 
 # # All additional imports
-# from parser.CAN_Msg import CAN
+from parser.CAN_Msg import CAN
 # from parser.IMU_Msg import IMU
 # from parser.GPS_Msg import GPS
 
