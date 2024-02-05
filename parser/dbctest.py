@@ -12,6 +12,7 @@ from datetime import datetime
 import signal
 import argparse
 import requests
+import glob
 
 
 # my_dict = {
@@ -63,31 +64,38 @@ def read_lines_from_file(file_path):
     """
     Reads lines from the specified file and returns a generator.
     """
-    with open(file_path, 'r') as file:
+
+    with open(file_path, 'r', encoding='latin-1') as file:
         for line in file:
             yield line.strip()
 
 def main():
-    # Argument parsing
-    parser = argparse.ArgumentParser(description="Link raw radio stream to telemetry cluster.", prog=__PROGRAM__)
+    # Get the path to the logfiles directory
+    logfiles_dir = str(Path(os.getcwd()) / "logfiles")
 
-    parser.add_argument("--log-file", dest="log_file", action="store", required=True,
-                        help="Specify the name of the log file to read lines from.")
+    # Get a list of all .txt files in the logfiles directory
+    txt_files = glob.glob(logfiles_dir + '/*.txt')
 
-    args = parser.parse_args()
+    # Iterate over each .txt file
+    for file_path in txt_files:
+        print(f"Reading file {file_path}...")
+        message_generator = read_lines_from_file(file_path)
 
-    # Process messages from the specified log file
-    file_path = args.log_file
-    message_generator = read_lines_from_file(file_path)
+        while True:
+            try:
+                log_line = next(message_generator)
+            except StopIteration:
+                break
 
-    while True:
-        try:
-            log_line = next(message_generator)
-        except StopIteration:
-            print("End of file reached. Exiting.")
-            break
+            # Create payload
+            payload = {"message": log_line}
 
-        # Create payload
-        payload = {"message": log_line}
+            print(payload)
+        
+        print(f"Done reading {file_path}")
 
-        print(payload)
+if __name__ == "__main__":
+    main()
+
+if __name__ == "__main__":
+    main()

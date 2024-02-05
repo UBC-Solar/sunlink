@@ -407,7 +407,8 @@ def main():
     LOG_DIRECTORY = './logfiles/'
 
     current_log_time = datetime.now()
-    LOG_FILE = Path('link_telemetry_log_{}.txt'.format(current_log_time))
+    formatted_time = current_log_time.strftime('%Y-%m-%d_%H_%M_%S')
+    LOG_FILE = Path('link_telemetry_log_{}.txt'.format(formatted_time))
 
     # compute the period to generate random messages at
     period_s = 1 / args.frequency_hz
