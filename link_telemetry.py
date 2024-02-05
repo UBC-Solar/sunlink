@@ -488,18 +488,10 @@ def main():
 
                 # read in bytes from COM port
                 message = ser.readline()
-
-        # payload = {
-        #     "message" : message
-        # }
-                
+ 
                 
         payload = {
             "message" : message_n,
-            "timestamp": timestamp,
-            "id": id,
-            "data": data,
-            "data_length": data_len,
         }
 
 

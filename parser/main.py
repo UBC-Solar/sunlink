@@ -252,7 +252,6 @@ def parse_and_write_request():
 
     app.logger.info(f"Received a {message.type} message. ID = {id=}")
 
-
     # try extracting measurements from CAN message
     try:
         app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
