@@ -194,6 +194,8 @@ def parse_request():
     timestamp: str = parse_request["timestamp"]
     data_length: str = parse_request["data_length"]
 
+    print("MADE IT TO PARSER 1")
+
     app.logger.info(f"Received message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
@@ -307,6 +309,8 @@ def parse_and_write_request_to_prod():
     # TODO: use timestamp when writing to Influx
     timestamp: str = parse_request["timestamp"]
     data_length: str = parse_request["data_length"]
+
+    print("MADE IT TO PARSER 3")
 
     app.logger.info(f"Received message: {id=}, {data=}")
 
