@@ -451,7 +451,7 @@ def main():
         message: bytes
 
         if args.randomList:
-            message_n = RandomMessage().random_message_str(car_dbc)
+            message_n = RandomMessage().random_message_str(car_dbc, args.randomList)
 
             message_str = random_can_str(car_dbc)
             message = message_str.encode(encoding="UTF-8")

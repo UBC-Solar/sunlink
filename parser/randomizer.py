@@ -12,21 +12,23 @@ class RandomMessage:
     
     Parameters:
         dbc - dbc object from cantools library for CAN message generation
+        message_types - list of message types to choose from (the randomList arg in parser)
         
     Returns:
         string - random message of a random type as a string with latin-1 decoding
     """
-    def random_message_str(self, dbc) -> str:
+    def random_message_str(self, dbc, message_types) -> str:
         """
-        Randomly selects a message type and returns a random message of that type.
+        Randomly selects a message type from the provided list and returns a random message of that type.
         """
-        message_type = random.choice(['CAN', 'GPS', 'IMU'])
+        message_type = random.choice(message_types)
         if message_type == 'CAN':
             return self.random_can_str(dbc)
         elif message_type == 'GPS':
             return self.random_gps_str()
         elif message_type == 'IMU':
             return self.random_imu_str()
+
         
     """
     CREDIT: Mihir .N taken from link_telemetry
