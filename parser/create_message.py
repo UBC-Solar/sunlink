@@ -4,7 +4,7 @@ from parser.IMU_Msg import IMU      # IMU message
 from parser.GPS_Msg import GPS      # GPS message
 
 # Lengths of messages for differentiating message types
-CAN_LENGTH_MIN      = 21
+CAN_LENGTH_MIN      = 20
 CAN_LENGTH_MAX      = 23
 GPS_LENGTH_MIN      = 117
 GPS_LENGTH_MAX      = 128
