@@ -224,13 +224,10 @@ def parser_request(payload: Dict, url: str):
     # Write to log file
     # Characters might not show up as expetced in the log file
     with open(LOG_FILE_NAME, "a") as output_log_file:
-        print("ATTEMPTING TO WRITE TO LOG FILE")
         json.dump(payload, output_log_file, indent=2)
         output_log_file.write('\n')
     try:
-        print("ATTEMPTING TO MAKE POST REQUEST")
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
-        print("POST REQUEST MADE")
     except requests.ConnectionError:
         print(f"Unable to make POST request to {url=}!\n")
     except requests.Timeout:
@@ -268,13 +265,11 @@ def process_response(future: concurrent.futures.Future):
         print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
     
-    print("TRYNA GET THE RESPONSE")
     parse_response: dict = response.json()
-    print("WE GOT THE RESPONSE")
        
     if parse_response["result"] == "OK":
         table = PrettyTable()
-        
+
         table.field_names = list(parse_response["message"].keys())     # Keys are column headings
         extracted_measurements = parse_response["message"]
         for i in range(len(extracted_measurements[table.field_names[0]])):
@@ -462,8 +457,6 @@ def main():
             data: str = message[12:28].decode()         # 16 bytes
             data_len: str = message[28:29].decode()     # 1 byte`
 
-            print("RANDOM MESSAGE CREATED: ", message_n)
-            print("reguslar message: ", message_str)
             time.sleep(period_s)
 
         elif args.offline:     
