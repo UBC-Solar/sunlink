@@ -21,13 +21,14 @@ class RandomMessage:
         """
         Randomly selects a message type from the provided list and returns a random message of that type.
         """
-        message_type = random.choice(message_types)
+        message_type = random.choice(message_types).upper()  # Convert to uppercase
         if message_type == 'CAN':
             return self.random_can_str(dbc)
         elif message_type == 'GPS':
             return self.random_gps_str()
         elif message_type == 'IMU':
             return self.random_imu_str()
+
 
         
     """
