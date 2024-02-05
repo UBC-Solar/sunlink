@@ -270,6 +270,7 @@ def process_response(future: concurrent.futures.Future):
     if parse_response["result"] == "OK":
         table = PrettyTable()
 
+        print(f"{parse_response['type']} message with id={parse_response['id']}")
         extracted_measurements = parse_response["message"]
         table.field_names = list(extracted_measurements.keys())     # Keys are column headings
         for i in range(len(extracted_measurements[table.field_names[0]])):
@@ -280,7 +281,7 @@ def process_response(future: concurrent.futures.Future):
     elif parse_response["result"] == "PARSE_FAIL":
         print(f"Failed to parse message with id={parse_response['id']}!")
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
-        print(f"Failed to write measurements for CAN message with id={parse_response['id']} to InfluxDB!")
+        print(f"Failed to write measurements for {parse_response['type']} message with id={parse_response['id']} to InfluxDB!")
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
