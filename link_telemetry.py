@@ -270,7 +270,6 @@ def process_response(future: concurrent.futures.Future):
     if parse_response["result"] == "OK":
         table = PrettyTable()
 
-        print(parse_response["message"])
         extracted_measurements = parse_response["message"]
         table.field_names = list(extracted_measurements.keys())     # Keys are column headings
         for i in range(len(extracted_measurements[table.field_names[0]])):
