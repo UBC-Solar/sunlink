@@ -271,7 +271,7 @@ def process_response(future: concurrent.futures.Future):
         table = PrettyTable()
 
         # Get Table data
-        extracted_measurements = parse_response["measurements"]
+        extracted_measurements = parse_response["measurements"][0]
         print(extracted_measurements)
         table.field_names = list(extracted_measurements.keys())     # Keys are column headings
         for i in range(len(extracted_measurements[table.field_names[0]])):
