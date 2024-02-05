@@ -303,7 +303,7 @@ def parse_and_write_request():
             }
     msg = create_message(message)
     extracted_measurements = msg.extract_measurements()
-    id = extracted_measurements.get("ID", extracted_measurements.get("Time"))
+    id = extracted_measurements.get("ID", extracted_measurements.get("Time", "UNKNOWN"))
     type = msg.type
 
     return {
