@@ -22,8 +22,14 @@ from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
 # New imports
-from parser.Message import Message
 from parser.create_message import create_message
+
+# All additional imports
+from parser.CAN_Msg import CAN
+from parser.IMU_Msg import IMU
+from parser.GPS_Msg import GPS
+
+from parser.randomizer import RandomMessage
 
 
 from dotenv import dotenv_values
@@ -293,7 +299,7 @@ def parse_and_write_request():
             }
 
     return {
-        "message" : create_message(message).extract_measurements(CAR_DBC),
+        "message" : "WE MADE IT",
         "result": "OK",
         "measurements": extracted_measurements,
         "id": can_msg.identifier
