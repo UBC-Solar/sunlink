@@ -1,9 +1,7 @@
-from Message import Message      # Interface 
-
 # Types of messages
-from CAN_Msg import CAN      # CAN message
-from IMU_Msg import IMU      # IMU message
-from GPS_Msg import GPS      # GPS message
+from parser.CAN_Msg import CAN      # CAN message
+from parser.IMU_Msg import IMU      # IMU message
+from parser.GPS_Msg import GPS      # GPS message
 
 # Lengths of messages for differentiating message types
 CAN_LENGTH_MIN      = 21
@@ -32,9 +30,9 @@ Parameters:
     message: the message to be parsed
     
 Returns:
-    a Message object (CAN, GPS, IMU, etc.)
+    a message object (CAN, GPS, IMU, etc.)
 """
-def create_message(message: str) -> Message:
+def create_message(message: str):
     if CAN_LENGTH_MIN <= len(message) <= CAN_LENGTH_MAX:
         return CAN(message)
     elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:
