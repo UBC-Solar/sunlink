@@ -232,6 +232,9 @@ def parse_and_write_request():
     # TODO: use timestamp when writing to Influx
     timestamp: str = parse_request["timestamp"]
     data_length: str = parse_request["data_length"]
+    message: str = parse_request["message"]
+
+    print("MADE IT TO PARSER", message)
 
     app.logger.info(f"Received message: {id=}, {data=}")
 
