@@ -81,11 +81,12 @@ class CAN:
     Returns:
         display_data dictionary with the following form
         {
-            "ID": [id1, id1, id1, ...],
+            "Hex ID": [hex id1, hex id1, hex id1, ...],
             "Source": [source1, source1, source1, ...],
             "Class": [class1, class1, class1, ...],
             "Measurment": [measurement1, measurement2, measurement3, ...],
             "Value": [value1, value2, value3, ...]
+            "ID": hex id1
         }
     """
     def extract_measurements(self, format_specifier=None) -> dict:
@@ -103,16 +104,17 @@ class CAN:
 
         # Initilization
         display_data = {
-            "ID": [],
+            "Hex ID": [],
             "Source": [],
             "Class": [],
             "Measurement": [],
-            "Value": []
+            "Value": [],
+            "ID": self.data["hex_identifier"]
         }
 
         # Now add each field to the list
         for name, data in measurements.items():
-            display_data["ID"].append(self.data["hex_identifier"])
+            display_data["Hex ID"].append(self.data["hex_identifier"])
             display_data["Source"].append(source)
             display_data["Class"].append(message.name)
             display_data["Measurement"].append(name)
