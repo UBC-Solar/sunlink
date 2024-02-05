@@ -54,7 +54,8 @@ class GPS:
             "HDOP": [str(self.data['hdop'])],
             "Satellites": [str(self.data['satelliteCount'])],
             "Fix": [str(self.data['fix'])],
-            "Time": [str(self.data['lastMeasure'])]
+            "Time": [str(self.data['lastMeasure'])],
+            "ID": [str(self.data['lastMeasure'])]
         }
 
         return display_data

@@ -32,16 +32,18 @@ class IMU:
     Returns:
         display_data dictionary with the following form
         {
-            "ID": [],
+            "Type": [],
             "Dimension": [],
-            "Value": []
+            "Value": [],
+            "ID": []
         }
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         display_data = {
-            "ID": [self.data['type']],
+            "Type": [self.data['type']],
             "Dimension": [self.data['dimension']],
-            "Value": [str(self.data['value'])]
+            "Value": [str(self.data['value'])],
+            "ID": [self.data['identifier']]
         }
         return display_data
 
