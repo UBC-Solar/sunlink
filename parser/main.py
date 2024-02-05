@@ -253,7 +253,6 @@ def parse_and_write_request():
 
     app.logger.info(f"Received a {msg.type} message. ID = {iden=}")
 
-    # TODO: add validation for received JSON object
 
     # try extracting measurements from CAN message
     try:
@@ -294,8 +293,8 @@ def parse_and_write_request():
                 }
 
     return {
-        "message": ex_mes,
         "result": "OK",
+        "message": ex_mes,
         "id": iden,
         "type": type
     }
