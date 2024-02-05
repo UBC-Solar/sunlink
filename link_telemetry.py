@@ -226,6 +226,7 @@ def parser_request(payload: Dict, url: str):
     with open(LOG_FILE_NAME, "a") as output_log_file:
         print("ATTEMPTING TO WRITE TO LOG FILE")
         json.dump(payload, output_log_file, indent=2)
+        print("THIS SHOULD NOT PRINT")
         output_log_file.write('\n')
     try:
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
