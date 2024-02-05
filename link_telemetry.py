@@ -467,7 +467,8 @@ def main():
             data: str = message[12:28].decode()         # 16 bytes
             data_len: str = message[28:29].decode()     # 1 byte`
 
-            print("RANDOM MESSAGE CREATED: ", message)
+            print("RANDOM MESSAGE CREATED: ", message_n)
+            print("reguslar message: ", message_str)
             time.sleep(period_s)
 
         elif args.offline:     
