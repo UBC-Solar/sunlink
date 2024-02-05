@@ -270,13 +270,11 @@ def process_response(future: concurrent.futures.Future):
     if parse_response["result"] == "OK":
         table = PrettyTable()
 
-        print(parse_response["message"])
-
-        # table.field_names = list(parse_response["message"].keys())     # Keys are column headings
-        # extracted_measurements = parse_response["message"]
-        # for i in range(len(extracted_measurements[table.field_names[0]])):
-        #     row_data = [extracted_measurements[key][i] for key in table.field_names]
-        #     table.add_row(row_data)
+        table.field_names = list(parse_response["message"].keys())     # Keys are column headings
+        extracted_measurements = parse_response["message"]
+        for i in range(len(extracted_measurements[table.field_names[0]])):
+            row_data = [extracted_measurements[key][i] for key in table.field_names]
+            table.add_row(row_data)
 
         print(table)
     elif parse_response["result"] == "PARSE_FAIL":
@@ -287,6 +285,39 @@ def process_response(future: concurrent.futures.Future):
         print(f"Unexpected response: {parse_response['result']}")
 
     print()
+
+
+def random_can_str(dbc) -> str:
+    """
+    Generates a random string (which represents a CAN message) that mimics
+    the format sent over by the telemetry board over radio. This function
+    is useful when debugging the telemetry system.
+    """
+    # collect CAN IDs
+    can_ids = list()
+    for message in dbc.messages:
+        can_ids.append(message.frame_id)
+
+    # 0 to 2^32
+    random_timestamp = random.randint(0, pow(2, 32))
+    random_timestamp_str = "{0:0{1}x}".format(random_timestamp, 8)
+
+    # random identifier
+    random_identifier = random.choice(can_ids)
+    random_id_str = "{0:0{1}x}".format(random_identifier, 4)
+
+    # random data
+    random_data = random.randint(0, pow(2, 64))
+    random_data_str = "{0:0{1}x}".format(random_data, 16)
+
+    # fixed data length
+    data_length = "8"
+
+    # collect into single string
+    can_str = random_timestamp_str + random_id_str + random_data_str \
+        + data_length + "\n"
+
+    return can_str
 
 
 def main():
@@ -414,7 +445,18 @@ def main():
         message: bytes
 
         if args.randomize:
-            message = RandomMessage().random_message_str(car_dbc)
+            message_n = RandomMessage().random_message_str(car_dbc)
+
+            message_str = random_can_str(car_dbc)
+            message = message_str.encode(encoding="UTF-8")
+
+            #print(message)
+            # partition string into pieces
+            timestamp: str = message[0:8].decode()      # 8 bytes
+            id: str = message[8:12].decode()            # 4 bytes
+            data: str = message[12:28].decode()         # 16 bytes
+            data_len: str = message[28:29].decode()     # 1 byte`
+
             time.sleep(period_s)
 
         elif args.offline:     
@@ -440,10 +482,20 @@ def main():
 
                 # read in bytes from COM port
                 message = ser.readline()
-                             
+
+        # payload = {
+        #     "message" : message
+        # }
+                
+                
         payload = {
-            "message" : "hi",
+            "message" : message_n,
+            "timestamp": timestamp,
+            "id": id,
+            "data": data,
+            "data_length": data_len,
         }
+
 
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
