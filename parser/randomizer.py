@@ -77,7 +77,7 @@ class RandomMessage:
 
         # collect into single string
         can_str = random_timestamp_str + random_id_str + random_data_str \
-             + data_length"
+             + data_length
 
         return can_str
 
