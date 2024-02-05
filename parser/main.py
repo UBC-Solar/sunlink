@@ -303,7 +303,7 @@ def parse_and_write_request():
             }
     msg = create_message(message)
     extracted_measurements = msg.extract_measurements(CAR_DBC)
-    id = extracted_measurements.get("ID", "UNKNOWN")
+    id = extracted_measurements.get("ID", ["UNKNOWN"])[0]
     type = msg.type
 
     return {
