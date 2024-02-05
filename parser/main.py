@@ -286,9 +286,15 @@ def parse_and_write_request():
                 "measurements": extracted_measurements,
                 "id": can_msg.identifier
             }
+        
+    fake_data = {
+        "message" : message,
+        "result": "OK",
+        "id": can_msg.identifier
+    }
 
     return {
-        "message" : message,
+        "message" : fake_data,
         "result": "OK",
         "measurements": extracted_measurements,
         "id": can_msg.identifier
