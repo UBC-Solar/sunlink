@@ -232,9 +232,9 @@ def parse_and_write_request():
     Parses incoming request, writes the parsed measurements to InfluxDB debug bucket,
     and sends back parsed measurements back to client.
     """
-    print("MADE IT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print("MADE IT")
     parse_request = flask.request.json
-    msg = create_message(parse_request["msg"])      # Message object (CAN, GPS, IMU Wrapper)
+    msg = create_message(parse_request["message"])      # Message object (CAN, GPS, IMU Wrapper)
 
     id = msg.data.get("identifier", "NO GPS ID")
     data = msg.data.get("data_bytes", "NOT CAN DATA")
