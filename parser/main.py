@@ -22,7 +22,7 @@ from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
 # # New imports
-# from parser.create_message import create_message
+from parser.create_message import create_message
 
 # # All additional imports
 # from parser.CAN_Msg import CAN
