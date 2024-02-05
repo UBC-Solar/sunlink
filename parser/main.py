@@ -290,8 +290,8 @@ def parse_and_write_request():
 
         return {
             "result": "OK",
-            "message": extracted_measurements,
-            "id": msg.data["identifier"]
+            "message": "hi",
+            "id": 69
         }
 
 

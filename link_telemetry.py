@@ -270,11 +270,13 @@ def process_response(future: concurrent.futures.Future):
     if parse_response["result"] == "OK":
         table = PrettyTable()
 
-        table.field_names = list(parse_response["message"].keys())     # Keys are column headings
-        extracted_measurements = parse_response["message"]
-        for i in range(len(extracted_measurements[table.field_names[0]])):
-            row_data = [extracted_measurements[key][i] for key in table.field_names]
-            table.add_row(row_data)
+        print(parse_response["message"])
+
+        # table.field_names = list(parse_response["message"].keys())     # Keys are column headings
+        # extracted_measurements = parse_response["message"]
+        # for i in range(len(extracted_measurements[table.field_names[0]])):
+        #     row_data = [extracted_measurements[key][i] for key in table.field_names]
+        #     table.add_row(row_data)
 
         print(table)
     elif parse_response["result"] == "PARSE_FAIL":
