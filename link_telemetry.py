@@ -227,10 +227,9 @@ def parser_request(payload: Dict, url: str):
     Makes a parse request to the given `url`.
     """
     # Write to log file
-    # Characters might not show up as expetced in the log file
+    # Characters might not show up as expetced in the log file (latin-1 encoding)
     with open(LOG_FILE_NAME, "a") as output_log_file:
-        json.dump(payload, output_log_file, indent=2)
-        output_log_file.write('\n')
+        output_log_file.write(payload["message"] + '\n')
     try:
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
     except requests.ConnectionError:
@@ -408,7 +407,7 @@ def main():
     LOG_DIRECTORY = './logfiles/'
 
     current_log_time = datetime.now()
-    LOG_FILE = Path('link_telemetry_log_{}.json'.format(current_log_time))
+    LOG_FILE = Path('link_telemetry_log_{}.txt'.format(current_log_time))
 
     # compute the period to generate random messages at
     period_s = 1 / args.frequency_hz
