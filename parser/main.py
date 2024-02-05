@@ -236,8 +236,6 @@ def parse_and_write_request():
     data_length: str = parse_request["data_length"]
     message: str = parse_request["message"]
 
-    print("MADE IT TO PARSER")
-
     app.logger.info(f"Received message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
@@ -290,6 +288,7 @@ def parse_and_write_request():
             }
 
     return {
+        "t" : "WE MADE IT BOYS WE MADE IT BOYS WE MADE IT BOYS",
         "result": "OK",
         "measurements": extracted_measurements,
         "id": can_msg.identifier
