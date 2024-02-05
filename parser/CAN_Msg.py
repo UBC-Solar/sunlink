@@ -1,6 +1,6 @@
 # Superclass import
-from Message import Message
-from randomizer import RandomMessage
+from parser.Message import Message
+from parser.randomizer import RandomMessage
 import cantools
 from pathlib import Path
 import os
