@@ -445,18 +445,7 @@ def main():
         message: bytes
 
         if args.randomize:
-            message_n = RandomMessage().random_message_str(car_dbc)
-
-            message_str = random_can_str(car_dbc)
-            message = message_str.encode(encoding="UTF-8")
-
-            #print(message)
-            # partition string into pieces
-            timestamp: str = message[0:8].decode()      # 8 bytes
-            id: str = message[8:12].decode()            # 4 bytes
-            data: str = message[12:28].decode()         # 16 bytes
-            data_len: str = message[28:29].decode()     # 1 byte`
-
+            message = RandomMessage().random_message_str(car_dbc)
             time.sleep(period_s)
 
         elif args.offline:     
@@ -482,24 +471,14 @@ def main():
 
                 # read in bytes from COM port
                 message = ser.readline()
-
-        # payload = {
-        #     "message" : message
-        # }
-                
-                
+                             
         payload = {
-            "message" : message_n,
-            "timestamp": timestamp,
-            "id": id,
-            "data": data,
-            "data_length": data_len,
+            "message" : message,
         }
-
 
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
-        
+
         # register done callback with future
         future.add_done_callback(process_response)
 
