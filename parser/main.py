@@ -244,11 +244,6 @@ def parse_and_write_request():
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
-    id: str = parse_request["id"]
-    data: str = parse_request["data"]
-    # TODO: use timestamp when writing to Influx
-    timestamp: str = parse_request["timestamp"]
-    data_length: str = parse_request["data_length"]
     message: str = parse_request["message"]
 
     msg = create_message(message)
@@ -256,7 +251,7 @@ def parse_and_write_request():
     iden = ex_mes.get("ID", ["UNKNOWN"])[0]
     type = msg.type
 
-    app.logger.info(f"Received message: {id=}, {data=}")
+    app.logger.info(f"Received a {msg.type} message. ID = {iden=}")
 
     # TODO: add validation for received JSON object
 
