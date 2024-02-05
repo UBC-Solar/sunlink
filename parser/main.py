@@ -273,29 +273,29 @@ def parse_and_write_request():
             "id": iden
         }
 
-    # try writing the measurements extracted
-    if type == "CAN":
-        for i in range(len(ex_mes[ex_mes.keys()[0]])):
-            name = ex_mes["Measurement"][i]
-            source = ex_mes["Source"][i]
-            m_class = ex_mes["Class"][i]
-            value = ex_mes["Value"][i]
+    # # try writing the measurements extracted
+    # if type == "CAN":
+    #     for i in range(len(ex_mes[ex_mes.keys()[0]])):
+    #         name = ex_mes["Measurement"][i]
+    #         source = ex_mes["Source"][i]
+    #         m_class = ex_mes["Class"][i]
+    #         value = ex_mes["Value"][i]
 
-            point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-                "class", m_class).field(name, value)
+    #         point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+    #             "class", m_class).field(name, value)
             
-            # write to InfluxDB
-            try:
-                write_api.write(bucket=INFLUX_DEBUG_BUCKET, org=INFLUX_ORG, record=point)
-                app.logger.info(
-                    f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
-            except Exception:
-                app.logger.warning("Unable to write measurement to InfluxDB!")
-                return {
-                    "result": "INFLUX_WRITE_FAIL",
-                    "message": ex_mes,
-                    "id": msg.data["identifier"]
-                }
+    #         # write to InfluxDB
+    #         try:
+    #             write_api.write(bucket=INFLUX_DEBUG_BUCKET, org=INFLUX_ORG, record=point)
+    #             app.logger.info(
+    #                 f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
+    #         except Exception:
+    #             app.logger.warning("Unable to write measurement to InfluxDB!")
+    #             return {
+    #                 "result": "INFLUX_WRITE_FAIL",
+    #                 "message": ex_mes,
+    #                 "id": msg.data["identifier"]
+    #             }
 
     return {
         "message": ex_mes,
