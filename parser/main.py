@@ -21,10 +21,6 @@ from flask_httpauth import HTTPTokenAuth
 from parser.standard_frame import StandardFrame
 from parser.standard_frame import Measurement
 
-# New imports
-from parser.Message import Message
-from parser.create_message import create_message
-
 from dotenv import dotenv_values
 
 __PROGRAM__ = "parser"
@@ -208,9 +204,10 @@ def parse_request():
     try:
         extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
         app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
-        print("1")
         return {
-            "t" : 1,
+            "result": "OK",
+            "measurements": extracted_measurements,
+            "id": can_msg.identifier
         }
     except Exception:
         app.logger.warn(
@@ -237,17 +234,13 @@ def parse_and_write_request():
     data_length: str = parse_request["data_length"]
     message: str = parse_request["message"]
 
-    print("MADE IT TO PARSER", message)
+    print("MADE IT TO PARSER")
 
     app.logger.info(f"Received message: {id=}, {data=}")
 
     # TODO: add validation for received JSON object
 
     can_msg = StandardFrame(id, data, timestamp, data_length)
-
-    fake_json = {
-        "hi": []
-    }
 
     # try extracting measurements from CAN message
     try:
@@ -293,9 +286,11 @@ def parse_and_write_request():
                 "measurements": extracted_measurements,
                 "id": can_msg.identifier
             }
-        
+
     return {
-        "t" : 2,
+        "result": "OK",
+        "measurements": extracted_measurements,
+        "id": can_msg.identifier
     }
 
 
@@ -364,7 +359,9 @@ def parse_and_write_request_to_prod():
             }
 
     return {
-        "t" : 3,
+        "result": "OK",
+        "measurements": extracted_measurements,
+        "id": can_msg.identifier
     }
 
 
