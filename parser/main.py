@@ -244,11 +244,11 @@ def parse_and_write_request():
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
-    id: str = "69"
-    data: str = "data"
+    id: str = parse_request["id"]
+    data: str = parse_request["data"]
     # TODO: use timestamp when writing to Influx
-    timestamp: str = "timestamp"
-    data_length: str = "8"
+    timestamp: str = parse_request["timestamp"]
+    data_length: str = parse_request["data_length"]
     message: str = parse_request["message"]
 
     app.logger.info(f"Received message: {id=}, {data=}")
@@ -301,7 +301,6 @@ def parse_and_write_request():
                 "measurements": extracted_measurements,
                 "id": can_msg.identifier
             }
-        
     msg = create_message(message)
     extracted_measurements = msg.extract_measurements(CAR_DBC)
     id = extracted_measurements.get("ID", ["UNKNOWN"])[0]
