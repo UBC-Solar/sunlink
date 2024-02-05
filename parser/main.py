@@ -302,11 +302,14 @@ def parse_and_write_request():
                 "id": can_msg.identifier
             }
     msg = create_message(message)
+    id = msg.data.get("identifier", "UNKNOWN")
+    type = msg.type
 
     return {
         "message": msg.extract_measurements(CAR_DBC),
         "result": "OK",
-        "id": can_msg.identifier
+        "id": id,
+        "type": type
     }
 
 
