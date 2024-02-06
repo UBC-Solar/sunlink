@@ -139,8 +139,6 @@ def process_response(future: concurrent.futures.Future):
     parse_response: dict = response.json()
        
     if parse_response["result"] == "OK":
-        print(parse_response["message"])
-        print(parse_response["type"] + " message with id=" + str(parse_response["id"]) + " parsed successfully!")
         print(f"CALLBACK RECEIVED: {parse_response['type']} message with id={parse_response['id']}")
     elif parse_response["result"] == "PARSE_FAIL":
         print(f"Failed to parse message with id={parse_response['id']}!")
