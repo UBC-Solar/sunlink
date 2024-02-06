@@ -26,7 +26,7 @@ import requests
 import glob
 import os
 
-TOML_CONFIG_FILE = Path("./telemetry.toml")
+TOML_CONFIG_FILE = Path("../telemetry.toml")
 
 # file existence check
 if not TOML_CONFIG_FILE.is_file():
