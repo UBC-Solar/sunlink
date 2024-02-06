@@ -44,6 +44,7 @@ class GPS:
             "Satellites": [],
             "Fix": [],
             "Time": []
+            "ID": 
         }
     """
     def extract_measurements(self, format_specifier=None) -> dict:
@@ -55,7 +56,7 @@ class GPS:
             "Satellites": [str(self.data['satelliteCount'])],
             "Fix": [str(self.data['fix'])],
             "Time": [str(self.data['lastMeasure'])],
-            "ID": [str(self.data['lastMeasure'])]
+            "ID": str(self.data['lastMeasure'])
         }
 
         return display_data

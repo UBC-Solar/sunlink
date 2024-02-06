@@ -35,7 +35,7 @@ class IMU:
             "Type": [],
             "Dimension": [],
             "Value": [],
-            "ID": []
+            "ID":
         }
     """
     def extract_measurements(self, format_specifier=None) -> dict:
@@ -43,7 +43,7 @@ class IMU:
             "Type": [self.data['type']],
             "Dimension": [self.data['dimension']],
             "Value": [str(self.data['value'])],
-            "ID": [self.data['identifier']]
+            "ID": self.data['identifier']
         }
         return display_data
 
