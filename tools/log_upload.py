@@ -171,19 +171,18 @@ def read_lines_from_file(file_path):
             yield line.strip()
 
 def main():
-    # Argument parsing
-    parser = argparse.ArgumentParser(description="Link raw radio stream to telemetry cluster.", prog=__PROGRAM__)
+    # # Argument parsing
+    # parser = argparse.ArgumentParser(description="Link raw radio stream to telemetry cluster.", prog=__PROGRAM__)
 
-    parser.add_argument("--log-file", dest="log_file", action="store", required=True,
-                        help="Specify the name of the log file to read lines from.")
+    # parser.add_argument("--log-file", dest="log_file", action="store", required=True,
+    #                     help="Specify the name of the log file to read lines from.")
 
-    args = parser.parse_args()
+    # args = parser.parse_args()
 
     # Create the thread pool
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
 
     print(f"{ANSI_GREEN}Log Uploader is Up!{ANSI_ESCAPE}")
-    print(f"Reading lines from file: {args.log_file}.")
 
     # Get the path to the logfiles directory
     logfiles_dir = str(Path(os.getcwd()) / "logfiles")
