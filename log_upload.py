@@ -215,7 +215,7 @@ def main():
             payload = {"message": log_line}
 
             msg = create_message(log_line)
-            print(f"Message type: {msg.type()}")
+            print(f"Message type: {msg.type}")
 
             if (msg.type == "CAN"):
                 print(msg.data)
