@@ -1,7 +1,5 @@
 import struct
 
-# Superclass import
-
 """
 Subclass IMU implements the extract_measurements and getter
 methods from the interface Message. Assumes message parameter in 

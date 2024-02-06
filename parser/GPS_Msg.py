@@ -1,7 +1,5 @@
 import re
 
-# Superclass import
-
 """
 Subclass GPS implements the extract_measurements and getter
 methods from the interface Message. Assumes message parameter in 

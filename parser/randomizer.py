@@ -1,7 +1,6 @@
 import random
 import struct
 
-
 """
 Class to provide random message generaters for testing purposes.
 Currently creates random messages for CAN, GPS, and IMU.

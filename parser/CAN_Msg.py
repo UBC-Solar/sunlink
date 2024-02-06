@@ -1,8 +1,3 @@
-# Superclass import
-import cantools
-
-
-
 """
 Subclass CAN implements the extract_measurements and getter
 methods from the interface Message. Data fields are:
