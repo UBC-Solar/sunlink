@@ -189,6 +189,7 @@ def main():
 
     # Get a list of all .txt files in the logfiles directory
     txt_files = glob.glob(logfiles_dir + '/*.txt')
+    print(f"Found {len(txt_files)} .txt files in {logfiles_dir}")
 
     # Iterate over each .txt file
     for file_path in txt_files:
