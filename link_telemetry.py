@@ -228,7 +228,7 @@ def parser_request(payload: Dict, url: str):
     """
     # Write to log file
     # Characters might not show up as expetced in the log file (latin-1 encoding)
-    with open(LOG_FILE_NAME, "a") as output_log_file:
+    with open(LOG_FILE_NAME, "a", encoding='latin-1') as output_log_file:
         output_log_file.write(payload["message"] + '\n')
     try:
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
