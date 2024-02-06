@@ -204,22 +204,22 @@ def main():
 
             # Create payload
             payload = {"message": log_line}
-        
-        print(f"Done reading {file_path}")
 
-        # Submit to thread pool BASED ON length of line in the file 
-        if CAN_LENGTH_MIN <= len(log_line) <= CAN_LENGTH_MAX:
-            future = executor.submit(parser_request, payload, CAN_WRITE_ENDPOINT)
-        elif GPS_LENGTH_MIN <= len(log_line) <= GPS_LENGTH_MAX:
-            future = executor.submit(parser_request, payload, GPS_WRITE_ENDPOINT)
-        elif IMU_LENGTH_MIN <= len(log_line) <= IMU_LENGTH_MAX:
-            future = executor.submit(parser_request, payload, IMU_WRITE_ENDPOINT)
-        else:
-            print(f"Message length is not a valid length for any message type: {len(log_line)}")
-            continue
-        
-        # Register done callback with future
-        future.add_done_callback(process_response)
+            # Submit to thread pool BASED ON length of line in the file 
+            if CAN_LENGTH_MIN <= len(log_line) <= CAN_LENGTH_MAX:
+                future = executor.submit(parser_request, payload, CAN_WRITE_ENDPOINT)
+            elif GPS_LENGTH_MIN <= len(log_line) <= GPS_LENGTH_MAX:
+                future = executor.submit(parser_request, payload, GPS_WRITE_ENDPOINT)
+            elif IMU_LENGTH_MIN <= len(log_line) <= IMU_LENGTH_MAX:
+                future = executor.submit(parser_request, payload, IMU_WRITE_ENDPOINT)
+            else:
+                print(f"Message length is not a valid length for any message type: {len(log_line)}, {log_line}")
+                continue
+            
+            # Register done callback with future
+            future.add_done_callback(process_response)
+
+        print(f"Done reading {file_path}")
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, sigint_handler)
