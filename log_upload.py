@@ -171,7 +171,7 @@ def read_lines_from_file(file_path):
             yield line.strip()
 
 def visible_length(s):
-    return sum(1 for c in s if unicodedata.east_asian_width(c) in ('Na', 'A'))
+    return sum(1 for c in s if unicodedata.east_asian_width(c) in ('A'))
 
 def main():
     # # Argument parsing
