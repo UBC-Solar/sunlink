@@ -185,7 +185,7 @@ def main():
     print(f"{ANSI_GREEN}Log Uploader is Up!{ANSI_ESCAPE}")
 
     # Get the path to the logfiles directory
-    logfiles_dir = str(Path(os.getcwd()) / "logfiles")
+    logfiles_dir = str("sunlink" / "logfiles")
 
     # Get a list of all .txt files in the logfiles directory
     txt_files = glob.glob(logfiles_dir + '/*.txt')
