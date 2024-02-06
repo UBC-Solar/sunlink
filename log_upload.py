@@ -206,7 +206,7 @@ def main():
             payload = {"message": log_line}
 
             for i in range(len(log_line)):
-                print(log_line[i], end=' ')
+                print(ord(log_line[i]), end=' ')
 
             # Submit to thread pool BASED ON length of line in the file 
             if CAN_LENGTH_MIN <= len(log_line) <= CAN_LENGTH_MAX:
