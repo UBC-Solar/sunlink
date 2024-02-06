@@ -26,11 +26,6 @@ import requests
 import glob
 import unicodedata
 
-from parser.CAN_Msg import CAN
-from parser.GPS_Msg import GPS
-from parser.IMU_Msg import IMU
-from parser.create_message import create_message
-
 
 TOML_CONFIG_FILE = Path("./telemetry.toml")
 
@@ -144,6 +139,8 @@ def process_response(future: concurrent.futures.Future):
     parse_response: dict = response.json()
        
     if parse_response["result"] == "OK":
+        print(parse_response["message"])
+        print(parse_response["type"] + " message with id=" + str(parse_response["id"]) + " parsed successfully!")
         print(f"CALLBACK RECEIVED: {parse_response['type']} message with id={parse_response['id']}")
     elif parse_response["result"] == "PARSE_FAIL":
         print(f"Failed to parse message with id={parse_response['id']}!")
@@ -213,12 +210,6 @@ def main():
 
             # Create payload
             payload = {"message": log_line}
-
-            msg = create_message(log_line)
-            print(f"Message type: {msg.type}")
-
-            if (msg.type == "CAN"):
-                print(msg.data)
 
             # Submit to thread pool BASED ON length of line in the file 
             if CAN_LENGTH_MIN <= len(log_line) <= CAN_LENGTH_MAX:
