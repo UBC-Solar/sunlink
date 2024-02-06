@@ -75,7 +75,7 @@ CAN_LENGTH_MIN      = 20
 CAN_LENGTH_MAX      = 23
 GPS_LENGTH_MIN      = 117
 GPS_LENGTH_MAX      = 128
-IMU_LENGTH_MIN      = 14
+IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 
 
@@ -211,11 +211,11 @@ def main():
             print(len(log_line), visible_length(log_line), log_line)
 
             # Submit to thread pool BASED ON length of line in the file 
-            if CAN_LENGTH_MIN <= visible_length(log_line) <= CAN_LENGTH_MAX:
+            if CAN_LENGTH_MIN <= len(log_line) <= CAN_LENGTH_MAX:
                 future = executor.submit(parser_request, payload, CAN_WRITE_ENDPOINT)
-            elif GPS_LENGTH_MIN <= visible_length(log_line) <= GPS_LENGTH_MAX:
+            elif GPS_LENGTH_MIN <= len(log_line) <= GPS_LENGTH_MAX:
                 future = executor.submit(parser_request, payload, GPS_WRITE_ENDPOINT)
-            elif IMU_LENGTH_MIN <= visible_length(log_line) <= IMU_LENGTH_MAX:
+            elif IMU_LENGTH_MIN <= len(log_line) <= IMU_LENGTH_MAX:
                 future = executor.submit(parser_request, payload, IMU_WRITE_ENDPOINT)
             else:
                 print(f"Message length is not a valid length for any message type: {len(log_line)}, {log_line}")
