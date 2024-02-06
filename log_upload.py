@@ -21,10 +21,10 @@ from toml import TomlDecodeError
 from typing import Dict
 from datetime import datetime
 import signal
-import argparse
+# import argparse
 import requests
 import glob
-import os
+import unicodedata
 
 TOML_CONFIG_FILE = Path("./telemetry.toml")
 
@@ -170,6 +170,9 @@ def read_lines_from_file(file_path):
         for line in file:
             yield line.strip()
 
+def visible_length(s):
+    return sum(1 for c in s if unicodedata.east_asian_width(c) in ('Na', 'A'))
+
 def main():
     # # Argument parsing
     # parser = argparse.ArgumentParser(description="Link raw radio stream to telemetry cluster.", prog=__PROGRAM__)
@@ -205,8 +208,7 @@ def main():
             # Create payload
             payload = {"message": log_line}
 
-            for i in range(len(log_line)):
-                print(ord(log_line[i]), end=' ')
+            print(visible_length(log_line), len(log_line))
 
             # Submit to thread pool BASED ON length of line in the file 
             if CAN_LENGTH_MIN <= len(log_line) <= CAN_LENGTH_MAX:
