@@ -208,6 +208,8 @@ def main():
             # Create payload
             payload = {"message": log_line}
 
+            print(len(log_line), visible_length(log_line), log_line)
+
             # Submit to thread pool BASED ON length of line in the file 
             if CAN_LENGTH_MIN <= visible_length(log_line) <= CAN_LENGTH_MAX:
                 future = executor.submit(parser_request, payload, CAN_WRITE_ENDPOINT)
