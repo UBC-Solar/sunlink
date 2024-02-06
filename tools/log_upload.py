@@ -14,7 +14,6 @@ CREDIT: Mihir. N for the following implementations
 """
 
 import concurrent.futures
-from prettytable import PrettyTable
 from pathlib import Path
 import sys
 import toml
@@ -24,6 +23,8 @@ from datetime import datetime
 import signal
 import argparse
 import requests
+import glob
+import os
 
 TOML_CONFIG_FILE = Path("./telemetry.toml")
 
@@ -65,14 +66,18 @@ __PROGRAM__ = "log_upload"
 AUTH_HEADER = {"Authorization": f"Bearer {SECRET_KEY}"}
 
 # Endpoints for CAN, GPS, and IMU messages
-CAN_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/CAN"
-GPS_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/GPS"
-IMU_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/IMU"
+CAN_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
+GPS_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
+IMU_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
 
 # Lengths of messages for differentiating message types
-CAN_LENGTH = 28
-GPS_LENGTH = 200
-IMU_LENGTH = 17
+CAN_LENGTH_MIN      = 20
+CAN_LENGTH_MAX      = 23
+GPS_LENGTH_MIN      = 117
+GPS_LENGTH_MAX      = 128
+IMU_LENGTH_MIN      = 15
+IMU_LENGTH_MAX      = 17
+
 
 # <----- Signal handling ----->
 
@@ -161,7 +166,7 @@ def read_lines_from_file(file_path):
     """
     Reads lines from the specified file and returns a generator.
     """
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='latin-1') as file:
         for line in file:
             yield line.strip()
 
@@ -180,26 +185,34 @@ def main():
     print(f"{ANSI_GREEN}Log Uploader is Up!{ANSI_ESCAPE}")
     print(f"Reading lines from file: {args.log_file}.")
 
-    # Process messages from the specified log file
-    file_path = args.log_file
-    message_generator = read_lines_from_file(file_path)
+    # Get the path to the logfiles directory
+    logfiles_dir = str(Path(os.getcwd()) / "logfiles")
 
-    while True:
-        try:
-            log_line = next(message_generator)
-        except StopIteration:
-            print("End of file reached. Exiting.")
-            break
+    # Get a list of all .txt files in the logfiles directory
+    txt_files = glob.glob(logfiles_dir + '/*.txt')
 
-        # Create payload
-        payload = {"message": log_line}
+    # Iterate over each .txt file
+    for file_path in txt_files:
+        print(f"Reading file {file_path}...")
+        message_generator = read_lines_from_file(file_path)
+
+        while True:
+            try:
+                log_line = next(message_generator)
+            except StopIteration:
+                break
+
+            # Create payload
+            payload = {"message": log_line}
+        
+        print(f"Done reading {file_path}")
 
         # Submit to thread pool BASED ON length of line in the file 
-        if len(log_line) == CAN_LENGTH:
+        if CAN_LENGTH_MIN <= len(log_line) <= CAN_LENGTH_MAX:
             future = executor.submit(parser_request, payload, CAN_WRITE_ENDPOINT)
-        elif len(log_line) == GPS_LENGTH:
+        elif GPS_LENGTH_MIN <= len(log_line) <= GPS_LENGTH_MAX:
             future = executor.submit(parser_request, payload, GPS_WRITE_ENDPOINT)
-        elif len(log_line) == IMU_LENGTH:
+        elif IMU_LENGTH_MIN <= len(log_line) <= IMU_LENGTH_MAX:
             future = executor.submit(parser_request, payload, IMU_WRITE_ENDPOINT)
         else:
             print(f"Message length is not a valid length for any message type: {len(log_line)}")
