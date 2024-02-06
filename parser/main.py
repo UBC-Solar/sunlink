@@ -247,7 +247,7 @@ def parse_and_write_request():
 
     message = create_message(parse_request["message"])
     extracted_measurements = message.extract_measurements(CAR_DBC)
-    id = extracted_measurements.get("ID", ["UNKNOWN"])[0]
+    id = extracted_measurements.get("ID", "UNKNOWN")
     type = message.type
 
     app.logger.info(f"Received a {message.type} message. ID = {id=}")
