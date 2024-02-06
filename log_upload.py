@@ -27,6 +27,10 @@ import glob
 import unicodedata
 
 from parser.CAN_Msg import CAN
+from parser.GPS_Msg import GPS
+from parser.IMU_Msg import IMU
+from parser.create_message import create_message
+
 
 TOML_CONFIG_FILE = Path("./telemetry.toml")
 
@@ -187,14 +191,14 @@ def main():
     # Create the thread pool
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
 
-    print(f"{ANSI_GREEN}Log Uploader is Up!{ANSI_ESCAPE}")
+    print(f"{ANSI_GREEN}Log Uploader is Up! \n{ANSI_ESCAPE}")
 
     # Get the path to the logfiles directory
     logfiles_dir = "./logfiles"
 
     # Get a list of all .txt files in the logfiles directory
     txt_files = glob.glob(logfiles_dir + '/*.txt')
-    print(f"Found {len(txt_files)} .txt files in {logfiles_dir}")
+    print(f"Found {len(txt_files)} .txt files in {logfiles_dir}\n")
 
     # Iterate over each .txt file
     for file_path in txt_files:
@@ -209,6 +213,12 @@ def main():
 
             # Create payload
             payload = {"message": log_line}
+
+            msg = create_message(log_line)
+            print(f"Message type: {msg.type()}")
+
+            if (msg.type == "CAN"):
+                print(msg.data)
 
             # Submit to thread pool BASED ON length of line in the file 
             if CAN_LENGTH_MIN <= len(log_line) <= CAN_LENGTH_MAX:
