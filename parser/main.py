@@ -79,6 +79,10 @@ INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
 INFLUX_DEBUG_BUCKET = ENV_CONFIG["INFLUX_DEBUG_BUCKET"]
 INFLUX_PROD_BUCKET = ENV_CONFIG["INFLUX_PROD_BUCKET"]
 
+INFLUX_CAN_BUCKET = "CAN_test"
+INFLUX_GPS_BUCKET = "GPS_test"
+INFLUX_IMU_BUCKET = "IMU_test"
+
 # <----- Grafana constants ----->
 
 GRAFANA_URL = "http://grafana:3000/"
@@ -277,9 +281,9 @@ def parse_and_write_request_to_CAN():
             
             # write to InfluxDB
             try:
-                write_api.write(bucket=INFLUX_DEBUG_BUCKET, org=INFLUX_ORG, record=point)
+                write_api.write(bucket=INFLUX_CAN_BUCKET, org=INFLUX_ORG, record=point)
                 app.logger.info(
-                    f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
+                    f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_CAN_BUCKET}!")
             except Exception:
                 app.logger.warning("Unable to write measurement to InfluxDB!")
                 return {
