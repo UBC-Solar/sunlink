@@ -48,37 +48,37 @@ class GPS:
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         pattern = (
-            r"Latitude: (?P<latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
-            r"Longitude: (?P<longitude>-?\d+\.\d+) (?P<lonSide>[EW]), "
-            r"Altitude: (?P<altitude>-?\d+\.\d+) meters, "
-            r"HDOP: (?P<hdop>-?\d+\.\d+), "
-            r"Satellites: (?P<satelliteCount>\d+), "
-            r"Fix: (?P<fix>\d+), "
-            r"Time: (?P<lastMeasure>\d+\.\d+)"
+            r"Latitude: (?P<Latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
+            r"Longitude: (?P<Longitude>-?\d+\.\d+) (?P<lonSide>[EW]), "
+            r"Altitude: (?P<Altitude>-?\d+\.\d+) meters, "
+            r"HDOP: (?P<HDOP>-?\d+\.\d+), "
+            r"Satellites: (?P<Satellites>\d+), "
+            r"Fix: (?P<Fix>\d+), "
+            r"Time: (?P<Timestamp>\d+\.\d+)"
         )
         match = re.search(pattern, self.message)
         
         if match:
             gps_data = match.groupdict()
-            gps_data['latitude'] = float(gps_data['latitude'])
-            gps_data['longitude'] = float(gps_data['longitude'])
-            gps_data['altitude'] = float(gps_data['altitude'])
-            gps_data['hdop'] = float(gps_data['hdop'])
-            gps_data['satelliteCount'] = int(gps_data['satelliteCount'])
-            gps_data['fix'] = int(gps_data['fix'])
-            gps_data['timestamp'] = float(gps_data['lastMeasure'])
+            gps_data['Latitude'] = float(gps_data['Latitude'])
+            gps_data['Longitude'] = float(gps_data['Longitude'])
+            gps_data['Altitude'] = float(gps_data['Altitude'])
+            gps_data['HDOP'] = float(gps_data['HDOP'])
+            gps_data['Satellites'] = int(gps_data['Satellites'])
+            gps_data['Fix'] = int(gps_data['Fix'])
+            gps_data['Timestamp'] = float(gps_data['Timestamp'])
 
-            gps_data['ID'] = gps_data['lastMeasure']
+            gps_data['ID'] = gps_data['Timestamp']
             
         display_data = {
-            "Latitude": [str(gps_data['latitude']) + " " + gps_data['latSide']],
-            "Longitude": [str(gps_data['longitude']) + " " + gps_data['lonSide']],
-            "Altitude": [str(gps_data['altitude'])],
-            "HDOP": [str(gps_data['hdop'])],
-            "Satellites": [str(gps_data['satelliteCount'])],
-            "Fix": [str(gps_data['fix'])],
-            "Time": [str(gps_data['lastMeasure'])],
-            "ID": str(gps_data['lastMeasure'])
+            "Latitude": [str(gps_data['Latitude']) + " " + gps_data['latSide']],
+            "Longitude": [str(gps_data['Longitude']) + " " + gps_data['lonSide']],
+            "Altitude": [str(gps_data['Altitude'])],
+            "HDOP": [str(gps_data['HDOP'])],
+            "Satellites": [str(gps_data['Satellites'])],
+            "Fix": [str(gps_data['Fix'])],
+            "Time": [str(gps_data['Timestamp'])],
+            "ID": str(gps_data['Timestamp'])
         }
 
         return display_data
