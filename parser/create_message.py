@@ -11,6 +11,9 @@ GPS_LENGTH_MAX      = 128
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 
+# Indexing of message types
+CAN_INDEX           = 0
+
 
 """
 Factory method for creating a Message object based on the message type
@@ -33,7 +36,7 @@ Returns:
 """
 def create_message(message: str, format_specifiers_list: list):
     if CAN_LENGTH_MIN <= len(message) <= CAN_LENGTH_MAX:
-        return CAN(message, format_specifiers_list[0])
+        return CAN(message, format_specifiers_list[CAN_INDEX])
     elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:
         return GPS(message)
     elif IMU_LENGTH_MIN <= len(message) <= IMU_LENGTH_MAX:
