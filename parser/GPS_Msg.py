@@ -21,6 +21,7 @@ self.type = "GPS"
 class GPS:
     def __init__(self, message: str) -> None:   
         # Parse all data fields and set type
+        self.message = message
         self.data = self.parseGPS_str(message)
         self.type = "GPS"
 
@@ -89,6 +90,19 @@ class GPS:
             gps_data['satelliteCount'] = int(gps_data['satelliteCount'])
             gps_data['fix'] = int(gps_data['fix'])
             gps_data['timestamp'] = float(gps_data['lastMeasure'])
+
+
+            self.display_data = {
+                "Latitude": [str(self.data['latitude']) + " " + self.data['latSide']],
+                "Longitude": [str(self.data['longitude']) + " " + self.data['lonSide']],
+                "Altitude": [str(self.data['altitude'])],
+                "HDOP": [str(self.data['hdop'])],
+                "Satellites": [str(self.data['satelliteCount'])],
+                "Fix": [str(self.data['fix'])],
+                "Time": [str(self.data['lastMeasure'])],
+                "ID": str(self.data['lastMeasure'])
+             }
+
             
             return gps_data
         else:
