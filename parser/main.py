@@ -236,10 +236,10 @@ def parse_and_write_request():
     parse_request = flask.request.json
 
     format_specifiers_list = [CAR_DBC]      # List of specifier. See README or create_message.py for more info
-    message = create_message(parse_request["message"], format_specifiers_list)
     return {
         "message": "WE MADE IT",
     }
+    message = create_message(parse_request["message"], format_specifiers_list)
     id = message.data["ID"]
     type = message.type
 
