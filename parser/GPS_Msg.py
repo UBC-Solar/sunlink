@@ -93,14 +93,14 @@ class GPS:
 
 
             self.display_data = {
-                "Latitude": [str(self.data['latitude']) + " " + self.data['latSide']],
-                "Longitude": [str(self.data['longitude']) + " " + self.data['lonSide']],
-                "Altitude": [str(self.data['altitude'])],
-                "HDOP": [str(self.data['hdop'])],
-                "Satellites": [str(self.data['satelliteCount'])],
-                "Fix": [str(self.data['fix'])],
-                "Time": [str(self.data['lastMeasure'])],
-                "ID": str(self.data['lastMeasure'])
+                "Latitude": [str(float(gps_data['latitude'])) + " " + gps_data['latSide']],
+                "Longitude": [str(float(gps_data['longitude'])) + " " + float(gps_data['lonSide'])],
+                "Altitude": [str(float(gps_data['altitude']))],
+                "HDOP": [str(float(gps_data['hdop']))],
+                "Satellites": [str(int(gps_data['satelliteCount']))],
+                "Fix": [str(int(gps_data['fix']))],
+                "Time": [str(float(gps_data['lastMeasure']))],
+                "ID": str(float(gps_data['lastMeasure']))
              }
 
             
