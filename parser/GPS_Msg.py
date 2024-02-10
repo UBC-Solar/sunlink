@@ -30,7 +30,7 @@ class GPS:
         format_specifier: None for GPS messages (as of now)
         
     Returns:
-        display_data dictionary with the following form
+        dictionary with the following form
         {
             "Latitude": [val + latside],
             "Longitude": [val + longside],

@@ -35,7 +35,7 @@ class CAN:
         format_specifier: object or file path 
         
     Returns:
-        display_data dictionary with the following form
+        dictionary with the following form
         {
             "Hex_ID": [hex id1, hex id1, hex id1, ...],
             "Source": [source1, source1, source1, ...],
