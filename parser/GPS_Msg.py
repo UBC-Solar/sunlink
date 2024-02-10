@@ -47,15 +47,36 @@ class GPS:
         }
     """
     def extract_measurements(self, format_specifier=None) -> dict:
+        pattern = (
+            r"Latitude: (?P<latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
+            r"Longitude: (?P<longitude>-?\d+\.\d+) (?P<lonSide>[EW]), "
+            r"Altitude: (?P<altitude>-?\d+\.\d+) meters, "
+            r"HDOP: (?P<hdop>-?\d+\.\d+), "
+            r"Satellites: (?P<satelliteCount>\d+), "
+            r"Fix: (?P<fix>\d+), "
+            r"Time: (?P<lastMeasure>\d+\.\d+)"
+        )
+        match = re.search(pattern, self.message)
+        
+        if match:
+            gps_data = match.groupdict()
+            gps_data['latitude'] = float(gps_data['latitude'])
+            gps_data['longitude'] = float(gps_data['longitude'])
+            gps_data['altitude'] = float(gps_data['altitude'])
+            gps_data['hdop'] = float(gps_data['hdop'])
+            gps_data['satelliteCount'] = int(gps_data['satelliteCount'])
+            gps_data['fix'] = int(gps_data['fix'])
+            gps_data['timestamp'] = float(gps_data['lastMeasure'])
+            
         display_data = {
-            "Latitude": [str(self.data['latitude']) + " " + self.data['latSide']],
-            "Longitude": [str(self.data['longitude']) + " " + self.data['lonSide']],
-            "Altitude": [str(self.data['altitude'])],
-            "HDOP": [str(self.data['hdop'])],
-            "Satellites": [str(self.data['satelliteCount'])],
-            "Fix": [str(self.data['fix'])],
-            "Time": [str(self.data['lastMeasure'])],
-            "ID": str(self.data['lastMeasure'])
+            "Latitude": [str(gps_data['latitude']) + " " + gps_data['latSide']],
+            "Longitude": [str(gps_data['longitude']) + " " + gps_data['lonSide']],
+            "Altitude": [str(gps_data['altitude'])],
+            "HDOP": [str(gps_data['hdop'])],
+            "Satellites": [str(gps_data['satelliteCount'])],
+            "Fix": [str(gps_data['fix'])],
+            "Time": [str(gps_data['lastMeasure'])],
+            "ID": str(gps_data['lastMeasure'])
         }
 
         return display_data
