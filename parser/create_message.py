@@ -35,6 +35,7 @@ Returns:
     a message object (CAN, GPS, IMU, etc.)
 """
 def create_message(message: str, format_specifiers_list: list):
+    print("we made it")
     if CAN_LENGTH_MIN <= len(message) <= CAN_LENGTH_MAX:
         return CAN(message, format_specifiers_list[CAN_INDEX])
     elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:
