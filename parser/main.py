@@ -235,15 +235,10 @@ def parse_and_write_request():
     """
     parse_request = flask.request.json
 
-    format_specifiers_list = [CAR_DBC]      # List of specifier. See README or create_message.py for more info
     message = create_message(parse_request["message"])
-    return {
-        "message": "we mde it"
-    }
-    id = message.data["ID"]
+    extracted_measurements = message.extract_measurements(CAR_DBC)
+    id = extracted_measurements.get("ID", "UNKNOWN")
     type = message.type
-
-
 
     app.logger.info(f"Received a {message.type} message. ID = {id=}")
 
@@ -253,7 +248,7 @@ def parse_and_write_request():
     except Exception:
         app.logger.warn(
             f"Unable to extract measurements for {type} message with id={id}")
-        app.logger.warn(str(message.data))
+        app.logger.warn(str(extracted_measurements))
         return {
             "result": "PARSE_FAIL",
             "message": [],
@@ -262,11 +257,11 @@ def parse_and_write_request():
 
     # try writing the measurements extracted
     if type == "CAN":
-        for i in range(len(message.data[list(message.data.keys())[0]])):
-            name = message.data["Measurement"][i]
-            source = message.data["Source"][i]
-            m_class = message.data["Class"][i]
-            value = message.data["Value"][i]
+        for i in range(len(extracted_measurements[list(extracted_measurements.keys())[0]])):
+            name = extracted_measurements["Measurement"][i]
+            source = extracted_measurements["Source"][i]
+            m_class = extracted_measurements["Class"][i]
+            value = extracted_measurements["Value"][i]
 
             point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                 "class", m_class).field(name, value)
@@ -280,14 +275,14 @@ def parse_and_write_request():
                 app.logger.warning("Unable to write measurement to InfluxDB!")
                 return {
                     "result": "INFLUX_WRITE_FAIL",
-                    "message": message.data,
+                    "message": extracted_measurements,
                     "id": id,
                     "type": type
                 }
 
     return {
         "result": "OK",
-        "message": message.data,
+        "message": extracted_measurements,
         "id": id,
         "type": type
     }
