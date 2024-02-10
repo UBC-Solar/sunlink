@@ -60,13 +60,13 @@ class GPS:
         
         if match:
             gps_data = match.groupdict()
-            gps_data['Latitude'] = float(gps_data['Latitude'])
-            gps_data['Longitude'] = float(gps_data['Longitude'])
-            gps_data['Altitude'] = float(gps_data['Altitude'])
-            gps_data['HDOP'] = float(gps_data['HDOP'])
-            gps_data['Satellites'] = int(gps_data['Satellites'])
-            gps_data['Fix'] = int(gps_data['Fix'])
-            gps_data['Timestamp'] = float(gps_data['Timestamp'])
+            gps_data['Latitude'] = [gps_data['Latitude'] + " " + gps_data['latSide']]
+            gps_data['Longitude'] = [gps_data['Longitude'] + " " + gps_data['lonSide']]
+            gps_data['Altitude'] = [gps_data['Altitude']]
+            gps_data['HDOP'] = [gps_data['HDOP']]
+            gps_data['Satellites'] = [gps_data['Satellites']]
+            gps_data['Fix'] = [gps_data['Fix']]
+            gps_data['Timestamp'] = [gps_data['Timestamp']]
 
             gps_data['ID'] = gps_data['Timestamp']
             
@@ -81,7 +81,7 @@ class GPS:
             "ID": str(gps_data['Timestamp'])
         }
 
-        return display_data
+        return gps_data
 
     """
     Parses a GPS message string into a dictionary of fields using regex
