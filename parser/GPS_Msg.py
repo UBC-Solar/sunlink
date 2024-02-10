@@ -6,15 +6,14 @@ methods from the interface Message. Assumes message parameter in
 constructor is a UART message from the Radio Receiver (serial.readLine())
 Data fields are below:
 
-'latitude':   (double) degrees
-'latside':    (char) N or S
-'longitude':  (double) degrees
-'longside':   (char) E or W
-'altitude':   (double) meters
-'hdop':       (double) horizontal dilution of precision
-'satellites': (int) number of satellites
-'fix':        (int) 0 or 1 -- 0 = no fix, 1 = fix
-'timestamp':       (double) seconds since last measurement
+"Latitude": degrees + latside (N or S)
+"Longitude": degrees + longside (E or W)
+"Altitude": meters
+"HDOP": horizontal dilution of precision
+"Satellites": number of satellites
+"Fix": 0 or 1 -- 0 = no fix, 1 = fix
+"Time": seconds since last measurement
+"ID": Chosent to be the timestamp
 
 self.type = "GPS"
 """
@@ -69,54 +68,8 @@ class GPS:
             gps_data['Timestamp'] = [gps_data['Timestamp']]
 
             gps_data['ID'] = gps_data['Timestamp']
-            
-        display_data = {
-            "Latitude": [str(gps_data['Latitude']) + " " + gps_data['latSide']],
-            "Longitude": [str(gps_data['Longitude']) + " " + gps_data['lonSide']],
-            "Altitude": [str(gps_data['Altitude'])],
-            "HDOP": [str(gps_data['HDOP'])],
-            "Satellites": [str(gps_data['Satellites'])],
-            "Fix": [str(gps_data['Fix'])],
-            "Time": [str(gps_data['Timestamp'])],
-            "ID": str(gps_data['Timestamp'])
-        }
 
         return gps_data
-
-    """
-    Parses a GPS message string into a dictionary of fields using regex
-    
-    Parameters:
-        str_msg: the GPS message as a string
-
-    Returns:
-        a dictionary containing the data fields of the GPS message
-    """
-    def parseGPS_str(self) -> dict:
-        pattern = (
-            r"Latitude: (?P<latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
-            r"Longitude: (?P<longitude>-?\d+\.\d+) (?P<lonSide>[EW]), "
-            r"Altitude: (?P<altitude>-?\d+\.\d+) meters, "
-            r"HDOP: (?P<hdop>-?\d+\.\d+), "
-            r"Satellites: (?P<satelliteCount>\d+), "
-            r"Fix: (?P<fix>\d+), "
-            r"Time: (?P<lastMeasure>\d+\.\d+)"
-        )
-        match = re.search(pattern, self.message)
-        
-        if match:
-            gps_data = match.groupdict()
-            gps_data['latitude'] = float(gps_data['latitude'])
-            gps_data['longitude'] = float(gps_data['longitude'])
-            gps_data['altitude'] = float(gps_data['altitude'])
-            gps_data['hdop'] = float(gps_data['hdop'])
-            gps_data['satelliteCount'] = int(gps_data['satelliteCount'])
-            gps_data['fix'] = int(gps_data['fix'])
-            gps_data['timestamp'] = float(gps_data['lastMeasure'])
-            
-            return gps_data
-        else:
-            return None
 
     def data(self) -> dict:
         return self.data
