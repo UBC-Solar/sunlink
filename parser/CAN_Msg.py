@@ -59,6 +59,8 @@ class CAN:
             "bytestream": self.bytestream,
             "bitstream": self.bitstream
         }
+        self.data2 = self.extract_measurements(format_specifier)
+
 
         self.type = "CAN"
 
