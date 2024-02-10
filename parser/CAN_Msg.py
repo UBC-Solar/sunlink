@@ -20,14 +20,38 @@ class CAN:
     CHANGES:
         data field is now 8 bytes (Before: FF is sent as 2 letter Fs, now it is sent as 1 byte char with value 255)
     """
-    def __init__(self, message: str, format_specifier=None) -> None:      
-        # Convert string message to bytes
-        message = message.encode("latin-1")
-              
-        timestamp: str = message[0:8].decode("latin-1")
-        id: str = message[8:12].decode("latin-1")
-        data: str = message[12:20].decode("latin-1")
-        data_len: str = message[20:21].decode("latin-1")
+    def __init__(self, message: str, format_specifier=None) -> None:    
+        self.message = message  
+        self.data2 = self.extract_measurements(format_specifier)
+        self.type = "CAN"
+
+
+    """
+    CREDIT: Mihir. N and Aarjav. J
+    Will create a dictionary whose keys are the column headings to the pretty table
+    and whose values are data in those columns. Dictionary is string to list.
+    The list will be the same length as the number of rows in the pretty table.
+    This is done to match list length to number of measurement in CAN message to list
+    
+    Parameters:
+        format_specifier: file path to a file containing a format specifier
+        
+    Returns:
+        display_data dictionary with the following form
+        {
+            "Hex ID": [hex id1, hex id1, hex id1, ...],
+            "Source": [source1, source1, source1, ...],
+            "Class": [class1, class1, class1, ...],
+            "Measurment": [measurement1, measurement2, measurement3, ...],
+            "Value": [value1, value2, value3, ...]
+            "ID": hex id1
+        }
+    """
+    def extract_measurements(self, format_specifier=None) -> dict:      
+        timestamp: str = self.message[0:8]
+        id: str = self.message[8:12]
+        data: str = self.message[12:20]
+        data_len: str = self.message[20:21]
 
         self.timestamp = int(timestamp, 16)     # 8 bytes
         self.identifier = int(id, 16)           # 4 bytes
@@ -59,34 +83,7 @@ class CAN:
             "bytestream": self.bytestream,
             "bitstream": self.bitstream
         }
-        self.data2 = self.extract_measurements(format_specifier)
 
-
-        self.type = "CAN"
-
-
-    """
-    CREDIT: Mihir. N and Aarjav. J
-    Will create a dictionary whose keys are the column headings to the pretty table
-    and whose values are data in those columns. Dictionary is string to list.
-    The list will be the same length as the number of rows in the pretty table.
-    This is done to match list length to number of measurement in CAN message to list
-    
-    Parameters:
-        format_specifier: file path to a file containing a format specifier
-        
-    Returns:
-        display_data dictionary with the following form
-        {
-            "Hex ID": [hex id1, hex id1, hex id1, ...],
-            "Source": [source1, source1, source1, ...],
-            "Class": [class1, class1, class1, ...],
-            "Measurment": [measurement1, measurement2, measurement3, ...],
-            "Value": [value1, value2, value3, ...]
-            "ID": hex id1
-        }
-    """
-    def extract_measurements(self, format_specifier=None) -> dict:
         measurements = format_specifier.decode_message(self.data["identifier"], self.data["data_bytes"])
         message = format_specifier.get_message_by_frame_id(self.data["identifier"])
 
