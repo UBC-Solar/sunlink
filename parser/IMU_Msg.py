@@ -17,6 +17,7 @@ self.type = "IMU"
 class IMU:
     def __init__(self, message: str) -> None:   
         # Parse all data fields and set type
+        self.message = message
         self.data = self.parseIMU_str(message)
         self.type = "IMU"
 
@@ -37,12 +38,31 @@ class IMU:
         }
     """
     def extract_measurements(self, format_specifier=None) -> dict:
-        display_data = {
-            "Type": [self.data['type']],
-            "Dimension": [self.data['dimension']],
-            "Value": [str(self.data['value'])],
-            "ID": self.data['identifier']
+        # Extract the parts of the message
+        timestamp = self.message[:8]
+        id = self.message[9:11]      # skip the @
+        data = self.message[11:]
+
+        # Convert the data part to a 32-bit float
+        value = struct.unpack('>f', bytearray(data.encode('latin1')))[0]
+
+        # Create the output dictionary
+        output = {
+            'timestamp': timestamp,
+            'identifier': id,
+            'value': round(value, 6),
+            'type': id[0],
+            'dimension': id[1]
         }
+    
+        display_data = {
+            "Type": [id[0]],
+            "Dimension": [id[1]],
+            "Value": [round(value, 6)],
+            "Timestamp": [timestamp],
+            "ID": id
+        }
+        
         return display_data
 
     """
