@@ -64,6 +64,7 @@ class GPS:
             gps_data['Fix'] = [str(int(gps_data['Fix']))]
             gps_data['Timestamp'] = [str(float(gps_data['Timestamp']))]
             
+            print(gps_data)
             return gps_data
         else:
             return None

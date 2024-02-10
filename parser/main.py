@@ -237,6 +237,9 @@ def parse_and_write_request():
 
     format_specifiers_list = [CAR_DBC]      # List of specifier. See README or create_message.py for more info
     message = create_message(parse_request["message"])
+    return {
+        "message": "we mde it"
+    }
     id = message.data["ID"]
     type = message.type
 
