@@ -21,6 +21,7 @@ self.type = "GPS"
 class GPS:
     def __init__(self, message: str) -> None:   
         # Parse all data fields and set type
+        self.message = message
         self.data = self.parseGPS_str(message)
         self.type = "GPS"
 
