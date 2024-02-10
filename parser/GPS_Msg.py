@@ -22,7 +22,7 @@ class GPS:
     def __init__(self, message: str) -> None:   
         # Parse all data fields and set type
         self.message = message
-        self.data = self.parseGPS_str(message)
+        self.data = self.parseGPS_str()
         self.type = "GPS"
 
 
@@ -69,7 +69,7 @@ class GPS:
     Returns:
         a dictionary containing the data fields of the GPS message
     """
-    def parseGPS_str(self, str_msg: str) -> dict:
+    def parseGPS_str(self) -> dict:
         pattern = (
             r"Latitude: (?P<latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
             r"Longitude: (?P<longitude>-?\d+\.\d+) (?P<lonSide>[EW]), "
@@ -79,7 +79,7 @@ class GPS:
             r"Fix: (?P<fix>\d+), "
             r"Time: (?P<lastMeasure>\d+\.\d+)"
         )
-        match = re.search(pattern, str_msg)
+        match = re.search(pattern, self.message)
         
         if match:
             gps_data = match.groupdict()
