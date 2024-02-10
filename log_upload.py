@@ -67,9 +67,9 @@ __PROGRAM__ = "log_upload"
 AUTH_HEADER = {"Authorization": f"Bearer {SECRET_KEY}"}
 
 # Endpoints for CAN, GPS, and IMU messages
-CAN_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
-GPS_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
-IMU_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
+CAN_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/CAN_test"
+GPS_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/GPS_test"
+IMU_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/IMU_test"
 
 # Lengths of messages for differentiating message types
 CAN_LENGTH_MIN      = 20
