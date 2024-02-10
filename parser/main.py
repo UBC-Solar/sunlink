@@ -27,16 +27,6 @@ from parser.IMU_Msg import IMU
 from parser.GPS_Msg import GPS
 from parser.create_message import create_message
 
-# # New imports
-# from parser.create_message import create_message
-
-# # All additional imports
-# from parser.CAN_Msg import CAN
-# from parser.IMU_Msg import IMU
-# from parser.GPS_Msg import GPS
-
-# from parser.randomizer import RandomMessage
-
 
 from dotenv import dotenv_values
 
@@ -244,10 +234,9 @@ def parse_and_write_request():
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
-
-    message = create_message(parse_request["message"])
-    extracted_measurements = message.extract_measurements(CAR_DBC)
-    id = extracted_measurements.get("ID", "UNKNOWN")
+    format_specifiers_list = [CAR_DBC]      # List of specifier. See README or create_message.py for more info
+    message = create_message(parse_request["message"], format_specifiers_list)
+    id = message.data["ID"]
     type = message.type
 
     app.logger.info(f"Received a {message.type} message. ID = {id=}")
@@ -258,7 +247,7 @@ def parse_and_write_request():
     except Exception:
         app.logger.warn(
             f"Unable to extract measurements for {type} message with id={id}")
-        app.logger.warn(str(extracted_measurements))
+        app.logger.warn(str(message.data))
         return {
             "result": "PARSE_FAIL",
             "message": [],
@@ -267,11 +256,11 @@ def parse_and_write_request():
 
     # try writing the measurements extracted
     if type == "CAN":
-        for i in range(len(extracted_measurements[list(extracted_measurements.keys())[0]])):
-            name = extracted_measurements["Measurement"][i]
-            source = extracted_measurements["Source"][i]
-            m_class = extracted_measurements["Class"][i]
-            value = extracted_measurements["Value"][i]
+        for i in range(len(message.data[list(message.data.keys())[0]])):
+            name = message.data["Measurement"][i]
+            source = message.data["Source"][i]
+            m_class = message.data["Class"][i]
+            value = message.data["Value"][i]
 
             point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                 "class", m_class).field(name, value)
@@ -285,14 +274,14 @@ def parse_and_write_request():
                 app.logger.warning("Unable to write measurement to InfluxDB!")
                 return {
                     "result": "INFLUX_WRITE_FAIL",
-                    "message": extracted_measurements,
+                    "message": message.data,
                     "id": id,
                     "type": type
                 }
 
     return {
         "result": "OK",
-        "message": extracted_measurements,
+        "message": message.data,
         "id": id,
         "type": type
     }
