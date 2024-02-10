@@ -83,13 +83,13 @@ class GPS:
         
         if match:
             gps_data = match.groupdict()
-            gps_data['Latitude'] = float(gps_data['Latitude'])
-            gps_data['Longitude'] = float(gps_data['Longitude'])
-            gps_data['Altitude'] = float(gps_data['Altitude'])
-            gps_data['HDOP'] = float(gps_data['HDOP'])
-            gps_data['Satellites'] = int(gps_data['Satellites'])
-            gps_data['Fix'] = int(gps_data['Fix'])
-            gps_data['timestamp'] = float(gps_data['Timestamp'])
+            gps_data['Latitude'] = [str(float(gps_data['Latitude'])) + " " + gps_data['latSide']]
+            gps_data['Longitude'] = [str(float(gps_data['Longitude'])) + " " + float(gps_data['lonSide'])]
+            gps_data['Altitude'] = [str(float(gps_data['Altitude']))]
+            gps_data['HDOP'] = [str(float(gps_data['HDOP']))]
+            gps_data['Satellites'] = [str(int(gps_data['Satellites']))]
+            gps_data['Fix'] = [str(int(gps_data['Fix']))]
+            gps_data['timestamp'] = str(float(gps_data['Timestamp']))
 
 
             self.display_data = {
