@@ -22,7 +22,7 @@ class GPS:
     def __init__(self, message: str) -> None:   
         # Parse all data fields and set type
         self.message = message
-        self.data = None
+        self.data = self.extract_measurements()
         self.type = "GPS"
 
 
