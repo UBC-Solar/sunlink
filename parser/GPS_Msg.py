@@ -48,14 +48,14 @@ class GPS:
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         display_data = {
-            "Latitude": [str(self.data['latitude']) + " " + self.data['latSide']],
-            "Longitude": [str(self.data['longitude']) + " " + self.data['lonSide']],
-            "Altitude": [str(self.data['altitude'])],
-            "HDOP": [str(self.data['hdop'])],
-            "Satellites": [str(self.data['satelliteCount'])],
-            "Fix": [str(self.data['fix'])],
-            "Time": [str(self.data['lastMeasure'])],
-            "ID": str(self.data['lastMeasure'])
+            "Latitude": [str(self.data['Latitude']) + " " + self.data['latSide']],
+            "Longitude": [str(self.data['Longitude']) + " " + self.data['lonSide']],
+            "Altitude": [str(self.data['Altitude'])],
+            "HDOP": [str(self.data['HDOP'])],
+            "Satellites": [str(self.data['Satellites'])],
+            "Fix": [str(self.data['Fix'])],
+            "Time": [str(self.data['Timestamp'])],
+            "ID": str(self.data['Timestamp'])
         }
 
         return display_data
@@ -91,7 +91,7 @@ class GPS:
             gps_data['Fix'] = [str(int(gps_data['Fix']))]
             gps_data['timestamp'] = str(float(gps_data['Timestamp']))
 
-            gps_data['ID'] = str(float(gps_data['Timestamp']))
+            # gps_data['ID'] = str(float(gps_data['Timestamp']))
 
 
             self.display_data = {
