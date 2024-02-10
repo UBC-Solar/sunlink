@@ -67,6 +67,8 @@ class GPS:
             gps_data['satelliteCount'] = int(gps_data['satelliteCount'])
             gps_data['fix'] = int(gps_data['fix'])
             gps_data['timestamp'] = float(gps_data['lastMeasure'])
+
+            gps_data['ID'] = gps_data['lastMeasure']
             
         display_data = {
             "Latitude": [str(gps_data['latitude']) + " " + gps_data['latSide']],
