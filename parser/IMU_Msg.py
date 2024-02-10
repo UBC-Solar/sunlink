@@ -6,11 +6,11 @@ methods from the interface Message. Assumes message parameter in
 constructor is a UART message from the Radio Receiver (serial.readLine())
 Data fields are below:
 
-'timestamp': (string) timestamp of the IMU message (All D's right now)
-'identifier':        (string) ID of the IMU message
-'value':     (float) value of the IMU message (rounded to 6 decimal places)
-'type':      (string) type of the IMU message (A or G)
-'dimension': (string) dimension of the IMU message (X, Y, or Z)
+"Type": type of the IMU message (A or G)
+"Dimension": dimension of the IMU message (X, Y, or Z)
+"Value": value of the IMU message (rounded to 6 decimal places)
+"Timestamp": timestamp of the IMU message (All D's right now)
+"ID": Chosen to be 'Type + Dimension'
 
 self.type = "IMU"
 """
@@ -34,6 +34,7 @@ class IMU:
             "Type": [],
             "Dimension": [],
             "Value": [],
+            "Timestamp": []
             "ID":
         }
     """
