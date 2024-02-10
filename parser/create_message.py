@@ -11,9 +11,6 @@ GPS_LENGTH_MAX      = 128
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 
-# Indexing of message types
-CAN_INDEX           = 0
-
 
 """
 Factory method for creating a Message object based on the message type
@@ -23,21 +20,21 @@ elif len(message) == <length of message>:
     return <Message Subclass>(message)
 ------------------------------------------------------
 
-Decision based on LENGTH of the message (see above for lengths of different messages):
+Decision based on LENGTH of the message:
+
+CAN message: 22 bytes
+GPS message: 200 bytes
+IMU message: 17 bytes
 
 Parameters:
     message: the message to be parsed
-    format_specifiers_list: list of format specifiers for the message (like cantools DBC object)
-                            Replace None's with the actual format specifiers when we have more. Currently 1 length list.
-                            [DBC Object, None, None, ...]
     
 Returns:
     a message object (CAN, GPS, IMU, etc.)
 """
-def create_message(message: str, format_specifiers_list: list):
-    print("we made it")
+def create_message(message: str):
     if CAN_LENGTH_MIN <= len(message) <= CAN_LENGTH_MAX:
-        return CAN(message, format_specifiers_list[CAN_INDEX])
+        return CAN(message)
     elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:
         return GPS(message)
     elif IMU_LENGTH_MIN <= len(message) <= IMU_LENGTH_MAX:

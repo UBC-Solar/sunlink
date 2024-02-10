@@ -27,6 +27,16 @@ from parser.IMU_Msg import IMU
 from parser.GPS_Msg import GPS
 from parser.create_message import create_message
 
+# # New imports
+# from parser.create_message import create_message
+
+# # All additional imports
+# from parser.CAN_Msg import CAN
+# from parser.IMU_Msg import IMU
+# from parser.GPS_Msg import GPS
+
+# from parser.randomizer import RandomMessage
+
 
 from dotenv import dotenv_values
 

@@ -1,7 +1,10 @@
 import re
 
 """
-GPS message wrapper class. GPS.data[''] fields are:
+Subclass GPS implements the extract_measurements and getter
+methods from the interface Message. Assumes message parameter in 
+constructor is a UART message from the Radio Receiver (serial.readLine())
+Data fields are below:
 
 'latitude':   (double) degrees
 'latside':    (char) N or S
