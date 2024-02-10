@@ -91,6 +91,8 @@ class GPS:
             gps_data['Fix'] = [str(int(gps_data['Fix']))]
             gps_data['timestamp'] = str(float(gps_data['Timestamp']))
 
+            gps_data['ID'] = str(float(gps_data['Timestamp']))
+
 
             self.display_data = {
                 "Latitude": [str(float(gps_data['Latitude'])) + " " + gps_data['latSide']],
