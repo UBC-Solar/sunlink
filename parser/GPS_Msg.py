@@ -71,36 +71,36 @@ class GPS:
     """
     def parseGPS_str(self, str_msg: str) -> dict:
         pattern = (
-            r"Latitude: (?P<latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
-            r"Longitude: (?P<longitude>-?\d+\.\d+) (?P<lonSide>[EW]), "
-            r"Altitude: (?P<altitude>-?\d+\.\d+) meters, "
-            r"HDOP: (?P<hdop>-?\d+\.\d+), "
-            r"Satellites: (?P<satelliteCount>\d+), "
-            r"Fix: (?P<fix>\d+), "
-            r"Time: (?P<lastMeasure>\d+\.\d+)"
+            r"Latitude: (?P<Latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
+            r"Longitude: (?P<Longitude>-?\d+\.\d+) (?P<lonSide>[EW]), "
+            r"Altitude: (?P<Altitude>-?\d+\.\d+) meters, "
+            r"HDOP: (?P<HDOP>-?\d+\.\d+), "
+            r"Satellites: (?P<Satellites>\d+), "
+            r"Fix: (?P<Fix>\d+), "
+            r"Time: (?P<Timestamp>\d+\.\d+)"
         )
         match = re.search(pattern, str_msg)
         
         if match:
             gps_data = match.groupdict()
-            gps_data['latitude'] = float(gps_data['latitude'])
-            gps_data['longitude'] = float(gps_data['longitude'])
-            gps_data['altitude'] = float(gps_data['altitude'])
-            gps_data['hdop'] = float(gps_data['hdop'])
-            gps_data['satelliteCount'] = int(gps_data['satelliteCount'])
-            gps_data['fix'] = int(gps_data['fix'])
-            gps_data['timestamp'] = float(gps_data['lastMeasure'])
+            gps_data['Latitude'] = float(gps_data['Latitude'])
+            gps_data['Longitude'] = float(gps_data['Longitude'])
+            gps_data['Altitude'] = float(gps_data['Altitude'])
+            gps_data['HDOP'] = float(gps_data['HDOP'])
+            gps_data['Satellites'] = int(gps_data['Satellites'])
+            gps_data['Fix'] = int(gps_data['Fix'])
+            gps_data['timestamp'] = float(gps_data['Timestamp'])
 
 
             self.display_data = {
-                "Latitude": [str(float(gps_data['latitude'])) + " " + gps_data['latSide']],
-                "Longitude": [str(float(gps_data['longitude'])) + " " + float(gps_data['lonSide'])],
-                "Altitude": [str(float(gps_data['altitude']))],
-                "HDOP": [str(float(gps_data['hdop']))],
-                "Satellites": [str(int(gps_data['satelliteCount']))],
-                "Fix": [str(int(gps_data['fix']))],
-                "Time": [str(float(gps_data['lastMeasure']))],
-                "ID": str(float(gps_data['lastMeasure']))
+                "Latitude": [str(float(gps_data['Latitude'])) + " " + gps_data['latSide']],
+                "Longitude": [str(float(gps_data['Longitude'])) + " " + float(gps_data['lonSide'])],
+                "Altitude": [str(float(gps_data['Altitude']))],
+                "HDOP": [str(float(gps_data['HDOP']))],
+                "Satellites": [str(int(gps_data['Satellites']))],
+                "Fix": [str(int(gps_data['Fix']))],
+                "Time": [str(float(gps_data['Timestamp']))],
+                "ID": str(float(gps_data['Timestamp']))
              }
 
             
