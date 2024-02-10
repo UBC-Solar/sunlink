@@ -19,7 +19,7 @@ class CAN:
     """
     def __init__(self, message: str, format_specifier=None) -> None:    
         self.message = message  
-        self.data2 = self.extract_measurements(format_specifier)
+        self.data = self.extract_measurements(format_specifier)
         self.type = "CAN"
 
 
