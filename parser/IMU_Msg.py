@@ -46,23 +46,14 @@ class IMU:
         # Convert the data part to a 32-bit float
         value = struct.unpack('>f', bytearray(data.encode('latin1')))[0]
 
-        # Create the output dictionary
-        output = {
-            'timestamp': timestamp,
-            'identifier': id,
-            'value': round(value, 6),
-            'type': id[0],
-            'dimension': id[1]
-        }
-    
         display_data = {
             "Type": [id[0]],
             "Dimension": [id[1]],
             "Value": [round(value, 6)],
-            "Timestamp": [timestamp],
+            "Timestamp": [int(timestamp, 16)],
             "ID": id
         }
-        
+
         return display_data
 
     """
