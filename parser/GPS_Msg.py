@@ -21,7 +21,6 @@ self.type = "GPS"
 class GPS:
     def __init__(self, message: str) -> None:   
         # Parse all data fields and set type
-        self.message = message
         self.data = self.parseGPS_str(message)
         self.type = "GPS"
 
@@ -48,14 +47,14 @@ class GPS:
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         display_data = {
-            "Latitude": [str(self.data['Latitude']) + " " + self.data['latSide']],
-            "Longitude": [str(self.data['Longitude']) + " " + self.data['lonSide']],
-            "Altitude": [str(self.data['Altitude'])],
-            "HDOP": [str(self.data['HDOP'])],
-            "Satellites": [str(self.data['Satellites'])],
-            "Fix": [str(self.data['Fix'])],
-            "Time": [str(self.data['Timestamp'])],
-            "ID": str(self.data['Timestamp'])
+            "Latitude": [str(self.data['latitude']) + " " + self.data['latSide']],
+            "Longitude": [str(self.data['longitude']) + " " + self.data['lonSide']],
+            "Altitude": [str(self.data['altitude'])],
+            "HDOP": [str(self.data['hdop'])],
+            "Satellites": [str(self.data['satelliteCount'])],
+            "Fix": [str(self.data['fix'])],
+            "Time": [str(self.data['lastMeasure'])],
+            "ID": str(self.data['lastMeasure'])
         }
 
         return display_data
@@ -71,40 +70,25 @@ class GPS:
     """
     def parseGPS_str(self, str_msg: str) -> dict:
         pattern = (
-            r"Latitude: (?P<Latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
-            r"Longitude: (?P<Longitude>-?\d+\.\d+) (?P<lonSide>[EW]), "
-            r"Altitude: (?P<Altitude>-?\d+\.\d+) meters, "
-            r"HDOP: (?P<HDOP>-?\d+\.\d+), "
-            r"Satellites: (?P<Satellites>\d+), "
-            r"Fix: (?P<Fix>\d+), "
-            r"Time: (?P<Timestamp>\d+\.\d+)"
+            r"Latitude: (?P<latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
+            r"Longitude: (?P<longitude>-?\d+\.\d+) (?P<lonSide>[EW]), "
+            r"Altitude: (?P<altitude>-?\d+\.\d+) meters, "
+            r"HDOP: (?P<hdop>-?\d+\.\d+), "
+            r"Satellites: (?P<satelliteCount>\d+), "
+            r"Fix: (?P<fix>\d+), "
+            r"Time: (?P<lastMeasure>\d+\.\d+)"
         )
         match = re.search(pattern, str_msg)
         
         if match:
             gps_data = match.groupdict()
-            gps_data['Latitude'] = [str(float(gps_data['Latitude'])) + " " + gps_data['latSide']]
-            gps_data['Longitude'] = [str(float(gps_data['Longitude'])) + " " + float(gps_data['lonSide'])]
-            gps_data['Altitude'] = [str(float(gps_data['Altitude']))]
-            gps_data['HDOP'] = [str(float(gps_data['HDOP']))]
-            gps_data['Satellites'] = [str(int(gps_data['Satellites']))]
-            gps_data['Fix'] = [str(int(gps_data['Fix']))]
-            gps_data['timestamp'] = str(float(gps_data['Timestamp']))
-
-            # gps_data['ID'] = str(float(gps_data['Timestamp']))
-
-
-            self.display_data = {
-                "Latitude": [str(float(gps_data['Latitude'])) + " " + gps_data['latSide']],
-                "Longitude": [str(float(gps_data['Longitude'])) + " " + float(gps_data['lonSide'])],
-                "Altitude": [str(float(gps_data['Altitude']))],
-                "HDOP": [str(float(gps_data['HDOP']))],
-                "Satellites": [str(int(gps_data['Satellites']))],
-                "Fix": [str(int(gps_data['Fix']))],
-                "Time": [str(float(gps_data['Timestamp']))],
-                "ID": str(float(gps_data['Timestamp']))
-             }
-
+            gps_data['latitude'] = float(gps_data['latitude'])
+            gps_data['longitude'] = float(gps_data['longitude'])
+            gps_data['altitude'] = float(gps_data['altitude'])
+            gps_data['hdop'] = float(gps_data['hdop'])
+            gps_data['satelliteCount'] = int(gps_data['satelliteCount'])
+            gps_data['fix'] = int(gps_data['fix'])
+            gps_data['timestamp'] = float(gps_data['lastMeasure'])
             
             return gps_data
         else:
