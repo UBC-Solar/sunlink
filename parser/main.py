@@ -244,8 +244,8 @@ def parse_and_write_request():
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
-
-    message = create_message(parse_request["message"])
+    format_specifier_list = [CAR_DBC]
+    message = create_message(parse_request["message"], format_specifier_list)
     extracted_measurements = message.extract_measurements(CAR_DBC)
     id = extracted_measurements.get("ID", "UNKNOWN")
     type = message.type

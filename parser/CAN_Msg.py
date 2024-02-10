@@ -20,7 +20,7 @@ class CAN:
     CHANGES:
         data field is now 8 bytes (Before: FF is sent as 2 letter Fs, now it is sent as 1 byte char with value 255)
     """
-    def __init__(self, message: str) -> None:      
+    def __init__(self, message: str, format_specifier=None) -> None:      
         # Convert string message to bytes
         message = message.encode("latin-1")
               
