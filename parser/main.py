@@ -300,7 +300,6 @@ def parse_and_write_request_to_CAN():
         "type": type
     }
 
-
 @app.post(f"{API_PREFIX}/parse/write/debug")
 @auth.login_required
 def parse_and_write_request():
@@ -360,6 +359,67 @@ def parse_and_write_request():
         "id": id,
         "type": type
     }
+
+
+# @app.post(f"{API_PREFIX}/parse/write/debug")
+# @auth.login_required
+# def parse_and_write_request():
+#     """
+#     Parses incoming request, writes the parsed measurements to InfluxDB debug bucket,
+#     and sends back parsed measurements back to client.
+#     """
+#     parse_request = flask.request.json
+#     format_specifier_list = [CAR_DBC]
+#     message = create_message(parse_request["message"], format_specifier_list)
+#     id = message.data.get("ID", "UNKNOWN")
+#     type = message.type
+
+#     app.logger.info(f"Received a {message.type} message. ID = {id=}")
+
+#     # try extracting measurements from CAN message
+#     try:
+#         app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
+#     except Exception:
+#         app.logger.warn(
+#             f"Unable to extract measurements for {type} message with id={id}")
+#         app.logger.warn(str(message.data["display_data"]))
+#         return {
+#             "result": "PARSE_FAIL",
+#             "message": [],
+#             "id": id
+#         }
+
+#     # try writing the measurements extracted
+#     if type == "CAN":
+#         for i in range(len(message.data[list(message.data.keys())[0]])):
+#             name = message.data["Measurement"][i]
+#             source = message.data["Source"][i]
+#             m_class = message.data["Class"][i]
+#             value = message.data["Value"][i]
+
+#             point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+#                 "class", m_class).field(name, value)
+            
+#             # write to InfluxDB
+#             try:
+#                 write_api.write(bucket=INFLUX_DEBUG_BUCKET, org=INFLUX_ORG, record=point)
+#                 app.logger.info(
+#                     f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
+#             except Exception:
+#                 app.logger.warning("Unable to write measurement to InfluxDB!")
+#                 return {
+#                     "result": "INFLUX_WRITE_FAIL",
+#                     "message": message.data["display_data"],
+#                     "id": id,
+#                     "type": type
+#                 }
+
+#     return {
+#         "result": "OK",
+#         "message": message.data["display_data"],
+#         "id": id,
+#         "type": type
+#     }
 
 
 @app.post(f"{API_PREFIX}/parse/write/production")
