@@ -67,45 +67,65 @@ class CAN:
             source = sources[0]
 
         # Initilization
+        display_data = {
+            "Hex_ID": [],
+            "Source": [],
+            "Class": [],
+            "Measurement": [],
+            "Value": [],
+            "Timestamp": [],
+            "ID": hex_id
+        }
+
+        # Now add each field to the list
+        for name, data in measurements.items():
+            display_data["Hex_ID"].append(hex_id)
+            display_data["Source"].append(source)
+            display_data["Class"].append(message.name)
+            display_data["Measurement"].append(name)
+            display_data["Timestamp"].append(timestamp)
+            display_data["Value"].append(data)
+
+        # # Initilization
+        # # data = {
+        # #     "Source": [],
+        # #     "Class": [],
+        # #     "Measurement": [],
+        # #     "Value": [],
+        # #     "ID": hex_id,
+        # #     "display_data": {
+        # #         "Hex_ID": [],
+        # #         "Source": [],
+        # #         "Class": [],
+        # #         "Measurement": [],
+        # #         "Value": [],
+        # #         "Timestamp": []
+        # #     }
+        # # }
+
         # data = {
         #     "Source": [],
         #     "Class": [],
         #     "Measurement": [],
         #     "Value": [],
         #     "ID": hex_id,
-        #     "display_data": {
-        #         "Hex_ID": [],
-        #         "Source": [],
-        #         "Class": [],
-        #         "Measurement": [],
-        #         "Value": [],
-        #         "Timestamp": []
-        #     }
         # }
 
-        data = {
-            "Source": [],
-            "Class": [],
-            "Measurement": [],
-            "Value": [],
-            "ID": hex_id,
-        }
+        # # Now add each field to the list
+        # for name, data in measurements.items():
+        #     # Set REQUIRED FIELDS
+        #     data["Source"].append(source)
+        #     data["Class"].append(message.name)
+        #     data["Measurement"].append(name)
+        #     data["Value"].append(data)
 
-        # Now add each field to the list
-        for name, data in measurements.items():
-            # Set REQUIRED FIELDS
-            data["Source"].append(source)
-            data["Class"].append(message.name)
-            data["Measurement"].append(name)
-            data["Value"].append(data)
-
-            # # Set DISPLAY FIELDS
-            # data["display_data"]["Hex_ID"].append(hex_id)
-            # data["display_data"]["Source"].append(source)
-            # data["display_data"]["Class"].append(message.name)
-            # data["display_data"]["Measurement"].append(name)
-            # data["display_data"]["Value"].append(data)
-            # data["display_data"]["Timestamp"].append(timestamp)
+        #     # # Set DISPLAY FIELDS
+        #     # data["display_data"]["Hex_ID"].append(hex_id)
+        #     # data["display_data"]["Source"].append(source)
+        #     # data["display_data"]["Class"].append(message.name)
+        #     # data["display_data"]["Measurement"].append(name)
+        #     # data["display_data"]["Value"].append(data)
+        #     # data["display_data"]["Timestamp"].append(timestamp)
         
         return data
 
