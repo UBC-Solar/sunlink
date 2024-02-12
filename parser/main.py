@@ -335,11 +335,6 @@ def parse_and_write_request():
         m_class = message.data["Class"][i]
         value = message.data["Value"][i]
 
-        # Convert value to float if possible
-        try:
-            value = float(value)
-        except ValueError:
-            pass
 
         point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
             "class", m_class).field(name, value)

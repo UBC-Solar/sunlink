@@ -73,7 +73,7 @@ class GPS:
             data["display_data"] = {
                 "Latitude": [gps_data['Latitude'] + " " + gps_data['Latside']],
                 "Longitude": [gps_data['Longitude'] + " " + gps_data['Longside']],
-                "Altitude": [gps_data['Altitude']],
+                "Altitude": [float(gps_data['Altitude'])],
                 "HDOP": [gps_data['HDOP']],
                 "Satellites": [gps_data['Satellites']],
                 "Fix": [gps_data['Fix']],
