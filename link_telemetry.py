@@ -271,6 +271,7 @@ def process_response(future: concurrent.futures.Future):
     
     parse_response: dict = response.json()
     print(type(parse_response["message"]["Altitude"][0]))
+    print(float(parse_response["message"]["Altitude"][0]))
     if parse_response["result"] == "OK":
         table = PrettyTable()
 
