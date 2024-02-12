@@ -91,13 +91,13 @@ class CAN:
             data["Measurement"].append(name)
             data["Value"].append(data)
 
-            # Set DISPLAY FIELDS
-            data["display_data"]["Hex_ID"].append(hex_id)
-            data["display_data"]["Source"].append(source)
-            data["display_data"]["Class"].append(message.name)
-            data["display_data"]["Measurement"].append(name)
-            data["display_data"]["Value"].append(data)
-            data["display_data"]["Timestamp"].append(timestamp)
+            # # Set DISPLAY FIELDS
+            # data["display_data"]["Hex_ID"].append(hex_id)
+            # data["display_data"]["Source"].append(source)
+            # data["display_data"]["Class"].append(message.name)
+            # data["display_data"]["Measurement"].append(name)
+            # data["display_data"]["Value"].append(data)
+            # data["display_data"]["Timestamp"].append(timestamp)
         
         return data
 
