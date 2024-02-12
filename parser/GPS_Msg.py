@@ -42,17 +42,7 @@ class GPS:
         format_specifier: None for GPS messages (as of now)
         
     Returns:
-        display_data dictionary with the following form
-        {
-            "Latitude": [val + latside],
-            "Longitude": [val + longside],
-            "Altitude": [],
-            "HDOP": [],
-            "Satellites": [],
-            "Fix": [],
-            "Time": []
-            "ID": 
-        }
+        display_data dictionary with the form outlined in the class description
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         pattern = (
