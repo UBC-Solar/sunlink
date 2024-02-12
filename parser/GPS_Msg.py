@@ -66,14 +66,14 @@ class GPS:
             data["Measurement"] = ["Latitude", "Latside", "Longitude", "Longside", "Altitude", "HDOP", "Satellites", "Fix", "Timestamp"]
             data["Value"] = []
             for key in data["Measurement"]:
-                data["Value"].append(gps_data[key])
+                data["Value"].append(gps_data[key] if key == "Latside" or key == "Longside" else float(gps_data[key]))
             data['ID'] = gps_data['Timestamp']
 
             # DISPLAY FIELDS
             data["display_data"] = {
                 "Latitude": [gps_data['Latitude'] + " " + gps_data['Latside']],
                 "Longitude": [gps_data['Longitude'] + " " + gps_data['Longside']],
-                "Altitude": [float(gps_data['Altitude'])],
+                "Altitude": [gps_data['Altitude']],
                 "HDOP": [gps_data['HDOP']],
                 "Satellites": [gps_data['Satellites']],
                 "Fix": [gps_data['Fix']],
@@ -81,7 +81,7 @@ class GPS:
             }
 
         return data
-
+    
     def data(self) -> dict:
         return self.data
 
