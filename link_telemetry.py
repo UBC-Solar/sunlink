@@ -270,7 +270,7 @@ def process_response(future: concurrent.futures.Future):
     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
     
     parse_response: dict = response.json()
-    print(type(parse_response["message"]["Altitude"][0]))
+    # print(type(parse_response["message"]["Altitude"][0]))
     # print(float(parse_response["message"]["Altitude"][0]))
     if parse_response["result"] == "OK":
         table = PrettyTable()
@@ -286,6 +286,7 @@ def process_response(future: concurrent.futures.Future):
         print(f"Failed to parse {parse_response['type']} message with id={parse_response['id']}!")
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
         print(f"Failed to write measurements for {parse_response['type']} message with id={parse_response['id']} to InfluxDB!")
+        print(parse_response['message'])
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
