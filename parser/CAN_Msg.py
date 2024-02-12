@@ -86,7 +86,10 @@ class CAN:
             "display_data": {   
                 "Hex_ID": [],
                 "Source": [],
-                "Class": []
+                "Class": [],
+                "Measurement": [],
+                "Value": [],
+                "Timestamp": []
             }
         }
 
@@ -104,6 +107,9 @@ class CAN:
             display_data["display_data"]["Hex_ID"].append(hex_id)
             display_data["display_data"]["Source"].append(source)
             display_data["display_data"]["Class"].append(message.name)
+            display_data["display_data"]["Measurement"].append(name)
+            display_data["display_data"]["Timestamp"].append(timestamp)
+            display_data["display_data"]["Value"].append(data)
 
         
 

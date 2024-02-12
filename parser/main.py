@@ -322,7 +322,7 @@ def parse_and_write_request():
     except Exception:
         app.logger.warn(
             f"Unable to extract measurements for {type} message with id={id}")
-        app.logger.warn(str(message.data))
+        app.logger.warn(str(message.data["display_data"]))
         return {
             "result": "PARSE_FAIL",
             "message": [],

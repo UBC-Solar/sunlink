@@ -276,7 +276,6 @@ def process_response(future: concurrent.futures.Future):
 
         extracted_measurements = parse_response["message"]
         table.field_names = list(extracted_measurements.keys())     # Keys are column headings
-        table.field_names.pop(table.field_names.index("ID"))        # Remove ID from column headings
         for i in range(len(extracted_measurements[table.field_names[0]])):
             row_data = [extracted_measurements[key][i] for key in table.field_names]
             table.add_row(row_data)
