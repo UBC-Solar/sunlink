@@ -43,15 +43,7 @@ class CAN:
         format_specifier: DBC object from cantools
         
     Returns:
-        display_data dictionary with the following form
-        {
-            "Hex_ID": [hex id1, hex id1, hex id1, ...],
-            "Source": [source1, source1, source1, ...],
-            "Class": [class1, class1, class1, ...],
-            "Measurment": [measurement1, measurement2, measurement3, ...],
-            "Value": [value1, value2, value3, ...]
-            "ID": hex id1
-        }
+        display_data dictionary with form outlined in the class description
     """
     def extract_measurements(self, format_specifier=None) -> dict:      
         timestamp: int = int(self.message[0:8], 16)
