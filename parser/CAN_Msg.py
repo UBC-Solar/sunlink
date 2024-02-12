@@ -2,12 +2,21 @@
 Subclass CAN implements the extract_measurements and getter
 methods from the interface Message. Data fields are:
 
-"Hex_ID": The ID of the CAN message in hex
-"Source": The board which the message came from
-"Class": The class of the message (Ex. Voltage Sensors Data)
-"Measurment": Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
-"Value": The value of the associated measurement
-"ID": Chosen to be the Hex_ID
+REQUIRED FIELDS:
+    "Source": (list) The board which the message came from
+    "Class": (list) The class of the message (Ex. Voltage Sensors Data)
+    "Measurment": (list) Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
+    "Value": (list) The value of the associated measurement
+    "ID": Chosen to be the Hex_ID
+
+DISPLAY FIELDS:
+    "display_data" : {
+        "Hex_ID": (list) The ID of the CAN message in hex
+        "Source": (list) The board which the message came from
+        "Class": (list) The class of the message (Ex. Voltage Sensors Data)
+        "Measurment": (list) Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
+        "Value": (list) The value of the associated measurement
+    }
 
 self.type = "CAN"
 """
