@@ -76,12 +76,10 @@ class CAN:
 
         # Initilization
         display_data = {
-            "Hex_ID": [],
             "Source": [],
             "Class": [],
             "Measurement": [],
             "Value": [],
-            "Timestamp": [],
             "ID": hex_id,
             "display_data": {   
                 "Hex_ID": [],
@@ -96,11 +94,9 @@ class CAN:
         # Now add each field to the list
         for name, data in measurements.items():
             # REQUIRED FIELDS
-            display_data["Hex_ID"].append(hex_id)
             display_data["Source"].append(source)
             display_data["Class"].append(message.name)
             display_data["Measurement"].append(name)
-            display_data["Timestamp"].append(timestamp)
             display_data["Value"].append(data)
         
             # DISPLAY FIELDS
@@ -111,28 +107,6 @@ class CAN:
             display_data["display_data"]["Timestamp"].append(timestamp)
             display_data["display_data"]["Value"].append(data)
 
-        
-
-        # # Initilization
-        # display_data = {
-        #     "Hex_ID": [],
-        #     "Source": [],
-        #     "Class": [],
-        #     "Measurement": [],
-        #     "Value": [],
-        #     "Timestamp": [],
-        #     "ID": hex_id
-        # }
-
-        # # Now add each field to the list
-        # for name, data in measurements.items():
-            # display_data["Hex_ID"].append(hex_id)
-            # display_data["Source"].append(source)
-            # display_data["Class"].append(message.name)
-            # display_data["Measurement"].append(name)
-            # display_data["Timestamp"].append(timestamp)
-            # display_data["Value"].append(data)
-        
         return display_data
 
     def data(self) -> dict:
