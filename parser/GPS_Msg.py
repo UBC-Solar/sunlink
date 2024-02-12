@@ -61,7 +61,7 @@ class GPS:
             gps_data = match.groupdict()
             
             # REQUIRED FIELDS
-            fields = list(gps_data.keys()))
+            fields = list(gps_data.keys()).pop("Latside").pop("Longside")
             data["Source"] = ["GPS"] * len(gps_data.keys())
             data["Class"] = [field + "s" for field in fields]
             data["Measurement"] = fields
