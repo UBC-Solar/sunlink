@@ -44,6 +44,11 @@ class MESSAGE_NAME:
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         data = {}
+
+        # REQUIRED FIELDS
+
+        # DISPLAY FIELDS
+
         return data
 
     def data(self) -> dict:
