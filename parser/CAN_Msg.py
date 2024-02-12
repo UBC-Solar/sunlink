@@ -2,12 +2,21 @@
 Subclass CAN implements the extract_measurements and getter
 methods from the interface Message. Data fields are:
 
-"Hex_ID": The ID of the CAN message in hex
-"Source": The board which the message came from
-"Class": The class of the message (Ex. Voltage Sensors Data)
-"Measurment": Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
-"Value": The value of the associated measurement
-"ID": Chosen to be the Hex_ID
+REQUIRED FIELDS:
+    "Source": The board which the message came from
+    "Class": The class of the message (Ex. Voltage Sensors Data)
+    "Measurment": Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
+    "Value": The value of the associated measurement
+    "ID": Chosen to be the Hex_ID
+
+DISPLAY FIELDS:
+    "display_data" : {
+        "Hex_ID": The ID of the CAN message in hex
+        "Source": The board which the message came from
+        "Class": The class of the message (Ex. Voltage Sensors Data)
+        "Measurment": Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
+        "Value": The value of the associated measurement
+    }
 
 self.type = "CAN"
 """
@@ -36,12 +45,12 @@ class CAN:
     Returns:
         display_data dictionary with the following form
         {
-            "Hex_ID": [hex id1, hex id1, hex id1, ...],
             "Source": [source1, source1, source1, ...],
             "Class": [class1, class1, class1, ...],
             "Measurment": [measurement1, measurement2, measurement3, ...],
             "Value": [value1, value2, value3, ...]
             "ID": hex id1
+            "Hex_ID": [hex id1, hex id1, hex id1, ...],
         }
     """
     def extract_measurements(self, format_specifier=None) -> dict:      

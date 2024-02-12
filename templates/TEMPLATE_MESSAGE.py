@@ -1,8 +1,19 @@
 """
 <MESSAGE_NAME> message wrapper class. <MESSAGE_NAME>.data[''] fields are:
 
-"<FIELD_NAME>": <DESCRIPTION>
-"ID": ID of <MESSAGE_NAME> messages chosen to be ______
+(See 'CAN_Msg.py', 'GPS_Msg.py', or 'IMU_Msg.py' for example)
+
+REQUIRED FILEDS
+    "Source": <DESCRIPTION> 
+    "Class": <DESCRIPTION> 
+    "Measurment": <DESCRIPTION> 
+    "Value": <DESCRIPTION> 
+    "ID": ID of <MESSAGE_NAME> messages chosen to be ______
+
+DIPSLAY FIELDS
+    "display_data" : {
+        "<FIELD_NAME>": <DESCRIPTION>
+    }
 
 self.type = "<MESSAGE_NAME>"
 """
@@ -29,11 +40,7 @@ class MESSAGE_NAME:
         format_specifier: object that can be used to decode the message (DEPENDS ON YOUR MESSAGE)
         
     Returns:
-        dictionary with the following form
-        {
-            "<FIELD_NAME>": [val1, val2, val3, ...],
-            "ID": ID of <MESSAGE_NAME> messages chosen to be ______
-        }
+        dictionary with the form outlined in the class description above
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         data = {}
