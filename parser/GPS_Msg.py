@@ -62,11 +62,11 @@ class GPS:
             
             # REQUIRED FIELDS
             data["Source"] = ["GPS"] * len(gps_data.keys())
-            data["Class"] = ["Latitudes", "Latsides", "Longitudes", "Longsides", "Altitudes", "HDOPs", "Satellites_Counts", "Fixs", "Timestamps"]
-            data["Measurement"] = list(gps_data.keys())
+            data["Class"] = ["Latitudes", "Longitudes", "Altitudes", "HDOPs", "Satellites_Counts", "Fixs", "Timestamps"]
+            data["Measurement"] = ["Latitude", "Longitude", "Altitude", "HDOP", "Satellites", "Fix", "Timestamp"]
             data["Value"] = []
             for key in data["Measurement"]:
-                data["Value"].append(float(gps_data[key]))
+                data["Value"].append(gps_data[key])
             data['ID'] = gps_data['Timestamp']
 
             # DISPLAY FIELDS
