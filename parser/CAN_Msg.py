@@ -82,7 +82,12 @@ class CAN:
             "Measurement": [],
             "Value": [],
             "Timestamp": [],
-            "ID": hex_id
+            "ID": hex_id,
+            "display_data": {   
+                "Hex_ID": hex_id,
+                "Source": source,
+                "Class": message.name
+            }
         }
 
         # Now add each field to the list
@@ -93,6 +98,27 @@ class CAN:
             display_data["Measurement"].append(name)
             display_data["Timestamp"].append(timestamp)
             display_data["Value"].append(data)
+        
+
+        # # Initilization
+        # display_data = {
+        #     "Hex_ID": [],
+        #     "Source": [],
+        #     "Class": [],
+        #     "Measurement": [],
+        #     "Value": [],
+        #     "Timestamp": [],
+        #     "ID": hex_id
+        # }
+
+        # # Now add each field to the list
+        # for name, data in measurements.items():
+        #     display_data["Hex_ID"].append(hex_id)
+        #     display_data["Source"].append(source)
+        #     display_data["Class"].append(message.name)
+        #     display_data["Measurement"].append(name)
+        #     display_data["Timestamp"].append(timestamp)
+        #     display_data["Value"].append(data)
         
         return display_data
 
