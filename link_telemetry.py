@@ -174,7 +174,7 @@ def print_config_table(args: 'argparse.Namespace'):
     if args.prod:
         config_table.add_row(["WRITE TARGET", "PRODUCTION BUCKET"])
     elif args.debug:
-        config_table.add_row(["WRITE TARGET", "DEBUG BUCKET"])
+        config_table.add_row(["WRITE TARGET", "MESSAGE_test BUCKETS"])
     else:
         config_table.add_row(["WRITE TARGET", "WRITE DISABLED"])
 
@@ -315,7 +315,7 @@ def main():
     threadpool_group.add_argument("-j", "--jobs", action="store", default=DEFAULT_MAX_WORKERS,
                                   help=(f"The max number of threads to use for making HTTP requests to \
                                         the parser. Default is {DEFAULT_MAX_WORKERS}."))
-
+    
     write_group.add_argument("--debug", action="store_true",
                              help=("Requests parser to write parsed data to the debug InfluxDB bucket."))
     write_group.add_argument("--prod", action="store_true",
