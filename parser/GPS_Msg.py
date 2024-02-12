@@ -42,7 +42,7 @@ class GPS:
         format_specifier: None for GPS messages (as of now)
         
     Returns:
-        display_data dictionary with the form outlined in the class description
+        display_data dictionary with the form outlined in the class description 
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         pattern = (
@@ -61,10 +61,9 @@ class GPS:
             gps_data = match.groupdict()
             
             # REQUIRED FIELDS
-            fields = list(gps_data.keys())
             data["Source"] = ["GPS"] * len(gps_data.keys())
-            data["Class"] = ["Latitudes", "Longitudes", "Altitudes", "HDOPs", "Satellites_Counts", "Fixs", "Timestamps"]
-            data["Measurement"] = fields
+            data["Class"] = ["Latitudes", "Latsides", "Longitudes", "Longsides", "Altitudes", "HDOPs", "Satellites_Counts", "Fixs", "Timestamps"]
+            data["Measurement"] = list(gps_data.keys())
             data["Value"] = []
             for key in data["Measurement"]:
                 data["Value"].append(gps_data[key])
