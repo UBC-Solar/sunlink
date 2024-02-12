@@ -67,20 +67,28 @@ class CAN:
             source = sources[0]
 
         # Initilization
+        # data = {
+        #     "Source": [],
+        #     "Class": [],
+        #     "Measurement": [],
+        #     "Value": [],
+        #     "ID": hex_id,
+        #     "display_data": {
+        #         "Hex_ID": [],
+        #         "Source": [],
+        #         "Class": [],
+        #         "Measurement": [],
+        #         "Value": [],
+        #         "Timestamp": []
+        #     }
+        # }
+
         data = {
             "Source": [],
             "Class": [],
             "Measurement": [],
             "Value": [],
             "ID": hex_id,
-            "display_data": {
-                "Hex_ID": [],
-                "Source": [],
-                "Class": [],
-                "Measurement": [],
-                "Value": [],
-                "Timestamp": []
-            }
         }
 
         # Now add each field to the list
