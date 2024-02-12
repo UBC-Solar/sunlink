@@ -329,29 +329,28 @@ def parse_and_write_request():
         }
 
     # try writing the measurements extracted
-    if type == "CAN":
-        for i in range(len(message.data[list(message.data.keys())[0]])):
-            name = message.data["Measurement"][i]
-            source = message.data["Source"][i]
-            m_class = message.data["Class"][i]
-            value = message.data["Value"][i]
+    for i in range(len(message.data[list(message.data.keys())[0]])):
+        name = message.data["Measurement"][i]
+        source = message.data["Source"][i]
+        m_class = message.data["Class"][i]
+        value = message.data["Value"][i]
 
-            point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-                "class", m_class).field(name, value)
-            
-            # write to InfluxDB
-            try:
-                write_api.write(bucket=message.type + "_test", org=INFLUX_ORG, record=point)
-                app.logger.info(
-                    f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
-            except Exception:
-                app.logger.warning("Unable to write measurement to InfluxDB!")
-                return {
-                    "result": "INFLUX_WRITE_FAIL",
-                    "message": message.data["display_data"],
-                    "id": id,
-                    "type": type
-                }
+        point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+            "class", m_class).field(name, value)
+        
+        # write to InfluxDB
+        try:
+            write_api.write(bucket=message.type + "_test", org=INFLUX_ORG, record=point)
+            app.logger.info(
+                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
+        except Exception:
+            app.logger.warning("Unable to write measurement to InfluxDB!")
+            return {
+                "result": "INFLUX_WRITE_FAIL",
+                "message": message.data["display_data"],
+                "id": id,
+                "type": type
+            }
 
     return {
         "result": "OK",
