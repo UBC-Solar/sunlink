@@ -6,20 +6,11 @@ methods from the interface Message. Assumes message parameter in
 constructor is a UART message from the Radio Receiver (serial.readLine())
 Data fields are below:
 
-REQUIRED FIELDS:
-    "Source": "IMU"
-    "Class": A or G (for Accelerometer or Gyroscope)
-    "Measurment": X, Y, or Z (for the axis of the IMU)
-    "Value": value of the IMU message (rounded to 6 decimal places)
-    "ID": Chosen to be 'Type + Dimension'
-
-DISPLAY FIELDS DICT:
-    "display_data" : {
-        "Type": type of the IMU message (A or G),
-        "Dimension": dimension of the IMU message (X, Y, or Z),
-        "Value": value of the IMU message (rounded to 6 decimal places),
-        "Timestamp": timestamp of the IMU message (All D's right now)
-    }
+"Type": type of the IMU message (A or G)
+"Dimension": dimension of the IMU message (X, Y, or Z)
+"Value": value of the IMU message (rounded to 6 decimal places)
+"Timestamp": timestamp of the IMU message (All D's right now)
+"ID": Chosen to be 'Type + Dimension'
 
 self.type = "IMU"
 """
@@ -38,7 +29,14 @@ class IMU:
         format_specifier: None for IMU messages (as of now)
         
     Returns:
-        dictionary with the form outlined in the class description above
+        display_data dictionary with the following form
+        {
+            "Type": [],
+            "Dimension": [],
+            "Value": [],
+            "Timestamp": []
+            "ID":
+        }
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         # Extract the parts of the message

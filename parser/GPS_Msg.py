@@ -6,23 +6,14 @@ methods from the interface Message. Assumes message parameter in
 constructor is a UART message from the Radio Receiver (serial.readLine())
 Data fields are below:
 
-REQUIRED FIELDS:
-    "Source": "GPS" 
-    "Class": Types of measurments like Latitude, Longitude, etc. No latside or longside here
-    "Measurment": Like Latitude, Longitude, etc but WITH latside and longside
-    "Value": Value of the latitude, longitude, measurments.
-    "ID": ID of GPS is chosen to be the timestamp of the message
-
-DISPLAY FIELDS:
-    "display_data" : {
-        "Latitude": degrees + latside (N or S)
-        "Longitude": degrees + longside (E or W)
-        "Altitude": meters
-        "HDOP": horizontal dilution of precision
-        "Satellites": number of satellites
-        "Fix": 0 or 1 -- 0 = no fix, 1 = fix
-        "Time": seconds since last measurement
-    }
+"Latitude": degrees + latside (N or S)
+"Longitude": degrees + longside (E or W)
+"Altitude": meters
+"HDOP": horizontal dilution of precision
+"Satellites": number of satellites
+"Fix": 0 or 1 -- 0 = no fix, 1 = fix
+"Time": seconds since last measurement
+"ID": Chosent to be the timestamp
 
 self.type = "GPS"
 """
@@ -42,7 +33,17 @@ class GPS:
         format_specifier: None for GPS messages (as of now)
         
     Returns:
-        display_data dictionary with the form outlined in the class description
+        display_data dictionary with the following form
+        {
+            "Latitude": [val + latside],
+            "Longitude": [val + longside],
+            "Altitude": [],
+            "HDOP": [],
+            "Satellites": [],
+            "Fix": [],
+            "Time": []
+            "ID": 
+        }
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         pattern = (

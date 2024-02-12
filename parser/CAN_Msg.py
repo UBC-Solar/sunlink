@@ -2,21 +2,12 @@
 Subclass CAN implements the extract_measurements and getter
 methods from the interface Message. Data fields are:
 
-REQUIRED FIELDS:
-    "Source": (list) The board which the message came from
-    "Class": (list) The class of the message (Ex. Voltage Sensors Data)
-    "Measurment": (list) Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
-    "Value": (list) The value of the associated measurement
-    "ID": Chosen to be the Hex_ID
-
-DISPLAY FIELDS:
-    "display_data" : {
-        "Hex_ID": (list) The ID of the CAN message in hex
-        "Source": (list) The board which the message came from
-        "Class": (list) The class of the message (Ex. Voltage Sensors Data)
-        "Measurment": (list) Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
-        "Value": (list) The value of the associated measurement
-    }
+"Hex_ID": The ID of the CAN message in hex
+"Source": The board which the message came from
+"Class": The class of the message (Ex. Voltage Sensors Data)
+"Measurment": Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
+"Value": The value of the associated measurement
+"ID": Chosen to be the Hex_ID
 
 self.type = "CAN"
 """
@@ -43,7 +34,15 @@ class CAN:
         format_specifier: DBC object from cantools
         
     Returns:
-        display_data dictionary with the form outlined in the class description
+        display_data dictionary with the following form
+        {
+            "Hex_ID": [hex id1, hex id1, hex id1, ...],
+            "Source": [source1, source1, source1, ...],
+            "Class": [class1, class1, class1, ...],
+            "Measurment": [measurement1, measurement2, measurement3, ...],
+            "Value": [value1, value2, value3, ...]
+            "ID": hex id1
+        }
     """
     def extract_measurements(self, format_specifier=None) -> dict:      
         timestamp: int = int(self.message[0:8], 16)
@@ -85,49 +84,8 @@ class CAN:
             display_data["Measurement"].append(name)
             display_data["Timestamp"].append(timestamp)
             display_data["Value"].append(data)
-
-        # # Initilization
-        # # data = {
-        # #     "Source": [],
-        # #     "Class": [],
-        # #     "Measurement": [],
-        # #     "Value": [],
-        # #     "ID": hex_id,
-        # #     "display_data": {
-        # #         "Hex_ID": [],
-        # #         "Source": [],
-        # #         "Class": [],
-        # #         "Measurement": [],
-        # #         "Value": [],
-        # #         "Timestamp": []
-        # #     }
-        # # }
-
-        # data = {
-        #     "Source": [],
-        #     "Class": [],
-        #     "Measurement": [],
-        #     "Value": [],
-        #     "ID": hex_id,
-        # }
-
-        # # Now add each field to the list
-        # for name, data in measurements.items():
-        #     # Set REQUIRED FIELDS
-        #     data["Source"].append(source)
-        #     data["Class"].append(message.name)
-        #     data["Measurement"].append(name)
-        #     data["Value"].append(data)
-
-        #     # # Set DISPLAY FIELDS
-        #     # data["display_data"]["Hex_ID"].append(hex_id)
-        #     # data["display_data"]["Source"].append(source)
-        #     # data["display_data"]["Class"].append(message.name)
-        #     # data["display_data"]["Measurement"].append(name)
-        #     # data["display_data"]["Value"].append(data)
-        #     # data["display_data"]["Timestamp"].append(timestamp)
         
-        return data
+        return display_data
 
     def data(self) -> dict:
         return self.data
