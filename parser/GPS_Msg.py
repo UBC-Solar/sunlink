@@ -56,8 +56,8 @@ class GPS:
     """
     def extract_measurements(self, format_specifier=None) -> dict:
         pattern = (
-            r"Latitude: (?P<Latitude>-?\d+\.\d+) (?P<latSide>[NS]), "
-            r"Longitude: (?P<Longitude>-?\d+\.\d+) (?P<longSide>[EW]), "
+            r"Latitude: (?P<Latitude>-?\d+\.\d+) (?P<Latside>[NS]), "
+            r"Longitude: (?P<Longitude>-?\d+\.\d+) (?P<Longside>[EW]), "
             r"Altitude: (?P<Altitude>-?\d+\.\d+) meters, "
             r"HDOP: (?P<HDOP>-?\d+\.\d+), "
             r"Satellites: (?P<Satellites>\d+), "
@@ -67,27 +67,30 @@ class GPS:
         match = re.search(pattern, self.message)
         
         if match:
+            data = {}
             gps_data = match.groupdict()
             
             # REQUIRED FIELDS
-            # gps_data["Source"] = "GPS"
-            # gps_data["Class"] = ["Latitude", "Longitude", "Altitude", "HDOP", "Satellites", "Fix", "Timestamp"]
-            # gps_data["Measurement"] = ["Latitude", "Latside", "Longside", "Longitude", "Altitude", "HDOP", "Satellites", "Fix", "Timestamp"]
-            # for key in gps_data:
-            #     gps_data[key] = [gps_data[key]]
-            gps_data['ID'] = gps_data['Timestamp']
+            data["Source"] = ["GPS"] * len(gps_data.keys())
+            data["Class"] = ["Latitudes", "Latsides", "Longitudes", "Longsides", "Altitudes", "HDOPs", "Satellites_Counts", "Fixs", "Timestamps"]
+            data["Measurement"] = list(gps_data.keys())
+            data["Value"] = []
+            for key in data["Measurement"]:
+                data["Value"].append(gps_data[key])
+            data['ID'] = gps_data['Timestamp']
 
             # DISPLAY FIELDS
-            gps_data['Latitude'] = [gps_data['Latitude'] + " " + gps_data['latSide']]
-            gps_data['Longitude'] = [gps_data['Longitude'] + " " + gps_data['longSide']]
-            gps_data['Altitude'] = [gps_data['Altitude']]
-            gps_data['HDOP'] = [gps_data['HDOP']]
-            gps_data['Satellites'] = [gps_data['Satellites']]
-            gps_data['Fix'] = [gps_data['Fix']]
-            gps_data['Timestamp'] = [gps_data['Timestamp']]
+            data["display_data"] = {
+                "Latitude": [gps_data['Latitude'] + " " + gps_data['Latside']],
+                "Longitude": [gps_data['Longitude'] + " " + gps_data['Longside']],
+                "Altitude": [gps_data['Altitude']],
+                "HDOP": [gps_data['HDOP']],
+                "Satellites": [gps_data['Satellites']],
+                "Fix": [gps_data['Fix']],
+                "Time": [gps_data['Timestamp']]
+            }
 
-
-        return gps_data
+        return data
 
     def data(self) -> dict:
         return self.data
