@@ -84,20 +84,27 @@ class CAN:
             "Timestamp": [],
             "ID": hex_id,
             "display_data": {   
-                "Hex_ID": hex_id,
-                "Source": source,
-                "Class": message.name
+                "Hex_ID": [],
+                "Source": [],
+                "Class": []
             }
         }
 
         # Now add each field to the list
         for name, data in measurements.items():
+            # REQUIRED FIELDS
             display_data["Hex_ID"].append(hex_id)
             display_data["Source"].append(source)
             display_data["Class"].append(message.name)
             display_data["Measurement"].append(name)
             display_data["Timestamp"].append(timestamp)
             display_data["Value"].append(data)
+        
+            # DISPLAY FIELDS
+            display_data["display_data"]["Hex_ID"].append(hex_id)
+            display_data["display_data"]["Source"].append(source)
+            display_data["display_data"]["Class"].append(message.name)
+
         
 
         # # Initilization
@@ -113,12 +120,12 @@ class CAN:
 
         # # Now add each field to the list
         # for name, data in measurements.items():
-        #     display_data["Hex_ID"].append(hex_id)
-        #     display_data["Source"].append(source)
-        #     display_data["Class"].append(message.name)
-        #     display_data["Measurement"].append(name)
-        #     display_data["Timestamp"].append(timestamp)
-        #     display_data["Value"].append(data)
+            # display_data["Hex_ID"].append(hex_id)
+            # display_data["Source"].append(source)
+            # display_data["Class"].append(message.name)
+            # display_data["Measurement"].append(name)
+            # display_data["Timestamp"].append(timestamp)
+            # display_data["Value"].append(data)
         
         return display_data
 
