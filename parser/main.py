@@ -18,13 +18,6 @@ from websockets.sync.client import connect
 from flask import Flask
 from flask_httpauth import HTTPTokenAuth
 
-from parser.standard_frame import StandardFrame
-from parser.standard_frame import Measurement
-
-from parser.randomizer import RandomMessage
-from parser.CAN_Msg import CAN
-from parser.IMU_Msg import IMU
-from parser.GPS_Msg import GPS
 from parser.create_message import create_message
 
 # # New imports
