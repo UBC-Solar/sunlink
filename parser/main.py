@@ -286,42 +286,42 @@ def parse_and_write_request_bucket(bucket):
         "type": type
     }
 
-def write_measurements():
-    """
-    Worker thread responsible for live-streaming measurements to Grafana.
+# def write_measurements():
+#     """
+#     Worker thread responsible for live-streaming measurements to Grafana.
 
-    NOTE: live-streaming measurements to Grafana is done in a separate thread since it is an optional feature and
-    it doesn't matter if it succeeds or not. Furthermore, having this in a separate thread reduces latency.
-    """
+#     NOTE: live-streaming measurements to Grafana is done in a separate thread since it is an optional feature and
+#     it doesn't matter if it succeeds or not. Furthermore, having this in a separate thread reduces latency.
+#     """
 
-    while True:
-        data_dict = stream_queue.get()
+#     while True:
+#         data_dict = stream_queue.get()
 
-        # try writing the measurements extracted
-        for i in range(len(data_dict[list(data_dict.keys())[0]])):
-            name = data_dict["Measurement"][i]
-            source = data_dict["Source"][i]
-            m_class = data_dict["Class"][i]
-            value = data_dict["Value"][i]
+#         # try writing the measurements extracted
+#         for i in range(len(data_dict[list(data_dict.keys())[0]])):
+#             name = data_dict["Measurement"][i]
+#             source = data_dict["Source"][i]
+#             m_class = data_dict["Class"][i]
+#             value = data_dict["Value"][i]
 
-            # compute Grafana websocket URL to livestream measurement
-            endpoint_name = "_".join([CAR_NAME, source, m_class, name])
-            websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
+#             # compute Grafana websocket URL to livestream measurement
+#             endpoint_name = "_".join([CAR_NAME, source, m_class, name])
+#             websocket_url = f"ws://{GRAFANA_URL_NAME}/api/live/push/{endpoint_name}"
 
-            # live-stream measurements to Grafana Live
-            try:
-                with connect(websocket_url,
-                             additional_headers={
-                                 'Authorization': f'Bearer {GRAFANA_TOKEN}'}
-                             ) as websocket:
-                    current_time = time.time_ns()
-                    message = f"test value={value} {current_time}"
-                    websocket.send(message)
-            except Exception:
-                app.logger.warning(f"Unable to stream measurement \"{name}\" to Grafana!")
-            else:
-                app.logger.debug(f"Streamed \"{m_class}\" measurement to Grafana instance!")
+#             # live-stream measurements to Grafana Live
+#             try:
+#                 with connect(websocket_url,
+#                              additional_headers={
+#                                  'Authorization': f'Bearer {GRAFANA_TOKEN}'}
+#                              ) as websocket:
+#                     current_time = time.time_ns()
+#                     message = f"test value={value} {current_time}"
+#                     websocket.send(message)
+#             except Exception:
+#                 app.logger.warning(f"Unable to stream measurement \"{name}\" to Grafana!")
+#             else:
+#                 app.logger.debug(f"Streamed \"{m_class}\" measurement to Grafana instance!")
 
 
-# create thread to write to InfluxDB and stream to Grafana
-threading.Thread(target=write_measurements, daemon=True).start()
+# # create thread to write to InfluxDB and stream to Grafana
+# threading.Thread(target=write_measurements, daemon=True).start()
