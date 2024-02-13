@@ -228,7 +228,7 @@ def parse_request():
 @app.post(f"{API_PREFIX}/parse/write/debug")
 @auth.login_required
 def parse_and_write_request():
-    parse_and_write_request_bucket("_test")
+    return parse_and_write_request_bucket("_test")
 
 
 """
