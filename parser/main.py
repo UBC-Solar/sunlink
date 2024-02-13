@@ -20,17 +20,6 @@ from flask_httpauth import HTTPTokenAuth
 
 from parser.create_message import create_message
 
-# # New imports
-# from parser.create_message import create_message
-
-# # All additional imports
-# from parser.CAN_Msg import CAN
-# from parser.IMU_Msg import IMU
-# from parser.GPS_Msg import GPS
-
-# from parser.randomizer import RandomMessage
-
-
 from dotenv import dotenv_values
 
 __PROGRAM__ = "parser"
@@ -114,6 +103,9 @@ except KeyError:
 tokens: Dict[str, str] = {
     SECRET_KEY: "admin"
 }
+
+# <----- Format Specificer for all Data Types ----->
+format_specifier_list = [CAR_DBC]
 
 
 @auth.verify_token
@@ -234,7 +226,6 @@ and sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
-    format_specifier_list = [CAR_DBC]
     message = create_message(parse_request["message"], format_specifier_list)
     id = message.data.get("ID", "UNKNOWN")
     type = message.type
