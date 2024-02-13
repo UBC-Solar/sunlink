@@ -344,11 +344,11 @@ def parse_and_write_request():
             write_api.write(bucket=message.type + "_test", org=INFLUX_ORG, record=point)
             app.logger.info(
                 f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
-        except Exception:
+        except Exception as e:
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
                 "result": "INFLUX_WRITE_FAIL",
-                "message": [message.data["Value"], message.data["Measurement"], message.data["Source"], message.data["Class"]],
+                "message": [message.data["Value"], message.data["Measurement"], message.data["Source"], message.data["Class"], e],
                 "id": id,
                 "type": type
             }
