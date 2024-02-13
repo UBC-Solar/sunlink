@@ -4,15 +4,15 @@
 (See 'CAN_Msg.py', 'GPS_Msg.py', or 'IMU_Msg.py' for example)
 
 REQUIRED FILEDS
-    "Source": <DESCRIPTION> 
-    "Class": <DESCRIPTION> 
-    "Measurment": <DESCRIPTION> 
-    "Value": <DESCRIPTION> 
+    "Source": (list) <DESCRIPTION> 
+    "Class": (list) <DESCRIPTION> 
+    "Measurment": (list) <DESCRIPTION> 
+    "Value": (list) <DESCRIPTION> 
     "ID": ID of <MESSAGE_NAME> messages chosen to be ______
 
 DIPSLAY FIELDS
     "display_data" : {
-        "<FIELD_NAME>": <DESCRIPTION>
+        "<FIELD_NAME>": (list) <DESCRIPTION>
     }
 
 self.type = "<MESSAGE_NAME>"
