@@ -3,8 +3,7 @@
 The revised sunlink repository now allows support for new datatypes. Specifically, new message types such as VDS messages can now be seamlessly integrated into sunlink.
 
 ## How to Add New Datatypes
-
-**Throughout this doc we will take VDS messages as an example of a new message data type that could be added.** This explanation will be broken into two stages. The first is **Creation** and the second is **Connection**.
+This explanation will be broken into two stages. The first is **Creation** and the second is **Connection**.
 
 ### Creation
 
