@@ -66,7 +66,7 @@ class GPS:
             data["Measurement"] = ["Latitude", "Latside", "Longitude", "Longside", "Altitude", "HDOP", "Satellites", "Fix", "Timestamp"]
             data["Value"] = []
             for key in data["Measurement"]:
-                data["Value"].append(gps_data[key] if key == "Latside" or key == "Longside" else float(gps_data[key]))
+                data["Value"].append(self.getType(key, gps_data[key]))
             data['ID'] = gps_data['Timestamp']
 
             # DISPLAY FIELDS
@@ -81,6 +81,25 @@ class GPS:
             }
 
         return data
+
+
+    """
+    Determines the correct type conversion of a string value based on the key
+    
+    Parameters:
+        key: The key telling what type of value it is
+        value: The value to be converted
+
+    Returns: 
+        The value converted to the correct type
+    """
+    def getType(self, key, value):
+        if key == "Latitude" or key == "Longitude" or key == "Altitude" or key == "HDOP" or key == "Time":
+            return float(value)
+        elif key == "Satellites" or key == "Fix":
+            return int(value)
+        else:
+            return value
     
     def data(self) -> dict:
         return self.data
