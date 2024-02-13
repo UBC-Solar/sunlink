@@ -66,10 +66,7 @@ __PROGRAM__ = "log_upload"
 # header to provide with each HTTP request to the parser for API authorization
 AUTH_HEADER = {"Authorization": f"Bearer {SECRET_KEY}"}
 
-# Endpoints for CAN, GPS, and IMU messages
-CAN_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/CAN_test"
-GPS_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/GPS_test"
-IMU_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/IMU_test"
+DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
 
 # Lengths of messages for differentiating message types
 CAN_LENGTH_MIN      = 20
@@ -210,15 +207,7 @@ def main():
             payload = {"message": log_line}
 
             # Submit to thread pool BASED ON length of line in the file 
-            if CAN_LENGTH_MIN <= len(log_line) <= CAN_LENGTH_MAX:
-                future = executor.submit(parser_request, payload, CAN_WRITE_ENDPOINT)
-            elif GPS_LENGTH_MIN <= len(log_line) <= GPS_LENGTH_MAX:
-                future = executor.submit(parser_request, payload, GPS_WRITE_ENDPOINT)
-            elif IMU_LENGTH_MIN <= len(log_line) <= IMU_LENGTH_MAX:
-                future = executor.submit(parser_request, payload, IMU_WRITE_ENDPOINT)
-            else:
-                print(f"Message length is not a valid length for any message type: {len(log_line)}, {log_line}")
-                continue
+            future = executor.submit(parser_request, payload, DEBUG_WRITE_ENDPOINT)
             
             # Register done callback with future
             future.add_done_callback(process_response)
