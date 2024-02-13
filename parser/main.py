@@ -230,6 +230,10 @@ def parse_request():
 def parse_and_write_request():
     return parse_and_write_request_bucket("_test")
 
+@app.post(f"{API_PREFIX}/parse/write/production")
+@auth.login_required
+def parse_and_write_request_to_prod():
+    return parse_and_write_request_bucket("_prod")
 
 """
 Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production),
@@ -271,76 +275,6 @@ def parse_and_write_request_bucket(bucket):
         # write to InfluxDB
         try:
             write_api.write(bucket=message.type + bucket, org=INFLUX_ORG, record=point)
-            app.logger.info(
-                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
-        except Exception as e:
-            app.logger.warning("Unable to write measurement to InfluxDB!")
-            return {
-                "result": "INFLUX_WRITE_FAIL",
-                "message": str(e),
-                "id": id,
-                "type": type
-            }
-
-    return {
-        "result": "OK",
-        "message": message.data["display_data"],
-        "id": id,
-        "type": type
-    }
-
-
-@app.post(f"{API_PREFIX}/parse/write/production")
-@auth.login_required
-def parse_and_write_request_to_prod():
-    """
-    Parses incoming request, writes the parsed measurements to InfluxDB production bucket,
-    and sends back parsed measurements back to client.
-    """
-    parse_request = flask.request.json
-    format_specifier_list = [CAR_DBC]
-    message = create_message(parse_request["message"], format_specifier_list)
-    id = message.data.get("ID", "UNKNOWN")
-    type = message.type
-
-    app.logger.info(f"Received a {message.type} message. ID = {id=}")
-
-    # try extracting measurements
-    try:
-        app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
-    except Exception:
-        app.logger.warn(
-            f"Unable to extract measurements for {type} message with id={id}")
-        app.logger.warn(str(message.data["display_data"]))
-        return {
-            "result": "PARSE_FAIL",
-            "message": [],
-            "id": id
-        }
-
-
-    # try putting the extracted measurements in the queue for Grafana streaming
-    try:
-        stream_queue.put(message.data, block=False)
-    except queue.Full:
-        app.logger.warn(
-            "Stream queue full. Unable to add measurements to stream queue!"
-        )
-
-    # try writing the measurements extracted
-    for i in range(len(message.data[list(message.data.keys())[0]])):
-        name = message.data["Measurement"][i]
-        source = message.data["Source"][i]
-        m_class = message.data["Class"][i]
-        value = message.data["Value"][i]
-
-
-        point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-            "class", m_class).field(name, value)
-        
-        # write to InfluxDB
-        try:
-            write_api.write(bucket=message.type + "_test", org=INFLUX_ORG, record=point)
             app.logger.info(
                 f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
         except Exception as e:
