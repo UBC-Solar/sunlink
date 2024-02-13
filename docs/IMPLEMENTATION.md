@@ -47,7 +47,6 @@ To connect your data class implementation to the rest of `sunlink`, follow the s
             car_dbc = cantools.database.load_file(PROVIDED_DBC_FILE)
         else:
             car_dbc = cantools.database.load_file(DBC_FILE)
-    
     ```
     - At **line 392** of `link_telemetry.py` add your variable to the next index in the `format_specifier_list`. **Ensure that this index matches the indexes you defined in `randomizer.py` and `create_message.py`.**
 
