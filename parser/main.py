@@ -209,35 +209,20 @@ def parse_request():
     """
     Parses incoming request and sends back the parsed result.
     """
-    parse_request: Dict = flask.request.json
-    id: str = parse_request["id"]
-    data: str = parse_request["data"]
-    timestamp: str = parse_request["timestamp"]
-    data_length: str = parse_request["data_length"]
+    parse_request = flask.request.json
+    format_specifier_list = [CAR_DBC]
+    message = create_message(parse_request["message"], format_specifier_list)
+    id = message.data.get("ID", "UNKNOWN")
+    type = message.type
 
-    app.logger.info(f"Received message: {id=}, {data=}")
+    app.logger.info(f"Received a {message.type} message. ID = {id=}")
 
-    # TODO: add validation for received JSON object
-
-    can_msg = StandardFrame(id, data, timestamp, data_length)
-
-    # extract measurements from CAN message
-    try:
-        extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
-        app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
-        return {
-            "result": "OK",
-            "measurements": extracted_measurements,
-            "id": can_msg.identifier
-        }
-    except Exception:
-        app.logger.warn(
-            f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
-        return {
-            "result": "PARSE_FAIL",
-            "measurements": [],
-            "id": can_msg.identifier
-        }
+    return {
+        "result": "OK",
+        "message": message.data["display_data"],
+        "id": id,
+        "type": type
+    }
 
 
 @app.post(f"{API_PREFIX}/parse/write/debug")
@@ -255,7 +240,7 @@ def parse_and_write_request():
 
     app.logger.info(f"Received a {message.type} message. ID = {id=}")
 
-    # try extracting measurements from CAN message
+    # try extracting measurements
     try:
         app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
     except Exception:
@@ -309,68 +294,66 @@ def parse_and_write_request_to_prod():
     and sends back parsed measurements back to client.
     """
     parse_request = flask.request.json
-    id: str = parse_request["id"]
-    data: str = parse_request["data"]
-    # TODO: use timestamp when writing to Influx
-    timestamp: str = parse_request["timestamp"]
-    data_length: str = parse_request["data_length"]
+    format_specifier_list = [CAR_DBC]
+    message = create_message(parse_request["message"], format_specifier_list)
+    id = message.data.get("ID", "UNKNOWN")
+    type = message.type
 
-    app.logger.info(f"Received message: {id=}, {data=}")
+    app.logger.info(f"Received a {message.type} message. ID = {id=}")
 
-    # TODO: add validation for received JSON object
-
-    can_msg = StandardFrame(id, data, timestamp, data_length)
-
-    # try extracting measurements from CAN message
+    # try extracting measurements
     try:
-        extracted_measurements: List[Measurement] = can_msg.extract_measurements(CAR_DBC)
-        app.logger.info(f"Successfully parsed CAN message with id={can_msg.hex_identifier}({can_msg.identifier}) and placed into queue")
+        app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
     except Exception:
         app.logger.warn(
-            f"Unable to extract measurements for CAN message with id={can_msg.hex_identifier}({can_msg.identifier})")
+            f"Unable to extract measurements for {type} message with id={id}")
+        app.logger.warn(str(message.data["display_data"]))
         return {
             "result": "PARSE_FAIL",
-            "measurements": [],
-            "id": can_msg.identifier
+            "message": [],
+            "id": id
         }
+
 
     # try putting the extracted measurements in the queue for Grafana streaming
     try:
-        stream_queue.put(extracted_measurements, block=False)
+        stream_queue.put(message.data, block=False)
     except queue.Full:
         app.logger.warn(
             "Stream queue full. Unable to add measurements to stream queue!"
         )
 
     # try writing the measurements extracted
-    for measurement in extracted_measurements:
-        name = measurement.name
-        source = measurement.source
-        m_class = measurement.m_class
-        value = measurement.value
+    for i in range(len(message.data[list(message.data.keys())[0]])):
+        name = message.data["Measurement"][i]
+        source = message.data["Source"][i]
+        m_class = message.data["Class"][i]
+        value = message.data["Value"][i]
+
 
         point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
             "class", m_class).field(name, value)
-
+        
         # write to InfluxDB
         try:
-            write_api.write(bucket=INFLUX_PROD_BUCKET, org=INFLUX_ORG, record=point)
+            write_api.write(bucket=message.type + "_test", org=INFLUX_ORG, record=point)
             app.logger.info(
-                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_PROD_BUCKET}!")
-        except Exception:
+                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
+        except Exception as e:
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
                 "result": "INFLUX_WRITE_FAIL",
-                "measurements": extracted_measurements,
-                "id": can_msg.identifier
+                "message": str(e),
+                "id": id,
+                "type": type
             }
 
     return {
         "result": "OK",
-        "measurements": extracted_measurements,
-        "id": can_msg.identifier
+        "message": message.data["display_data"],
+        "id": id,
+        "type": type
     }
-
 
 def write_measurements():
     """
@@ -381,13 +364,14 @@ def write_measurements():
     """
 
     while True:
-        extracted_measurements: List[Measurement] = stream_queue.get()
+        data_dict = stream_queue.get()
 
-        for measurement in extracted_measurements:
-            name = measurement.name
-            source = measurement.source
-            m_class = measurement.m_class
-            value = measurement.value
+        # try writing the measurements extracted
+        for i in range(len(data_dict[list(data_dict.keys())[0]])):
+            name = data_dict["Measurement"][i]
+            source = data_dict["Source"][i]
+            m_class = data_dict["Class"][i]
+            value = data_dict["Value"][i]
 
             # compute Grafana websocket URL to livestream measurement
             endpoint_name = "_".join([CAR_NAME, source, m_class, name])

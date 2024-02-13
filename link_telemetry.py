@@ -270,8 +270,6 @@ def process_response(future: concurrent.futures.Future):
     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
     
     parse_response: dict = response.json()
-    # print(type(parse_response["message"]["Altitude"][0]))
-    # print(float(parse_response["message"]["Altitude"][0]))
     if parse_response["result"] == "OK":
         table = PrettyTable()
 
