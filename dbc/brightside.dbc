@@ -50,6 +50,7 @@ BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ DOC : 42|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ ESTOPpressed : 44|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ModuleStatusofBits : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -278,8 +279,39 @@ BO_ 1576 ModuleStatuses: 5 BMS
  SG_ Module31 m7 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Module32 m7 : 32|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1577 BalancingStatus: 5 BMS
- SG_ ModuleStatusofBits : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+BO_ 1577 BalancingStatus: 4 BMS
+ SG_ Mod1_BalActive : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod2_BalActive : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod3_BalActive : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod4_BalActive : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod5_BalActive : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod6_BalActive : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod7_BalActive : 6|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod8_BalActive : 7|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod9_BalActive : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod10_BalActive : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod11_BalActive : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod12_BalActive : 11|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod13_BalActive : 12|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod14_BalActive : 13|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod15_BalActive : 14|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod16_BalActive : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod17_BalActive : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod18_BalActive : 17|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod19_BalActive : 18|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod20_BalActive : 19|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod21_BalActive : 20|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod22_BalActive : 21|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod23_BalActive : 22|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod24_BalActive : 23|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod25_BalActive : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod26_BalActive : 25|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod27_BalActive : 26|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod28_BalActive : 27|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod29_BalActive : 28|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod30_BalActive : 29|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod31_BalActive : 30|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod32_BalActive : 31|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 2550588916 ECUChargerModes: 8 ECU
  SG_ MaxChargingVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
@@ -315,6 +347,7 @@ BO_ 1872 SimulationSpeed: 4 TEL
 
 
 CM_ SG_ 3221225472 DOC_COC "Discharge and Charge Overcurrent Status";
+CM_ SG_ 3221225472 ModuleStatusofBits "Each bit indicates bal status (active high)";
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
 CM_ SG_ 1573 AverageTemp "Twos Complement";
@@ -381,7 +414,6 @@ CM_ SG_ 1025 MotorCurrent "Percentage of max current
 ";
 CM_ SG_ 1026 BusCurrent "Percentage of the max bus current";
 CM_ SG_ 1026 ResetCommand "Unused";
-CM_ SG_ 1577 ModuleStatusofBits "Each bit indicates bal status (active high)";
 CM_ SG_ 2550588916 ChargerEnables "0x00: Start charger
 0x01: Close output of charger
 0x02: Stop charging (sleep mode)
