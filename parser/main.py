@@ -348,7 +348,7 @@ def parse_and_write_request():
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
                 "result": "INFLUX_WRITE_FAIL",
-                "message": e,
+                "message": str(e),
                 "id": id,
                 "type": type
             }
