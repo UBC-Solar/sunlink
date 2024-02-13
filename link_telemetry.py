@@ -81,6 +81,7 @@ DEFAULT_RANDOM_FREQUENCY_HZ = 10
 # global flag that indicates whether a SIGINT signal was received
 SIGINT_RECVD = False
 
+
 # <----- Utility functions ------>
 
 def check_health_handler():
@@ -385,6 +386,10 @@ def main():
         car_dbc = cantools.database.load_file(PROVIDED_DBC_FILE)
     else:
         car_dbc = cantools.database.load_file(DBC_FILE)
+
+
+    # <----- Format Specificer List for all Data Types ----->
+    format_specifier_list = [car_dbc]
         
 
     # <----- Configuration confirmation ----->
@@ -416,7 +421,7 @@ def main():
         message: bytes
 
         if args.randomList:
-            message = RandomMessage().random_message_str(car_dbc, args.randomList)
+            message = RandomMessage().random_message_str(format_specifier_list, args.randomList)
             time.sleep(period_s)
 
         elif args.offline:     

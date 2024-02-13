@@ -1,6 +1,9 @@
 import random
 import struct
 
+# Indexing for format specifier list
+CAN_INDEX           = 0
+
 """
 Class to provide random message generaters for testing purposes.
 Currently creates random messages for CAN, GPS, and IMU.
@@ -10,19 +13,19 @@ class RandomMessage:
     Returns a random message of a random type (Currently CAN, GPS, or IMU).
     
     Parameters:
-        dbc - dbc object from cantools library for CAN message generation
+        format_specifier_list - list of format specifiers for each message type
         message_types - list of message types to choose from (the randomList arg in parser)
         
     Returns:
         string - random message of a random type as a string with latin-1 decoding
     """
-    def random_message_str(self, dbc, message_types) -> str:
+    def random_message_str(self, format_specifier_list, message_types) -> str:
         """
         Randomly selects a message type from the provided list and returns a random message of that type.
         """
         message_type = random.choice(message_types).upper()  # Convert to uppercase
         if message_type == 'CAN':
-            return self.random_can_str(dbc)
+            return self.random_can_str(format_specifier_list[CAN_INDEX])
         elif message_type == 'GPS':
             return self.random_gps_str()
         elif message_type == 'IMU':

@@ -104,7 +104,7 @@ tokens: Dict[str, str] = {
     SECRET_KEY: "admin"
 }
 
-# <----- Format Specificer for all Data Types ----->
+# <----- Format Specificer List for all Data Types ----->
 format_specifier_list = [CAR_DBC]
 
 
