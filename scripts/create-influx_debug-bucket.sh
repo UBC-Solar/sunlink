@@ -12,3 +12,12 @@ influx bucket create --name "GPS_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
 
 # Creates the IMU_test bucket
 influx bucket create --name "IMU_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+
+# Creates the CAN_prod bucket
+influx bucket create --name "CAN_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+
+# Creates the GPS_prod bucked
+influx bucket create --name "GPS_prof" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+
+# Creates the IMU_prod bucket
+influx bucket create --name "IMU_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"

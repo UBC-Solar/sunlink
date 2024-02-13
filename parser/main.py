@@ -228,10 +228,14 @@ def parse_request():
 @app.post(f"{API_PREFIX}/parse/write/debug")
 @auth.login_required
 def parse_and_write_request():
-    """
-    Parses incoming request, writes the parsed measurements to InfluxDB debug bucket,
-    and sends back parsed measurements back to client.
-    """
+    parse_and_write_request_bucket("_test")
+
+
+"""
+Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production),
+and sends back parsed measurements back to client.
+"""
+def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
     format_specifier_list = [CAR_DBC]
     message = create_message(parse_request["message"], format_specifier_list)
@@ -266,7 +270,7 @@ def parse_and_write_request():
         
         # write to InfluxDB
         try:
-            write_api.write(bucket=message.type + "_test", org=INFLUX_ORG, record=point)
+            write_api.write(bucket=message.type + bucket, org=INFLUX_ORG, record=point)
             app.logger.info(
                 f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
         except Exception as e:
