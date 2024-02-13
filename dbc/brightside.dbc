@@ -91,7 +91,7 @@ BO_ 1570 Faults: 7 BMS
  SG_ NoECUCurrentMessage : 18|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1571 VoltageSummary: 6 BMS
- SG_ TotalPackVoltage : 0|16@1+ (0.0021367521368,0) [0|140] "V" Vector__XXX
+ SG_ TotalPackVoltage : -1|16@0+ (0.0021367521368,0) [0|140] "V" Vector__XXX
  SG_ VoltageofLeast : 16|8@1+ (0.019607843137,0) [0|5] "V" Vector__XXX
  SG_ IndexofLowestModule : 24|8@1+ (1,0) [0|31] "" Vector__XXX
  SG_ VoltageofHighest : 32|8@1+ (0.019607843137,0) [0|5] "V" Vector__XXX
