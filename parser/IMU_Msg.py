@@ -74,4 +74,3 @@ class IMU:
 
     def type(self) -> str:
         return self.type
-        

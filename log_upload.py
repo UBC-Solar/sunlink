@@ -199,7 +199,9 @@ def main():
 
         while True:
             try:
-                log_line = next(message_generator)
+                # Converts a string of hex characters to a string of ASCII characters
+                # Preserves weird characters to be written and copied correctly
+                log_line = bytes.fromhex(next(message_generator)).decode()
             except StopIteration:
                 break
 

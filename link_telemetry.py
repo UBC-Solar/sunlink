@@ -228,9 +228,9 @@ def parser_request(payload: Dict, url: str):
     Makes a parse request to the given `url`.
     """
     # Write to log file
-    # Characters might not show up as expetced in the log file (latin-1 encoding)
+    # Message encoded to hex to ensure all characters stay
     with open(LOG_FILE_NAME, "a", encoding='latin-1') as output_log_file:
-        output_log_file.write(payload["message"] + '\n')
+        output_log_file.write(payload["message"].encode().hex() + '\n')
     try:
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
     except requests.ConnectionError:
