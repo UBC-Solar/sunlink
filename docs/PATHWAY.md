@@ -53,5 +53,7 @@ Then the pretty table would look like this:
 |     X     | 1774452798 |  A   |    69.420   |
 +-----------+------------+------+-------------+
 ```
-**Note that the column headings may not be in the same order as the dictionary keys**, However, the values will be in the same order as the dictionary values.
+**Note that the column headings may not be in the same order as the dictionary keys**, However, the values will be matched to the correct headings.
 
+## Logfiles
+This is simply another pathway the raw messages in `link_telemetry.py` can take. Everytime `link_telemetry.py` is run, a new logfile is created inside the `logfiles` folder timestamped to when `link_telemetry.py` was run. Each message (be it CAN, GPS, IMU)
