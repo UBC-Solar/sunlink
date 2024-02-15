@@ -464,7 +464,7 @@ Here are some example invocations:
 | `./link_telemetry.py -o --prod` | Makes the link to recieve data from PCAN and requests the parser to write to the production InfluxDB bucket. |
 
 ## Running the Offline Log Uploader
-To run the offline log uploader `log_upload.py` the `logfiles` folder should have a generated log file to read and request the parser to write to InfluxDB in the `_test` buckets (like in debug mode). **Run this command in the `sunlink` director**
+To run the offline log uploader `log_upload.py` the `logfiles` folder should have a generated log file to read and request the parser to write to InfluxDB in the `_test` buckets (like in debug mode). **Run this command in the `sunlink` directory**
 
 ```bash
 python log_upload.py
