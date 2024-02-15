@@ -74,3 +74,6 @@ class IMU:
 
     def type(self) -> str:
         return self.type
+
+print(IMU("7f0ebf09@AYÄZÃ.").data)
+{'Source': ['IMU'], 'Class': ['A'], 'Measurement': ['Y'], 'Value': [-875.049683], 'ID': 'AY', 'display_data': {'Type': ['A'], 'Dimension': ['Y'], 'Value': [-875.049683], 'Timestamp': [2131672841]}}

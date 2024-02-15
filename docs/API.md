@@ -26,7 +26,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE RESPONSE:** 
+**SAMPLE RESPONSE:**
 
 ```json
 {
@@ -40,12 +40,12 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
             "name": "grafana",
             "status": "UP",
             "url": "http://grafana:3000/"
-        },
+        }
     ]
 }
 ```
 
-**RESPONSE NOTES:** 
+**RESPONSE NOTES:**
 
 1. The `status` field can be one of `"UP"`, `"DOWN"`, or `"UNEXPECTED_STATUS_CODE"`.
 
@@ -69,45 +69,27 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE REQUEST:** 
+**SAMPLE REQUEST: (IMU RAW DATA)**
 
 ```json
 {
-    "id": "0401",
-    "timestamp": "deadbeef" ,
-    "data": "000089426666e63e",
-    "data_length": "8",
+    "message": "7f0ebf09@AYÄZÃ."
 }
 ```
 
-**SAMPLE RESPONSES:** 
+**SAMPLE RESPONSE: (PARSED IMU DATA FROM ABOVE)**
 
 ```json
 {
-  "id": 1025,
-  "measurements": [
-    {
-      "m_class": "drive_command",
-      "name": "desired_velocity",
-      "source": "speed_controller",
-      "value": 68.5
-    },
-    {
-      "m_class": "drive_command",
-      "name": "current_setpoint",
-      "source": "speed_controller",
-      "value": 0.44999998807907104
-    }
-  ],
-  "result": "OK"
-}
-```
-
-```json
-{
-    "id": 990,
-    "measurements": [],
-    "result": "PARSE_FAIL"
+  "result": "OK",
+  "message": {
+    "Type": ['A'], 
+    "Dimension": ['Y'], 
+    "Value": [-875.049683], 
+    "Timestamp": [2131672841]
+  },
+  "id": "AY",
+  "type": "IMU"
 }
 ```
 
@@ -135,37 +117,36 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE REQUEST:** 
+**SAMPLE REQUEST:**
 
 ```json
 {
     "id": "0401",
-    "timestamp": "deadbeef" ,
+    "timestamp": "deadbeef",
     "data": "000089426666e63e",
-    "data_length": "8",
+    "data_length": "8"
 }
 ```
 
-**SAMPLE RESPONSES:** 
+**SAMPLE RESPONSES:**
 
 ```json
 {
     "id": 1025,
-    "measurements": 
-        [
-            {
-                "m_class": "drive_command",
-                "name": "desired_velocity",
-                "source": "speed_controller",
-                "value": 56.31
-            },
-            {
-                "m_class": "drive_command", 
-                "name": "current_setpoint", 
-                "source": "speed_controller",
-                "value": 0.44
-            }
-        ],
+    "measurements": [
+        {
+            "m_class": "drive_command",
+            "name": "desired_velocity",
+            "source": "speed_controller",
+            "value": 56.31
+        },
+        {
+            "m_class": "drive_command",
+            "name": "current_setpoint",
+            "source": "speed_controller",
+            "value": 0.44
+        }
+    ],
     "result": "OK"
 }
 ```
@@ -180,22 +161,21 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 ```json
 {
-    "id": 1282, 
-    "measurements": 
-        [
-            {
-                "m_class": "motor_bus",
-                "name": "bus_voltage",
-                "source": "daybreak_motor_controller",
-                "value": 103.4
-            },
-            {
-                "m_class": "motor_bus",
-                "name": "bus_current",
-                "source": "daybreak_motor_controller",
-                "value": 34.2
-            }
-        ],
+    "id": 1282,
+    "measurements": [
+        {
+            "m_class": "motor_bus",
+            "name": "bus_voltage",
+            "source": "daybreak_motor_controller",
+            "value": 103.4
+        },
+        {
+            "m_class": "motor_bus",
+            "name": "bus_current",
+            "source": "daybreak_motor_controller",
+            "value": 34.2
+        }
+    ],
     "result": "INFLUX_WRITE_FAIL"
 }
 ```
@@ -208,7 +188,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
     - `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser).
 
-    - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. 
+    - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable.
 
 2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
 
