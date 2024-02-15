@@ -70,7 +70,7 @@ This is simply another pathway the raw messages in `link_telemetry.py` can take.
 
 ## InfluxDB
 
-In the parser, an **InfluxDB Point** is created using the "`Source`", "`Class`", "`Measurement`", and "`Value`" keys of the `data` dictionary. This point corresponds to the different ways to filter the data from different messages. Specifcally, here is the current breakdown of the fields and tags of each message type. Note that the standard for testing/debugging and production buckets has changed to the format `<MESSAGE_NAME>_test` and `<MESSAGE_NAME>_prod` respectively.
+In the parser, an **InfluxDB Point** is created using the "`Source`", "`Class`", "`Measurement`", and "`Value`" keys of the `data` dictionary. This point corresponds to the different ways to filter the data from different messages. Specifcally, here is the current breakdown of the fields and tags of each message type. Note that the standard for testing/debugging and production buckets has changed to the format `<MESSAGE_NAME>_test` and `<MESSAGE_NAME>_prod` respectively. A recommendation for user's wanting to view the data on Influx is to use the `last` keyword for the aggregate function (bottom right of screen). This will help you match data you see printing to the terminal to the data coming into InfluxDB. The following is the breakdown of the fields and tags for each message type.
 
 ### CAN
 
@@ -107,8 +107,53 @@ The new buckets are **IMU_test** and **IMU_prod**.
 -   `"Class"`: Corresponds to the `class` tag on InfluxDB. These include the following:
     -   `"A"` (For accelerometer)
     -   `"G"` (For gyroscope)
--  `"Measurement"`: Corresponds to the `_field` tag on InfluxDB. These include the x, y, z dimensions of the accelerometer and gyroscope.
+-   `"Measurement"`: Corresponds to the `_field` tag on InfluxDB. These include the x, y, z dimensions of the accelerometer and gyroscope.
     -   `"X"`
     -   `"Y"`
     -   `"Z"`
 -   `"Value"`: Corresponds to the value of the measurement.
+
+## Grafana
+
+The last stop the data goes to is Grafana. This is done by first creating a dashboard on Grafana and then adding a panel/visualization. From here, To access the various buckets on InfluxDB to graph the data you have two options.
+
+1. Copy the query from InfluxDB and just paste it in the query section of the Grafana panel. To do this, navigate to InfluxDB and use the query builder mode (the nice UI) to build your query (Ex. IMU, A, X). Then click the "SCRIPT EDITOR" button to the left of "SUBMIT" to toggle to the raw query. **This is the query you want to copy paste into Grafana**.
+2. You can take a look at some example queries below:
+
+### CAN: Query for TempSensor 1
+
+```sql
+from(bucket: "CAN_test")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "AMB")
+  |> filter(fn: (r) => r["_field"] == "TempSensors1")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+```
+
+### GPS: Query for Latitude
+
+```sql
+from(bucket: "GPS_test")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "GPS")
+  |> filter(fn: (r) => r["_field"] == "Latitude")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+```
+
+### IMU: Query for Accelerometer X (AX)
+
+```sql
+from(bucket: "IMU_test")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "IMU")
+  |> filter(fn: (r) => r["class"] == "A")
+  |> filter(fn: (r) => r["_field"] == "X")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+```
+
+### Example Dashboard
+
+![Grafana CAN, GPS, IMU Dashboard Example](/images/grafana_random_test.png)
