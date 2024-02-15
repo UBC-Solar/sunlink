@@ -81,15 +81,15 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 ```json
 {
-  "result": "OK",
-  "message": {
-    "Type": ['A'], 
-    "Dimension": ['Y'], 
-    "Value": [-875.049683], 
-    "Timestamp": [2131672841]
-  },
-  "id": "AY",
-  "type": "IMU"
+    "result": "OK",
+    "message": {
+        "Type": ["A"],
+        "Dimension": ["Y"],
+        "Value": [-875.049683],
+        "Timestamp": [2131672841]
+    },
+    "id": "AY",
+    "type": "IMU"
 }
 ```
 
@@ -101,9 +101,11 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
     - `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
 
-2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
+2. The `message` field is a dictionary of the parsed message that came into the parser. This field is only populated when the `result` field is `'OK'`.
 
-3. The `id` field is simply the CAN ID of the message that was parsed.
+3. The `id` field is the `"ID"` field of the `data` dictionary of the data class. For CAN this is the hex ID, for GPS messages this is the timestamp of the message, and for IMU it is the type + dimension of the message.
+
+4. The `type` field is the type of message (CAN, GPS, or IMU currently).
 
 ## Parse CAN message + write to debug bucket
 
