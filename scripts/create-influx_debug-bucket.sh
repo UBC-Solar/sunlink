@@ -4,20 +4,29 @@ set -e
 # creates the debug bucket after InfluxDB initialization
 influx bucket create --name "${INFLUX_DEBUG_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
 
-# Creates the CAN_test bucket
-influx bucket create --name "CAN_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# Convert the message types to an array
+IFS=',' read -ra TYPES <<< "$MESSAGE_TYPES"
 
-# Creates the GPS_test bucket
-influx bucket create --name "GPS_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# Loop over each message type and create the buckets
+for TYPE in "${TYPES[@]}"; do
+    # Print and create the debug bucket
+    echo "Creating debug bucket: ${TYPE}${INFLUX_DEBUG_BUCKET}"
+    echo influx bucket create --name "${TYPE}${INFLUX_DEBUG_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+    
+    # Print and create the prod bucket
+    echo "Creating prod bucket: ${TYPE}${INFLUX_PROD_BUCKET}"
+    echo influx bucket create --name "${TYPE}${INFLUX_PROD_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+done
 
-# Creates the IMU_test bucket
-influx bucket create --name "IMU_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# # Create test and prod buckets
+# IFS=',' read -ra TYPES <<< "${MESSAGE_TYPES}"
 
-# Creates the CAN_prod bucket
-influx bucket create --name "CAN_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# for TYPE in "${TYPES[@]}"; do
+#     # Create the debug bucket
+#     influx bucket create --name "${TYPE}${INFLUX_DEBUG_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+    
+#     # Create the prod bucket
+#     influx bucket create --name "${TYPE}${INFLUX_PROD_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# done
 
-# Creates the GPS_prod bucked
-influx bucket create --name "GPS_prof" --org "${DOCKER_INFLUXDB_INIT_ORG}"
 
-# Creates the IMU_prod bucket
-influx bucket create --name "IMU_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
