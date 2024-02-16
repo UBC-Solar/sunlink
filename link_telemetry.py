@@ -387,12 +387,7 @@ def main():
         car_dbc = cantools.database.load_file(PROVIDED_DBC_FILE)
     else:
         car_dbc = cantools.database.load_file(DBC_FILE)
-
-
-    # <----- Format Specificer List for all Data Types ----->
-    format_specifier_list = [car_dbc]
         
-
     # <----- Configuration confirmation ----->
 
     print_config_table(args)
@@ -422,7 +417,7 @@ def main():
         message: bytes
 
         if args.randomList:
-            message = RandomMessage().random_message_str(format_specifier_list, args.randomList)
+            message = RandomMessage().random_message_str(args.randomList)
             time.sleep(period_s)
 
         elif args.offline:     
