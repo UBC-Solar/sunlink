@@ -241,8 +241,9 @@ def parse_and_write_request_bucket(bucket):
         app.logger.warn(str(message.data["display_data"]))
         return {
             "result": "PARSE_FAIL",
-            "message": [],
-            "id": id
+            "message": {},
+            "id": id,
+            "type": type
         }
 
     # try writing the measurements extracted
