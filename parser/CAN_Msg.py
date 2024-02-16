@@ -1,3 +1,7 @@
+import cantools
+from pathlib import Path
+import sys
+
 """
 Subclass CAN implements the extract_measurements and getter
 methods from the interface Message. Data fields are:
@@ -26,9 +30,18 @@ class CAN:
     CHANGES:
         data field is now 8 bytes (Before: FF is sent as 2 letter Fs, now it is sent as 1 byte char with value 255)
     """
-    def __init__(self, message: str, format_specifier=None) -> None:    
+    def __init__(self, message: str) -> None: 
+        # Load the DBC file   
+        DBC_FILE = Path("./dbc/brightside.dbc")
+
+        if not DBC_FILE.is_file():
+            print(f"Unable to find expected existing DBC file: \"{DBC_FILE.absolute()}\"")
+            sys.exit(1)
+            
+        self.CAR_DBC = cantools.database.load_file(DBC_FILE)
+
         self.message = message  
-        self.data = self.extract_measurements(format_specifier)
+        self.data = self.extract_measurements()
         self.type = "CAN"
 
 
@@ -45,7 +58,7 @@ class CAN:
     Returns:
         display_data dictionary with form outlined in the class description
     """
-    def extract_measurements(self, format_specifier=None) -> dict:      
+    def extract_measurements(self) -> dict:      
         timestamp: int = int(self.message[0:8], 16)
         id: str = self.message[8:12]
         data: str = self.message[12:20]
@@ -54,8 +67,8 @@ class CAN:
         data_bytes = bytearray(map(lambda x: ord(x), data))
         hex_id = "0x" + hex(identifier)[2:].upper()
 
-        measurements = format_specifier.decode_message(identifier, data_bytes)
-        message = format_specifier.get_message_by_frame_id(identifier)
+        measurements = self.CAR_DBC.decode_message(identifier, data_bytes)
+        message = self.CAR_DBC.get_message_by_frame_id(identifier)
 
         # where the data came from
         sources: list = message.senders

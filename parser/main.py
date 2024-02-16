@@ -34,13 +34,8 @@ app = Flask(__name__)
 CAR_NAME = "Brightside"
 
 # paths are relative to project root
-DBC_FILE = Path("./dbc/brightside.dbc")
 ENV_FILE = Path(".env")
 TXT_FILE = Path("./dbc/output.txt")
-
-if not DBC_FILE.is_file():
-    app.logger.critical(f"Unable to find expected existing DBC file: \"{DBC_FILE.absolute()}\"")
-    sys.exit(1)
 
 if not ENV_FILE.is_file():
     app.logger.critical(f"Unable to find expected existing environment variable file: \"{ENV_FILE.absolute()}\"")
@@ -79,10 +74,6 @@ client = influxdb_client.InfluxDBClient(
     url=INFLUX_URL, org=INFLUX_ORG, token=INFLUX_TOKEN)
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
-# <----- Read in DBC file ----->
-
-CAR_DBC = cantools.database.load_file(DBC_FILE)
-
 # <----- Pretty printing ----->
 
 pp = pprint.PrettyPrinter(indent=1)
@@ -101,10 +92,6 @@ except KeyError:
 tokens: Dict[str, str] = {
     SECRET_KEY: "admin"
 }
-
-# <----- Format Specificer List for all Data Types ----->
-format_specifier_list = [CAR_DBC]
-
 
 @auth.verify_token
 def verify_token(token):
@@ -196,7 +183,7 @@ def parse_request():
 
     # try extracting measurements
     try:
-        message = create_message(parse_request["message"], format_specifier_list)
+        message = create_message(parse_request["message"])
         id = message.data.get("ID", "UNKNOWN")
         type = message.type
 
@@ -241,7 +228,7 @@ def parse_and_write_request_bucket(bucket):
 
     # try extracting measurements
     try:
-        message = create_message(parse_request["message"], format_specifier_list)
+        message = create_message(parse_request["message"])
         id = message.data.get("ID", "UNKNOWN")
         type = message.type
 
