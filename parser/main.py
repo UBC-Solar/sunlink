@@ -58,8 +58,6 @@ INFLUX_URL = "http://influxdb:8086/"
 INFLUX_TOKEN = ENV_CONFIG["INFLUX_TOKEN"]
 
 INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
-INFLUX_DEBUG_BUCKET = ENV_CONFIG["INFLUX_DEBUG_BUCKET"]
-INFLUX_PROD_BUCKET = ENV_CONFIG["INFLUX_PROD_BUCKET"]
 
 INFLUX_CAN_BUCKET = "CAN_test"
 INFLUX_GPS_BUCKET = "GPS_test"
@@ -274,7 +272,7 @@ def parse_and_write_request_bucket(bucket):
         try:
             write_api.write(bucket=message.type + bucket, org=INFLUX_ORG, record=point)
             app.logger.info(
-                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={INFLUX_DEBUG_BUCKET}!")
+                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={message.type + bucket}!")
         except Exception as e:
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
