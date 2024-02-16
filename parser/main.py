@@ -196,18 +196,33 @@ def parse_request():
     """
     parse_request = flask.request.json
     format_specifier_list = [CAR_DBC]
-    message = create_message(parse_request["message"], format_specifier_list)
-    id = message.data.get("ID", "UNKNOWN")
-    type = message.type
 
-    app.logger.info(f"Received a {message.type} message. ID = {id=}")
+    # try extracting measurements
+    try:
+        message = create_message(parse_request["message"], format_specifier_list)
+        id = message.data.get("ID", "UNKNOWN")
+        type = message.type
 
-    return {
-        "result": "OK",
-        "message": message.data["display_data"],
-        "id": id,
-        "type": type
-    }
+        app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
+
+        return {
+            "result": "OK",
+            "message": message.data["display_data"],
+            "id": id,
+            "type": type
+        }
+
+    except Exception:
+        app.logger.warn(
+            f"Unable to extract measurements for raw message {parse_request['message']}")
+        app.logger.warn(str(message.data["display_data"]))
+        return {
+            "result": "PARSE_FAIL",
+            "message": {},
+            "id": id,
+            "type": type
+        }
+
 
 
 @app.post(f"{API_PREFIX}/parse/write/debug")
