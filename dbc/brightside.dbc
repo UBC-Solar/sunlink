@@ -50,6 +50,7 @@ BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ DOC : 42|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ ESTOPpressed : 44|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ModuleStatusofBits : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -181,15 +182,16 @@ BO_ 1575 ModuleTemps: 5 BMS
  SG_ Temp31 m7 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
  SG_ Temp32 m7 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
 
-BO_ 1104 ECUStatuAndCurrent: 6 ECU
+BO_ 1104 ECUStatus: 6 ECU
  SG_ PackCurrent : 0|16@1- (0.015259021897,0) [-127|127] "A" Vector__XXX
- SG_ LVCurrent : 16|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
- SG_ SuppBattVoltage : 24|16@1+ (0.001,0) [0|0] "V" Vector__XXX
+ SG_ LVCurrent : 32|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
+ SG_ SuppBattVoltage : 16|16@1+ (0.001,0) [0|16] "V" Vector__XXX
  SG_ PackOverDischargeWarning : 40|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ PackOverChargeWarning : 41|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ DOC : 42|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ ESTOPpressed : 44|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ESTOP_Pressed : 45|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ResetFromWatchdog : 44|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1280 Information: 8 MDU
  SG_ TritiumID : 0|32@1+ (1,0) [0|0] "" Vector__XXX
@@ -277,16 +279,47 @@ BO_ 1576 ModuleStatuses: 5 BMS
  SG_ Module31 m7 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Module32 m7 : 32|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1577 BalancingStatus: 5 BMS
- SG_ ModuleStatusofBits : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+BO_ 1577 BalancingStatus: 4 BMS
+ SG_ Mod1_BalActive : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod2_BalActive : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod3_BalActive : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod4_BalActive : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod5_BalActive : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod6_BalActive : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod7_BalActive : 6|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod8_BalActive : 7|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod9_BalActive : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod10_BalActive : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod11_BalActive : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod12_BalActive : 11|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod13_BalActive : 12|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod14_BalActive : 13|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod15_BalActive : 14|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod16_BalActive : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod17_BalActive : 16|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod18_BalActive : 17|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod19_BalActive : 18|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod20_BalActive : 19|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod21_BalActive : 20|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod22_BalActive : 21|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod23_BalActive : 22|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod24_BalActive : 23|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod25_BalActive : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod26_BalActive : 25|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod27_BalActive : 26|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod28_BalActive : 27|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod29_BalActive : 28|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod30_BalActive : 29|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod31_BalActive : 30|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Mod32_BalActive : 31|1@1+ (1,0) [0|1] "" Vector__XXX
 
-BO_ 1012 EcuChargerModes: 8 ECU
+BO_ 2550588916 ECUChargerModes: 8 ECU
  SG_ MaxChargingVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
  SG_ MaxChargingCurrent : 16|16@1+ (0.1,0) [0|0] "A" Vector__XXX
  SG_ ChargerEnables : 32|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ ChargingModes : 40|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 997 OBCStatus: 8 OBC
+BO_ 2566869221 OBCStatus: 8 OBC
  SG_ OutputVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
  SG_ OutputCurrent : 16|16@1+ (0.1,0) [0|0] "A" Vector__XXX
  SG_ HardwareProtection : 32|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -314,6 +347,7 @@ BO_ 1872 SimulationSpeed: 4 TEL
 
 
 CM_ SG_ 3221225472 DOC_COC "Discharge and Charge Overcurrent Status";
+CM_ SG_ 3221225472 ModuleStatusofBits "Each bit indicates bal status (active high)";
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
 CM_ SG_ 1573 AverageTemp "Twos Complement";
@@ -353,7 +387,7 @@ CM_ SG_ 1575 Temp30 "Twos Complement
 ";
 CM_ SG_ 1575 Temp31 "Twos Complement";
 CM_ SG_ 1575 Temp32 "Twos Complement";
-CM_ SG_ 1104 PackCurrent "int16_t, positive is into PACK(divide by 65.535 to get value in A) Must cast back to int16_t if retrieving value from CAN bus";
+CM_ SG_ 1104 PackCurrent "int16_t, positive is discharging from PACK(divide by 65.535 to get value in A) Must cast back to int16_t if retrieving value from CAN bus";
 CM_ SG_ 1104 LVCurrent "Unsigned, 0-30A (divide by 8.5 to get value in A)
 
 
@@ -368,7 +402,10 @@ CM_ SG_ 1104 DOC "Discharge overcurrent
 ";
 CM_ SG_ 1104 COC "Charge overcurrent
 ";
-CM_ SG_ 1104 ESTOPpressed "Active High
+CM_ SG_ 1104 ESTOP_Pressed "Active High
+";
+CM_ SG_ 1104 ResetFromWatchdog "Active High
+
 ";
 CM_ SG_ 1280 TritiumID "Unused char[4]string";
 CM_ SG_ 1280 SerialNumber "Unused";
@@ -377,39 +414,38 @@ CM_ SG_ 1025 MotorCurrent "Percentage of max current
 ";
 CM_ SG_ 1026 BusCurrent "Percentage of the max bus current";
 CM_ SG_ 1026 ResetCommand "Unused";
-CM_ SG_ 1577 ModuleStatusofBits "Each bit indicates bal status (active high)";
-CM_ SG_ 1012 ChargerEnables "0x00: Start charger
+CM_ SG_ 2550588916 ChargerEnables "0x00: Start charger
 0x01: Close output of charger
 0x02: Stop charging (sleep mode)
 Other values: Unused";
-CM_ SG_ 1012 ChargingModes "0x00: charging mode
+CM_ SG_ 2550588916 ChargingModes "0x00: charging mode
 0x01: Heating mode(charger heats the heating film inside the battery, the charger does not need to detect the output voltage to work. When designing the resistance value of the heating film, it should be noted that the working voltage of the heating film must be between the MIN voltage and the MAX voltage of the battery. Preferably close to the battery's maximum voltage. It is best to turn off the output before switching modes)
 Other values: Unused";
-CM_ SG_ 997 HardwareProtection "0: Normal, 1: Hardware Protection";
-CM_ SG_ 997 TemepratureProtection "0: Normal, 1: Internal Temp. Protection";
-CM_ SG_ 997 InputVoltageStatus "0: Normal, 1: Input under voltage, 2: Input over voltage, 3: No Input Voltage";
-CM_ SG_ 997 OutputUnderVoltage "0: Normal, 1: Fault";
-CM_ SG_ 997 OutputOverVoltage "0: Normal, 1: Fault";
-CM_ SG_ 997 OutputOverCurrent "0: Normal, 1: Fault";
-CM_ SG_ 997 OutputShortCircuit "0: Normal, 1: Fault";
-CM_ SG_ 997 CommunicationStatus "0: Communication is normal 1: Receive communication timeout";
-CM_ SG_ 997 WorkingStatus "0: Undefined, 1: work, 2: Stop, 3: Stop or standby";
-CM_ SG_ 997 CompletionOfInitialization "0: Not Complete, 1: Complete";
-CM_ SG_ 997 FanEnable "0: Close, 1: Open";
-CM_ SG_ 997 CoolingPumpFanEnable "0: Close, 1: Open";
-CM_ SG_ 997 CCsignalStatus "CC: Resistance value inside charger gun, 1.5k ohms = max 8A, 680 ohms = 16A, 220 ohms = 32A
+CM_ SG_ 2566869221 HardwareProtection "0: Normal, 1: Hardware Protection";
+CM_ SG_ 2566869221 TemepratureProtection "0: Normal, 1: Internal Temp. Protection";
+CM_ SG_ 2566869221 InputVoltageStatus "0: Normal, 1: Input under voltage, 2: Input over voltage, 3: No Input Voltage";
+CM_ SG_ 2566869221 OutputUnderVoltage "0: Normal, 1: Fault";
+CM_ SG_ 2566869221 OutputOverVoltage "0: Normal, 1: Fault";
+CM_ SG_ 2566869221 OutputOverCurrent "0: Normal, 1: Fault";
+CM_ SG_ 2566869221 OutputShortCircuit "0: Normal, 1: Fault";
+CM_ SG_ 2566869221 CommunicationStatus "0: Communication is normal 1: Receive communication timeout";
+CM_ SG_ 2566869221 WorkingStatus "0: Undefined, 1: work, 2: Stop, 3: Stop or standby";
+CM_ SG_ 2566869221 CompletionOfInitialization "0: Not Complete, 1: Complete";
+CM_ SG_ 2566869221 FanEnable "0: Close, 1: Open";
+CM_ SG_ 2566869221 CoolingPumpFanEnable "0: Close, 1: Open";
+CM_ SG_ 2566869221 CCsignalStatus "CC: Resistance value inside charger gun, 1.5k ohms = max 8A, 680 ohms = 16A, 220 ohms = 32A
 
 0: Not Connected, 1: Half Connected, 2: Normally Connected, 3: Resistance detection error";
-CM_ SG_ 997 CPSignalStatus "CP: Power supply capacity depending on duty cycle
+CM_ SG_ 2566869221 CPSignalStatus "CP: Power supply capacity depending on duty cycle
 
 0: No CP signal detected, 1: CP signal normal";
-CM_ SG_ 997 ChargingSocketTempFault "0: Normal, 1: Overheating
+CM_ SG_ 2566869221 ChargingSocketTempFault "0: Normal, 1: Overheating
 
 Overheating fault occurs when temp is > 90 degrees
  and >15 min or if temp is >120 degrees";
-CM_ SG_ 997 ElectronicLockState "0: in Judgment, 1: Locked, 2: Unlocked, 3: Unlock fault, 4: Locked fault";
-CM_ SG_ 997 S2SwitchControlStatus "0: Switch off, 1: Closed";
-CM_ SG_ 997 Temperaturre "";
+CM_ SG_ 2566869221 ElectronicLockState "0: in Judgment, 1: Locked, 2: Unlocked, 3: Unlock fault, 4: Locked fault";
+CM_ SG_ 2566869221 S2SwitchControlStatus "0: Switch off, 1: Closed";
+CM_ SG_ 2566869221 Temperaturre "";
 CM_ SG_ 1872 SimulationSpeedRec "UNITS + FACTOR TBD
 ";
 BA_DEF_  "BusType" STRING ;
