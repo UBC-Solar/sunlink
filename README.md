@@ -456,12 +456,14 @@ Here are some example invocations:
 | **Command** | **Description** |
 | ------------- | -------------- |
 | `./link_telemetry.py --health` | Checks if the parser is available. |
-| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the production InfluxDB bucket. |
+| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the CAN InfluxDB bucket. |
 | `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB. | 
 | `./link_telemetry.py -r --debug` | Makes the link randomly generate message data and requests the parser to write to the debug InfluxDB bucket. |
 | `./link_telemetry.py -r -f 100 --debug` | Makes the link randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket. |
 | `./link_telemetry.py -o --debug` | Makes the link to recieve data from PCAN and requests the parser to write to the debug InfluxDB bucket. |
-| `./link_telemetry.py -o --prod` | Makes the link to recieve data from PCAN and requests the parser to write to the production InfluxDB bucket. |
+| `./link_telemetry.py -o --prod` | Makes the link to recieve data from PCAN and requests the parser to write to the CAN InfluxDB bucket. |
+
+> Previously, the `--prod` option would write to the production InfluxDB bucket. This has been changed to write to the CAN InfluxDB bucket as CAN is currently the only source of data source that is supported in Sunlink. Soon, other buckets will be added along with support for other data sources including GPS, IMU, and VDS (Vehicle Dynamics Sensors) data. New buckets must be created with shell scripts, similar to in the script `scripts/create-influx_debug-bucket.sh`. The .env file must also contain the name for the bucket created on `telemetry.ubcsolar.com:8086`. The parser script must be modified to support posting data to new buckets.
 
 ## Running the tests
 

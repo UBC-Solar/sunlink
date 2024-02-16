@@ -12,9 +12,9 @@ import toml
 import numpy as np
 import json
 import os
+import struct
 
 from datetime import datetime
-
 from toml.decoder import TomlDecodeError
 from pathlib import Path
 from prettytable import PrettyTable
@@ -33,7 +33,8 @@ TOML_CONFIG_FILE = Path("./telemetry.toml")
 
 # file existence check
 if not TOML_CONFIG_FILE.is_file():
-    print(f"Unable to find expected TOML config file: \"{TOML_CONFIG_FILE.absolute()}\"")
+    print(
+        f"Unable to find expected TOML config file: \"{TOML_CONFIG_FILE.absolute()}\"")
     sys.exit(1)
 
 # <----- Read in TOML file ----->
@@ -137,11 +138,13 @@ def check_health_handler():
         print(f"* parser @ {PARSER_URL} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
     elif health_req.status_code == 401:
         print(f"* parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
-        print(f"unauthorized access to parser API, secret key specified in \"{TOML_CONFIG_FILE}\" is invalid")
+        print(
+            f"unauthorized access to parser API, secret key specified in \"{TOML_CONFIG_FILE}\" is invalid")
         sys.exit(1)
     else:
         print(f"* parser @ {PARSER_URL} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
-        print(f"request failed with HTTP status code {ANSI_BOLD}{health_req.status_code}{ANSI_ESCAPE}!")
+        print(
+            f"request failed with HTTP status code {ANSI_BOLD}{health_req.status_code}{ANSI_ESCAPE}!")
         sys.exit(1)
 
     health_status = health_req.json()
@@ -154,7 +157,8 @@ def check_health_handler():
         if status == "UP":
             print(f"|---> {name} @ {url} -{ANSI_GREEN} UP {ANSI_ESCAPE}")
         elif status == "UNAUTHORIZED":
-            print(f"|---> {name} @ {url} -{ANSI_YELLOW} UNAUTHORIZED {ANSI_ESCAPE}")
+            print(
+                f"|---> {name} @ {url} -{ANSI_YELLOW} UNAUTHORIZED {ANSI_ESCAPE}")
         else:
             print(f"|---> {name} @ {url} -{ANSI_RED} DOWN {ANSI_ESCAPE}")
 
@@ -169,7 +173,8 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
             parser.error("-r cannot be used with -p and -b options")
 
         if args.prod:
-            parser.error("-r cannot be used with --prod since randomly generated data should not be written to the production database")
+            parser.error(
+                "-r cannot be used with --prod since randomly generated data should not be written to the production database")
     else:
         if not args.port and not args.baudrate:
             parser.error("Must specify either -r or both -p and -b arguments")
@@ -178,10 +183,12 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
 
     if args.no_write:
         if args.debug or args.prod:
-            parser.error("Conflicting configuration. Cannot specify --no-write with --debug or --prod.")
+            parser.error(
+                "Conflicting configuration. Cannot specify --no-write with --debug or --prod.")
     else:
         if args.debug and args.prod:
-            parser.error("Conflicting configuration. Cannot specify both --debug and --prod. Must choose one.")
+            parser.error(
+                "Conflicting configuration. Cannot specify both --debug and --prod. Must choose one.")
 
         if args.debug is False and args.prod is False:
             parser.error("Must specify one of --debug, --prod, or --no-write.")
@@ -191,14 +198,19 @@ def print_config_table(args: 'argparse.Namespace'):
     """
     Prints a table containing the current script configuration.
     """
-    print(f"Running {ANSI_BOLD}{__PROGRAM__} (v{__VERSION__}){ANSI_ESCAPE} with the following configuration...\n")
+    print(
+        f"Running {ANSI_BOLD}{__PROGRAM__} (v{__VERSION__}){ANSI_ESCAPE} with the following configuration...\n")
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
-    config_table.add_row(["DATA SOURCE", f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" if args.randomize else f"UART PORT ({args.port})"])
+    config_table.add_row(
+        ["DATA SOURCE", f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" if args.randomize else f"UART PORT ({args.port})"])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
     config_table.add_row(["DBC FILE", DBC_FILE])
-    if LOG_FILE: config_table.add_row(["LOG FILE", "{}{}".format(LOG_DIRECTORY, LOG_FILE)]) # Only show row if log file option selected
+    if LOG_FILE:
+        # Only show row if log file option selected
+        config_table.add_row(
+            ["LOG FILE", "{}{}".format(LOG_DIRECTORY, LOG_FILE)])
     config_table.add_row(["MAX THREADS", args.jobs])
 
     if args.prod:
@@ -257,7 +269,8 @@ def parser_request(payload: Dict, url: str):
     Makes a parse request to the given `url`.
     """
     try:
-        r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
+        r = requests.post(url=url, json=payload,
+                          timeout=5.0, headers=AUTH_HEADER)
     except requests.ConnectionError:
         print(f"Unable to make POST request to {url=}!\n")
     except requests.Timeout:
@@ -287,16 +300,18 @@ def process_response(future: concurrent.futures.Future):
 
     if response.status_code == 401:
         print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code} (unauthorized access){ANSI_ESCAPE}")
-        print(f"Check that your configured secret key matches the parser's ({PARSER_URL}) secret key!")
-        print(f"{ANSI_BOLD}Config file location:{ANSI_ESCAPE} \"{TOML_CONFIG_FILE.absolute()}\"\n")
+        print(
+            f"Check that your configured secret key matches the parser's ({PARSER_URL}) secret key!")
+        print(
+            f"{ANSI_BOLD}Config file location:{ANSI_ESCAPE} \"{TOML_CONFIG_FILE.absolute()}\"\n")
         return
-    
+
     if response.status_code != 200:
         print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
-    
+
     parse_response: dict = response.json()
-       
+
     if parse_response["result"] == "OK":
         table = PrettyTable()
         table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
@@ -305,13 +320,15 @@ def process_response(future: concurrent.futures.Future):
         # format response as a table
         for measurement in measurements:
             id = parse_response['id']
-            table.add_row([hex(id), measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
+            table.add_row([hex(id), measurement["source"], measurement["m_class"],
+                          measurement["name"], measurement["value"]])
 
         print(table)
     elif parse_response["result"] == "PARSE_FAIL":
         print(f"Failed to parse message with id={parse_response['id']}!")
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
-        print(f"Failed to write measurements for CAN message with id={parse_response['id']} to InfluxDB!")
+        print(
+            f"Failed to write measurements for CAN message with id={parse_response['id']} to InfluxDB!")
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
@@ -330,7 +347,8 @@ def main():
 
     # declare argument groups
     threadpool_group = parser.add_argument_group("Thread pool options")
-    source_group = parser.add_argument_group("Data stream selection and options")
+    source_group = parser.add_argument_group(
+        "Data stream selection and options")
     write_group = parser.add_argument_group("Data write options")
 
     parser.add_argument("--version", action="version",
@@ -364,11 +382,19 @@ def main():
                               help=("Allows using the telemetry link with "
                                     "randomly generated CAN data rather than "
                                     "a real radio telemetry stream."))
-    
+
     source_group.add_argument("-o", "--offline", action="store_true",
                               help=("Allows using the telemetry link with "
                                     "the data recieved directly from the CAN bus "))
-    
+
+    source_group.add_argument("--dbc", action="store",
+                              help="Specifies the dbc file to use. For example: ./dbc/brightside.dbc"
+                              "Default: ./dbc/brightside.dbc")
+
+    source_group.add_argument("-o", "--offline", action="store_true",
+                              help=("Allows using the telemetry link with "
+                                    "the data recieved directly from the CAN bus "))
+
     source_group.add_argument("--dbc", action="store",
                               help="Specifies the dbc file to use. For example: ./dbc/brightside.dbc"
                               "Default: ./dbc/brightside.dbc")
@@ -386,7 +412,7 @@ def main():
         check_health_handler()
         return 0
 
-    #validate_args(parser, args)
+    # validate_args(parser, args)
 
     # build the correct URL to make POST request to
     if args.prod:
@@ -410,25 +436,31 @@ def main():
     period_s = 1 / args.frequency_hz
 
     # <----- Read in DBC file ----->
-        
+
     if (args.dbc):
         PROVIDED_DBC_FILE = Path(args.dbc)
         car_dbc = cantools.database.load_file(PROVIDED_DBC_FILE)
     else:
         car_dbc = cantools.database.load_file(DBC_FILE)
-        
+
+    if args.offline:
+        # Defining the Can bus
+        can_bus = can.interface.Bus(
+            bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
 
     # <----- Configuration confirmation ----->
 
     print_config_table(args)
-    choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
+    choice = input(
+        "Are you sure you want to continue with this configuration? (y/N) > ")
     if choice.lower() != "y":
         return
 
     # <----- Create the thread pool ----->
 
     global executor
-    executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
+    executor = concurrent.futures.ThreadPoolExecutor(
+        max_workers=DEFAULT_MAX_WORKERS)
 
     global start_time
     start_time = datetime.now()
@@ -440,7 +472,6 @@ def main():
     if LOG_FILE and not os.path.exists(LOG_DIRECTORY):
         os.makedirs(LOG_DIRECTORY)
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
-    
 
     while True:
         message: bytes
@@ -450,23 +481,23 @@ def main():
             message = message_str.encode(encoding="UTF-8")
             time.sleep(period_s)
 
-            #print(message)
+            # print(message)
             # partition string into pieces
             timestamp: str = message[0:8].decode()      # 8 bytes
             id: str = message[8:12].decode()            # 4 bytes
             data: str = message[12:28].decode()         # 16 bytes
             data_len: str = message[28:29].decode()     # 1 byte`
 
-        elif args.offline:     
-            # Defining the Can bus
-            can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
+        elif args.offline:
 
             # read in bytes from CAN bus
-            message = can_bus.recv()          
+            message = can_bus.recv()
 
             # partition string into pieces
-            # timestamp: str = np.format_float_positional(message.timestamp)      # float
-            timestamp: str = "000000"                           #TODO: convert float to string
+            # epoch time as integer
+            epoch_time = int(time.time())
+            # epoch time has 16 hex digits (8 bytes)
+            timestamp: str = hex(epoch_time)
             id: str = str(hex(message.arbitration_id))          # int
             data: str = (message.data).hex()                    # bytearray
             data_len: str = str(message.dlc)                    # int
@@ -492,10 +523,10 @@ def main():
             id: str = message[8:12].decode()            # 4 bytes
             data: str = message[12:28].decode()         # 16 bytes
             data_len: str = message[28:29].decode()     # 1 byte
-                
+
             # TODO: check that all characters in message are either hex characters ([0-9A-F]) or a carriage return
 
-    
+            # TODO: check that all characters in message are either hex characters ([0-9A-F]) or a carriage return
 
         payload = {
             "timestamp": timestamp,
@@ -510,6 +541,11 @@ def main():
                 json.dump(payload, output_log_file, indent=2)
                 output_log_file.write('\n')
 
+        # Write to log file
+        if LOG_FILE:
+            with open(LOG_FILE_NAME, "a") as output_log_file:
+                json.dump(payload, output_log_file, indent=2)
+                output_log_file.write('\n')
 
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
