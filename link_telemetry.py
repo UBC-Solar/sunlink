@@ -286,7 +286,7 @@ def process_response(future: concurrent.futures.Future):
         print(f"Failed to parse {parse_response['type']} message with id={parse_response['id']}!")
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
         print(f"Failed to write measurements for {parse_response['type']} message with id={parse_response['id']} to InfluxDB!")
-        print(parse_response['message'])
+        print(parse_response['error'])
     else:
         print(f"Unexpected response: {parse_response['result']}")
 

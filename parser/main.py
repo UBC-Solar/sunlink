@@ -266,7 +266,8 @@ def parse_and_write_request_bucket(bucket):
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
                 "result": "INFLUX_WRITE_FAIL",
-                "message": str(e),
+                "message": message.data["display_data"],
+                "error": str(e),
                 "id": id,
                 "type": type
             }
