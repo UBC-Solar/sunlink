@@ -1,8 +1,9 @@
 import random
 import struct
+import time
 
-# Indexing for format specifier list
-CAN_INDEX           = 0
+# Get format specifiers
+from parser.format_specifiers import CAR_DBC
 
 """
 Class to provide random message generaters for testing purposes.
@@ -19,25 +20,24 @@ class RandomMessage:
     Returns:
         string - random message of a random type as a string with latin-1 decoding
     """
-    def random_message_str(self, format_specifier_list, message_types) -> str:
+    def random_message_str(self, message_types) -> str:
         """
         Randomly selects a message type from the provided list and returns a random message of that type.
         """
+
         message_type = random.choice(message_types).upper()  # Convert to uppercase
         if message_type == 'CAN':
-            return self.random_can_str(format_specifier_list[CAN_INDEX])
+            return self.random_can_str()
         elif message_type == 'GPS':
             return self.random_gps_str()
         elif message_type == 'IMU':
             return self.random_imu_str()
 
-
-        
     """
     CREDIT: Mihir .N taken from link_telemetry
 
     Parameters
-        dbc - dbc object from cantools library
+        None
 
     Returns
         string - random CAN message as string with latin-1 decoding:
@@ -47,7 +47,7 @@ class RandomMessage:
                     D - data            = 8 bytes
                     L - data length     = 1 byte
     """
-    def random_can_str(self, dbc) -> str:
+    def random_can_str(self) -> str:
         """
         Generates a random string (which represents a CAN message) that mimics
         the format sent over by the telemetry board over radio. This function
@@ -56,10 +56,10 @@ class RandomMessage:
         
         # collect CAN IDs
         can_ids = list()
-        for message in dbc.messages:
+        for message in CAR_DBC.messages:
             can_ids.append(message.frame_id)
 
-        # 0 to 2^32
+        # Current time
         random_timestamp = random.randint(0, pow(2, 32))
         random_timestamp_str = "{0:0{1}x}".format(random_timestamp, 8)
 
@@ -82,7 +82,7 @@ class RandomMessage:
              + data_length
 
         return can_str
-
+    
     """
     Returns a random GPS message in NMEA format.
     Latitude: %.6f %c, Longitude: %.6f %c, Altitude: %.2f meters, HDOP: %.2f, Satellites: %d, Fix: %d, Time: %s
@@ -144,3 +144,4 @@ class RandomMessage:
         imu_bytes = timestamp + "@" + identifier + value_bytes.decode('latin-1')
 
         return imu_bytes
+
