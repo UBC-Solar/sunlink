@@ -31,14 +31,15 @@ To connect your data class implementation to the rest of `sunlink`, follow the s
     - Import your data class at the top of the file where the other imports are. Ex. ```from parser.<CLASS_FILE_NAME_NO_PY> import <CLASS_NAME>```.
     - To distinguish incoming messages, this implementation **currently** compares the length to the range of possible string lengths for a specifc type of message. As such, add a `MIN` and `MAX` string length.
     - **(IF NECESSARY)** add an index for the location of your format specifier if your class requires one (like CAN requires a DBC). This is similar to the 2nd bullet point of step 7 under the **Creation** heading.
-2. Finaly, add an `elif` for your data class that has the general format:
+2. Add an `elif` for your data class that has the general format:
     ```elif <CLASS_NAME>_LENGTH_MIN <= len(message) <= <CLASS_NAME>_LENGTH_MAX: 
                 return <CLASS_NAME>(message)  
     ```
-3. **If your data class has a format specifier** make the following changes in `main.py` of the `parser` folder:
+3. In your `.env` file **modify** the `MESSAGE_TYPES` variable by adding your message name separated by a comma. For example, if your message name is "VDS" then change "CAN,GPS,IMU" to "CAN,GPS,IMU,VDS". 
+4. **If your data class has a format specifier** make the following changes in `main.py` of the `parser` folder:
     - Before **line 108** of `main.py` create a variable that is your format specifier. Ex. ``` CAR_DBC = cantools.database.load_file(DBC_FILE)```. 
     - At **line 108** of `main.py` add your variable to the next index in the `format_specifier_list`. **Ensure that this index matches the indexes you defined in `randomizer.py` and `create_message.py`.**
-4. **If your data class has a format specifier** make the following changes in `link_telemetry.py`:
+5. **If your data class has a format specifier** make the following changes in `link_telemetry.py`:
     - Before **line 392** of `link_telemetry.py` create a variable that is your format specifier. Ex.
     ```     
         if (args.dbc):
