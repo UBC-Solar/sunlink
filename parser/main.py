@@ -195,7 +195,6 @@ def parse_request():
     Parses incoming request and sends back the parsed result.
     """
     parse_request = flask.request.json
-    format_specifier_list = [CAR_DBC]
 
     # try extracting measurements
     try:
@@ -222,7 +221,6 @@ def parse_request():
             "id": id,
             "type": type
         }
-
 
 
 @app.post(f"{API_PREFIX}/parse/write/debug")
