@@ -233,7 +233,8 @@ def parser_request(payload: Dict, url: str):
         output_log_file.write(payload["message"].encode().hex() + '\n')
     try:
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
-    except requests.ConnectionError:
+    except requests.ConnectionError as e:
+        print(e)
         print(f"Unable to make POST request to {url=}!\n")
     except requests.Timeout:
         print(f"Connection timeout when making request to {url=}!\n")
