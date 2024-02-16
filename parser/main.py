@@ -226,14 +226,13 @@ and sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
-    message = create_message(parse_request["message"], format_specifier_list)
-    id = message.data.get("ID", "UNKNOWN")
-    type = message.type
-
-    app.logger.info(f"Received a {message.type} message. ID = {id=}")
+    app.logger.info(f"Received raw message. {parse_request["message"]}")
 
     # try extracting measurements
     try:
+        message = create_message(parse_request["message"], format_specifier_list)
+        id = message.data.get("ID", "UNKNOWN")
+        type = message.type
         app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
     except Exception:
         app.logger.warn(
@@ -241,8 +240,9 @@ def parse_and_write_request_bucket(bucket):
         app.logger.warn(str(message.data["display_data"]))
         return {
             "result": "PARSE_FAIL",
-            "message": [],
-            "id": id
+            "message": {},
+            "id": id,
+            "type": type
         }
 
     # try writing the measurements extracted
@@ -265,7 +265,8 @@ def parse_and_write_request_bucket(bucket):
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
                 "result": "INFLUX_WRITE_FAIL",
-                "message": str(e),
+                "message": message.data["display_data"],
+                "error": str(e),
                 "id": id,
                 "type": type
             }
