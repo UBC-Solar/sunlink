@@ -5,6 +5,7 @@ set -e
 # influx bucket create --name "${INFLUX_DEBUG_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
 
 # Convert the message types to an array
+echo "Creating buckets for message types: ${MESSAGE_TYPES}"
 IFS=',' read -ra TYPES <<< "$MESSAGE_TYPES"
 
 # Loop over each message type and create the buckets
