@@ -226,14 +226,14 @@ and sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
-    message = create_message(parse_request["message"], format_specifier_list)
-    id = message.data.get("ID", "UNKNOWN")
-    type = message.type
-
-    app.logger.info(f"Received a {message.type} message. ID = {id=}")
+    app.logger.info(f"Received raw message: {parse_request['message']}")
 
     # try extracting measurements
     try:
+        message = create_message(parse_request["message"], format_specifier_list)
+        id = message.data.get("ID", "UNKNOWN")
+        type = message.type
+
         app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
     except Exception:
         app.logger.warn(
