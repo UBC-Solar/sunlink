@@ -39,12 +39,12 @@ class GPS:
     Keys of the dict are column headings. Values are data (as strings) in column.
 
     Parameters:
-        format_specifier: None for GPS messages (as of now)
+        None
         
     Returns:
         display_data dictionary with the form outlined in the class description 
     """
-    def extract_measurements(self, format_specifier=None) -> dict:
+    def extract_measurements(self) -> dict:
         pattern = (
             r"Latitude: (?P<Latitude>-?\d+\.\d+) (?P<Latside>[NS]), "
             r"Longitude: (?P<Longitude>-?\d+\.\d+) (?P<Longside>[EW]), "

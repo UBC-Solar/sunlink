@@ -53,7 +53,7 @@ class CAN:
     This is done to match list length to number of measurement in CAN message to list
     
     Parameters:
-        format_specifier: DBC object from cantools
+        None
         
     Returns:
         display_data dictionary with form outlined in the class description

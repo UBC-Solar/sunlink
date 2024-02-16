@@ -35,12 +35,12 @@ class IMU:
     Keys of the dict are column headings. Values are data (as strings) in column.
     
     Parameters:
-        format_specifier: None for IMU messages (as of now)
-        
+        None
+                
     Returns:
         display_data dictionary with the form outlined in the class description
     """
-    def extract_measurements(self, format_specifier=None) -> dict:
+    def extract_measurements(self,) -> dict:
         # Extract the parts of the message
         timestamp = self.message[:8]
         id = self.message[9:11]      # skip the @
@@ -74,6 +74,3 @@ class IMU:
 
     def type(self) -> str:
         return self.type
-
-print(IMU("7f0ebf09@AYÄZÃ.").data)
-{'Source': ['IMU'], 'Class': ['A'], 'Measurement': ['Y'], 'Value': [-875.049683], 'ID': 'AY', 'display_data': {'Type': ['A'], 'Dimension': ['Y'], 'Value': [-875.049683], 'Timestamp': [2131672841]}}
