@@ -22,33 +22,18 @@ To create a new datatype follow the steps below. **The general idea** is that yo
 6. Implement a method to randomly generate/return a **latin-1 decoded string** which your data class's `extract_measurements` method can recognize and parse.
 7. At the top of `randomizer.py` modify the `random_message_str` method to include these things:
     - Add an `elif` statement to check if `message.type` matches your data class' `type` field and if s then return the output of the random message generator you implemented. See **Note 3** in **Notes** for details on how to run the randomizer with your data type.
-    - If a format specifer is required for your class (like a DBC object from cantools for CAN messages), please update the `indexes` before the top of the class and access the `format_specifer_list` at that index and pass that as a parameter to your randomizer. Ex. ```self.random_can_str(format_specifier_list[CAN_INDEX])```.
 
 ### Connection
-To connect your data class implementation to the rest of `sunlink`, follow the steps below. **The general idea** is that the factory method called `create_message.py` needs to know your data class exists and (possibly) `link_telemetry.py` needs your format specifier (Ex: DBC object from cantools for CAN messages is a format specifier). 
+To connect your data class implementation to the rest of `sunlink`, follow the steps below. **The general idea** is that the factory method called `create_message.py` needs to know your data class exists.
 
 1. Navigate to `create_message.py` and perform the following modifcations:
     - Import your data class at the top of the file where the other imports are. Ex. ```from parser.<CLASS_FILE_NAME_NO_PY> import <CLASS_NAME>```.
     - To distinguish incoming messages, this implementation **currently** compares the length to the range of possible string lengths for a specifc type of message. As such, add a `MIN` and `MAX` string length.
-    - **(IF NECESSARY)** add an index for the location of your format specifier if your class requires one (like CAN requires a DBC). This is similar to the 2nd bullet point of step 7 under the **Creation** heading.
+
 2. Add an `elif` for your data class that has the general format:
     ```elif <CLASS_NAME>_LENGTH_MIN <= len(message) <= <CLASS_NAME>_LENGTH_MAX: 
                 return <CLASS_NAME>(message)  
     ```
-3. In your `.env` file **modify** the `MESSAGE_TYPES` variable by adding your message name separated by a comma. For example, if your message name is "VDS" then change "CAN,GPS,IMU" to "CAN,GPS,IMU,VDS". 
-4. **If your data class has a format specifier** make the following changes in `main.py` of the `parser` folder:
-    - Before **line 108** of `main.py` create a variable that is your format specifier. Ex. ``` CAR_DBC = cantools.database.load_file(DBC_FILE)```. 
-    - At **line 108** of `main.py` add your variable to the next index in the `format_specifier_list`. **Ensure that this index matches the indexes you defined in `randomizer.py` and `create_message.py`.**
-5. **If your data class has a format specifier** make the following changes in `link_telemetry.py`:
-    - Before **line 392** of `link_telemetry.py` create a variable that is your format specifier. Ex.
-    ```     
-        if (args.dbc):
-            PROVIDED_DBC_FILE = Path(args.dbc)
-            car_dbc = cantools.database.load_file(PROVIDED_DBC_FILE)
-        else:
-            car_dbc = cantools.database.load_file(DBC_FILE)
-    ```
-    - At **line 392** of `link_telemetry.py` add your variable to the next index in the `format_specifier_list`. **Ensure that this index matches the indexes you defined in `randomizer.py` and `create_message.py`.**
 
 ## Debugging Tips and Tricks
 If you are using wsl or some virtual machine **and** editing code on your local computer then you will have to `git push` to your sunlink branch and then pull from your virtual machine. **IN ADDITION** make sure that if you make changes in files other than those in `link_telemetry.py` you will need to perform a `sudo docker compose restart` to re-spin `main.py` in the Docker Container. 
