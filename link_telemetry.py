@@ -250,7 +250,6 @@ def process_response(future: concurrent.futures.Future):
     This function should be registered as a "done callback". This means that once a
     future is done executing, this function should be automatically called.
     """
-    print(parameters.CAR_DBC)
     # get the response from the future
     response = future.result()
 
