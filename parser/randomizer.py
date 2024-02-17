@@ -14,7 +14,6 @@ class RandomMessage:
     Returns a random message of a random type (Currently CAN, GPS, or IMU).
     
     Parameters:
-        format_specifier_list - list of format specifiers for each message type
         message_types - list of message types to choose from (the randomList arg in parser)
         
     Returns:

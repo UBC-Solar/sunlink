@@ -24,16 +24,19 @@ To create a new datatype follow the steps below. **The general idea** is that yo
     - Add an `elif` statement to check if `message.type` matches your data class' `type` field and if s then return the output of the random message generator you implemented. See **Note 3** in **Notes** for details on how to run the randomizer with your data type.
 
 ### Connection
-To connect your data class implementation to the rest of `sunlink`, follow the steps below. **The general idea** is that the factory method called `create_message.py` needs to know your data class exists.
+To connect your data class implementation to the rest of `sunlink`, follow the steps below. **The general idea** is that the factory method called `create_message.py` needs to know your data class exists and `parameters.py` needs to know the length of your data class messages and (if necessary) any format specifiers (such as a DBC file for CAN messages). **Note if you want to add a row to the config table to show your new data type's file specifier then you will need to modify the `print_config_table` function in `link_telemetry.py`**.
 
-1. Navigate to `create_message.py` and perform the following modifcations:
+1. Navigate to `create_message.py` and perform the following modifcation:
     - Import your data class at the top of the file where the other imports are. Ex. ```from parser.<CLASS_FILE_NAME_NO_PY> import <CLASS_NAME>```.
-    - To distinguish incoming messages, this implementation **currently** compares the length to the range of possible string lengths for a specifc type of message. As such, add a `MIN` and `MAX` string length.
 
 2. Add an `elif` for your data class that has the general format:
-    ```elif <CLASS_NAME>_LENGTH_MIN <= len(message) <= <CLASS_NAME>_LENGTH_MAX: 
-                return <CLASS_NAME>(message)  
-    ```
+```python
+elif <CLASS_NAME>_LENGTH_MIN <= len(message) <= <CLASS_NAME>_LENGTH_MAX: 
+            return <CLASS_NAME>(message)  
+```
+
+3. Navigate to `parameters.py` and perform the follow modifiction:
+    - To distinguish incoming messages, this implementation **currently** compares the length to the range of possible string lengths for a specifc type of message. As such, add a `MIN` and `MAX` string length.
 
 ## Debugging Tips and Tricks
 If you are using wsl or some virtual machine **and** editing code on your local computer then you will have to `git push` to your sunlink branch and then pull from your virtual machine. **IN ADDITION** make sure that if you make changes in files other than those in `link_telemetry.py` you will need to perform a `sudo docker compose restart` to re-spin `main.py` in the Docker Container. 
