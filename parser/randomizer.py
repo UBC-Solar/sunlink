@@ -3,7 +3,7 @@ import struct
 import time
 
 # Get format specifiers
-from parser.format_specifiers import CAR_DBC
+from parser.parameters import CAR_DBC
 
 """
 Class to provide random message generaters for testing purposes.

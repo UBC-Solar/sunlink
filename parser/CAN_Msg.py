@@ -1,4 +1,4 @@
-from parser.format_specifiers import CAR_DBC
+from parser.parameters import CAR_DBC
 
 """
 Subclass CAN implements the extract_measurements and getter

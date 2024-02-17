@@ -20,7 +20,7 @@ from pathlib import Path
 from prettytable import PrettyTable
 from typing import Dict
 from parser.randomizer import RandomMessage
-from parser.format_specifiers import DBC_FILE, change
+import parser.parameters as parameters
 
 import concurrent.futures
 
@@ -167,7 +167,7 @@ def print_config_table(args: 'argparse.Namespace'):
     config_table.add_row(["DATA SOURCE", msg_types])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
-    config_table.add_row(["DBC FILE", DBC_FILE])
+    config_table.add_row(["DBC FILE", parameters.DBC_FILE])
     if LOG_FILE: config_table.add_row(["LOG FILE", "{}{}".format(LOG_DIRECTORY, LOG_FILE)]) # Only show row if log file option selected
     config_table.add_row(["MAX THREADS", args.jobs])
 
@@ -241,6 +241,7 @@ def parser_request(payload: Dict, url: str):
         return r
 
 
+
 def process_response(future: concurrent.futures.Future):
     """
     Implements the post-processing after receiving a response from the parser.
@@ -295,7 +296,7 @@ def main():
     """
     Main telemetry link entrypoint.
     """
-    change()
+
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
@@ -380,7 +381,12 @@ def main():
     # compute the period to generate random messages at
     period_s = 1 / args.frequency_hz
     
-        
+    # <----- Change DBC file based on args ----->
+    if (args.dbc):
+        parameters.DBC_FILE = Path(args.dbc)
+        parameters.CAR_DBC  = cantools.database.load_file(parameters.DBC_FILE)
+
+
     # <----- Configuration confirmation ----->
 
     print_config_table(args)
