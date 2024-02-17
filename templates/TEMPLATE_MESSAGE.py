@@ -27,7 +27,7 @@ class MESSAGE_NAME:
         """
 
         self.message = message
-        self.data = self.extract_measurements(format_specifier=None)
+        self.data = self.extract_measurements()
         self.type = "<MESSAGE_NAME>"
 
 
@@ -37,12 +37,12 @@ class MESSAGE_NAME:
     in link_telemetry.py
     
     Parameters:
-        format_specifier: object that can be used to decode the message (DEPENDS ON YOUR MESSAGE)
+        None
         
     Returns:
         dictionary with the form outlined in the class description above
     """
-    def extract_measurements(self, format_specifier=None) -> dict:
+    def extract_measurements(self) -> dict:
         data = {}
 
         # REQUIRED FIELDS
