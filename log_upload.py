@@ -68,14 +68,6 @@ AUTH_HEADER = {"Authorization": f"Bearer {SECRET_KEY}"}
 
 DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
 
-# Lengths of messages for differentiating message types
-CAN_LENGTH_MIN      = 20
-CAN_LENGTH_MAX      = 23
-GPS_LENGTH_MIN      = 117
-GPS_LENGTH_MAX      = 128
-IMU_LENGTH_MIN      = 15
-IMU_LENGTH_MAX      = 17
-
 
 # <----- Signal handling ----->
 

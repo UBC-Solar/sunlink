@@ -2,6 +2,15 @@ import cantools
 from pathlib import Path
 import sys    
 
+#  <----- Lengths of messages for differentiating message types ----->
+CAN_LENGTH_MIN      = 20
+CAN_LENGTH_MAX      = 23
+GPS_LENGTH_MIN      = 117
+GPS_LENGTH_MAX      = 128
+IMU_LENGTH_MIN      = 15
+IMU_LENGTH_MAX      = 17
+
+
 # <----- DBC Variables (Can be changed by user arguement in Link Tel) ----->
 DBC_FILE = Path("./dbc/brightside.dbc")
 
@@ -10,3 +19,5 @@ if not DBC_FILE.is_file():
     sys.exit(1)
     
 CAR_DBC = cantools.database.load_file(DBC_FILE)
+
+
