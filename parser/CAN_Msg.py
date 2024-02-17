@@ -56,6 +56,7 @@ class CAN:
         data_bytes = bytearray(map(lambda x: ord(x), raw_data))
         hex_id = "0x" + hex(identifier)[2:].upper()
 
+        print(CAR_DBC)
         measurements = CAR_DBC.decode_message(identifier, data_bytes)
         message = CAR_DBC.get_message_by_frame_id(identifier)
 
