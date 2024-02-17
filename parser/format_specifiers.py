@@ -1,11 +1,11 @@
 import cantools
 from pathlib import Path
-import sys        
+import sys    
 
-def get_dbc(dbc_arguement):
-    global DBC_FILE
-    global CAR_DBC
+global DBC_FILE
+global CAR_DBC
     
+def get_dbc(dbc_arguement):
     if (dbc_arguement):
         DBC_FILE = Path(dbc_arguement)
         CAR_DBC = cantools.database.load_file(DBC_FILE)
