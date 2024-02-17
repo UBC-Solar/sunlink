@@ -5,6 +5,7 @@ import time
 # Get format specifiers
 from parser.parameters import CAR_DBC
 
+
 """
 Class to provide random message generaters for testing purposes.
 Currently creates random messages for CAN, GPS, and IMU.
@@ -58,9 +59,10 @@ class RandomMessage:
         for message in CAR_DBC.messages:
             can_ids.append(message.frame_id)
 
-        # Current time
-        random_timestamp = random.randint(0, pow(2, 32))
-        random_timestamp_str = "{0:0{1}x}".format(random_timestamp, 8)
+        # Convert current time to float bytes to latin-1 string 
+        current_time = time.time()
+        current_time_bytes = struct.pack('>d', current_time)
+        current_time_str = current_time_bytes.decode('latin-1')
 
         # random identifier
         random_identifier = random.choice(can_ids)
@@ -77,7 +79,7 @@ class RandomMessage:
         data_length = "8"
 
         # collect into single string
-        can_str = random_timestamp_str + random_id_str + random_data_str \
+        can_str = current_time_str + random_id_str + random_data_str \
              + data_length
 
         return can_str

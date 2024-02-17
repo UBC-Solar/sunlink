@@ -1,4 +1,6 @@
 from parser.parameters import CAR_DBC
+import struct
+
 
 """
 CAN Message data class. Data fields are:
@@ -48,9 +50,12 @@ class CAN:
         display_data dictionary with form outlined in the class description
     """
     def extract_measurements(self) -> dict:      
-        timestamp: int = int(self.message[0:8], 16)
+        timestamp = struct.unpack('>d', self.message[:8].encode('latin-1'))[0]
         id: str = self.message[8:12]
         raw_data: str = self.message[12:20]
+
+        # convert back latin-1 string to bytes to float
+        timestamp = float(timestamp)
 
         identifier = int(id, 16)  
         data_bytes = bytearray(map(lambda x: ord(x), raw_data))
@@ -98,7 +103,7 @@ class CAN:
             data["display_data"]["Source"].append(source)
             data["display_data"]["Class"].append(message.name)
             data["display_data"]["Measurement"].append(name)
-            data["display_data"]["Timestamp"].append(timestamp)
+            data["display_data"]["Timestamp"].append(round(timestamp, 3))
             data["display_data"]["Value"].append(dbc_data)
 
         return data
