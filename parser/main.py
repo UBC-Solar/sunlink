@@ -232,7 +232,7 @@ def parse_and_write_request_bucket(bucket):
 
     # try extracting measurements
     try:
-        message = create_message(parse_request["message"])
+        message = create_message(parse_request["message"] + "should fail now")
         id = message.data.get("ID", "UNKNOWN")
         type = message.type
 
