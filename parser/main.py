@@ -53,10 +53,6 @@ INFLUX_TOKEN = ENV_CONFIG["INFLUX_TOKEN"]
 
 INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
 
-INFLUX_CAN_BUCKET = "CAN_test"
-INFLUX_GPS_BUCKET = "GPS_test"
-INFLUX_IMU_BUCKET = "IMU_test"
-
 # <----- Grafana constants ----->
 
 GRAFANA_URL = "http://grafana:3000/"
@@ -218,8 +214,9 @@ def parse_and_write_request_to_prod():
     return parse_and_write_request_bucket("_prod")
 
 """
-Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production),
-and sends back parsed measurements back to client.
+Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production)
+that is specifc to the message type (CAN, GPS, IMU, for example).
+Also sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json

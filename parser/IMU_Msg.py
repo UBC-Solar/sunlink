@@ -1,9 +1,7 @@
 import struct
 
 """
-Subclass IMU implements the extract_measurements and getter
-methods from the interface Message. Assumes message parameter in 
-constructor is a UART message from the Radio Receiver (serial.readLine())
+IMU Message data class. Assumes message parameter in constructor is a latin-1 decoded string.
 Data fields are below:
 
 REQUIRED FIELDS:
@@ -32,7 +30,8 @@ class IMU:
 
     """
     Extracts measurements from a IMU message based on a specified format
-    Keys of the dict are column headings. Values are data (as strings) in column.
+    Keys of the display_dict inside data dict are column headings.
+    Values are data in columns.
     
     Parameters:
         None

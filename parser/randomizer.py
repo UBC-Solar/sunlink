@@ -120,7 +120,7 @@ class RandomMessage:
     
     Returns:
         string - random IMU message in the format as a string with latin-1 decoding:
-                 "TTTTTTTT@IIFFFF\n"
+                 "TTTTTTTT@IIFFFF"
                     T - timestamp       = 8 bytes
                     I - identifier      = 2 bytes
                     F - data            = 4 bytes
@@ -143,4 +143,3 @@ class RandomMessage:
         imu_bytes = timestamp + "@" + identifier + value_bytes.decode('latin-1')
 
         return imu_bytes
-

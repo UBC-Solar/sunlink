@@ -13,11 +13,7 @@ elif len(message) == <length of message>:
     return <Message Subclass>(message)
 ------------------------------------------------------
 
-Decision based on LENGTH of the message:
-
-CAN message: 22 bytes
-GPS message: 200 bytes
-IMU message: 17 bytes
+Decision based on LENGTH of the message (see parser/parameters.py): 
 
 Parameters:
     message: the message to be parsed

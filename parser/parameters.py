@@ -19,5 +19,3 @@ if not DBC_FILE.is_file():
     sys.exit(1)
     
 CAR_DBC = cantools.database.load_file(DBC_FILE)
-
-

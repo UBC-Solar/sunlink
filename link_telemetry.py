@@ -80,7 +80,6 @@ DEFAULT_RANDOM_FREQUENCY_HZ = 10
 # global flag that indicates whether a SIGINT signal was received
 SIGINT_RECVD = False
 
-
 # <----- Utility functions ------>
 
 def check_health_handler():
@@ -357,8 +356,8 @@ def main():
         check_health_handler()
         return 0
 
-    #validate_args(parser, args)
-
+    validate_args(parser, args)
+    
     # build the correct URL to make POST request to
     if args.prod:
         PARSER_ENDPOINT = PROD_WRITE_ENDPOINT

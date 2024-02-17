@@ -1,8 +1,7 @@
 from parser.parameters import CAR_DBC
 
 """
-Subclass CAN implements the extract_measurements and getter
-methods from the interface Message. Data fields are:
+CAN Message data class. Data fields are:
 
 REQUIRED FIELDS:
     "Source": (list) The board which the message came from
@@ -36,8 +35,9 @@ class CAN:
 
     """
     CREDIT: Mihir. N and Aarjav. J
-    Will create a dictionary whose keys are the column headings to the pretty table
-    and whose values are data in those columns. Dictionary is string to list.
+    Will create a dictionary whose display_dict key is another dictionary.
+    This nested dictionary contains are the column headings to the pretty table
+    and whose values are data in those columns. 
     The list will be the same length as the number of rows in the pretty table.
     This is done to match list length to number of measurement in CAN message to list
     
