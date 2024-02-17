@@ -20,7 +20,7 @@ from pathlib import Path
 from prettytable import PrettyTable
 from typing import Dict
 from parser.randomizer import RandomMessage
-from parser.format_specifiers import DBC_FILE
+from parser.format_specifiers import DBC_FILE, change
 
 import concurrent.futures
 
@@ -295,6 +295,7 @@ def main():
     """
     Main telemetry link entrypoint.
     """
+    change()
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
