@@ -50,10 +50,10 @@ class CAN:
     def extract_measurements(self) -> dict:      
         timestamp: int = int(self.message[0:8], 16)
         id: str = self.message[8:12]
-        raw_data: str = self.message[12:20]
+        data: str = self.message[12:20]
 
         identifier = int(id, 16)  
-        data_bytes = bytearray(map(lambda x: ord(x), raw_data))
+        data_bytes = bytearray(map(lambda x: ord(x), data))
         hex_id = "0x" + hex(identifier)[2:].upper()
 
         measurements = CAR_DBC.decode_message(identifier, data_bytes)
@@ -69,7 +69,7 @@ class CAN:
             source = sources[0]
 
         # Initilization
-        data = {
+        display_data = {
             "Source": [],
             "Class": [],
             "Measurement": [],
@@ -86,22 +86,22 @@ class CAN:
         }
 
         # Now add each field to the list
-        for name, dbc_data in measurements.items():
+        for name, data in measurements.items():
             # REQUIRED FIELDS
-            data["Source"].append(source)
-            data["Class"].append(message.name)
-            data["Measurement"].append(name)
-            data["Value"].append(dbc_data)
+            display_data["Source"].append(source)
+            display_data["Class"].append(message.name)
+            display_data["Measurement"].append(name)
+            display_data["Value"].append(data)
         
             # DISPLAY FIELDS
-            data["display_data"]["Hex_ID"].append(hex_id)
-            data["display_data"]["Source"].append(source)
-            data["display_data"]["Class"].append(message.name)
-            data["display_data"]["Measurement"].append(name)
-            data["display_data"]["Timestamp"].append(timestamp)
-            data["display_data"]["Value"].append(dbc_data)
+            display_data["display_data"]["Hex_ID"].append(hex_id)
+            display_data["display_data"]["Source"].append(source)
+            display_data["display_data"]["Class"].append(message.name)
+            display_data["display_data"]["Measurement"].append(name)
+            display_data["display_data"]["Timestamp"].append(timestamp)
+            display_data["display_data"]["Value"].append(data)
 
-        return data
+        return display_data
 
     def data(self) -> dict:
         return self.data
