@@ -20,7 +20,7 @@ from pathlib import Path
 from prettytable import PrettyTable
 from typing import Dict
 from parser.randomizer import RandomMessage
-from parser.format_specifiers import get_dbc
+from parser.format_specifiers import DBC_FILE
 
 import concurrent.futures
 
@@ -28,8 +28,6 @@ __PROGRAM__ = "link_telemetry"
 __VERSION__ = "0.4"
 
 # <----- Constants ----->
-
-DBC_FILE = Path("./dbc/brightside.dbc")
 
 TOML_CONFIG_FILE = Path("./telemetry.toml")
 
@@ -380,9 +378,7 @@ def main():
 
     # compute the period to generate random messages at
     period_s = 1 / args.frequency_hz
-
-    # <----- Read in DBC file ----->
-    get_dbc(args.dbc)
+    
         
     # <----- Configuration confirmation ----->
 
