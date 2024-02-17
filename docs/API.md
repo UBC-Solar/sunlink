@@ -148,7 +148,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 ```json
 {
     "result": "PARSE_FAIL",
-    "message": {},
+    "message": "28eb942c0628¶nÌWùjs8",
     "id": "0x628",
     "type": "CAN"
 }
@@ -157,14 +157,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 ```json
 {
     "result": "INFLUX_WRITE_FAIL",
-    "message": {
-        "Hex_ID": ["0x628", "0x628", "0x628", "0x628", "0x628"], 
-        "Source": ["BMS", "BMS", "BMS", "BMS", "BMS"], 
-        "Class": ["ModuleStatuses", "ModuleStatuses", "ModuleStatuses", "ModuleStatuses", "ModuleStatuses"], 
-        "Measurement": ["MultiplexingBits", "Module25", "Module26", "Module27", "Module28"], 
-        "Value": [6, 110, 204, 87, 249], 
-        "Timestamp": [686527532, 686527532, 686527532, 686527532, 686527532]
-    },
+    "message": "28eb942c0628¶nÌWùjs8",
     "error": str(Exception as e),
     "id": "0x628",
     "type": "CAN"      
@@ -179,9 +172,9 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
     - `'PARSE_FAIL'` => parsing failed for some reason (could be because the CAN ID is not in the DBC file used by the parser or any data formatting error/inconsistency).
 
-    - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. Another problem could be interfernce of different types in the same Influx bucket (Ex. adding ints to a bucket already containing floats)
+    - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. Another problem could be interference of different types in the same Influx bucket (Ex. adding ints to a bucket already containing floats)
 
-2. The `message` field is a dictionary of the parsed message that came into the parser. This field is only populated when the `result` field is `'OK'` or `'INFLUX_WRITE_FAIL'`. This is to allow offline logging of failed messages for later debugging.
+2. The `message` field is a dictionary of the parsed message that came into the parser. This field is  populated with the data dictionary when the `result` field is `'OK'`. However, if the `result` field is `'PARSE_FAIL'` or `'INFLUX_WRITE_FAIL'` then the `message` field is a string of the raw message payload. This is to allow offline logging of failed messages for later debugging.
 
 3. The `id` field is the `"ID"` field of the `data` dictionary of the data class. For CAN this is the hex ID, for GPS messages this is the timestamp of the message, and for IMU it is the type + dimension of the message.
 

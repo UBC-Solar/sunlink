@@ -225,10 +225,6 @@ def parser_request(payload: Dict, url: str):
     """
     Makes a parse request to the given `url`.
     """
-    # Write to log file
-    # Message encoded to hex to ensure all characters stay
-    with open(LOG_FILE_NAME, "a", encoding='latin-1') as output_log_file:
-        output_log_file.write(payload["message"].encode().hex() + '\n')
     try:
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
     except requests.ConnectionError as e:
@@ -239,6 +235,10 @@ def parser_request(payload: Dict, url: str):
     else:
         return r
 
+def write_to_log_file(message: str):
+    # Message encoded to hex to ensure all characters stay
+    with open(LOG_FILE_NAME, "a", encoding='latin-1') as output_log_file:
+        output_log_file.write(message.encode().hex() + '\n')
 
 
 def process_response(future: concurrent.futures.Future):
@@ -282,9 +282,15 @@ def process_response(future: concurrent.futures.Future):
         print(table)
     elif parse_response["result"] == "PARSE_FAIL":
         print(f"Failed to parse {parse_response['type']} message with id={parse_response['id']}!")
+
+        # Write to log file
+        write_to_log_file(parse_response['message'])
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
         print(f"Failed to write measurements for {parse_response['type']} message with id={parse_response['id']} to InfluxDB!")
         print(parse_response['error'])
+
+        # Write to log file
+        write_to_log_file(parse_response['message'])
     else:
         print(f"Unexpected response: {parse_response['result']}")
 

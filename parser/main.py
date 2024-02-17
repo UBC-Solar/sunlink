@@ -205,7 +205,7 @@ def parse_request():
         app.logger.warn(str(message.data["display_data"]))
         return {
             "result": "PARSE_FAIL",
-            "message": {},
+            "message": str(parse_request["message"]),
             "id": id,
             "type": type
         }
@@ -243,7 +243,7 @@ def parse_and_write_request_bucket(bucket):
         app.logger.warn(str(message.data["display_data"]))
         return {
             "result": "PARSE_FAIL",
-            "message": {},
+            "message": str(parse_request["message"]),
             "id": id,
             "type": type
         }
@@ -276,7 +276,7 @@ def parse_and_write_request_bucket(bucket):
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
                 "result": "INFLUX_WRITE_FAIL",
-                "message": message.data["display_data"],
+                "message": str(parse_request["message"]),
                 "error": str(e),
                 "id": id,
                 "type": type
