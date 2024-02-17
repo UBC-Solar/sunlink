@@ -271,7 +271,7 @@ def parse_and_write_request_bucket(bucket):
             "class", m_class).field(name, value)
         
         if timestamp != "NA":
-            point.time(int(timestamp, * 1e9))
+            point.time(int(timestamp * 1e9))
         
         # write to InfluxDB
         try:
