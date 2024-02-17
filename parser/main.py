@@ -1,4 +1,3 @@
-import cantools
 import influxdb_client
 import requests
 import pprint
