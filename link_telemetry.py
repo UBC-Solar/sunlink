@@ -20,6 +20,7 @@ from pathlib import Path
 from prettytable import PrettyTable
 from typing import Dict
 from parser.randomizer import RandomMessage
+from parser.format_specifiers import get_dbc
 
 import concurrent.futures
 
@@ -381,12 +382,7 @@ def main():
     period_s = 1 / args.frequency_hz
 
     # <----- Read in DBC file ----->
-        
-    if (args.dbc):
-        PROVIDED_DBC_FILE = Path(args.dbc)
-        car_dbc = cantools.database.load_file(PROVIDED_DBC_FILE)
-    else:
-        car_dbc = cantools.database.load_file(DBC_FILE)
+    get_dbc(args.dbc)
         
     # <----- Configuration confirmation ----->
 
