@@ -320,8 +320,8 @@ BO_ 2550588916 ECUChargerModes: 8 ECU
  SG_ ChargingModes : 40|8@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 2566869221 OBCStatus: 8 OBC
- SG_ OutputVoltage : -1|16@0+ (0.1,0) [0|0] "V" Vector__XXX
- SG_ OutputCurrent : 15|16@0+ (0.1,0) [0|0] "A" Vector__XXX
+ SG_ OutputVoltage : 7|16@0+ (0.1,0) [0|0] "V" Vector__XXX
+ SG_ OutputCurrent : 23|16@0+ (0.1,0) [0|0] "A" Vector__XXX
  SG_ HardwareProtection : 32|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ TemepratureProtection : 33|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ InputVoltageStatus : 34|2@1+ (1,0) [0|0] "" Vector__XXX
