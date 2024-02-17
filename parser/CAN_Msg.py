@@ -12,6 +12,9 @@ REQUIRED FIELDS:
     "Value": (list) The value of the associated measurement
     "ID": Chosen to be the Hex_ID
 
+OPTIONAL FIELDS (IF AVALIABLE):
+    "Timestamp": (list) The time the message was sent
+
 DISPLAY FIELDS:
     "display_data" : {
         "Hex_ID": (list) The ID of the CAN message in hex
@@ -79,6 +82,7 @@ class CAN:
             "Class": [],
             "Measurement": [],
             "Value": [],
+            "Timestamp": [],
             "ID": hex_id,
             "display_data": {   
                 "Hex_ID": [],
@@ -97,6 +101,7 @@ class CAN:
             data["Class"].append(message.name)
             data["Measurement"].append(name)
             data["Value"].append(dbc_data)
+            data["Timestamp"].append(round(timestamp, 3))
         
             # DISPLAY FIELDS
             data["display_data"]["Hex_ID"].append(hex_id)

@@ -258,14 +258,20 @@ def parse_and_write_request_bucket(bucket):
 
     # try writing the measurements extracted
     for i in range(len(message.data[list(message.data.keys())[0]])):
+        # REQUIRED FIELDS
         name = message.data["Measurement"][i]
         source = message.data["Source"][i]
         m_class = message.data["Class"][i]
         value = message.data["Value"][i]
-
+        
+        # OPTIONAL FIELDS
+        timestamp = message.data.get("Timestamp", "NA")
 
         point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
             "class", m_class).field(name, value)
+        
+        if timestamp != "NA":
+            point.time(timestamp)
         
         # write to InfluxDB
         try:
