@@ -11,9 +11,6 @@ GPS_LENGTH_MAX      = 128
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 
-# Indexing for format specifier list
-CAN_INDEX           = 0
-
 
 """
 Factory method for creating a Message object based on the message type
