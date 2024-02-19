@@ -230,9 +230,17 @@ def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
     app.logger.info(f"Received raw message: {parse_request['message']}")
 
+    return {
+        "result": "PARSE_FAIL",
+        "message": str(parse_request["message"]),
+        "id": id,
+        "type": type
+    }
+
+
     # try extracting measurements
     try:
-        message = create_message(parse_request["message"] + "fail")
+        message = create_message(parse_request["message"])
         id = message.data.get("ID", "UNKNOWN")
         type = message.type
 
