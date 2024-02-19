@@ -468,7 +468,7 @@ def main():
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
 
         # register done callback with future (lambda function to pass in arguments) 
-        future.add_done_callback(lambda future: process_response(future, args.log_upload))
+        future.add_done_callback(lambda future: process_response(future, args))
 
 
 if __name__ == "__main__":
