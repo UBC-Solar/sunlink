@@ -310,8 +310,8 @@ def read_lines_from_file(file_path):
 
 def upload_logs(args):
     # Get a list of all .txt files in the logfiles directory
-    txt_files = glob.glob(LOG_DIRECTORY + '/*.txt')
-    print(f"Found {len(txt_files)} .txt files in {LOG_DIRECTORY}\n")
+    txt_files = glob.glob('./logfiles/' + '/*.txt')
+    print(f"Found {len(txt_files)} .txt files in {'./logfiles/'}\n")
 
     # Iterate over each .txt file
     for file_path in txt_files:
