@@ -264,7 +264,6 @@ def parse_and_write_request_bucket(bucket):
         m_class = message.data["Class"][i]
         value = message.data["Value"][i]
         
-        # OPTIONAL FIELDS
         timestamp = message.data.get("Timestamp", "NA")[i]
 
         point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(

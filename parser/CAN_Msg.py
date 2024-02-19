@@ -1,7 +1,6 @@
 from parser.parameters import CAR_DBC
 import struct
 
-
 """
 CAN Message data class. Data fields are:
 
@@ -11,8 +10,6 @@ REQUIRED FIELDS:
     "Measurment": (list) Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
     "Value": (list) The value of the associated measurement
     "ID": Chosen to be the Hex_ID
-
-OPTIONAL FIELDS (IF AVALIABLE):
     "Timestamp": (list) The time the message was sent
 
 DISPLAY FIELDS:

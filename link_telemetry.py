@@ -127,7 +127,8 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     Ensures that certain argument invariants have been adhered to.
     """
-
+    if args.log_upoad and args.debug or args.log_upload and args.prod or args.log_upload and args.no_write:
+        parser.error("-u (--log-upload) can only be used alone (cannot be used with ANY other options)")
     if args.randomList:
         if args.port or args.baudrate:
             parser.error("-r cannot be used with -p and -b options")
@@ -241,7 +242,7 @@ def write_to_log_file(message: str):
         output_log_file.write(message.encode().hex() + '\n')
 
 
-def process_response(future: concurrent.futures.Future):
+def process_response(future: concurrent.futures.Future, args):
     """
     Implements the post-processing after receiving a response from the parser.
     Formats the parsed measurements into a table for convenience.
@@ -249,6 +250,7 @@ def process_response(future: concurrent.futures.Future):
     This function should be registered as a "done callback". This means that once a
     future is done executing, this function should be automatically called.
     """
+    print(args)
     # get the response from the future
     response = future.result()
 
@@ -340,6 +342,11 @@ def main():
                               help=("Allows using the telemetry link with "
                                     "chosen randomly generated message types rather than "
                                     "a real radio telemetry stream. do -r can -r gps -r imu"))
+    
+    source_group.add_argument("-u", "--log-upload", action="store_true",
+                            help=("Will attempt to upload each line of each file in the logfiles directory "
+                                "If upload does not succeed then these lines will be stored "
+                                "in a file named `FAILED_UPLOADS.txt in the logfiles directory`"))
 
     source_group.add_argument("-o", "--offline", action="store_true",
                               help=("Allows using the telemetry link with "
@@ -363,6 +370,10 @@ def main():
         return 0
 
     validate_args(parser, args)
+
+    if args.log_upload:
+
+        return 0
     
     # build the correct URL to make POST request to
     if args.prod:
@@ -456,8 +467,8 @@ def main():
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
 
-        # register done callback with future
-        future.add_done_callback(process_response)
+        # register done callback with future (lambda function to pass in arguments) 
+        future.add_done_callback(lambda future: process_response(future, "Hello"))
 
 
 if __name__ == "__main__":
