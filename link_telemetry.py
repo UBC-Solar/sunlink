@@ -252,7 +252,7 @@ def process_response(future: concurrent.futures.Future, args):
     This function should be registered as a "done callback". This means that once a
     future is done executing, this function should be automatically called.
     """
-    
+    formatted_time = current_log_time.strftime('%Y-%m-%d_%H:%M:%S')
     # get the response from the future
     response = future.result()
 
@@ -284,17 +284,18 @@ def process_response(future: concurrent.futures.Future, args):
             table.add_row(row_data)
 
         print(table)
+        
     elif parse_response["result"] == "PARSE_FAIL":
         print(f"Failed to parse {parse_response['type']} message with id={parse_response['id']}!")
 
         # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS.txt") if args.log_upload else LOG_FILE_NAME)
+        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
         print(f"Failed to write measurements for {parse_response['type']} message with id={parse_response['id']} to InfluxDB!")
         print(parse_response['error'])
 
         # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS.txt") if args.log_upload else LOG_FILE_NAME)
+        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
@@ -425,6 +426,7 @@ def main():
     LOG_FILE = ''
     LOG_DIRECTORY = './logfiles/'
 
+    global current_log_time
     current_log_time = datetime.now()
     formatted_time = current_log_time.strftime('%Y-%m-%d_%H:%M:%S')
     LOG_FILE = Path('link_telemetry_log_{}.txt'.format(formatted_time))
