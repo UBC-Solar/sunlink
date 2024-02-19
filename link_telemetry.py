@@ -439,11 +439,11 @@ def main():
 
 
     # <----- Configuration confirmation ----->
-
-    print_config_table(args)
-    choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
-    if choice.lower() != "y":
-        return
+    if not args.log_upload:
+        print_config_table(args)
+        choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
+        if choice.lower() != "y":
+            return
 
     # <----- Create the thread pool ----->
 
