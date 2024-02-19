@@ -130,6 +130,8 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     if args.log_upload and args.debug or args.log_upload and args.prod or args.log_upload and args.no_write:
         parser.error("-u (--log-upload) can only be used alone (cannot be used with ANY other options)")
+    elif args.log_upload:
+        return
     if args.randomList:
         if args.port or args.baudrate:
             parser.error("-r cannot be used with -p and -b options")
