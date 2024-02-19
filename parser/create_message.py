@@ -1,7 +1,7 @@
 # Types of messages
-from parser.CAN_Msg import CAN      # CAN message
-from parser.IMU_Msg import IMU      # IMU message
-from parser.GPS_Msg import GPS      # GPS message
+from parser.data_classes.CAN_Msg import CAN      # CAN message
+from parser.data_classes.IMU_Msg import IMU      # IMU message
+from parser.data_classes.GPS_Msg import GPS      # GPS message
 from parser.parameters import *     # For mins and maxes of messages
 
 

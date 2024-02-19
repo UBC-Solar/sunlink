@@ -7,9 +7,9 @@ This explanation will be broken into two stages. The first is **Creation** and t
 
 ### Creation
 
-To create a new datatype follow the steps below. **The general idea** is that you will create a new message class using the `TEMPLATE_MESSAGE.py` in `templates/` (see implementations of `CAN_Msg.py`, `GPS_Msg.py`, and `GPS_Msg.py` in `parser/` for examples). This involves creating a constructor with the `string` of data as input and it will create the `data` and `type` fields. The `data` field is **especially important** because it is formatted in a way that all other processes of sunlink can understand it (see the `REQUIRED FIELDS` and `DISPLAY FIELDS` descriptions in the example classes). This class will need to be **connected** to some parts of sunlink to 'let it know there is a new datatype in town'.
+To create a new datatype follow the steps below. **The general idea** is that you will create a new message class using the `TEMPLATE_MESSAGE.py` in `templates/` (see implementations of `CAN_Msg.py`, `GPS_Msg.py`, and `GPS_Msg.py` in `parser/data_classes/` for examples). This involves creating a constructor with the `string` of data as input and it will create the `data` and `type` fields. The `data` field is **especially important** because it is formatted in a way that all other processes of sunlink can understand it (see the `REQUIRED FIELDS` and `DISPLAY FIELDS` descriptions in the example classes). This class will need to be **connected** to some parts of sunlink to 'let it know there is a new datatype in town'.
 
-1. Locate `TEMPLATE_MESSAGE.py` in `templates/` and make a **copy** of it in the **parser** folder.
+1. Locate `TEMPLATE_MESSAGE.py` in `templates/` and make a **copy** of it in the **data_classes** folder.
 2. Update the class description (comments before `class` keyword) to match your data type's fields and values.
     - Note you **must** have at least the `REQUIRED FIELDS` filled so that sunlink can recognize your datatype correctly.
     - You must put your `REQUIRED FIELDS` data in a list so that `Source`, for example, maps to a list of sources (even if you only have one source). Please see **Note 1** in **Notes** below for details.
@@ -27,7 +27,7 @@ To create a new datatype follow the steps below. **The general idea** is that yo
 To connect your data class implementation to the rest of `sunlink`, follow the steps below. **The general idea** is that the factory method called `create_message.py` needs to know your data class exists and `parameters.py` needs to know the length of your data class messages and (if necessary) any format specifiers (such as a DBC file for CAN messages). **Note if you want to add a row to the config table to show your new data type's file specifier then you will need to modify the `print_config_table` function in `link_telemetry.py`**.
 
 1. Navigate to `create_message.py` and perform the following modifcation:
-    - Import your data class at the top of the file where the other imports are. Ex. ```from parser.<CLASS_FILE_NAME_NO_PY> import <CLASS_NAME>```.
+    - Import your data class at the top of the file where the other imports are. Ex. ```from parser.data_classes.<CLASS_FILE_NAME_NO_PY> import <CLASS_NAME>```.
 
 2. Add an `elif` for your data class that has the general format:
 ```python
