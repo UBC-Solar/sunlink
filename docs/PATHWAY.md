@@ -20,7 +20,7 @@ Finally, when every request to the parser is being made (in the `parser_request`
 
 Inside the `parser` folder there are classes such as `CAN`, `GPS`, and `IMU` which are defined inside the `CAN_Msg.py`, `GPS_Msg.py`, and `IMU_Msg.py` files respectively. The constructor of these classes takes in a string of data (from the randomizer for example) and will parse the data and store it as a dictionary with a **standard format** in the `.data` field of the class. This is done in the `extract_measurements` method of the class.
 
-Note: The `data` dict has two parts: `REQUIRED FIELDS` and `DISPLAY FIELDS`. `REQUIRED FIELDS` are the fields that are required for the parser to recognize the message and send it to InfluxDB. The `DISPLAY FIELDS` are those which will be displayed as a pretty table in your terminal (more on **how** this happens in the **process response** section).
+Note: The `data` dict has two parts: `REQUIRED (INFLUX) FIELDS` and `DISPLAY FIELDS`. `REQUIRED (INFLUX) FIELDS` are the fields that are required for the parser to recognize the message and send it to InfluxDB. The `DISPLAY FIELDS` are those which will be displayed as a pretty table in your terminal (more on **how** this happens in the **process response** section).
 
 Finally, the data class is connected to the rest of sunlink by importing it in the `create_message` factory method which returns an instance your data class to the parser. From here, the parser simply accesses the `data` field of your class.
 
@@ -29,7 +29,7 @@ Finally, the data class is connected to the rest of sunlink by importing it in t
 This is where the majority of the processing and handling of data occurs. Here, 3 main things happen:
 
 1. The JSON containing the raw message sent by `link_telemetry.py` is parsed by passing the message string to the `create_message` factory function which returns an instance of the appropriate data class (CAN, GPS, IMU, etc). This will be the stepping stone for any movement of data for a particualr message whether it be to InfluxDB or as the input to the `process_response` function in `link_telemetry.py`.
-2. The data is sent to `InfluxDB` by first looping through each `"Source"`, "`Class"`,`"Measurement"`, and `"Value"` key `data` dictionary of the class. **This is why the REQUIRED FIELDS of the data class were enforced**. Note that by enforcing the number of and names of these keys, we standardize the result of data processing and data handling while simultaneously allowing flexibility for the user to **put whatever data they want for those keys**. The importance of this is that a future data class implementers only need to worry about actually creating their data type rather than worrying about **if** their data will be processed correctly and debugging that whole process
+2. The data is sent to `InfluxDB` by first looping through each `"Source"`, "`Class"`,`"Measurement"`, and `"Value"` key `data` dictionary of the class. **This is why the REQUIRED (INFLUX) FIELDS of the data class were enforced**. Note that by enforcing the number of and names of these keys, we standardize the result of data processing and data handling while simultaneously allowing flexibility for the user to **put whatever data they want for those keys**. The importance of this is that a future data class implementers only need to worry about actually creating their data type rather than worrying about **if** their data will be processed correctly and debugging that whole process
 3. After all the data handling is done, the parser will finally send a response back to `link_telemetry.py` in the form of a dictionary containing the result of the HTTP request, the data
 
 ### Process Response
@@ -74,7 +74,7 @@ In the parser, an **InfluxDB Point** is created using the "`Source`", "`Class`",
 
 ### CAN
 
-The new buckets are **CAN_test** and **CAN_prod** The fields and tags are unchanged from the original implementation. Note, the keys are the `REQUIRED FIELDS` from the data dict.
+The new buckets are **CAN_test** and **CAN_prod** The fields and tags are unchanged from the original implementation. Note, the keys are the `REQUIRED (INFLUX) FIELDS` from the data dict.
 
 -   `"Source"`: Corresponds to `_measurement` on InfluxDB. This is the origin board of the message.
 -   `"Class"`: Corresponds to the `class` tag on InfluxDB. This is the name that the ID of the message corresponds to (Think of it as a class of multiple types of measurements).

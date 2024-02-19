@@ -179,10 +179,9 @@ def parse_request():
     # try extracting measurements
     try:
         message = create_message(parse_request["message"])
-        id = message.data.get("ID", "UNKNOWN")
         type = message.type
 
-        app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
+        app.logger.info(f"Successfully parsed {type} message placed into queue")
 
         # try putting the extracted measurements in the queue for Grafana streaming
         try:
@@ -195,7 +194,6 @@ def parse_request():
         return {
             "result": "OK",
             "message": message.data["display_data"],
-            "id": id,
             "type": type
         }
     
@@ -206,7 +204,6 @@ def parse_request():
         return {
             "result": "PARSE_FAIL",
             "message": str(parse_request["message"]),
-            "id": id,
             "type": type
         }
 
@@ -228,23 +225,16 @@ Also sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
-    app.logger.info(f"Received raw message: {parse_request['message']}")
 
     # try extracting measurements
     try:
         message = create_message(parse_request["message"])
-        id = message.data.get("ID", "UNKNOWN")
         type = message.type
 
-        app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
     except Exception:
-        app.logger.warn(
-            f"Unable to extract measurements for {type} message with id={id}")
-        app.logger.warn(str(message.data["display_data"]))
         return {
             "result": "PARSE_FAIL",
             "message": str(parse_request["message"]),
-            "id": id,
             "type": type
         }
 
@@ -275,22 +265,18 @@ def parse_and_write_request_bucket(bucket):
         # write to InfluxDB
         try:
             write_api.write(bucket=message.type + bucket, org=INFLUX_ORG, record=point)
-            app.logger.info(
-                f"Wrote '{name}' measurement to url={INFLUX_URL}, org={INFLUX_ORG}, bucket={message.type + bucket}!")
         except Exception as e:
             app.logger.warning("Unable to write measurement to InfluxDB!")
             return {
                 "result": "INFLUX_WRITE_FAIL",
                 "message": str(parse_request["message"]),
                 "error": str(e),
-                "id": id,
                 "type": type
             }
 
     return {
         "result": "OK",
         "message": message.data["display_data"],
-        "id": id,
         "type": type
     }
 

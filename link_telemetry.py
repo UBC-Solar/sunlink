@@ -286,12 +286,12 @@ def process_response(future: concurrent.futures.Future, args):
         print(table)
         
     elif parse_response["result"] == "PARSE_FAIL":
-        print(f"Failed to parse {parse_response['type']} message with id={parse_response['id']}!")
+        print(f"Failed to parse {parse_response['type']} message")
 
         # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
         write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
-        print(f"Failed to write measurements for {parse_response['type']} message with id={parse_response['id']} to InfluxDB!")
+        print(f"Failed to write measurements for {parse_response['type']} message to InfluxDB!")
         print(parse_response['error'])
 
         # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal

@@ -4,12 +4,11 @@ import struct
 """
 CAN Message data class. Data fields are:
 
-REQUIRED FIELDS:
+REQUIRED (INFLUX) FIELDS:
     "Source": (list) The board which the message came from
     "Class": (list) The class of the message (Ex. Voltage Sensors Data)
     "Measurment": (list) Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
     "Value": (list) The value of the associated measurement
-    "ID": Chosen to be the Hex_ID
     "Timestamp": (list) The time the message was sent
 
 DISPLAY FIELDS:

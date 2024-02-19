@@ -4,12 +4,12 @@ import re
 GPS Message data class. Assumes message parameter in constructor is a latin-1 decoded string.
 Data fields are below:
 
-REQUIRED FIELDS:
+REQUIRED (INFLUX) FIELDS:
     "Source": "GPS" 
     "Class": Types of measurments like Latitude, Longitude, etc. No latside or longside here
     "Measurment": Like Latitude, Longitude, etc but WITH latside and longside
     "Value": Value of the latitude, longitude, measurments.
-    "ID": ID of GPS is chosen to be the timestamp of the message
+    "Timestamp": (list) The time the message was sent
 
 DISPLAY FIELDS:
     "display_data" : {
@@ -66,7 +66,7 @@ class GPS:
             data["Value"] = []
             for key in data["Measurement"]:
                 data["Value"].append(self.getType(key, gps_data[key]))
-            data['ID'] = gps_data['Timestamp']
+            data['Timestamp'].append(gps_data['Timestamp'])
 
             # DISPLAY FIELDS
             data["display_data"] = {

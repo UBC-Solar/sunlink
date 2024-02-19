@@ -4,19 +4,19 @@ import struct
 IMU Message data class. Assumes message parameter in constructor is a latin-1 decoded string.
 Data fields are below:
 
-REQUIRED FIELDS:
+REQUIRED (INFLUX) FIELDS:
     "Source": (list) "IMU"
     "Class": (list) A or G (for Accelerometer or Gyroscope)
     "Measurment": (list) X, Y, or Z (for the axis of the IMU)
     "Value": (list) value of the IMU message (rounded to 6 decimal places)
-    "ID": Chosen to be 'Type + Dimension'
+    "Timestamp": (list) timestamp of the IMU message 
 
 DISPLAY FIELDS DICT:
     "display_data" : {
         "Type": (list) type of the IMU message (A or G),
         "Dimension": (list) dimension of the IMU message (X, Y, or Z),
         "Value": (list) value of the IMU message (rounded to 6 decimal places),
-        "Timestamp": (list) timestamp of the IMU message (All D's right now)
+        "Timestamp": (list) timestamp of the IMU message
     }
 
 self.type = "IMU"
@@ -55,7 +55,7 @@ class IMU:
         data["Class"] = [id[0]]
         data["Measurement"] = [id[1]]
         data["Value"] = [round(value, 6)]
-        data["ID"] = id
+        data["Timestamp"] = [int(timestamp, 16)]
 
         # DISPLAY FIELDS
         data["display_data"] = {
