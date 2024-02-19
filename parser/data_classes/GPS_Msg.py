@@ -64,9 +64,10 @@ class GPS:
             data["Class"] = ["Latitudes", "Latsides", "Longitudes", "Longsides", "Altitudes", "HDOPs", "Satellites_Counts", "Fixs", "Timestamps"]
             data["Measurement"] = ["Latitude", "Latside", "Longitude", "Longside", "Altitude", "HDOP", "Satellites", "Fix", "Timestamp"]
             data["Value"] = []
+            data["Timestamp"] = []
             for key in data["Measurement"]:
                 data["Value"].append(self.getType(key, gps_data[key]))
-            data['Timestamp'].append(gps_data['Timestamp'])
+                data["Timestamp"].append(gps_data['Timestamp'])
 
             # DISPLAY FIELDS
             data["display_data"] = {
