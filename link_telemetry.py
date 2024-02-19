@@ -310,8 +310,8 @@ def read_lines_from_file(file_path):
 
 def upload_logs(args):
     # Get a list of all .txt files in the logfiles directory
-    txt_files = glob.glob('./logfiles/' + '/*.txt')
-    print(f"Found {len(txt_files)} .txt files in {'./logfiles/'}\n")
+    txt_files = glob.glob(LOG_DIRECTORY + '/*.txt')
+    print(f"Found {len(txt_files)} .txt files in {LOG_DIRECTORY}\n")
 
     # Iterate over each .txt file
     for file_path in txt_files:
@@ -410,10 +410,7 @@ def main():
 
     validate_args(parser, args)
 
-    if args.log_upload:
-        upload_logs(args)
-        return 0
-    
+
     # build the correct URL to make POST request to
     if args.prod:
         PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
@@ -453,6 +450,10 @@ def main():
     global executor
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
 
+    if args.log_upload:
+        upload_logs(args)
+        return 0
+    
     global start_time
     start_time = datetime.now()
 
