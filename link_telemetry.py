@@ -12,6 +12,7 @@ import toml
 import numpy as np
 import json
 import os
+import glob
 
 from datetime import datetime
 
@@ -241,7 +242,6 @@ def write_to_log_file(message: str, log_file_name):
     with open(log_file_name, "a", encoding='latin-1') as output_log_file:
         output_log_file.write(message.encode().hex() + '\n')
 
-
 def process_response(future: concurrent.futures.Future, args):
     """
     Implements the post-processing after receiving a response from the parser.
@@ -297,6 +297,43 @@ def process_response(future: concurrent.futures.Future, args):
         print(f"Unexpected response: {parse_response['result']}")
 
     print()
+
+def read_lines_from_file(file_path):
+    """
+    Reads lines from the specified file and returns a generator.
+    """
+    with open(file_path, 'r', encoding='latin-1') as file:
+        for line in file:
+            yield line.strip()
+
+def upload_logs(args):
+    # Get a list of all .txt files in the logfiles directory
+    txt_files = glob.glob(LOG_DIRECTORY + '/*.txt')
+    print(f"Found {len(txt_files)} .txt files in {LOG_DIRECTORY}\n")
+
+    # Iterate over each .txt file
+    for file_path in txt_files:
+        print(f"Reading file {file_path}...")
+        message_generator = read_lines_from_file(file_path)
+
+        while True:
+            try:
+                # Converts a string of hex characters to a string of ASCII characters
+                # Preserves weird characters to be written and copied correctly
+                log_line = bytes.fromhex(next(message_generator)).decode()
+            except StopIteration:
+                break
+
+            # Create payload
+            payload = {"message": log_line}
+            future = executor.submit(parser_request, payload, DEBUG_WRITE_ENDPOINT)
+            
+            # register done callback with future (lambda function to pass in arguments) 
+            future.add_done_callback(lambda future: process_response(future, args))
+
+        print(f"Done reading {file_path}")
+        print()
+
 
 def main():
     """
@@ -372,7 +409,7 @@ def main():
     validate_args(parser, args)
 
     if args.log_upload:
-
+        upload_logs(args)
         return 0
     
     # build the correct URL to make POST request to
