@@ -236,9 +236,9 @@ def parser_request(payload: Dict, url: str):
     else:
         return r
 
-def write_to_log_file(message: str):
+def write_to_log_file(message: str, log_file_name):
     # Message encoded to hex to ensure all characters stay
-    with open(LOG_FILE_NAME, "a", encoding='latin-1') as output_log_file:
+    with open(log_file_name, "a", encoding='latin-1') as output_log_file:
         output_log_file.write(message.encode().hex() + '\n')
 
 
@@ -250,7 +250,7 @@ def process_response(future: concurrent.futures.Future, args):
     This function should be registered as a "done callback". This means that once a
     future is done executing, this function should be automatically called.
     """
-    print(args)
+    
     # get the response from the future
     response = future.result()
 
@@ -285,14 +285,14 @@ def process_response(future: concurrent.futures.Future, args):
     elif parse_response["result"] == "PARSE_FAIL":
         print(f"Failed to parse {parse_response['type']} message with id={parse_response['id']}!")
 
-        # Write to log file
-        write_to_log_file(parse_response['message'])
+        # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
+        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS.txt") if args.log_upload else LOG_FILE_NAME)
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
         print(f"Failed to write measurements for {parse_response['type']} message with id={parse_response['id']} to InfluxDB!")
         print(parse_response['error'])
 
-        # Write to log file
-        write_to_log_file(parse_response['message'])
+        # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
+        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS.txt") if args.log_upload else LOG_FILE_NAME)
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
