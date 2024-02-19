@@ -237,13 +237,6 @@ def parse_and_write_request_bucket(bucket):
         type = message.type
 
         app.logger.info(f"Successfully parsed {type} message with id={id} and placed into queue")
-        
-        return {
-            "result": "PARSE_FAIL",
-            "message": str(parse_request["message"]),
-            "id": id,
-            "type": type
-        }
     except Exception:
         app.logger.warn(
             f"Unable to extract measurements for {type} message with id={id}")
