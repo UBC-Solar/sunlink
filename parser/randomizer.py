@@ -103,7 +103,7 @@ class RandomMessage:
         hdop = random.uniform(0, 50)
         satelliteCount = random.randint(0, 12)
         fix = random.randint(0, 1)
-        lastMeasure = "{:06.2f}".format(random.uniform(0, 60*60*24))  # seconds in a day
+        lastMeasure = round(time.time(), 1)
 
         nmea_msg = "Latitude: {:.6f} {}, Longitude: {:.6f} {}, Altitude: {:.2f} meters, HDOP: {:.2f}, Satellites: {}, Fix: {}, Time: {}".format(
             abs(latitude), latSide,

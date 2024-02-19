@@ -55,8 +55,8 @@ class GPS:
         )
         match = re.search(pattern, self.message)
         
+        data = {}
         if match:
-            data = {}
             gps_data = match.groupdict()
             
             # REQUIRED FIELDS
@@ -101,9 +101,3 @@ class GPS:
         else:
             return value
     
-    def data(self) -> dict:
-        return self.data
-
-    def type(self) -> str:
-        return self.type
-        

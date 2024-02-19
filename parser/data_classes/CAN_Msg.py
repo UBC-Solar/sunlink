@@ -109,8 +109,3 @@ class CAN:
 
         return data
 
-    def data(self) -> dict:
-        return self.data
-
-    def type(self) -> str:
-        return self.type
