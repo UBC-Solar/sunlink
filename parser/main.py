@@ -264,13 +264,13 @@ def parse_and_write_request_bucket(bucket):
         m_class = message.data["Class"][i]
         value = message.data["Value"][i]
         
-        timestamp = message.data.get("Timestamp", "NA")[i]
+        # timestamp = message.data.get("Timestamp", "NA")[i]
 
         point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
             "class", m_class).field(name, value)
         
-        if timestamp != "NA":
-            point.time(int(timestamp * 1e9))
+        # if timestamp != "NA":
+        #     point.time(int(timestamp * 1e9))
         
         # write to InfluxDB
         try:
