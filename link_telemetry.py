@@ -127,7 +127,7 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     Ensures that certain argument invariants have been adhered to.
     """
-    if args.log_upoad and args.debug or args.log_upload and args.prod or args.log_upload and args.no_write:
+    if args.log_upload and args.debug or args.log_upload and args.prod or args.log_upload and args.no_write:
         parser.error("-u (--log-upload) can only be used alone (cannot be used with ANY other options)")
     if args.randomList:
         if args.port or args.baudrate:
@@ -468,7 +468,7 @@ def main():
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
 
         # register done callback with future (lambda function to pass in arguments) 
-        future.add_done_callback(lambda future: process_response(future, "Hello"))
+        future.add_done_callback(lambda future: process_response(future, args.log_upload))
 
 
 if __name__ == "__main__":
