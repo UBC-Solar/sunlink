@@ -515,10 +515,6 @@ def main():
             "message" : message,
         }
 
-        print("RAW CAN MESSAGE", message)
-        print("PARSED CAN", CAN(message).data)
-
-
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
 
