@@ -4,7 +4,7 @@ import sys
 
 #  <----- Lengths of messages for differentiating message types ----->
 CAN_LENGTH_MIN      = 20
-CAN_LENGTH_MAX      = 23
+CAN_LENGTH_MAX      = 26
 GPS_LENGTH_MIN      = 122
 GPS_LENGTH_MAX      = 133
 IMU_LENGTH_MIN      = 15
