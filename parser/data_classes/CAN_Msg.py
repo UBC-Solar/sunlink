@@ -13,6 +13,7 @@ REQUIRED (INFLUX) FIELDS:
 
 DISPLAY FIELDS:
     "display_data" : {
+        "Data_Type": (list) "CAN"
         "Hex_ID": (list) The ID of the CAN message in hex
         "Source": (list) The board which the message came from
         "Class": (list) The class of the message (Ex. Voltage Sensors Data)
@@ -80,7 +81,8 @@ class CAN:
             "Value": [],
             "Timestamp": [],
             "ID": hex_id,
-            "display_data": {   
+            "display_data": {  
+                "Data_Type": [], 
                 "Hex_ID": [],
                 "Source": [],
                 "Class": [],
@@ -106,6 +108,7 @@ class CAN:
             data["display_data"]["Measurement"].append(name)
             data["display_data"]["Timestamp"].append(round(timestamp, 3))
             data["display_data"]["Value"].append(dbc_data)
+            data["display_data"]["Data_Type"].append("CAN")
 
         return data
 

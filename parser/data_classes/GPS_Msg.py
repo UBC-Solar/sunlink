@@ -5,21 +5,22 @@ GPS Message data class. Assumes message parameter in constructor is a latin-1 de
 Data fields are below:
 
 REQUIRED (INFLUX) FIELDS:
-    "Source": "GPS" 
-    "Class": Types of measurments like Latitude, Longitude, etc. No latside or longside here
-    "Measurment": Like Latitude, Longitude, etc but WITH latside and longside
-    "Value": Value of the latitude, longitude, measurments.
+    "Source": (list) "GPS" 
+    "Class": (list) Types of measurments like Latitude, Longitude, etc. No latside or longside here
+    "Measurment": (list) Like Latitude, Longitude, etc but WITH latside and longside
+    "Value": (list) Value of the latitude, longitude, measurments.
     "Timestamp": (list) The time the message was sent
 
 DISPLAY FIELDS:
     "display_data" : {
-        "Latitude": degrees + latside (N or S)
-        "Longitude": degrees + longside (E or W)
-        "Altitude": meters
-        "HDOP": horizontal dilution of precision
-        "Satellites": number of satellites
-        "Fix": 0 or 1 -- 0 = no fix, 1 = fix
-        "Time": seconds since last measurement
+        "Data_Type": (list) "GPS"
+        "Latitude": (list) degrees + latside (N or S)
+        "Longitude": (list) degrees + longside (E or W)
+        "Altitude": (list) meters
+        "HDOP": (list) horizontal dilution of precision
+        "Satellites": (list) number of satellites
+        "Fix": (list) 0 or 1 -- 0 = no fix, 1 = fix
+        "Time": (list) seconds since last measurement
     }
 
 self.type = "GPS"
@@ -71,6 +72,7 @@ class GPS:
 
             # DISPLAY FIELDS
             data["display_data"] = {
+                "Data_Type": ["GPS"],
                 "Latitude": [gps_data['Latitude'] + " " + gps_data['Latside']],
                 "Longitude": [gps_data['Longitude'] + " " + gps_data['Longside']],
                 "Altitude": [gps_data['Altitude']],
