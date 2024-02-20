@@ -23,6 +23,9 @@ from typing import Dict
 from parser.randomizer import RandomMessage
 import parser.parameters as parameters
 
+# DELETE THIS
+from parser.data_classes.CAN_Msg import CAN
+
 import concurrent.futures
 
 __PROGRAM__ = "link_telemetry"
@@ -512,7 +515,8 @@ def main():
             "message" : message,
         }
 
-        print("CAN MESSAGE", message)
+        print("RAW CAN MESSAGE", message)
+        print("PARSED CAN", CAN(message).data)
 
 
         # submit to thread pool
