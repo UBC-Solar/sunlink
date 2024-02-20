@@ -96,7 +96,7 @@ class CAN:
             data["Source"].append(source)
             data["Class"].append(message.name)
             data["Measurement"].append(name)
-            data["Value"].append(dbc_data)
+            data["Value"].append(float(dbc_data))
             data["Timestamp"].append(round(timestamp, 3))
         
             # DISPLAY FIELDS
@@ -105,7 +105,7 @@ class CAN:
             data["display_data"]["Class"].append(message.name)
             data["display_data"]["Measurement"].append(name)
             data["display_data"]["Timestamp"].append(round(timestamp, 3))
-            data["display_data"]["Value"].append(dbc_data)
+            data["display_data"]["Value"].append(float(dbc_data))
 
         return data
 
