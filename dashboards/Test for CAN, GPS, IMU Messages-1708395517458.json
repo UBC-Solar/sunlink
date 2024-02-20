@@ -27,7 +27,6 @@
         "type": "influxdb",
         "uid": "o2uhkwje8832ha"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -86,7 +85,7 @@
         "x": 0,
         "y": 0
       },
-      "id": 3,
+      "id": 4,
       "options": {
         "legend": {
           "calcs": [],
@@ -105,11 +104,11 @@
             "type": "influxdb",
             "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"GPS_test\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Latitude\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"IMU_test\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"X\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
-      "title": "GPS: Latitude Data (Debug)",
+      "title": "IMU (AX) Debug",
       "type": "timeseries"
     },
     {
@@ -176,7 +175,7 @@
         "x": 12,
         "y": 0
       },
-      "id": 2,
+      "id": 1,
       "options": {
         "legend": {
           "calcs": [],
@@ -195,11 +194,11 @@
             "type": "influxdb",
             "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"IMU_test\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"X\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_test\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"AMB\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"TempSensors1\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"TempSensorsData\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "IMU: AX (Debug)",
+      "title": "CAN: Temp Sensor 1 Data (Debug)",
       "type": "timeseries"
     },
     {
@@ -263,10 +262,10 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 6,
+        "x": 4,
         "y": 8
       },
-      "id": 1,
+      "id": 3,
       "options": {
         "legend": {
           "calcs": [],
@@ -285,11 +284,11 @@
             "type": "influxdb",
             "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"CAN_test\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"AMB\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"TempSensors1\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"TempSensorsData\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"GPS_test\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Latitude\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "CAN: Temp Sensor 1 Data (Debug)",
+      "title": "GPS: Latitude Data (Debug)",
       "type": "timeseries"
     }
   ],
@@ -301,13 +300,13 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Test for CAN, GPS, IMU Messages",
   "uid": "fcd501d8-e7cf-4366-a00a-711d2b4137ca",
-  "version": 4,
+  "version": 6,
   "weekStart": ""
 }
