@@ -8,7 +8,7 @@ datasources:
   - name: InfluxDB
     type: influxdb
     access: proxy
-    uid: ${DS_INFLUXDB}
+    uid: o2uhkwje8832ha
     url: http://influxdb:8086
     basicAuth: true
     isDefault: true
@@ -19,5 +19,5 @@ datasources:
     jsonData:
       version: Flux
       organization: ${INFLUX_ORG}
-      defaultBucket: ${INFLUX_CAN_BUCKET}
+      defaultBucket: ${INFLUX_PROD_BUCKET}
       tlsSkipVerify: true
