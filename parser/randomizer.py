@@ -2,11 +2,8 @@ import random
 import struct
 import time
 
-# # Get format specifiers
-# from parser.parameters import CAR_DBC
-
-# DELETE THIS
-from parameters import CAR_DBC
+# Get format specifiers
+from parser.parameters import CAR_DBC
 
 """
 Class to provide random message generaters for testing purposes.
@@ -154,5 +151,3 @@ class RandomMessage:
         imu_bytes = timestamp + "@" + identifier + value_bytes.decode('latin-1')
 
         return imu_bytes
-
-print(len(RandomMessage().random_can_str())) 
