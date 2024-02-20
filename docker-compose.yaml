@@ -27,22 +27,22 @@ services:
       - INFLUX_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD}
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFLUX_ORG=${INFLUX_ORG}
-      - INFLUX_BUCKET=${INFLUX_PROD_BUCKET}
-
+      - INFLUX_BUCKET=${INFLUX_CAN_BUCKET}
+      - DS_INFLUXDB=${DS_INFLUXDB}
   parser:
     build: .
     container_name: parser
     volumes:
       - .:/sunlink
     ports:
-      - 127.0.0.1:5000:5000
+      - 127.0.0.1:5001:5000
     restart: always
 
   influxdb:
     image: influxdb:2.7.1
     container_name: influxdb
     ports:
-      - 127.0.0.1:8086:8086
+      - 127.0.0.1:8087:8086
     volumes:
       - influxdb-storage:/var/lib/influxdb2
       - influxdb-config:/etc/influxdb2
@@ -54,8 +54,10 @@ services:
       - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_ADMIN_USERNAME}
       - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_ADMIN_PASSWORD}
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_ORG}
-      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_PROD_BUCKET}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_CAN_BUCKET}
       - INFLUX_DEBUG_BUCKET=${INFLUX_DEBUG_BUCKET}
+      - DS_INFLUXDB=${DS_INFLUXDB}
+
     restart: always
 
 volumes:
