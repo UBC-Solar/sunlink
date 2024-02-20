@@ -13,7 +13,6 @@ REQUIRED (INFLUX) FIELDS:
 
 DISPLAY FIELDS DICT:
     "display_data" : {
-        "Data_Type": (list) "IMU",
         "Type": (list) type of the IMU message (A or G),
         "Dimension": (list) dimension of the IMU message (X, Y, or Z),
         "Value": (list) value of the IMU message (rounded to 6 decimal places),
@@ -61,7 +60,6 @@ class IMU:
 
         # DISPLAY FIELDS
         data["display_data"] = {
-            "Data_Type": ["IMU"],
             "Type": [id[0]],
             "Dimension": [id[1]],
             "Value": [round(value, 6)],

@@ -13,7 +13,6 @@ REQUIRED (INFLUX) FIELDS:
 
 DISPLAY FIELDS:
     "display_data" : {
-        "Data_Type": (list) "GPS"
         "Latitude": (list) degrees + latside (N or S)
         "Longitude": (list) degrees + longside (E or W)
         "Altitude": (list) meters
@@ -72,7 +71,6 @@ class GPS:
 
             # DISPLAY FIELDS
             data["display_data"] = {
-                "Data_Type": ["GPS"],
                 "Latitude": [gps_data['Latitude'] + " " + gps_data['Latside']],
                 "Longitude": [gps_data['Longitude'] + " " + gps_data['Longside']],
                 "Altitude": [gps_data['Altitude']],
