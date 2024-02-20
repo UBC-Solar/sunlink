@@ -6,15 +6,15 @@ source ./.env
 # creates the debug bucket after InfluxDB initialization
 influx bucket create --name "${INFLUX_DEBUG_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
 
-# Create test and prod buckets
-IFS=',' read -ra TYPES <<< "${MESSAGE_TYPES}"
+# # Create test and prod buckets
+# IFS=',' read -ra TYPES <<< "${MESSAGE_TYPES}"
 
-for TYPE in "${TYPES[@]}"; do
-    # Create the debug bucket
-    influx bucket create --name "${TYPE}${INFLUX_DEBUG_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# for TYPE in "${TYPES[@]}"; do
+#     # Create the debug bucket
+#     influx bucket create --name "${TYPE}${INFLUX_DEBUG_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
     
-    # Create the prod bucket
-    influx bucket create --name "${TYPE}${INFLUX_PROD_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-done
+#     # Create the prod bucket
+#     influx bucket create --name "${TYPE}${INFLUX_PROD_BUCKET}" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# done
 
 
