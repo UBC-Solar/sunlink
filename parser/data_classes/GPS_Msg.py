@@ -67,7 +67,7 @@ class GPS:
             data["Timestamp"] = []
             for key in data["Measurement"]:
                 data["Value"].append(self.getType(key, gps_data[key]))
-                data["Timestamp"].append(self.getType(gps_data['Timestamp']))
+                data["Timestamp"].append(float(gps_data['Timestamp']))
 
             # DISPLAY FIELDS
             data["display_data"] = {
