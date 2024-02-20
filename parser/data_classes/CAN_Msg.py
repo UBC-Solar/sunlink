@@ -96,7 +96,7 @@ class CAN:
             data["Source"].append(source)
             data["Class"].append(message.name)
             data["Measurement"].append(name)
-            data["Value"].append(float(dbc_data))
+            data["Value"].append(self.get_float_or_str(dbc_data))
             data["Timestamp"].append(round(timestamp, 3))
         
             # DISPLAY FIELDS
@@ -105,7 +105,24 @@ class CAN:
             data["display_data"]["Class"].append(message.name)
             data["display_data"]["Measurement"].append(name)
             data["display_data"]["Timestamp"].append(round(timestamp, 3))
-            data["display_data"]["Value"].append(float(dbc_data))
+            data["display_data"]["Value"].append(self.get_float_or_str(dbc_data))
 
         return data
 
+
+    """
+    Determines if a value is a float or a string. If it is a float, it returns the float value.
+    If it is a string, it returns the string value.
+
+    Parameters:
+        val: The value to be checked
+
+    Returns:
+        The value as a float if it is a float, otherwise the value as a string
+    """
+    def get_float_or_str(self, val):
+        try:
+            val = float(val)
+            return val
+        except: 
+            return val
