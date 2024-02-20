@@ -13,7 +13,6 @@ To create a new datatype follow the steps below. **The general idea** is that yo
 2. Update the class description (comments before `class` keyword) to match your data type's fields and values.
     - Note you **must** have at least the `REQUIRED (INFLUX) FIELDS` filled so that sunlink can recognize your datatype correctly.
     - You must put your `REQUIRED (INFLUX) FIELDS` data in a list so that `Source`, for example, maps to a list of sources (even if you only have one source). Please see **Note 1** in **Notes** below for details.
-    - Note that the `ID` field **IS NOT A LIST**. Every other field should be a list.
 3. Your `__init__` constructor should **at least** set the `message`, `data` and `type` fields.
 4. Implement the `extract_measurements` method in your class such that it returns a `dictionary` with the `REQUIRED (INFLUX) FIELDS` and the `DISPLAY FIELDS`.
     - For details on `DISPLAY FIELDS` see **Note 2** in **Notes** below.
@@ -53,6 +52,6 @@ With that aside here is the general workflow to reduce headaches:
     - Any syntax errors anywhere in the program
 
 ## Notes
-* Note 1: The `REQUIRED (INFLUX) FIELDS` are `"Source"`, `"Class"`, `"Measurement"`, `"Value"`, and `"ID"`. The first 4 fields will be accessed to create an `InfluxDB Point` in `main.py`. This will be done by looping through the list and creating a point for each element in each of the `REQUIRED (INFLUX) FIELDS`'s lists. The last field, `"ID"`, is used to distinguish between messages of the same type and is used by `main.py` to log to the Flask app what messages came in. 
+* Note 1: The `REQUIRED (INFLUX) FIELDS` are `"Source"`, `"Class"`, `"Measurement"`, `"Value"`, and `"Timestamp"`. These fields will be accessed to create an `InfluxDB Point` in `main.py`. This will be done by looping through the list and creating a point for each element in each of the `REQUIRED (INFLUX) FIELDS`'s lists.
 * Note 2: The `DISPLAY FIELDS` are sent returned by `main.py` back to the `process_response` method in `link_telemetry.py`. The **keys of the fields are column headings** and the **values are the data for each column**. The number of elements in the list is the number of rows in the pretty table that is printed to the console (aside from the column headings row). 
 * Note 3: To run the randomizer with your data type, you will need to run `./link_telemetry.py -r <CLASS_NAME>`. Depending on the how many types of `-r <CLASS_NAME` flags you have this will inform the randomizer of the types of messages that should be randomized. Note that the `<CLASS_NAME>` part of the flag is **case insensitive** because all the flags you enter are forced to all caps.

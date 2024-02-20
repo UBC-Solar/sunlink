@@ -40,14 +40,14 @@ The `process_response` function in `link_telemetry.py` recieves the result of th
 data = {
     "Source": ["IMU"],
     "Class": ['A'],
-    "Measurment": ['X'],
-    "Value": [69.420],
-    "ID": "AX"
+    "Measurment": ['Y'],
+    "Value": [-849.287415],
+    "Timestamp": [1708401922.012]
     "display_data": {
-        "Type": ['IMU'],
-        "Dimension": ['X'],
-        "Value": [69.420],
-        "Timestamp": [1774452798]
+        "Type": ['A'],
+        "Dimension": ['Y'],
+        "Value": [-849.287415],
+        "Timestamp": [1708401922.012 ]
     }
 }
 ```
@@ -55,11 +55,13 @@ data = {
 Then the pretty table would look like this:
 
 ```
-+-----------+------------+------+-------------+
-| Dimension | Timestamp  | Type |    Value    |
-+-----------+------------+------+-------------+
-|     X     | 1774452798 |  A   |    69.420   |
-+-----------+------------+------+-------------+
++-------------------------------------------------+
+|                       IMU                       |
++-----------+----------------+------+-------------+
+| Dimension |   Timestamp    | Type |    Value    |
++-----------+----------------+------+-------------+
+|     Y     | 1708401922.012 |  A   | -849.287415 |
++-----------+----------------+------+-------------+
 ```
 
 **Note that the column headings may not be in the same order as the dictionary keys**, However, the values will be matched to the correct headings.
@@ -98,6 +100,7 @@ The new buckets are **GPS_test** and **GPS_prod**.
     -   `"Timestamp"`
 -   `"Measurement"`: Corresponds to the `_field` tag on InfluxDB. These are the non-plural version of the class tags. Note that the reason for this is that if other data associated with a class is added it can be added to the same class tag.
 -   `"Value"`: Corresponds to the value of the measurement.
+-  `"Timestamp"`: Corresponds to the time the message was generated.
 
 ### IMU
 
@@ -112,6 +115,7 @@ The new buckets are **IMU_test** and **IMU_prod**.
     -   `"Y"`
     -   `"Z"`
 -   `"Value"`: Corresponds to the value of the measurement.
+-   `"Timestamp"`: Corresponds to the time the message was generated.
 
 ## Grafana
 
