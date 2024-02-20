@@ -224,14 +224,7 @@ that is specifc to the message type (CAN, GPS, IMU, for example).
 Also sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
-    # try unpacking the JSON
-    try:
-        parse_request = flask.request.json
-    except Exception:
-        return {
-            "result": "PARSE_FAIL",
-            "message": "Unable to unpack JSON!"
-        }
+    parse_request = flask.request.json
 
     # try extracting measurements
     try:

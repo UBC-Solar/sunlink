@@ -273,7 +273,13 @@ def process_response(future: concurrent.futures.Future, args):
         print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
     
-    parse_response: dict = response.json()
+    try:
+        parse_response: dict = response.json()
+    except json.JSONDecodeError:
+        print(f"Failed to parse response from parser as JSON!")
+        print(f"Response content: {response.content}")
+        return
+    
     if parse_response["result"] == "OK":
         table = PrettyTable()
 
