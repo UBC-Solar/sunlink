@@ -65,13 +65,8 @@ class RandomMessage:
 
         # random identifier
         random_identifier = random.choice(can_ids)
-
-        # check for extended identifier
-        if (random_identifier > 0x7FF):
-            random_identifier = random_identifier | 0x80000000
-        
         random_id_str = "{0:0{1}x}".format(random_identifier, 4)
-        print("Random ID: ", random_id_str, "Random ID Length: ", len(random_id_str), "Random ID STR: ", random_id_str)
+        print("Random ID: ", random_identifier, "Random ID Length: ", len(random_id_str), "Random ID STR: ", random_id_str)
 
         # random data 8 bytes. Then 2 HEX to ASCII
         random_data = random.randint(0, pow(2, 64))

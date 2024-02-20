@@ -1,5 +1,5 @@
-from parser.parameters import CAR_DBC
 import struct
+from parser.parameters import CAR_DBC
 
 """
 CAN Message data class. Data fields are:
@@ -116,3 +116,4 @@ class CAN:
             data["display_data"]["Value"].append(dbc_data)
 
         return data
+    
