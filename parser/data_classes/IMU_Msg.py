@@ -41,7 +41,8 @@ class IMU:
     """
     def extract_measurements(self,) -> dict:
         # Extract the parts of the message
-        timestamp = self.message[:8]
+        timestamp = struct.unpack('>d', self.message[:8].encode('latin-1'))[0]
+        timestamp = float(timestamp)
         id = self.message[9:11]      # skip the @
         val = self.message[11:]
 
@@ -55,14 +56,14 @@ class IMU:
         data["Class"] = [id[0]]
         data["Measurement"] = [id[1]]
         data["Value"] = [round(value, 6)]
-        data["Timestamp"] = [int(timestamp, 16)]
+        data["Timestamp"] = [round(timestamp, 3)]
 
         # DISPLAY FIELDS
         data["display_data"] = {
             "Type": [id[0]],
             "Dimension": [id[1]],
             "Value": [round(value, 6)],
-            "Timestamp": [int(timestamp, 16)],
+            "Timestamp": [round(timestamp, 3)],
         }
         
         return data

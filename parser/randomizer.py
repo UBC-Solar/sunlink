@@ -129,8 +129,10 @@ class RandomMessage:
     """
     def random_imu_str(self) -> str:
         # Generate a random timestamp
-        timestamp = random.randint(0, pow(2, 32))
-        timestamp = "{0:0{1}x}".format(timestamp, 8)
+        current_time = time.time()
+        current_time_bytes = struct.pack('>d', current_time)
+        timestamp = current_time_bytes.decode('latin-1')
+
 
         # Generate a random identifier
         types = ['A', 'G']
