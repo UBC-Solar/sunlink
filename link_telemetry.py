@@ -183,7 +183,7 @@ def print_config_table(args: 'argparse.Namespace'):
 
     # POSSIBLE CONFIGURATIONS
 
-    # case 1: --randomize with --debug: generate random data and write to the `Test` bucket (INTENDED USAGE)
+    # case : --randomize with --debug: generate random data and write to the `Test` bucket (INTENDED USAGE)
     # case 2: --randomize without --debug: generate random data and write to the `Telemetry` bucket (SHOULD BE IMPOSSIBLE)
     # case 3: -p and -b with --debug: parse radio data and write to the `Test` bucket (LIKELY)
     # case 4: -p and -b without --debug: parse radio data and write to the `Telemetry` bucket (ACTUAL OPERATION MODE)
