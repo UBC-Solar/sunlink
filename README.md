@@ -95,7 +95,6 @@ Whether you're setting up the cluster locally or remotely, the setup instruction
 
 - Python 3.8 or above (https://www.python.org/downloads/)
 - Docker & Docker Compose (https://docs.docker.com/get-docker/)
-- Linux PCAN Driver (https://www.peak-system.com/fileadmin/media/linux/index.htm)
 - A cloned copy of this repository
 
 Clone the repository with:
@@ -118,30 +117,6 @@ Check your Docker Compose installation by running:
 sudo docker compose version
 ```
 
-> [!NOTE]  
-> If you plan to use the offline mode with the linktelemetry.py script, please see the below settings for VirtualBox and bringing up the CAN interface
-
-
-Add PCAN USB port to Ubuntu from Virtual Box settings:
-
-- Go to settings from Virtual Box.
-- Click on the green + as shown in the picture below.
-- Add the USB port the PCAN is connected to and click OK. 
-
-![Battery state](/images/virtualbox_usb.png) 
-
-Bringing CAN interface up:
-```bash
-$ sudo ip link set can0 type can bitrate 500000
-$ sudo ip link set up can0
-```
-> NOTE: Make sure you added the usb port for PCAN on the Ubuntu from the settings.
-
-Check if PCAN is connected properly:
-```bash
-candump -H -td -x -c can0
-```
-This should output what is on the PCAN at the moment.
 ### Setting up environment variables
 
 Before spinning up the cluster, you must create a `.env` file in the project root directory (i.e., the same directory as the `docker-compose.yaml` file). I find that it is easiest to create the file from the terminal:
@@ -338,10 +313,6 @@ If all your tokens are correctly set up, the parser should return the following:
 
 - If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
 
-## Seting up PCAN drivers
-
- 
-
 ## Telemetry link setup
 
 The telemetry link must be set up on the host machine on which the radio receiver is connected. This links the radio module to the telemetry cluster and enables using radio as a data source.
@@ -350,7 +321,6 @@ The telemetry link must be set up on the host machine on which the radio receive
 
 - Python 3.8 or above (https://www.python.org/downloads/)
 - A functional and running telemetry cluster (either local or remote)
-- Linux PCAN Driver (https://www.peak-system.com/fileadmin/media/linux/index.htm)
 - A cloned copy of this repository
 
 Clone the repository with:
@@ -420,10 +390,6 @@ url = "http://143.120.12.53:5000/"
 
 [security]
 secret_key = "dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
-
-[offline]
-channel = "can0"
-bitrate = "500000"
 ```
 
 The `parser.url` field specifies the URL where the script can find the telemetry cluster parser. If you are running the cluster locally, the url would likely be `http://localhost:5000/`.
@@ -433,11 +399,6 @@ The `security.secret_key` field specifies the secret key to use in the HTTP auth
 This secret key must match with the secret key configured for the telemetry cluster parser that you are trying to communicate with.
 
 If you set up the telemetry cluster locally then you already have access to this secret key. If the telemetry cluster was set up for you, ask your software lead for the secret key. 
-
-The `offline.channel` and `offline.bitrate` fields specify the channel and bitrate of the PCAN.   
-
-> [!IMPORTANT]
-> The [offline] fields are only required if you plan to use the offline mode with PCAN.
 
 Once all the fields are filled, the `link_telemetry.py` script is ready for use.
 
@@ -456,12 +417,14 @@ Here are some example invocations:
 | **Command** | **Description** |
 | ------------- | -------------- |
 | `./link_telemetry.py --health` | Checks if the parser is available. |
-| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the production InfluxDB bucket. |
+| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the CAN InfluxDB bucket. |
 | `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB. | 
 | `./link_telemetry.py -r --debug` | Makes the link randomly generate message data and requests the parser to write to the debug InfluxDB bucket. |
 | `./link_telemetry.py -r -f 100 --debug` | Makes the link randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket. |
 | `./link_telemetry.py -o --debug` | Makes the link to recieve data from PCAN and requests the parser to write to the debug InfluxDB bucket. |
-| `./link_telemetry.py -o --prod` | Makes the link to recieve data from PCAN and requests the parser to write to the production InfluxDB bucket. |
+| `./link_telemetry.py -o --prod` | Makes the link to recieve data from PCAN and requests the parser to write to the CAN InfluxDB bucket. |
+
+> Previously, the `--prod` option would write to the production InfluxDB bucket. This has been changed to write to the CAN InfluxDB bucket as CAN is currently the only source of data source that is supported in Sunlink. Soon, other buckets will be added along with support for other data sources including GPS, IMU, and VDS (Vehicle Dynamics Sensors) data. New buckets must be created with shell scripts, similar to in the script `scripts/create-influx_debug-bucket.sh`. The .env file must also contain the name for the bucket created on `telemetry.ubcsolar.com:8086`. The parser script must be modified to support posting data to new buckets.
 
 ## Running the Offline Log Uploader
 To run the offline log uploader the `logfiles` folder should have a generated log file to read and request the parser to write to InfluxDB in the `_test` buckets (like in debug mode). To do this use the -u (--log-upload) flag as follows:
@@ -497,4 +460,3 @@ Here are some screenshots of real data gathered from Daybreak using Sunlink:
 ![Current setpoint and vehicle velocity](/images/current_setpoint_and_vehicle_velocity.png)
 
 ![Vehicle velocity and motor velocity](/images/vehicle_velocity_and_motor_velocity.png)
-
