@@ -71,6 +71,7 @@ class RandomMessage:
             random_identifier = random_identifier | 0x80000000
         
         random_id_str = "{0:0{1}x}".format(random_identifier, 4)
+        print("Random ID: ", random_id_str, "Random ID Length: ", len(random_id_str), "Random ID STR: ", random_id_str)
 
         # random data 8 bytes. Then 2 HEX to ASCII
         random_data = random.randint(0, pow(2, 64))
@@ -85,7 +86,7 @@ class RandomMessage:
         # collect into single string
         can_str = current_time_str + random_id_str + random_data_str \
              + data_length
-
+        print("LENGTH TOTAL:", len(can_str))
         return can_str
     
     """
