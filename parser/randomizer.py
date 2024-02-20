@@ -60,7 +60,8 @@ class RandomMessage:
             can_ids.append(message.frame_id)
 
         # Convert current time to float bytes to latin-1 string 
-        current_time = time.time()
+        # SUBTRACT 20 minutes test
+        current_time = time.time() - (20 * 60)
         current_time_bytes = struct.pack('>d', current_time)
         current_time_str = current_time_bytes.decode('latin-1')
 
