@@ -280,7 +280,7 @@ def process_response(future: concurrent.futures.Future, args):
         table.title = f"{ANSI_BOLD}{parse_response['type']}{ANSI_ESCAPE}"
         extracted_measurements = parse_response["message"]
         table.field_names = list(extracted_measurements.keys())     # Keys are column headings
-        title_row = [table.title] + [""] * (len(table.field_names) - 1)
+        title_row = [table.title]
         table.add_row(title_row)
         for i in range(len(extracted_measurements[table.field_names[0]])):
             row_data = [extracted_measurements[key][i] for key in table.field_names]
