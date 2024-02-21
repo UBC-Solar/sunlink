@@ -489,7 +489,12 @@ def main():
         message: bytes
 
         if args.randomList:
-            message = RandomMessage().random_message_str(args.randomList)
+            try:
+                message = RandomMessage().random_message_str(args.randomList)
+            except Exception as e:
+                print(f"Failed to generate random message: {e}")
+                continue
+            
             time.sleep(period_s)
 
         elif args.offline:     
