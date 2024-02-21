@@ -78,7 +78,7 @@ class RandomMessage:
         data_length = "8"
 
         # collect into single string
-        can_str = current_time_str + random_id_str + random_data_str \
+        can_str = current_time_str + "#" + random_id_str + random_data_str \
              + data_length
         return can_str
     

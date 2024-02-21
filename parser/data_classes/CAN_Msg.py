@@ -54,12 +54,12 @@ class CAN:
         id = None
         raw_data = None
         # Non extended ID check
-        if (len(self.message) < 24):
-            id: str = self.message[8:12]
-            raw_data: str = self.message[12:20]
+        if (len(self.message) < 25):
+            id: str = self.message[9:13]
+            raw_data: str = self.message[13:21]
         else:
-            id: str = self.message[8:16]
-            raw_data: str = self.message[16:24]
+            id: str = self.message[9:17]
+            raw_data: str = self.message[17:25]
 
         # convert back latin-1 string to bytes to float
         timestamp = float(timestamp)

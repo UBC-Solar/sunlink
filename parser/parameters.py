@@ -3,8 +3,8 @@ from pathlib import Path
 import sys    
 
 #  <----- Lengths of messages for differentiating message types ----->
-CAN_LENGTH_MIN      = 20
-CAN_LENGTH_MAX      = 26
+CAN_LENGTH_MIN      = 21
+CAN_LENGTH_MAX      = 27
 GPS_LENGTH_MIN      = 122
 GPS_LENGTH_MAX      = 133
 IMU_LENGTH_MIN      = 15
