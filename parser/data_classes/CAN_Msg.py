@@ -51,20 +51,14 @@ class CAN:
     def extract_measurements(self) -> dict:      
         timestamp = struct.unpack('>d', self.message[:8].encode('latin-1'))[0]
 
-        id = None
-        raw_data = None
-        # Non extended ID check
-        if (len(self.message) < 25):
-            id: str = self.message[9:13]
-            raw_data: str = self.message[13:21]
-        else:
-            id: str = self.message[9:17]
-            raw_data: str = self.message[17:25]
+        # Skip byte 8 because it is #
+        id: str = self.message[9:13]
+        raw_data: str = self.message[13:21]
 
         # convert back latin-1 string to bytes to float
         timestamp = float(timestamp)
 
-        identifier = int(id, 16)  
+        identifier = int.from_bytes(id.encode('latin-1'), 'big')
         data_bytes = bytearray(map(lambda x: ord(x), raw_data))
         hex_id = "0x" + hex(identifier)[2:].upper()
 
