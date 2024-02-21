@@ -81,7 +81,6 @@ class CAN:
             "Measurement": [],
             "Value": [],
             "Timestamp": [],
-            "ID": hex_id,
             "display_data": {   
                 "Hex_ID": [],
                 "Source": [],
