@@ -136,6 +136,12 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     elif args.log_upload:
         return
     if args.randomList:
+        # Check if it contains 'all' somewhere in the list
+        if 'all' in args.randomList:
+            args.randomList = []
+            type_names = glob.glob('./parser/data_classes' + '/*_Msg.py')
+            for name in type_names:
+                args.randomList.append(name.split('\\')[-1][:-7])    
         if args.port or args.baudrate:
             parser.error("-r cannot be used with -p and -b options")
 
