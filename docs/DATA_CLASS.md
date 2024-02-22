@@ -20,8 +20,9 @@ To create a new datatype follow the steps below. **The general idea** is that yo
 6. Implement a method to randomly generate/return a **latin-1 decoded string** which your data class's `extract_measurements` method can recognize and parse.
 7. At the top of `randomizer.py` modify the `random_message_str` method to include these things:
     - Add an `elif` statement to check if `message.type` matches your data class' `type` field and if s then return the output of the random message generator you implemented. See **Note 3** in **Notes** for details on how to run the randomizer with your data type.
-8. **Test** your data class by running `./link_telemetry.py -r <CLASS_NAME>` where `<CLASS_NAME>` is the name of your data class. This will run the randomizer and print the output of your data class's `extract_measurements` method. If you see the output you expect then your data class is working correctly.
-9. **Document** your data class in the `docs/MESSAGE_FORMATS.md` file. This is important so that future developers can understand how to use your data class and how it is formatted.
+8. Add the `<CLASS_NAME>_prod` and `<CLASS_NAME>_test` buckets to InfluxDB manually
+9. **Test** your data class by running `./link_telemetry.py -r <CLASS_NAME>` where `<CLASS_NAME>` is the name of your data class. This will run the randomizer and print the output of your data class's `extract_measurements` method. If you see the output you expect then your data class is working correctly.
+10. **Document** your data class in the `docs/MESSAGE_FORMATS.md` file. This is important so that future developers can understand how to use your data class and how it is formatted.
 
 ### Connection
 To connect your data class implementation to the rest of `sunlink`, follow the steps below. **The general idea** is that the factory method called `create_message.py` needs to know your data class exists and `parameters.py` needs to know the length of your data class messages and (if necessary) any format specifiers (such as a DBC file for CAN messages). **Note if you want to add a row to the config table to show your new data type's file specifier then you will need to modify the `print_config_table` function in `link_telemetry.py`**.
