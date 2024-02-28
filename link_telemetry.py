@@ -13,6 +13,7 @@ import numpy as np
 import json
 import os
 import glob
+import struct
 
 from datetime import datetime
 
@@ -456,6 +457,12 @@ def main():
         parameters.CAR_DBC  = cantools.database.load_file(parameters.DBC_FILE)
 
 
+    # <----- Define Can Bus for Offline Mode ----->
+    if args.offline:
+        # Defining the Can bus
+        can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
+
+
     # <----- Configuration confirmation ----->
     if not args.log_upload:
         print_config_table(args)
@@ -498,18 +505,24 @@ def main():
             time.sleep(period_s)
 
         elif args.offline:     
-            # Defining the Can bus
-            can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
-
             # read in bytes from CAN bus
-            message = can_bus.recv()          
+            can_bytes = can_bus.recv()          
 
             # partition string into pieces
-            # timestamp: str = np.format_float_positional(message.timestamp)      # float
-            timestamp: str = "000000"                           #TODO: convert float to string
-            id: str = str(hex(message.arbitration_id))          # int
-            data: str = (message.data).hex()                    # bytearray
-            data_len: str = str(message.dlc)                    # int
+            epoch_time = time.time()                            # epoch time as float
+            timestamp_bytes = struct.pack('>d', epoch_time)
+            timestamp_str = timestamp_bytes.decode('latin-1')
+
+            id: int = can_bytes.arbitration_id                    # int
+            id_str = id.to_bytes(4, 'big').decode('latin-1')
+
+            data = (can_bytes.data).hex()                         # bytearray to string
+            ascii_chars = [chr(int(h, 16)) for h in data] 
+            data_str = ''.join(ascii_chars) 
+
+            data_len: str = str(can_bytes.dlc)                    # string
+
+            message = timestamp_str + "#" + id_str + data_str + data_len
 
         else:
             with serial.Serial() as ser:
