@@ -35,6 +35,53 @@ class CAN:
 
 
     """
+    Gets the timestamp of the message as a float
+
+    Parameters:
+        message_timestamp - the timestamp of the message as a latin-1 string
+    
+    Returns:
+        float - the timestamp of the message
+    """
+    def get_timestamp(self, message_timestamp) -> float:
+        timestamp = struct.unpack('>d', message_timestamp.encode('latin-1'))[0]
+        float_timestamp = float(timestamp)
+
+        return float_timestamp
+    
+
+    """
+    Gets the hex id of the message
+    
+    Parameters:
+        message_id - the id of the message as a latin-1 string
+    
+    Returns:
+        string - the id of the message in hex
+    """
+    def get_hex_id(self, message_id) -> str:
+        identifier = int.from_bytes(message_id.encode('latin-1'), 'big')
+        hex_id = "0x" + hex(identifier)[2:].upper()
+
+        return hex_id
+    
+
+    """
+    Converts the message data to a bytearray
+    
+    Parameters:
+        message_data - the data of the message as a latin-1 string
+    
+    Returns:
+        bytearray - the data of the message as a bytearray
+    """
+    def get_data_bytes(self, message_data) -> bytearray:
+        data_bytes = bytearray(map(lambda x: ord(x), message_data))
+
+        return data_bytes
+
+
+    """
     CREDIT: Mihir. N and Aarjav. J
     Will create a dictionary whose display_dict key is another dictionary.
     This nested dictionary contains are the column headings to the pretty table
@@ -49,18 +96,15 @@ class CAN:
         display_data dictionary with form outlined in the class description
     """
     def extract_measurements(self) -> dict:      
-        timestamp = struct.unpack('>d', self.message[:8].encode('latin-1'))[0]
+        timestamp = self.get_timestamp(self.message[:8])
+        hex_id = self.get_hex_id(self.message[9:13])
+        data_bytes = self.get_data_bytes(self.message[13:21])
 
         # Skip byte 8 because it is #
         id: str = self.message[9:13]
-        raw_data: str = self.message[13:21]
-
-        # convert back latin-1 string to bytes to float
-        timestamp = float(timestamp)
 
         identifier = int.from_bytes(id.encode('latin-1'), 'big')
-        data_bytes = bytearray(map(lambda x: ord(x), raw_data))
-        hex_id = "0x" + hex(identifier)[2:].upper()
+
 
         measurements = CAR_DBC.decode_message(identifier, data_bytes)
         message = CAR_DBC.get_message_by_frame_id(identifier)
