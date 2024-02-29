@@ -176,6 +176,14 @@ def parse_request():
     """
     parse_request = flask.request.json
 
+    try:
+        message = create_message(parse_request["message"])
+    except Exception as e:
+        return {
+            "result": "PARSE_FAIL",
+            "message": str(parse_request["message"]),
+            "error": str(e),
+        }
 
     # try extracting measurements
     try:
