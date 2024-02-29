@@ -176,45 +176,35 @@ def parse_request():
     """
     parse_request = flask.request.json
 
-    try:
-        message = create_message(parse_request["message"])
-    except Exception as e:
-        return {
-            "result": "PARSE_FAIL",
-            "message": str(parse_request["message"]),
-            "error": str(e),
-        }
-
     # try extracting measurements
     try:
         message = create_message(parse_request["message"])
-        type = message.type
-
-        app.logger.info(f"Successfully parsed {type} message placed into queue")
-
-        # try putting the extracted measurements in the queue for Grafana streaming
-        try:
-            stream_queue.put(message.data, block=False)
-        except queue.Full:
-            app.logger.warn(
-                "Stream queue full. Unable to add measurements to stream queue!"
-            )
-
-        return {
-            "result": "OK",
-            "message": message.data["display_data"],
-            "type": type
-        }
-    
     except Exception as e:
         app.logger.warn(
             f"Unable to extract measurements for raw message {parse_request['message']}")
-        app.logger.warn(str(message.data["display_data"]))
         return {
             "result": "PARSE_FAIL",
             "message": str(parse_request["message"]),
             "error": str(e),
         }
+    
+    type = message.type
+
+    app.logger.info(f"Successfully parsed {type} message placed into queue")
+
+    # try putting the extracted measurements in the queue for Grafana streaming
+    try:
+        stream_queue.put(message.data, block=False)
+    except queue.Full:
+        app.logger.warn(
+            "Stream queue full. Unable to add measurements to stream queue!"
+        )
+    
+    return {
+        "result": "OK",
+        "message": message.data["display_data"],
+        "type": type
+    }
 
 
 @app.post(f"{API_PREFIX}/parse/write/debug")
