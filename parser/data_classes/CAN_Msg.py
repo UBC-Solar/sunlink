@@ -82,6 +82,40 @@ class CAN:
 
 
     """
+    Try to decode the message using the DBC file
+    
+    Parameters:
+        identifier - the integer id of the message
+        data_bytes - the data of the message as a byte array
+        
+    Returns:
+        cantools measurements object
+    """    
+    def get_measurements(self, identifier, data_bytes):
+        try:
+            measurements = CAR_DBC.decode_message(identifier, data_bytes)
+            return measurements
+        except Exception as e:
+            raise Exception(f"Unable to decode message with identifier {identifier} and data {data_bytes}. Error: {e}")
+    
+
+    """
+    Try to get the message from the DBC file
+    
+    Parameters:
+        identifier - the integer id of the message
+    
+    Returns:
+        cantools message object
+    """
+    def get_message(self, identifier):
+        try:
+            message = CAR_DBC.get_message_by_frame_id(identifier)
+            return message
+        except Exception as e:
+            raise Exception(f"Unable to get message with identifier {identifier}. Error: {e}")
+
+    """
     CREDIT: Mihir. N and Aarjav. J
     Will create a dictionary whose display_dict key is another dictionary.
     This nested dictionary contains are the column headings to the pretty table
@@ -95,19 +129,15 @@ class CAN:
     Returns:
         display_data dictionary with form outlined in the class description
     """
-    def extract_measurements(self) -> dict:      
-        timestamp = self.get_timestamp(self.message[:8])
-        hex_id = self.get_hex_id(self.message[9:13])
-        data_bytes = self.get_data_bytes(self.message[13:21])
-
-        # Skip byte 8 because it is #
-        id: str = self.message[9:13]
-
-        identifier = int.from_bytes(id.encode('latin-1'), 'big')
-
-
-        measurements = CAR_DBC.decode_message(hex_id, data_bytes)
-        message = CAR_DBC.get_message_by_frame_id(hex_id)
+    def extract_measurements(self) -> dict:
+        try:      
+            timestamp = self.get_timestamp(self.message[:8])
+            hex_id = self.get_hex_id(self.message[9:13])
+            data_bytes = self.get_data_bytes(self.message[13:21])
+            measurements = self.get_measurements(int(hex_id, 16), data_bytes)
+            message = self.get_message(int(hex_id, 16))
+        except Exception as e:
+            raise Exception(f"Unable to extract measurements from message: {self.message}. Error: {e}")
 
         # where the data came from
         sources: list = message.senders

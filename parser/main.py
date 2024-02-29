@@ -197,13 +197,14 @@ def parse_request():
             "type": type
         }
     
-    except Exception:
+    except Exception as e:
         app.logger.warn(
             f"Unable to extract measurements for raw message {parse_request['message']}")
         app.logger.warn(str(message.data["display_data"]))
         return {
             "result": "PARSE_FAIL",
             "message": str(parse_request["message"]),
+            "error": str(e),
             "type": type
         }
 
