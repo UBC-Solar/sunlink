@@ -191,6 +191,7 @@ def parse_request():
                 "Stream queue full. Unable to add measurements to stream queue!"
             )
 
+        raise Exception('FORCED IN MAIN')
         return {
             "result": "OK",
             "message": message.data["display_data"],
