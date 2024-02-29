@@ -106,8 +106,8 @@ class CAN:
         identifier = int.from_bytes(id.encode('latin-1'), 'big')
 
 
-        measurements = CAR_DBC.decode_message(identifier, data_bytes)
-        message = CAR_DBC.get_message_by_frame_id(identifier)
+        measurements = CAR_DBC.decode_message(hex_id, data_bytes)
+        message = CAR_DBC.get_message_by_frame_id(hex_id)
 
         # where the data came from
         sources: list = message.senders
