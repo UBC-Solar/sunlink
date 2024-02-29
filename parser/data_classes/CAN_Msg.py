@@ -44,6 +44,9 @@ class CAN:
         float - the timestamp of the message
     """
     def get_timestamp(self, message_timestamp) -> float:
+        # DELET THIS LINE
+        raise Exception(f"FORCED DELETE THIS LINE: Message timestamp: {message_timestamp}")
+
         timestamp = struct.unpack('>d', message_timestamp.encode('latin-1'))[0]
         float_timestamp = float(timestamp)
 
