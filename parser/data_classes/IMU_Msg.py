@@ -54,6 +54,29 @@ class IMU:
                 f"      len(message_timestamp) = {len(message_timestamp)}"
             )
         
+
+    """
+    Gets the value of the message as a float
+
+    Parameters:
+        message_val - the value of the message as a latin-1 string
+    
+    Returns:
+        float - the value of the message
+    """
+    def get_value(self, message_val) -> float:
+        try:
+            val = struct.unpack('>f', bytearray(val.encode('latin-1')))[0]
+            float_val = float(val)
+
+            return float_val
+        except Exception as e:
+            raise Exception(
+                f"{ANSI_BOLD}Failed get_value(){ANSI_ESCAPE}: \n"
+                f"      Caught Exception = {e}, \n"
+                f"      len(message_val) = {len(message_val)}"
+            )
+        
     """
     Extracts measurements from a IMU message based on a specified format
     Keys of the display_dict inside data dict are column headings.
@@ -68,8 +91,8 @@ class IMU:
     def extract_measurements(self,) -> dict:
         try:      
             timestamp = self.get_timestamp(self.message[:8])
+            val = self.get_value(self.message[11:])
             id = self.message[9:11]      # skip the @
-            val = self.message[11:]
         except Exception as e:
             raise Exception(
                 f"Could not extract {ANSI_BOLD}IMU{ANSI_ESCAPE} message with properties: \n"
@@ -79,9 +102,10 @@ class IMU:
                 f"      {e} \n"
                 f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
                 f"        {ANSI_BOLD}get_timestamp{ANSI_ESCAPE}(message[:8] = {self.message[:8].encode().hex()}), \n"
-                f"          - Converts latin-1 arg to a float \n"
+                f"          - Converts latin-1 arg to a 64 bit double \n"
+                f"        {ANSI_BOLD}get_value{ANSI_ESCAPE}(message[11:] = {self.message[11:].encode().hex()}), \n"
+                f"          - Converts latin-1 arg to a 32 bit float \n"
                 f"      {ANSI_BOLD}id (self.message[9:11]){ANSI_ESCAPE} = {id}, \n"
-                f"      {ANSI_BOLD}val (self.message[11:]){ANSI_ESCAPE} = {val} \n"
             )
         
 

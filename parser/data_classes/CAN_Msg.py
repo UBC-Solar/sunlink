@@ -176,7 +176,7 @@ class CAN:
                 f"      {e} \n"
                 f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
                 f"        {ANSI_BOLD}get_timestamp{ANSI_ESCAPE}(message[:8] = {self.message[:8].encode().hex()}), \n"
-                f"          - Converts latin-1 arg to a float \n"
+                f"          - Converts latin-1 arg to a 64 bit double \n"
                 f"        {ANSI_BOLD}get_hex_id{ANSI_ESCAPE}(message[9:13] = {self.message[9:13].encode().hex()}), \n"
                 f"          - Converts latin-1 arg to int then to hex \n"
                 f"        {ANSI_BOLD}get_data_bytes{ANSI_ESCAPE}(message[13:21] = {self.message[13:21].encode().hex()}), \n"
