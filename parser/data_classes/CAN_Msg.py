@@ -1,5 +1,6 @@
 import struct
 from parser.parameters import CAR_DBC
+from parser.parameters import DBC_FILE
 from parser.parameters import ANSI_BOLD
 from parser.parameters import ANSI_ESCAPE
 from parser.parameters import ANSI_RED
@@ -173,10 +174,15 @@ class CAN:
                 f"      Message Hex Data = {self.message.encode().hex()} \n"
                 f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
                 f"        {ANSI_BOLD}get_timestamp{ANSI_ESCAPE}(message[:8] = {self.message[:8].encode().hex()}), \n"
+                f"          - Converts latin-1 arg to a float \n"
                 f"        {ANSI_BOLD}get_hex_id{ANSI_ESCAPE}(message[9:13] = {self.message[9:13].encode().hex()}), \n"
+                f"          - Converts latin-1 arg to int then to hex \n"
                 f"        {ANSI_BOLD}get_data_bytes{ANSI_ESCAPE}(message[13:21] = {self.message[13:21].encode().hex()}), \n"
+                f"          - Converts latin-1 arg to a bytearray \n"
                 f"        {ANSI_BOLD}get_measurements{ANSI_ESCAPE}(int(hex_id, 16) = {int(hex_id, 16)}, databytes = {data_bytes}), \n"
+                f"          - Performs decode_message using databytes and int ID and DBC_FILE={DBC_FILE}\n"
                 f"        {ANSI_BOLD}get_message{ANSI_ESCAPE}(int(hex_id, 16) = {int(hex_id, 16)}) \n"
+                f"          - Gets CAN message object from DBC_FILE={DBC_FILE} \n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
             )
