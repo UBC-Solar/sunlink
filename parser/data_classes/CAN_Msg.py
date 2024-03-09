@@ -125,7 +125,7 @@ class CAN:
             raise Exception(
                 f"{ANSI_BOLD}Failed decode_message{ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
-                f"      Args: Databytes = {data_bytes}, Identifier = {identifier},\n"
+                f"      Args: Databytes = {[str(hex(byte)) for byte in data_bytes]}, Identifier = {identifier},\n"
                 f"      len(databytes) = {len(data_bytes)}"
             )
         
