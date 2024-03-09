@@ -91,7 +91,7 @@ class IMU:
     def extract_measurements(self,) -> dict:
         try:      
             timestamp = self.get_timestamp(self.message[:8])
-            val = self.get_value(self.message[11:])
+            value = self.get_value(self.message[11:])
             id = self.message[9:11]      # skip the @
         except Exception as e:
             raise Exception(
@@ -107,10 +107,6 @@ class IMU:
                 f"          - Converts latin-1 arg to a 32 bit float \n"
                 f"      {ANSI_BOLD}id (self.message[9:11]){ANSI_ESCAPE} = {id}, \n"
             )
-        
-
-        # Convert the val part to a 32-bit float
-        value = struct.unpack('>f', bytearray(val.encode('latin-1')))[0]
 
         data = {}
         
