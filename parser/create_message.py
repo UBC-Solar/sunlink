@@ -28,7 +28,7 @@ def create_message(message: str):
         elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:
             return GPS(message)
         elif IMU_LENGTH_MIN <= len(message) <= IMU_LENGTH_MAX:
-            return CAN(message)
+            return IMU(message)
         else:
             raise Exception(f"Message length of {len(message)} is not a valid length for any message type")
     except Exception as e:
