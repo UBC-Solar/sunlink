@@ -167,6 +167,18 @@ def check_health():
 
     return response_dict
 
+def try_extract_measurements():
+    # try extracting measurements
+    try:
+        message = create_message(parse_request["message"])
+    except Exception as e:
+        app.logger.warn(
+            f"Unable to extract measurements for raw message {parse_request['message']}")
+        return {
+            "result": "PARSE_FAIL",
+            "message": str(parse_request["message"]),
+            "error": str(e),
+        }
 
 @app.post(f"{API_PREFIX}/parse")
 @auth.login_required

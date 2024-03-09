@@ -22,9 +22,7 @@ Returns:
     a message object (CAN, GPS, IMU, etc.)
 """
 def create_message(message: str):
-    raise Exception("DELETE THIS FORCED IN CREATE_MESSAGE")
     try:
-        raise Exception("DELETE THIS FORCED IN CREATE_MESSAGE")
         if CAN_LENGTH_MIN <= len(message) <= CAN_LENGTH_MAX:
             return CAN(message)
         elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:
