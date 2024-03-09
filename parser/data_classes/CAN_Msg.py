@@ -1,5 +1,8 @@
 import struct
 from parser.parameters import CAR_DBC
+from parser.parameters import ANSI_BOLD
+from parser.parameters import ANSI_ESCAPE
+from parser.parameters import ANSI_RED
 
 """
 CAN Message data class. Data fields are:
@@ -51,7 +54,7 @@ class CAN:
             return float_timestamp
         except Exception as e:
             raise Exception(
-                f"Failed TIMESTAMP. -> {e}, "
+                f"{ANSI_BOLD}Failed TIMESTAMP{ANSI_ESCAPE}. -> {e}, "
                 f"input = {message_timestamp}, "
                 f"len(input) = {len(message_timestamp)}"
             )
@@ -74,7 +77,7 @@ class CAN:
             return hex_id
         except Exception as e:
             raise Exception(
-                f"Failed HEX_ID. -> {e}, "
+                f"{ANSI_BOLD}Failed HEX_ID{ANSI_ESCAPE}. -> {e}, "
                 f"input = {message_id}, "
                 f"len(input) = {len(message_id)}"
             )
@@ -96,7 +99,7 @@ class CAN:
             return data_bytes   
         except Exception as e:
             raise Exception(
-                f"Failed DATA_BYTES. -> {e}, "
+                f"{ANSI_BOLD}Failed DATA_BYTES{ANSI_ESCAPE}. -> {e}, "
                 f"input = {message_data}, "
                 f"len(input) = {len(message_data)}"
             )
@@ -117,7 +120,7 @@ class CAN:
             return measurements
         except Exception as e:
             raise Exception(
-                f"Failed decode_message. -> {e}, "
+                f"{ANSI_BOLD}Failed decode_message{ANSI_ESCAPE}. -> {e}, "
                 f"input.databytes = {data_bytes}, input.identifier = {identifier},"
                 f"len(input.databytes) = {len(data_bytes)}, len(input.identifier) = {len(identifier)}"
             )
@@ -138,7 +141,7 @@ class CAN:
             return message
         except Exception as e:
             raise Exception(
-                f"Failed get_message_by_frame_id. -> {e}, "
+                f"{ANSI_BOLD}Failed get_message_by_frame_id{ANSI_ESCAPE}. -> {e}, "
                 f"input = {identifier}, "
                 f"len(input) = {len(identifier)}"
             )
@@ -166,7 +169,7 @@ class CAN:
             message = self.get_message(int(hex_id, 16))
         except Exception as e:
             raise Exception(
-                f"Could not extract CAN message {self.message}:\n"
+                f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message {self.message}:\n"
                 f"    {e}"
             )
         

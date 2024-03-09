@@ -19,3 +19,10 @@ if not DBC_FILE.is_file():
     sys.exit(1)
     
 CAR_DBC = cantools.database.load_file(DBC_FILE)
+
+# ANSI sequences
+ANSI_ESCAPE = "\033[0m"
+ANSI_RED = "\033[1;31m"
+ANSI_GREEN = "\033[1;32m"
+ANSI_YELLOW = "\033[1;33m"
+ANSI_BOLD = "\033[1m"

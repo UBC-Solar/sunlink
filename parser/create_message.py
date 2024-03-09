@@ -30,7 +30,10 @@ def create_message(message: str):
         elif IMU_LENGTH_MIN <= len(message) <= IMU_LENGTH_MAX:
             return CAN(message)
         else:
-            raise Exception("Message length is not a valid length for any message type")
+            raise Exception(f"Message length of {len(message)} is not a valid length for any message type")
     except Exception as e:
-        raise Exception(f"In create_mesage: {e}")
+        raise Exception(
+            f"Failed in {ANSI_BOLD}create_message{ANSI_ESCAPE}:\n"
+            f"    {e}"
+        )
     
