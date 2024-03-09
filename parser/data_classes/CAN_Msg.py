@@ -172,6 +172,8 @@ class CAN:
                 f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message with properties: \n"
                 f"      Message Length = {len(self.message)} \n"
                 f"      Message Hex Data = {self.message.encode().hex()} \n"
+                f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
+                f"      {e} \n"
                 f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
                 f"        {ANSI_BOLD}get_timestamp{ANSI_ESCAPE}(message[:8] = {self.message[:8].encode().hex()}), \n"
                 f"          - Converts latin-1 arg to a float \n"
@@ -183,8 +185,6 @@ class CAN:
                 f"          - Performs decode_message using databytes and int ID and DBC_FILE={DBC_FILE}\n"
                 f"        {ANSI_BOLD}get_message{ANSI_ESCAPE}(int(hex_id, 16) = {int(hex_id, 16)}) \n"
                 f"          - Gets CAN message object from DBC_FILE={DBC_FILE} \n"
-                f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
-                f"      {e} \n"
             )
         
         # where the data came from
