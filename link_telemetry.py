@@ -305,7 +305,7 @@ def process_response(future: concurrent.futures.Future, args):
     elif parse_response["result"] == "PARSE_FAIL":
         print(
             f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n"
-            f"  {parse_response['error']}"
+            f"      {parse_response['error']}"
         )
 
         # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
