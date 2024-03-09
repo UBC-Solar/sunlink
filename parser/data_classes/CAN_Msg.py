@@ -55,9 +55,9 @@ class CAN:
         except Exception as e:
             raise Exception(
                 f"{ANSI_BOLD}Failed TIMESTAMP{ANSI_ESCAPE}: \n"
-                f"      error = {e}, \n"
-                f"      input = {message_timestamp}, \n"
-                f"      len(input) = {len(message_timestamp)}"
+                f"      Caught Exception = {e}, \n"
+                f"      Args: message_timestamp = {message_timestamp}, \n"
+                f"      len(message_timestamp) = {len(message_timestamp)}"
             )
         
 
@@ -79,9 +79,9 @@ class CAN:
         except Exception as e:
             raise Exception(
                 f"{ANSI_BOLD}Failed HEX_ID{ANSI_ESCAPE}: \n"
-                f"      error = {e}, \n"
-                f"      input = {message_id}, \n"
-                f"      len(input) = {len(message_id)}"
+                f"      Caught Exception = {e}, \n"
+                f"      Args: message_id = {message_id}, \n"
+                f"      len(message_id) = {len(message_id)}"
             )
         
     
@@ -102,9 +102,9 @@ class CAN:
         except Exception as e:
             raise Exception(
                 f"{ANSI_BOLD}Failed DATA_BYTES{ANSI_ESCAPE}: \n"
-                f"      error = {e}, \n"
-                f"      input = {message_data}, \n"
-                f"      len(input) = {len(message_data)}"
+                f"      Caught Exception = {e}, \n"
+                f"      Args: message_data = {message_data}, \n"
+                f"      len(message_data) = {len(message_data)}"
             )
 
     """
@@ -124,9 +124,9 @@ class CAN:
         except Exception as e:
             raise Exception(
                 f"{ANSI_BOLD}Failed decode_message{ANSI_ESCAPE}: \n"
-                f"      error = {e}, \n"
-                f"      input.databytes = {data_bytes}, input.identifier = {identifier},\n"
-                f"      len(input.databytes) = {len(data_bytes)}"
+                f"      Caught Exception = {e}, \n"
+                f"      Args: Databytes = {data_bytes}, Identifier = {identifier},\n"
+                f"      len(databytes) = {len(data_bytes)}"
             )
         
 
@@ -146,8 +146,8 @@ class CAN:
         except Exception as e:
             raise Exception(
                 f"{ANSI_BOLD}Failed get_message_by_frame_id{ANSI_ESCAPE}: \n"
-                f"      error = {e}, \n"
-                f"      input = {identifier}, "
+                f"      Caught Exception = {e}, \n"
+                f"      Arg: Identifier = {identifier}, "
             )
 
     """
