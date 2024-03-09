@@ -105,7 +105,7 @@ class IMU:
                 f"          - Converts latin-1 arg to a 64 bit double \n"
                 f"        {ANSI_BOLD}get_value{ANSI_ESCAPE}(message[11:] = {self.message[11:].encode().hex()}), \n"
                 f"          - Converts latin-1 arg to a 32 bit float \n"
-                f"      {ANSI_BOLD}id (self.message[9:11]){ANSI_ESCAPE} = {id}, \n"
+                f"      {ANSI_BOLD}id (self.message[9:11]){ANSI_ESCAPE} = {self.message[9:11].encode().hex()}, \n"
             )
 
         data = {}
