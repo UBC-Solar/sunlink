@@ -50,8 +50,11 @@ class CAN:
 
             return float_timestamp
         except Exception as e:
-            raise Exception(f"Failed TIMESTAMP -> {e}")
-
+            raise Exception(
+                f"Failed TIMESTAMP. -> {e}, "
+                f"input = {message_timestamp}, "
+                f"len(input) = {len(message_timestamp)}"
+            )
         
 
     """
@@ -70,7 +73,12 @@ class CAN:
 
             return hex_id
         except Exception as e:
-            raise Exception(f"Failed HEX_ID -> {e}")
+            raise Exception(
+                f"Failed HEX_ID. -> {e}, "
+                f"input = {message_id}, "
+                f"len(input) = {len(message_id)}"
+            )
+        
     
 
     """
@@ -88,7 +96,11 @@ class CAN:
 
             return data_bytes   
         except Exception as e:
-            raise Exception(f"Failed DATA_BYTES -> {e}")
+            raise Exception(
+                f"Failed DATA_BYTES. -> {e}, "
+                f"input = {message_data}, "
+                f"len(input) = {len(message_data)}"
+            )
 
     """
     Try to decode the message using the DBC file
@@ -105,9 +117,12 @@ class CAN:
             measurements = CAR_DBC.decode_message(identifier, data_bytes)
             return measurements
         except Exception as e:
-            raise Exception(f"Failed to decode measurements -> {e}")
+            raise Exception(
+                f"Failed decode_message. -> {e}, "
+                f"input.databytes = {data_bytes}, input.identifier = {identifier},"
+                f"len(input.databytes) = {len(data_bytes)}, len(input.identifier) = {len(identifier)}"
+            )
         
-    
 
     """
     Try to get the message from the DBC file
@@ -123,7 +138,11 @@ class CAN:
             message = CAR_DBC.get_message_by_frame_id(identifier)
             return message
         except Exception as e:
-            raise Exception(f"Failed get_message_by_frame_id -> {e}")
+            raise Exception(
+                f"Failed get_message_by_frame_id. -> {e}, "
+                f"input = {identifier}, "
+                f"len(input) = {len(identifier)}"
+            )
 
     """
     CREDIT: Mihir. N and Aarjav. J
@@ -147,8 +166,11 @@ class CAN:
             measurements = self.get_measurements(int(hex_id, 16), data_bytes)
             message = self.get_message(int(hex_id, 16))
         except Exception as e:
-            raise Exception(f"Could not extract CAN message {self.message}: {e}")
-
+            raise Exception(
+                f"Could not extract CAN message {self.message}:\n"
+                f"    {e}"
+            )
+        
         # where the data came from
         sources: list = message.senders
 
