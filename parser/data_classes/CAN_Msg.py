@@ -122,7 +122,7 @@ class CAN:
             raise Exception(
                 f"{ANSI_BOLD}Failed decode_message{ANSI_ESCAPE}. -> {e}, "
                 f"input.databytes = {data_bytes}, input.identifier = {identifier},"
-                f"len(input.databytes) = {len(data_bytes)}, len(input.identifier) = {len(identifier)}"
+                f"len(input.databytes) = {len(data_bytes)}"
             )
         
 
@@ -143,7 +143,6 @@ class CAN:
             raise Exception(
                 f"{ANSI_BOLD}Failed get_message_by_frame_id{ANSI_ESCAPE}. -> {e}, "
                 f"input = {identifier}, "
-                f"len(input) = {len(identifier)}"
             )
 
     """
@@ -170,10 +169,10 @@ class CAN:
         except Exception as e:
             raise Exception(
                 f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message \n"
-                f"    Length = {len(self.message)}) {self.message.encode().hex()} \n"
+                f"    Length = {len(self.message)} \n"
                 f"    Hex Data = {self.message.encode().hex()} \n"
-                f"    {ANSI_RED}Error{ANSI_ESCAPE}: \n {e}"
-                f"      {e}"
+                f"    {ANSI_RED}Error{ANSI_ESCAPE}: \n"
+                f"          {e}"
             )
         
         # where the data came from

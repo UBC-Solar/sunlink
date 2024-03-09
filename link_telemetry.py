@@ -304,7 +304,7 @@ def process_response(future: concurrent.futures.Future, args):
         
     elif parse_response["result"] == "PARSE_FAIL":
         print(
-            f"PARSE_FAIL. Error: \n"
+            f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n"
             f"  {parse_response['error']}"
         )
 
