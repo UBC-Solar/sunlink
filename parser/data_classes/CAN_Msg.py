@@ -44,12 +44,15 @@ class CAN:
         float - the timestamp of the message
     """
     def get_timestamp(self, message_timestamp) -> float:
-        # DELET THIS LINE
-        timestamp = struct.unpack('>d', message_timestamp.encode('latin-1'))[0]
-        float_timestamp = float(timestamp)
+        try:
+            timestamp = struct.unpack('>d', message_timestamp.encode('latin-1'))[0]
+            float_timestamp = float(timestamp)
 
-        return float_timestamp
-    
+            return float_timestamp
+        except Exception as e:
+            raise Exception(f"Failed TIMESTAMP -> {e}")
+
+        
 
     """
     Gets the hex id of the message
@@ -61,10 +64,13 @@ class CAN:
         string - the id of the message in hex
     """
     def get_hex_id(self, message_id) -> str:
-        identifier = int.from_bytes(message_id.encode('latin-1'), 'big')
-        hex_id = "0x" + hex(identifier)[2:].upper()
+        try:
+            identifier = int.from_bytes(message_id.encode('latin-1'), 'big')
+            hex_id = "0x" + hex(identifier)[2:].upper()
 
-        return hex_id
+            return hex_id
+        except Exception as e:
+            raise Exception(f"Failed HEX_ID -> {e}")
     
 
     """
@@ -77,10 +83,12 @@ class CAN:
         bytearray - the data of the message as a bytearray
     """
     def get_data_bytes(self, message_data) -> bytearray:
-        data_bytes = bytearray(map(lambda x: ord(x), message_data))
+        try:
+            data_bytes = bytearray(map(lambda x: ord(x), message_data))
 
-        return data_bytes
-
+            return data_bytes   
+        except Exception as e:
+            raise Exception(f"Failed DATA_BYTES -> {e}")
 
     """
     Try to decode the message using the DBC file
@@ -97,7 +105,8 @@ class CAN:
             measurements = CAR_DBC.decode_message(identifier, data_bytes)
             return measurements
         except Exception as e:
-            raise Exception(f"Unable to decode message with identifier {identifier} and data {data_bytes}. Error: {e}")
+            raise Exception(f"Failed to decode measurements -> {e}")
+        
     
 
     """
@@ -114,7 +123,7 @@ class CAN:
             message = CAR_DBC.get_message_by_frame_id(identifier)
             return message
         except Exception as e:
-            raise Exception(f"Unable to get message with identifier {identifier}. Error: {e}")
+            raise Exception(f"Failed get_message_by_frame_id -> {e}")
 
     """
     CREDIT: Mihir. N and Aarjav. J
@@ -138,7 +147,7 @@ class CAN:
             measurements = self.get_measurements(int(hex_id, 16), data_bytes)
             message = self.get_message(int(hex_id, 16))
         except Exception as e:
-            raise Exception(f"Unable to extract measurements from message: {self.message}. Error: {e}")
+            raise Exception(f"Could not extract CAN message {self.message}: {e}")
 
         # where the data came from
         sources: list = message.senders
