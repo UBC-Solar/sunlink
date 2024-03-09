@@ -169,8 +169,11 @@ class CAN:
             message = self.get_message(int(hex_id, 16))
         except Exception as e:
             raise Exception(
-                f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message {self.message}:\n"
-                f"    {e}"
+                f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message \n"
+                f"    Length = {len(self.message)}) {self.message.encode().hex()} \n"
+                f"    Hex Data = {self.message.encode().hex()} \n"
+                f"    {ANSI_RED}Error{ANSI_ESCAPE}: \n {e}"
+                f"      {e}"
             )
         
         # where the data came from
