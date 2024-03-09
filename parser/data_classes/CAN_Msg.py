@@ -80,7 +80,6 @@ class CAN:
             )
         
     
-
     """
     Converts the message data to a bytearray
     
