@@ -429,7 +429,7 @@ def main():
         check_health_handler()
         return 0
 
-    validate_args(parser, args)
+    # validate_args(parser, args)
 
 
     # build the correct URL to make POST request to
@@ -517,9 +517,11 @@ def main():
             timestamp_str = timestamp_bytes.decode('latin-1')
 
             id: int = can_bytes.arbitration_id                    # int
+            print("canbytes, id: ", id)
             id_str = id.to_bytes(4, 'big').decode('latin-1')
 
             data = (can_bytes.data).hex()                         # bytearray to string
+            print("data: ", can_bytes.data)
             ascii_chars = [chr(int(h, 16)) for h in data] 
             data_str = ''.join(ascii_chars) 
 
@@ -541,6 +543,10 @@ def main():
         payload = {
             "message" : message,
         }
+
+        # Message encoded to hex to ensure all characters stay
+        with open("TEST.txt", "a", encoding='latin-1') as output_log_file:
+            output_log_file.write(message.encode().hex() + '\n')
         
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
