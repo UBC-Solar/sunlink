@@ -66,7 +66,7 @@ class IMU:
     """
     def get_value(self, message_val) -> float:
         try:
-            val = struct.unpack('>f', bytearray(val.encode('latin-1')))[0]
+            val = struct.unpack('>f', bytearray(message_val.encode('latin-1')))[0]
             float_val = float(val)
 
             return float_val
