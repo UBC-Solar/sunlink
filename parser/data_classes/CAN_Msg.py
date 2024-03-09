@@ -54,8 +54,9 @@ class CAN:
             return float_timestamp
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed TIMESTAMP{ANSI_ESCAPE}. -> {e}, "
-                f"input = {message_timestamp}, "
+                f"{ANSI_BOLD}Failed TIMESTAMP{ANSI_ESCAPE}: \n"
+                f"error = {e}, \n"
+                f"input = {message_timestamp}, \n"
                 f"len(input) = {len(message_timestamp)}"
             )
         
@@ -77,8 +78,9 @@ class CAN:
             return hex_id
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed HEX_ID{ANSI_ESCAPE}. -> {e}, "
-                f"input = {message_id}, "
+                f"{ANSI_BOLD}Failed HEX_ID{ANSI_ESCAPE}: \n"
+                f"error = {e}, \n"
+                f"input = {message_id}, \n"
                 f"len(input) = {len(message_id)}"
             )
         
@@ -99,8 +101,9 @@ class CAN:
             return data_bytes   
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed DATA_BYTES{ANSI_ESCAPE}. -> {e}, "
-                f"input = {message_data}, "
+                f"{ANSI_BOLD}Failed DATA_BYTES{ANSI_ESCAPE}: \n"
+                f"error = {e}, \n"
+                f"input = {message_data}, \n"
                 f"len(input) = {len(message_data)}"
             )
 
@@ -120,8 +123,9 @@ class CAN:
             return measurements
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed decode_message{ANSI_ESCAPE}. -> {e}, "
-                f"input.databytes = {data_bytes}, input.identifier = {identifier},"
+                f"{ANSI_BOLD}Failed decode_message{ANSI_ESCAPE}: \n"
+                f"error = {e}, \n"
+                f"input.databytes = {data_bytes}, input.identifier = {identifier},\n"
                 f"len(input.databytes) = {len(data_bytes)}"
             )
         
@@ -141,7 +145,8 @@ class CAN:
             return message
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed get_message_by_frame_id{ANSI_ESCAPE}. -> {e}, "
+                f"{ANSI_BOLD}Failed get_message_by_frame_id{ANSI_ESCAPE}: \n"
+                f"error = {e}, \n"
                 f"input = {identifier}, "
             )
 
@@ -168,9 +173,9 @@ class CAN:
             message = self.get_message(int(hex_id, 16))
         except Exception as e:
             raise Exception(
-                f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message \n"
-                f"    Length = {len(self.message)} \n"
-                f"    Hex Data = {self.message.encode().hex()} \n"
+                f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message with properties: \n"
+                f"    Message Length = {len(self.message)} \n"
+                f"    Message Hex Data = {self.message.encode().hex()} \n"
                 f"    {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"          {e}"
             )
