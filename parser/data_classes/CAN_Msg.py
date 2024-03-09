@@ -176,8 +176,14 @@ class CAN:
                 f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message with properties: \n"
                 f"      Message Length = {len(self.message)} \n"
                 f"      Message Hex Data = {self.message.encode().hex()} \n"
+                f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
+                f"        {ANSI_BOLD}get_timestamp{ANSI_ESCAPE}({self.message[:8].encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_hex_id{ANSI_ESCAPE}({self.message[9:13].encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_data_bytes{ANSI_ESCAPE}({self.message[13:21].encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_measurements{ANSI_ESCAPE}({int(hex_id, 16)}, {data_bytes.encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_message{ANSI_ESCAPE}({int(hex_id, 16)})"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
-                f"      {e}"
+                f"      {e} \n"
             )
         
         # where the data came from
