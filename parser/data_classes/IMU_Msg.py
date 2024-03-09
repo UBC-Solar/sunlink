@@ -91,7 +91,7 @@ class IMU:
     def extract_measurements(self,) -> dict:
         try:      
             timestamp = self.get_timestamp(self.message[:8])
-            value = self.get_value(self.message[11:])
+            value = self.get_value(self.message[11:15])
             id = self.message[9:11]      # skip the @
         except Exception as e:
             raise Exception(
@@ -103,7 +103,7 @@ class IMU:
                 f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
                 f"        {ANSI_BOLD}get_timestamp{ANSI_ESCAPE}(message[:8] = {self.message[:8].encode().hex()}), \n"
                 f"          - Converts latin-1 arg to a 64 bit double \n"
-                f"        {ANSI_BOLD}get_value{ANSI_ESCAPE}(message[11:] = {self.message[11:].encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_value{ANSI_ESCAPE}(message[11:] = {self.message[11:15].encode().hex()}), \n"
                 f"          - Converts latin-1 arg to a 32 bit float \n"
                 f"      {ANSI_BOLD}id (self.message[9:11]){ANSI_ESCAPE} = {self.message[9:11].encode().hex()}, \n"
             )
