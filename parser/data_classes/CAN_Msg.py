@@ -54,7 +54,7 @@ class CAN:
             return float_timestamp
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed TIMESTAMP{ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}Failed get_timestamp(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_timestamp) = {len(message_timestamp)}"
             )
@@ -77,7 +77,7 @@ class CAN:
             return hex_id
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed HEX_ID{ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}Failed get_hex_id(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_id) = {len(message_id)}"
             )
@@ -99,7 +99,7 @@ class CAN:
             return data_bytes   
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed DATA_BYTES{ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}Failed get_data_bytes(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_data) = {len(message_data)}"
             )
@@ -120,7 +120,7 @@ class CAN:
             return measurements
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed decode_message{ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}Failed get_measurements(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(databytes) = {len(data_bytes)}"
             )
@@ -141,7 +141,7 @@ class CAN:
             return message
         except Exception as e:
             raise Exception(
-                f"{ANSI_BOLD}Failed get_message_by_frame_id{ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}Failed get_message(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
             )
 
@@ -176,7 +176,7 @@ class CAN:
                 f"        {ANSI_BOLD}get_hex_id{ANSI_ESCAPE}({self.message[9:13].encode().hex()}), \n"
                 f"        {ANSI_BOLD}get_data_bytes{ANSI_ESCAPE}({self.message[13:21].encode().hex()}), \n"
                 f"        {ANSI_BOLD}get_measurements{ANSI_ESCAPE}({int(hex_id, 16)}, {data_bytes}), \n"
-                f"        {ANSI_BOLD}get_message{ANSI_ESCAPE}({int(hex_id, 16)})"
+                f"        {ANSI_BOLD}get_message{ANSI_ESCAPE}({int(hex_id, 16)}) \n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
             )
