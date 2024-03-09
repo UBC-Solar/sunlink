@@ -1,4 +1,7 @@
 import struct
+from parser.parameters import ANSI_BOLD
+from parser.parameters import ANSI_ESCAPE
+from parser.parameters import ANSI_RED
 
 """
 IMU Message data class. Assumes message parameter in constructor is a latin-1 decoded string.
@@ -28,6 +31,29 @@ class IMU:
         self.data = self.extract_measurements()
         self.type = "IMU"
 
+
+    """
+    Gets the timestamp of the message as a float
+
+    Parameters:
+        message_timestamp - the timestamp of the message as a latin-1 string
+    
+    Returns:
+        float - the timestamp of the message
+    """
+    def get_timestamp(self, message_timestamp) -> float:
+        try:
+            timestamp = struct.unpack('>d', message_timestamp.encode('latin-1'))[0]
+            float_timestamp = float(timestamp)
+
+            return float_timestamp
+        except Exception as e:
+            raise Exception(
+                f"{ANSI_BOLD}Failed get_timestamp(){ANSI_ESCAPE}: \n"
+                f"      Caught Exception = {e}, \n"
+                f"      len(message_timestamp) = {len(message_timestamp)}"
+            )
+        
     """
     Extracts measurements from a IMU message based on a specified format
     Keys of the display_dict inside data dict are column headings.
@@ -40,11 +66,24 @@ class IMU:
         display_data dictionary with the form outlined in the class description
     """
     def extract_measurements(self,) -> dict:
-        # Extract the parts of the message
-        timestamp = struct.unpack('>d', self.message[:8].encode('latin-1'))[0]
-        timestamp = float(timestamp)
-        id = self.message[9:11]      # skip the @
-        val = self.message[11:]
+        try:      
+            timestamp = self.get_timestamp(self.message[:8])
+            id = self.message[9:11]      # skip the @
+            val = self.message[11:]
+        except Exception as e:
+            raise Exception(
+                f"Could not extract {ANSI_BOLD}IMU{ANSI_ESCAPE} message with properties: \n"
+                f"      Message Length = {len(self.message)} \n"
+                f"      Message Hex Data = {self.message.encode().hex()} \n"
+                f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
+                f"      {e} \n"
+                f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
+                f"        {ANSI_BOLD}get_timestamp{ANSI_ESCAPE}(message[:8] = {self.message[:8].encode().hex()}), \n"
+                f"          - Converts latin-1 arg to a float \n"
+                f"      {ANSI_BOLD}id (self.message[9:11]){ANSI_ESCAPE} = {id}, \n"
+                f"      {ANSI_BOLD}val (self.message[11:]){ANSI_ESCAPE} = {val} \n"
+            )
+        
 
         # Convert the val part to a 32-bit float
         value = struct.unpack('>f', bytearray(val.encode('latin-1')))[0]
