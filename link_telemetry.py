@@ -433,7 +433,7 @@ def main():
 
 
     # build the correct URL to make POST request to
-    if args.prod:
+    if args.prod or args.offline:
         PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
     elif args.debug:
         PARSER_ENDPOINT = DEBUG_WRITE_ENDPOINT
