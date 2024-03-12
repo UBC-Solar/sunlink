@@ -286,7 +286,6 @@ def process_response(future: concurrent.futures.Future, args):
     
     try:
         parse_response: dict = response.json()
-        print("DLEET: ", parse_response["delete"])
     except json.JSONDecodeError:
         print(f"Failed to parse response from parser as JSON!")
         print(f"Response content: {response.content}")
