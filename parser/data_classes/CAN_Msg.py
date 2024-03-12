@@ -54,8 +54,10 @@ class CAN:
 
             return float_timestamp
         except Exception as e:
+            exec_info = e.__traceback__.tb_lineno
+            exec_file = e.__traceback__.tb_frame.f_code.co_filename
             raise Exception(
-                f"{ANSI_BOLD}Failed get_timestamp(){ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_timestamp(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_timestamp) = {len(message_timestamp)}"
             )
@@ -77,8 +79,10 @@ class CAN:
 
             return hex_id
         except Exception as e:
+            exec_info = e.__traceback__.tb_lineno
+            exec_file = e.__traceback__.tb_frame.f_code.co_filename
             raise Exception(
-                f"{ANSI_BOLD}Failed get_hex_id(){ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_hex_id(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_id) = {len(message_id)}"
             )
@@ -99,8 +103,10 @@ class CAN:
 
             return data_bytes   
         except Exception as e:
+            exec_info = e.__traceback__.tb_lineno
+            exec_file = e.__traceback__.tb_frame.f_code.co_filename
             raise Exception(
-                f"{ANSI_BOLD}Failed get_data_bytes(){ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_data_bytes(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_data) = {len(message_data)}"
             )
@@ -120,8 +126,10 @@ class CAN:
             measurements = CAR_DBC.decode_message(identifier, data_bytes)
             return measurements
         except Exception as e:
+            exec_info = e.__traceback__.tb_lineno
+            exec_file = e.__traceback__.tb_frame.f_code.co_filename
             raise Exception(
-                f"{ANSI_BOLD}Failed get_measurements(){ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_measurements(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(databytes) = {len(data_bytes)}"
             )
@@ -141,8 +149,10 @@ class CAN:
             message = CAR_DBC.get_message_by_frame_id(identifier)
             return message
         except Exception as e:
+            exec_info = e.__traceback__.tb_lineno
+            exec_file = e.__traceback__.tb_frame.f_code.co_filename
             raise Exception(
-                f"{ANSI_BOLD}Failed get_message(){ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_message(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
             )
 
@@ -161,6 +171,11 @@ class CAN:
         display_data dictionary with form outlined in the class description
     """
     def extract_measurements(self) -> dict:
+        timestamp = None
+        hex_id = None
+        data_bytes = None
+        measurements = None
+        message = None
         try:      
             timestamp = self.get_timestamp(self.message[:8])
             hex_id = self.get_hex_id(self.message[9:13])
@@ -175,15 +190,15 @@ class CAN:
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
                 f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
-                f"        {ANSI_BOLD}get_timestamp{ANSI_ESCAPE}(message[:8] = {self.message[:8].encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_timestamp( message[:8] = {self.message[:8].encode().hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to a 64 bit double \n"
-                f"        {ANSI_BOLD}get_hex_id{ANSI_ESCAPE}(message[9:13] = {self.message[9:13].encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_hex_id( message[9:13] = {self.message[9:13].encode().hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to int then to hex \n"
-                f"        {ANSI_BOLD}get_data_bytes{ANSI_ESCAPE}(message[13:21] = {self.message[13:21].encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_data_bytes( message[13:21] = {self.message[13:21].encode().hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to a bytearray \n"
-                f"        {ANSI_BOLD}get_measurements{ANSI_ESCAPE}(int(hex_id, 16) = {int(hex_id, 16)}, databytes = {data_bytes}), \n"
+                f"        {ANSI_BOLD}get_measurements( int(hex_id, 16) = {int(hex_id, 16) if hex_id else 'NOT SET'}, databytes = {data_bytes if data_bytes else 'NOT SET'} ){ANSI_ESCAPE}, \n"
                 f"          - Performs decode_message using databytes and int ID and DBC_FILE={DBC_FILE}\n"
-                f"        {ANSI_BOLD}get_message{ANSI_ESCAPE}(int(hex_id, 16) = {int(hex_id, 16)}) \n"
+                f"        {ANSI_BOLD}get_message( int(hex_id, 16) = {int(hex_id, 16) if hex_id else 'NOT SET'} ){ANSI_ESCAPE} \n"
                 f"          - Gets CAN message object from DBC_FILE={DBC_FILE} \n"
             )
         
@@ -231,4 +246,3 @@ class CAN:
             data["display_data"]["Value"].append(dbc_data)
 
         return data
-
