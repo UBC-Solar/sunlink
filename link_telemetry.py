@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from ast import parse
 import serial
 import sys
 import signal
@@ -285,6 +286,7 @@ def process_response(future: concurrent.futures.Future, args):
     
     try:
         parse_response: dict = response.json()
+        print("DLEET: ", parse_response["delete"])
     except json.JSONDecodeError:
         print(f"Failed to parse response from parser as JSON!")
         print(f"Response content: {response.content}")
@@ -521,10 +523,10 @@ def main():
             print("timestamp: ", epoch_time, " id: ", id)
             id_str = id.to_bytes(4, 'big').decode('latin-1')
 
-            data = can_bytes.data 
-            data = can_bytes.data.extend(b'\x00' * (8 - len(can_bytes.data)))    # Pad to 8 bytes 
-            print("timestamp: ", epoch_time, " data_padded: ", data)                  
-            data_str = data.decode('latin-1')                                    # string 
+            print("timestamp: ", epoch_time, " data_bytes: ", can_bytes.data)
+            data_pad = can_bytes.data.extend(b'\x00' * (8 - len(can_bytes.data)))    # Pad to 8 bytes 
+            print("timestamp: ", epoch_time, " data_padded: ", data_pad)                  
+            data_str = data_pad.decode('latin-1')                                    # string 
 
             data_len: str = str(can_bytes.dlc)                    # string
             print("timestamp: ", epoch_time, " data_len: ", data_len)
