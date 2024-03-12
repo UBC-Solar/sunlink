@@ -240,13 +240,13 @@ def parse_and_write_request_bucket(bucket):
     # try extracting measurements
     try:
         message = create_message(parse_request["message"])
-        type = message.type
-
-    except Exception:
+    except Exception as e:
+        app.logger.warn(
+            f"Unable to extract measurements for raw message {parse_request['message']}")
         return {
             "result": "PARSE_FAIL",
             "message": str(parse_request["message"]),
-            "type": type
+            "error": str(e),
         }
 
     # try putting the extracted measurements in the queue for Grafana streaming
