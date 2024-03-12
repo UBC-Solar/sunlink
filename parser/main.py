@@ -249,6 +249,8 @@ def parse_and_write_request_bucket(bucket):
             "error": str(e),
         }
 
+    type = message.type
+
     # try putting the extracted measurements in the queue for Grafana streaming
     try:
         stream_queue.put(message.data, block=False)
