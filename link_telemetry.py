@@ -173,10 +173,10 @@ def print_config_table(args: 'argparse.Namespace'):
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
 
-    msg_types = f"RANDOMLY GENERATED "
-    # msg_types += ' '.join([item.upper() for item in args.randomList])
-    # msg_types += f" @ {args.frequency_hz} Hz" 
-    # msg_types += f" {'UART PORT ({args.port})' if not args.randomList else ''}" 
+    msg_types = f"RANDOMLY GENERATED " if args.randomList else "FROM "
+    msg_types += ' '.join([item.upper() for item in args.randomList]) if not args.offline else "OFFLINE"
+    msg_types += f" @ {args.frequency_hz} Hz" 
+    msg_types += f" {'UART PORT ({args.port})' if not args.randomList else ''}" 
     config_table.add_row(["DATA SOURCE", msg_types])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
@@ -515,19 +515,22 @@ def main():
             epoch_time = time.time()                            # epoch time as float
             timestamp_bytes = struct.pack('>d', epoch_time)
             timestamp_str = timestamp_bytes.decode('latin-1')
+            print("timestamp: ", epoch_time, " timestamp_str: ", timestamp_str)
 
             id: int = can_bytes.arbitration_id                    # int
-            print("canbytes, id: ", id)
+            print("timestamp: ", epoch_time, " id: ", id)
             id_str = id.to_bytes(4, 'big').decode('latin-1')
 
-            data = (can_bytes.data).hex()                         # bytearray to string
-            print("data: ", can_bytes.data)
-            ascii_chars = [chr(int(h, 16)) for h in data] 
-            data_str = ''.join(ascii_chars) 
+            data = can_bytes.data 
+            data = can_bytes.data.extend(b'\x00' * (8 - len(can_bytes.data)))    # Pad to 8 bytes 
+            print("timestamp: ", epoch_time, " data_padded: ", data)                  
+            data_str = data.decode('latin-1')                                    # string 
 
             data_len: str = str(can_bytes.dlc)                    # string
+            print("timestamp: ", epoch_time, " data_len: ", data_len)
 
             message = timestamp_str + "#" + id_str + data_str + data_len
+            print("timestamp: ", epoch_time, " message_hex: ", message.encode('latin-1').hex())
 
         else:
             with serial.Serial() as ser:
@@ -544,9 +547,9 @@ def main():
             "message" : message,
         }
 
-        # Message encoded to hex to ensure all characters stay
-        with open("TEST.txt", "a", encoding='latin-1') as output_log_file:
-            output_log_file.write(message.encode().hex() + '\n')
+        # # Message encoded to hex to ensure all characters stay
+        # with open("TEST.txt", "a", encoding='latin-1') as output_log_file:
+        #     output_log_file.write(message.encode('latin-1').hex() + '\n')
         
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
