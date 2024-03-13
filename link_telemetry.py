@@ -516,22 +516,16 @@ def main():
             epoch_time = time.time()                            # epoch time as float
             timestamp_bytes = struct.pack('>d', epoch_time)
             timestamp_str = timestamp_bytes.decode('latin-1')
-            print("timestamp: ", epoch_time, " timestamp_str: ", timestamp_str)
 
             id: int = can_bytes.arbitration_id                    # int
-            print("timestamp: ", epoch_time, " id: ", id)
             id_str = id.to_bytes(4, 'big').decode('latin-1')
 
-            print("timestamp: ", epoch_time, " data_bytes: ", can_bytes.data)
             data_pad = can_bytes.data.extend(b'\x00' * (8 - len(can_bytes.data)))    # Pad to 8 bytes 
-            print("timestamp: ", epoch_time, " data_padded: ", data_pad)                  
             data_str = data_pad.decode('latin-1')                                    # string 
 
             data_len: str = str(can_bytes.dlc)                    # string
-            print("timestamp: ", epoch_time, " data_len: ", data_len)
 
             message = timestamp_str + "#" + id_str + data_str + data_len
-            print("timestamp: ", epoch_time, " message_hex: ", message.encode('latin-1').hex())
 
         else:
             with serial.Serial() as ser:
@@ -547,10 +541,6 @@ def main():
         payload = {
             "message" : message,
         }
-
-        # # Message encoded to hex to ensure all characters stay
-        # with open("TEST.txt", "a", encoding='latin-1') as output_log_file:
-        #     output_log_file.write(message.encode('latin-1').hex() + '\n')
         
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
