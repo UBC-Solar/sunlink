@@ -1,4 +1,5 @@
 import struct
+from link_telemetry import ANSI_GREEN
 from parser.parameters import ANSI_BOLD
 from parser.parameters import ANSI_ESCAPE
 from parser.parameters import ANSI_RED
@@ -147,12 +148,12 @@ class IMU:
                 f"      Message Hex Data = {self.message.encode().hex()} \n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
-                f"      {ANSI_BOLD}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"
+                f"      {ANSI_GREEN}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"
                 f"        {ANSI_BOLD}get_timestamp( message[:8] = {self.message[:8].encode().hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to a 64 bit double \n"
                 f"        {ANSI_BOLD}get_value( message[11:] = {self.message[11:15].encode().hex()} ){ANSI_ESCAPE},\n"
                 f"          - Converts latin-1 arg to a 32 bit float \n"
-                f"      {ANSI_BOLD}id (self.message[9:11]) = {self.message[9:11].encode().hex()},{ANSI_ESCAPE}  \n"
+                f"        {ANSI_BOLD}id (self.message[9:11]) = {self.message[9:11].encode().hex()},{ANSI_ESCAPE}  \n"
             )
 
         data = {}
