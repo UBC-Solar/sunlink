@@ -115,7 +115,7 @@ class IMU:
     def generate_exception(self, e: Exception, func_name: str) -> Exception:
         exec_info = e.__traceback__.tb_lineno
         exec_file = e.__traceback__.tb_frame.f_code.co_filename
-        return Exception(
+        raise Exception(
             f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in {func_name}(){ANSI_ESCAPE}: \n"
             f"      Caught Exception = {e}, \n"
         )
