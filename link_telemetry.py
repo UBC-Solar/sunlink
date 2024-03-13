@@ -25,9 +25,6 @@ from typing import Dict
 from parser.randomizer import RandomMessage
 import parser.parameters as parameters
 
-# DELETE THIS
-from parser.data_classes.CAN_Msg import CAN
-
 import concurrent.futures
 
 __PROGRAM__ = "link_telemetry"
@@ -133,7 +130,7 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     Ensures that certain argument invariants have been adhered to.
     """
-    if args.log_upload and args.debug or args.log_upload and args.prod or args.log_upload and args.no_write:
+    if args.log_upload and args.debug or args.log_upload and args.prod or args.log_upload and args.no_write or args.debug or args.offline and args.log_upload:
         parser.error("-u (--log-upload) can only be used alone (cannot be used with ANY other options)")
     elif args.log_upload:
         return
@@ -430,7 +427,7 @@ def main():
         check_health_handler()
         return 0
 
-    # validate_args(parser, args)
+    validate_args(parser, args)
 
 
     # build the correct URL to make POST request to
@@ -501,6 +498,7 @@ def main():
 
         if args.randomList:
             try:
+                print("ARGS RNADOMLIST: ", args.randomList)
                 message = RandomMessage().random_message_str(args.randomList)
             except Exception as e:
                 print(f"Failed to generate random message: {e}")
