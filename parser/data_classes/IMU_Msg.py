@@ -80,6 +80,29 @@ class IMU:
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_val) = {len(message_val)}"
             )
+    
+    def get_id(self, message_id):
+        try:
+            # Ensure ID[0] is one of A or G and ID[1] is one of X, Y, or Z and length 2
+            if message_id[0] not in ["A", "G"] or message_id[1] not in ["X", "Y", "Z"] and len(message_id) != 2:
+                raise Exception(f"ID {message_id} is not a valid IMU ID")
+            else:
+                return message_id
+        except Exception as e:
+            exec_info = e.__traceback__.tb_lineno
+            exec_file = e.__traceback__.tb_frame.f_code.co_filename
+            raise Exception(
+                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_id(){ANSI_ESCAPE}: \n"
+                f"      Caught Exception = {e}, \n"
+                f"      len(message_id) = {len(message_id)}"
+            )
+    
+    # def generate_exception(self, e: Exception, message: str) -> Exception:
+    #     exec_info = e.__traceback__.tb_lineno
+    #     exec_file = e.__traceback__.tb_frame.f_code.co_filename
+    #     return Exception(
+    #         f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in {message}{ANSI_ESCAPE}: \n"
+    #         f"      Caught Exception = {e}, \n"
         
     """
     Extracts measurements from a IMU message based on a specified format
@@ -99,7 +122,7 @@ class IMU:
         try:      
             timestamp = self.get_timestamp(self.message[:8])
             value = self.get_value(self.message[11:15])
-            id = self.message[9:11]      # skip the @
+            id = self.get_id(self.message[9:11])     
         except Exception as e:
             raise Exception(
                 f"Could not extract {ANSI_BOLD}IMU{ANSI_ESCAPE} message with properties: \n"
