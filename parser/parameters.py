@@ -13,7 +13,7 @@ Parameters:
 Returns:
     Exception with the custom message
 """
-def generate_exception(self, e: Exception, func_name: str) -> Exception:
+def generate_exception(e: Exception, func_name: str) -> Exception:
     exec_info = e.__traceback__.tb_lineno
     exec_file = e.__traceback__.tb_frame.f_code.co_filename
     raise Exception(
