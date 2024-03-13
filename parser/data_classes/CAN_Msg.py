@@ -1,12 +1,6 @@
 import struct
-from parser.parameters import CAR_DBC
-from parser.parameters import DBC_FILE
-
-from parser.parameters import ANSI_BOLD
-from parser.parameters import ANSI_ESCAPE
-from parser.parameters import ANSI_RED
-from parser.parameters import ANSI_GREEN
-
+from parser.parameters import CAR_DBC, DBC_FILE
+from parser.parameters import ANSI_BOLD, ANSI_ESCAPE, ANSI_RED, ANSI_GREEN
 from parser.parameters import generate_exception
 
 """

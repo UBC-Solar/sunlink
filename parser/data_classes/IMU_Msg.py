@@ -1,10 +1,6 @@
 import struct
 
-from parser.parameters import ANSI_GREEN
-from parser.parameters import ANSI_BOLD
-from parser.parameters import ANSI_ESCAPE
-from parser.parameters import ANSI_RED
-
+from parser.parameters import ANSI_BOLD, ANSI_ESCAPE, ANSI_RED, ANSI_GREEN
 from parser.parameters import generate_exception
 
 """
@@ -93,7 +89,7 @@ class IMU:
         except Exception as e:
             generate_exception(e, "get_id")
     
-    
+
     """
     Extracts measurements from a IMU message based on a specified format
     Keys of the display_dict inside data dict are column headings.

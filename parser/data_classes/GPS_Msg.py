@@ -1,5 +1,5 @@
 import re
-from parser.parameters import *
+from parser.parameters import ANSI_RED, ANSI_ESCAPE
 
 """
 GPS Message data class. Assumes message parameter in constructor is a latin-1 decoded string.
@@ -82,9 +82,9 @@ class GPS:
             }
         else:
             raise Exception(
-                f"Regex Match failed for {ANSI_BOLD}GPS{ANSI_ESCAPE} message with properties: \n"
+                f"{ANSI_RED}Regex Match failed for GPS message with properties: {ANSI_ESCAPE}\n"
                 f"      Message Length = {len(self.message)} \n"
-                f"      Message Data = {self.message} \n"
+                f"      Message Data = '{self.message}' \n"
             )
 
         return data
