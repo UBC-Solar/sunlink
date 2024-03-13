@@ -130,7 +130,7 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     Ensures that certain argument invariants have been adhered to.
     """
-    if args.log_upload and args.debug or args.log_upload and args.prod or args.log_upload and args.no_write or args.debug or args.offline and args.log_upload:
+    if (args.log_upload and args.debug) or (args.log_upload and args.prod) or (args.log_upload and args.no_write) or (args.offline and args.log_upload):
         parser.error("-u (--log-upload) can only be used alone (cannot be used with ANY other options)")
     elif args.log_upload:
         return
