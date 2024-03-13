@@ -133,7 +133,7 @@ class IMU:
             raise Exception(
                 f"Could not extract {ANSI_BOLD}IMU{ANSI_ESCAPE} message with properties: \n"
                 f"      Message Length = {len(self.message)} \n"
-                f"      Message Hex Data = {self.message.encode().hex()} \n"
+                f"      Message Hex Data = {self.message.encode().hex()} \n\n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
                 f"      {ANSI_GREEN}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"
