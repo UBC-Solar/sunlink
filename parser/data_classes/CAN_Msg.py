@@ -7,6 +7,8 @@ from parser.parameters import ANSI_ESCAPE
 from parser.parameters import ANSI_RED
 from parser.parameters import ANSI_GREEN
 
+from parser.parameters import generate_exception
+
 """
 CAN Message data class. Data fields are:
 
@@ -56,13 +58,7 @@ class CAN:
 
             return float_timestamp
         except Exception as e:
-            exec_info = e.__traceback__.tb_lineno
-            exec_file = e.__traceback__.tb_frame.f_code.co_filename
-            raise Exception(
-                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_timestamp(){ANSI_ESCAPE}: \n"
-                f"      Caught Exception = {e}, \n"
-                f"      len(message_timestamp) = {len(message_timestamp)}"
-            )
+            generate_exception(e, "get_timestamp")
         
 
     """
@@ -81,13 +77,7 @@ class CAN:
 
             return hex_id
         except Exception as e:
-            exec_info = e.__traceback__.tb_lineno
-            exec_file = e.__traceback__.tb_frame.f_code.co_filename
-            raise Exception(
-                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_hex_id(){ANSI_ESCAPE}: \n"
-                f"      Caught Exception = {e}, \n"
-                f"      len(message_id) = {len(message_id)}"
-            )
+            generate_exception(e, "get_hex_id")
         
     
     """
@@ -105,13 +95,7 @@ class CAN:
 
             return data_bytes   
         except Exception as e:
-            exec_info = e.__traceback__.tb_lineno
-            exec_file = e.__traceback__.tb_frame.f_code.co_filename
-            raise Exception(
-                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_data_bytes(){ANSI_ESCAPE}: \n"
-                f"      Caught Exception = {e}, \n"
-                f"      len(message_data) = {len(message_data)}"
-            )
+            generate_exception(e, "get_data_bytes")
 
     """
     Try to decode the message using the DBC file
@@ -128,13 +112,7 @@ class CAN:
             measurements = CAR_DBC.decode_message(identifier, data_bytes)
             return measurements
         except Exception as e:
-            exec_info = e.__traceback__.tb_lineno
-            exec_file = e.__traceback__.tb_frame.f_code.co_filename
-            raise Exception(
-                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_measurements(){ANSI_ESCAPE}: \n"
-                f"      Caught Exception = {e}, \n"
-                f"      len(databytes) = {len(data_bytes)}"
-            )
+            generate_exception(e, "get_measurements")
         
 
     """
@@ -151,12 +129,8 @@ class CAN:
             message = CAR_DBC.get_message_by_frame_id(identifier)
             return message
         except Exception as e:
-            exec_info = e.__traceback__.tb_lineno
-            exec_file = e.__traceback__.tb_frame.f_code.co_filename
-            raise Exception(
-                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_message(){ANSI_ESCAPE}: \n"
-                f"      Caught Exception = {e}, \n"
-            )
+            generate_exception(e, "get_message")
+
 
     """
     CREDIT: Mihir. N and Aarjav. J
@@ -188,7 +162,7 @@ class CAN:
             raise Exception(
                 f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message with properties: \n"
                 f"      Message Length = {len(self.message)} \n"
-                f"      Message Hex Data = {self.message.encode().hex()} \n"
+                f"      Message Hex Data = {self.message.encode().hex()} \n\n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
                 f"      {ANSI_GREEN}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"

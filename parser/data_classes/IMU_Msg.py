@@ -93,9 +93,7 @@ class IMU:
         except Exception as e:
             generate_exception(e, "get_id")
     
-
     
-        
     """
     Extracts measurements from a IMU message based on a specified format
     Keys of the display_dict inside data dict are column headings.
