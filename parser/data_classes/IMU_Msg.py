@@ -80,29 +80,46 @@ class IMU:
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_val) = {len(message_val)}"
             )
+        
     
+    """
+    Gets the ID of the message as a string and checks if it contains, A, G, X, Y, or Z
+    
+    Parameters:
+        message_id - the id of the message as a latin-1 string
+        
+    Returns:
+        string - the id of the message
+    """
     def get_id(self, message_id):
         try:
             # Ensure ID[0] is one of A or G and ID[1] is one of X, Y, or Z and length 2
             if message_id[0] not in ["A", "G"] or message_id[1] not in ["X", "Y", "Z"] and len(message_id) != 2:
-                raise Exception(f"ID {message_id} is not a valid IMU ID")
+                raise Exception(f"'{message_id}' is not a valid IMU ID")
             else:
                 return message_id
         except Exception as e:
-            exec_info = e.__traceback__.tb_lineno
-            exec_file = e.__traceback__.tb_frame.f_code.co_filename
-            raise Exception(
-                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_id(){ANSI_ESCAPE}: \n"
-                f"      Caught Exception = {e}, \n"
-                f"      len(message_id) = {len(message_id)}"
-            )
+            self.generate_exception(e, "get_id")
     
-    # def generate_exception(self, e: Exception, message: str) -> Exception:
-    #     exec_info = e.__traceback__.tb_lineno
-    #     exec_file = e.__traceback__.tb_frame.f_code.co_filename
-    #     return Exception(
-    #         f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in {message}{ANSI_ESCAPE}: \n"
-    #         f"      Caught Exception = {e}, \n"
+
+    """
+    Generates a custom exception based on the caught exception and the function name
+    
+    Parameters:
+        e: The caught exception
+        func_name: The name of the function that caught the exception
+    
+    Returns:
+        Exception with the custom message
+    """
+    def generate_exception(self, e: Exception, func_name: str) -> Exception:
+        exec_info = e.__traceback__.tb_lineno
+        exec_file = e.__traceback__.tb_frame.f_code.co_filename
+        return Exception(
+            f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in {func_name}(){ANSI_ESCAPE}: \n"
+            f"      Caught Exception = {e}, \n"
+        )
+    
         
     """
     Extracts measurements from a IMU message based on a specified format
@@ -130,12 +147,12 @@ class IMU:
                 f"      Message Hex Data = {self.message.encode().hex()} \n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
-                f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
+                f"      {ANSI_BOLD}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"
                 f"        {ANSI_BOLD}get_timestamp( message[:8] = {self.message[:8].encode().hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to a 64 bit double \n"
                 f"        {ANSI_BOLD}get_value( message[11:] = {self.message[11:15].encode().hex()} ){ANSI_ESCAPE},\n"
                 f"          - Converts latin-1 arg to a 32 bit float \n"
-                f"      {ANSI_BOLD}id (self.message[9:11]){ANSI_ESCAPE} = {self.message[9:11].encode().hex()}, \n"
+                f"      {ANSI_BOLD}id (self.message[9:11]) = {self.message[9:11].encode().hex()},{ANSI_ESCAPE}  \n"
             )
 
         data = {}

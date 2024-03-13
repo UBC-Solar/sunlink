@@ -189,7 +189,7 @@ class CAN:
                 f"      Message Hex Data = {self.message.encode().hex()} \n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
-                f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
+                f"      {ANSI_BOLD}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"
                 f"        {ANSI_BOLD}get_timestamp( message[:8] = {self.message[:8].encode().hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to a 64 bit double \n"
                 f"        {ANSI_BOLD}get_hex_id( message[9:13] = {self.message[9:13].encode().hex()} ){ANSI_ESCAPE}, \n"
