@@ -48,8 +48,10 @@ class IMU:
 
             return float_timestamp
         except Exception as e:
+            exec_info = e.__traceback__.tb_lineno
+            exec_file = e.__traceback__.tb_frame.f_code.co_filename
             raise Exception(
-                f"{ANSI_BOLD}Failed get_timestamp(){ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_timestamp(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_timestamp) = {len(message_timestamp)}"
             )
@@ -71,8 +73,10 @@ class IMU:
 
             return float_val
         except Exception as e:
+            exec_info = e.__traceback__.tb_lineno
+            exec_file = e.__traceback__.tb_frame.f_code.co_filename
             raise Exception(
-                f"{ANSI_BOLD}Failed get_value(){ANSI_ESCAPE}: \n"
+                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_value(){ANSI_ESCAPE}: \n"
                 f"      Caught Exception = {e}, \n"
                 f"      len(message_val) = {len(message_val)}"
             )
@@ -89,6 +93,9 @@ class IMU:
         display_data dictionary with the form outlined in the class description
     """
     def extract_measurements(self,) -> dict:
+        timestamp = None
+        value = None
+        id = None
         try:      
             timestamp = self.get_timestamp(self.message[:8])
             value = self.get_value(self.message[11:15])
@@ -101,9 +108,9 @@ class IMU:
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
                 f"      {ANSI_BOLD}Function Call Details:{ANSI_ESCAPE} \n"
-                f"        {ANSI_BOLD}get_timestamp{ANSI_ESCAPE}(message[:8] = {self.message[:8].encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_timestamp( message[:8] = {self.message[:8].encode().hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to a 64 bit double \n"
-                f"        {ANSI_BOLD}get_value{ANSI_ESCAPE}(message[11:] = {self.message[11:15].encode().hex()}), \n"
+                f"        {ANSI_BOLD}get_value( message[11:] = {self.message[11:15].encode().hex()} ){ANSI_ESCAPE},\n"
                 f"          - Converts latin-1 arg to a 32 bit float \n"
                 f"      {ANSI_BOLD}id (self.message[9:11]){ANSI_ESCAPE} = {self.message[9:11].encode().hex()}, \n"
             )
