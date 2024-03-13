@@ -1,8 +1,11 @@
 import struct
-from link_telemetry import ANSI_GREEN
+
+from parser.parameters import ANSI_GREEN
 from parser.parameters import ANSI_BOLD
 from parser.parameters import ANSI_ESCAPE
 from parser.parameters import ANSI_RED
+
+from parser.parameters import generate_exception
 
 """
 IMU Message data class. Assumes message parameter in constructor is a latin-1 decoded string.
@@ -49,7 +52,7 @@ class IMU:
 
             return float_timestamp
         except Exception as e:
-            self.generate_exception(e, "get_timestamp")
+            generate_exception(e, "get_timestamp")
         
 
     """
@@ -68,7 +71,7 @@ class IMU:
 
             return float_val
         except Exception as e:
-            self.generate_exception(e, "get_value")
+            generate_exception(e, "get_value")
         
     
     """
@@ -88,26 +91,9 @@ class IMU:
             else:
                 return message_id
         except Exception as e:
-            self.generate_exception(e, "get_id")
+            generate_exception(e, "get_id")
     
 
-    """
-    Generates a custom exception based on the caught exception and the function name
-    
-    Parameters:
-        e: The caught exception
-        func_name: The name of the function that caught the exception
-    
-    Returns:
-        Exception with the custom message
-    """
-    def generate_exception(self, e: Exception, func_name: str) -> Exception:
-        exec_info = e.__traceback__.tb_lineno
-        exec_file = e.__traceback__.tb_frame.f_code.co_filename
-        raise Exception(
-            f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in {func_name}(){ANSI_ESCAPE}: \n"
-            f"      Caught Exception = {e}, \n"
-        )
     
         
     """
