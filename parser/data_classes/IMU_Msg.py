@@ -49,13 +49,7 @@ class IMU:
 
             return float_timestamp
         except Exception as e:
-            exec_info = e.__traceback__.tb_lineno
-            exec_file = e.__traceback__.tb_frame.f_code.co_filename
-            raise Exception(
-                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_timestamp(){ANSI_ESCAPE}: \n"
-                f"      Caught Exception = {e}, \n"
-                f"      len(message_timestamp) = {len(message_timestamp)}"
-            )
+            self.generate_exception(e, "get_timestamp")
         
 
     """
@@ -74,13 +68,7 @@ class IMU:
 
             return float_val
         except Exception as e:
-            exec_info = e.__traceback__.tb_lineno
-            exec_file = e.__traceback__.tb_frame.f_code.co_filename
-            raise Exception(
-                f"{ANSI_BOLD}{exec_file} -> Failed at Line: {exec_info} in get_value(){ANSI_ESCAPE}: \n"
-                f"      Caught Exception = {e}, \n"
-                f"      len(message_val) = {len(message_val)}"
-            )
+            self.generate_exception(e, "get_value")
         
     
     """
