@@ -406,7 +406,7 @@ def main():
     source_group.add_argument("--live-off", action="store_true",
                               help=("Will not stream any data to grafana"))
     
-    source_group.add_argument("--live-on", action="append",
+    source_group.add_argument("-l", "--live-on", action="append",
                               help=("Args create a list of message classes or ID's to stream to grafana. no args for all, all for all"))
     
     source_group.add_argument("-u", "--log-upload", action="store_true",
