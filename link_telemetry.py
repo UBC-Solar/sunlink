@@ -546,12 +546,13 @@ def main():
                 # read in bytes from COM port
                 message = ser.readline()
  
-        live_filters = ["NONE"] if not args.live_on else args.live_on
+        live_filters = args.live_on
         if args.live_on and args.live_on[0].upper() == "ALL":
             live_filters = ["ALL"]
-        elif args.live_off:
+        elif args.live_off or not args.live_on:
             live_filters = ["NONE"]
         
+        print(f"live filters: {live_filters}")
         payload = {
             "message" : message,
             "live_filters" : live_filters

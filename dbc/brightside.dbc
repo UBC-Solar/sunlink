@@ -35,7 +35,6 @@ BS_:
 
 BU_: AMB BMS DID ECU MDU MCB SDL TEL OBC
 
-
 BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ ConfigReadError : 21|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ WatchdogCausedLast : 20|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -343,8 +342,6 @@ BO_ 2566869221 OBCStatus: 8 OBC
 
 BO_ 1872 SimulationSpeed: 4 TEL
  SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
-
-
 
 CM_ SG_ 3221225472 DOC_COC "Discharge and Charge Overcurrent Status";
 CM_ SG_ 3221225472 ModuleStatusofBits "Each bit indicates bal status (active high)";
