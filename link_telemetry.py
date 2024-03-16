@@ -431,6 +431,7 @@ def main():
                                     are discouraged.")))
 
     args = parser.parse_args()
+    print(args.randomList)
 
     # <----- Argument validation and handling ----->
 
