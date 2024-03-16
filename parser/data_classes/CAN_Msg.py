@@ -216,3 +216,4 @@ class CAN:
             data["display_data"]["Value"].append(dbc_data)
 
         return data
+    
