@@ -283,7 +283,7 @@ def parse_and_write_request_bucket(bucket):
         }
 
     type = message.type
-    live_filters = parse_request.get("live_stream", False)
+    live_filters = parse_request.get("live_filters", False)
     # try putting the extracted measurements in the queue for Grafana streaming
     if (filter_stream(message, live_filters) and live_filters):
         try:
