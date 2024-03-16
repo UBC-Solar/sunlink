@@ -285,11 +285,12 @@ def parse_and_write_request_bucket(bucket):
     type = message.type
     live_filters = parse_request.get("live_filters", False)
     # try putting the extracted measurements in the queue for Grafana streaming
-    return {
-        "result": "PARSE_FAIL",
-        "message": str(parse_request["message"]),
-        "error": str(filter_stream(message, live_filters)) + message.data["Class"][0],
-    }
+    if filter_stream(message, live_filters):
+        return {
+            "result": "PARSE_FAIL",
+            "message": str(parse_request["message"]),
+            "error": str(filter_stream(message, live_filters)) + message.data["Class"][0],
+        }
 
     if (filter_stream(message, live_filters)):
         try:
