@@ -300,7 +300,7 @@ def process_response(future: concurrent.futures.Future, args):
             row_data = [extracted_measurements[key][i] for key in table.field_names]
             table.add_row(row_data)
 
-        # print(table)
+        print(table)
         
     elif parse_response["result"] == "PARSE_FAIL":
         print(
