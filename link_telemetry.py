@@ -144,7 +144,7 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
         if args.port or args.baudrate:
             parser.error("-r cannot be used with -p and -b options")
 
-        if args.prod:
+        if args.prod and not args.force_random:
             parser.error("-r cannot be used with --prod since randomly generated data should not be written to the production database")
     else:
         if not args.port and not args.baudrate:
@@ -409,6 +409,9 @@ def main():
     source_group.add_argument("-o", "--offline", action="store_true",
                               help=("Allows using the telemetry link with "
                                     "the data recieved directly from the CAN bus "))
+    
+    source_group.add_argument("--force-random", action="store_true",
+                            help=("allows randomization with production bucket. Please user carefully and locally "))
     
     source_group.add_argument("--dbc", action="store",
                               help="Specifies the dbc file to use. For example: ./dbc/brightside.dbc"
