@@ -552,7 +552,6 @@ def main():
         elif args.live_off or not args.live_on:
             live_filters = ["NONE"]
         
-        print(f"live filters: {live_filters}")
         payload = {
             "message" : message,
             "live_filters" : live_filters
