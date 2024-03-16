@@ -398,7 +398,7 @@ def main():
                               help=("Specifies the baudrate for the serial port specified. "
                                     "Typical values include: 9600, 115200, 230400, etc."))
 
-    source_group.add_argument("-r", "--randomList", action="append",
+    source_group.add_argument("-r", "--randomList", nargs='+', action="append",
                               help=("Allows using the telemetry link with "
                                     "chosen randomly generated message types rather than "
                                     "a real radio telemetry stream. do -r can -r gps -r imu"))
@@ -406,7 +406,7 @@ def main():
     source_group.add_argument("--live-off", action="store_true",
                               help=("Will not stream any data to grafana"))
     
-    source_group.add_argument("-l", "--live-on", action="append",
+    source_group.add_argument("-l", "--live-on", nargs='+', action="append",
                               help=("Args create a list of message classes or ID's to stream to grafana. no args for all, all for all"))
     
     source_group.add_argument("-u", "--log-upload", action="store_true",
