@@ -1,3 +1,4 @@
+import re
 import influxdb_client
 import requests
 import pprint
@@ -18,6 +19,7 @@ from flask import Flask
 from flask_httpauth import HTTPTokenAuth
 
 from parser.create_message import create_message
+from parser.parameters import CAR_DBC
 
 from dotenv import dotenv_values
 
@@ -219,6 +221,37 @@ def parse_request():
     }
 
 
+"""
+Filters what to live stream based on args in link_telemetry
+
+NOTE: if CAN is a filter and a message ID is also a filter, 
+      the entire message class (CAN) is allowed to stream
+"""
+def filter_stream(message, filter_list):  
+    if "ALL" in filter_list:
+        return True
+    elif "NONE" in filter_list:
+        return False
+      
+    for filter in filter_list:
+        if message.type == filter.upper():
+            return True
+        else:
+            # Figure out hex_id based on message class
+            class_name = message.data["Class"][0]
+            id = CAR_DBC.get_message_by_name(class_name).frame_id
+
+            # Check if the filter has a 0x or not. 
+            if filter[:2] == "0x" and hex(id) == filter:
+                return True
+            elif id == filter:
+                return True
+            else:
+                return False
+            
+    return False
+
+
 @app.post(f"{API_PREFIX}/parse/write/debug")
 @auth.login_required
 def parse_and_write_request():
@@ -250,14 +283,15 @@ def parse_and_write_request_bucket(bucket):
         }
 
     type = message.type
-
+    live_filters = parse_request.get("live_stream", False)
     # try putting the extracted measurements in the queue for Grafana streaming
-    try:
-        stream_queue.put(message.data, block=False)
-    except queue.Full:
-        app.logger.warn(
-            "Stream queue full. Unable to add measurements to stream queue!"
-        )
+    if (filter_stream(message, live_filters) and live_filters):
+        try:
+            stream_queue.put(message.data, block=False)
+        except queue.Full:
+            app.logger.warn(
+                "Stream queue full. Unable to add measurements to stream queue!"
+            )
 
     # try writing the measurements extracted
     for i in range(len(message.data[list(message.data.keys())[0]])):

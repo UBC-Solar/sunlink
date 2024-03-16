@@ -1,7 +1,6 @@
 import struct
-from parser.parameters import CAR_DBC, DBC_FILE
-from parser.parameters import ANSI_BOLD, ANSI_ESCAPE, ANSI_RED, ANSI_GREEN
-from parser.parameters import generate_exception
+from parser.parameters import *
+
 
 """
 CAN Message data class. Data fields are:
@@ -216,4 +215,3 @@ class CAN:
             data["display_data"]["Value"].append(dbc_data)
 
         return data
-    

@@ -1,7 +1,6 @@
 import struct
+from parser.parameters import *
 
-from parser.parameters import ANSI_BOLD, ANSI_ESCAPE, ANSI_RED, ANSI_GREEN
-from parser.parameters import generate_exception
 
 """
 IMU Message data class. Assumes message parameter in constructor is a latin-1 decoded string.

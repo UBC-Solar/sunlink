@@ -130,6 +130,8 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     Ensures that certain argument invariants have been adhered to.
     """
+    if args.live_on and args.live_off:
+        parser.error("--live-on and --live-off cannot be used together")
     if (args.log_upload and args.debug) or (args.log_upload and args.prod) or (args.log_upload and args.no_write) or (args.offline and args.log_upload):
         parser.error("-u (--log-upload) can only be used alone (cannot be used with ANY other options)")
     elif args.log_upload:
@@ -401,6 +403,12 @@ def main():
                                     "chosen randomly generated message types rather than "
                                     "a real radio telemetry stream. do -r can -r gps -r imu"))
     
+    source_group.add_argument("--live-off", action="store_true",
+                              help=("Will not stream any data to grafana"))
+    
+    source_group.add_argument("--live-on", action="append",
+                              help=("Args create a list of message classes or ID's to stream to grafana. no args for all, all for all"))
+    
     source_group.add_argument("-u", "--log-upload", action="store_true",
                             help=("Will attempt to upload each line of each file in the logfiles directory "
                                 "If upload does not succeed then these lines will be stored "
@@ -537,9 +545,16 @@ def main():
                 # read in bytes from COM port
                 message = ser.readline()
  
-                
+        live_filters = args.live_on
+        if args.live_on[0].upper() == "ALL" or (len(args.live_on) == 0 and args.live_on != None):
+            live_filters = ["ALL"]
+        elif args.live_off:
+            live_filters = ["NONE"]
+        
+        print(f"live_filters: {live_filters}")
         payload = {
             "message" : message,
+            # "live_filters" : live_filters
         }
         
         # submit to thread pool
