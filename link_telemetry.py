@@ -552,13 +552,10 @@ def main():
         elif args.live_off:
             live_filters = ["NONE"]
         
-        print(f"live_filters: {live_filters}")
         payload = {
             "message" : message,
             "live_filters" : live_filters
         }
-
-        print("PAYLOAD", payload)
         
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
