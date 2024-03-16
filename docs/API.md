@@ -145,7 +145,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 {
     "result": "PARSE_FAIL",
     "message": "28eb942c0628¶nÌWùjs8",
-    "type": "CAN"
+    "error": str(Exception as e),
 }
 ```
 
@@ -169,7 +169,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
     - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. Another problem could be interference of different types in the same Influx bucket (Ex. adding ints to a bucket already containing floats)
 
 2. The `message` field is a dictionary of the parsed message that came into the parser. This field is  populated with the data dictionary when the `result` field is `'OK'`. However, if the `result` field is `'PARSE_FAIL'` or `'INFLUX_WRITE_FAIL'` then the `message` field is a string of the raw message payload. This is to allow offline logging of failed messages for later debugging.
-
+3. The `error` field (in `PARSE_FAIL` responses) is a pretty printed description of the file, line, and what error occurred. This also traces back to the function at which this error occurred and the data that caused it. Note that it uses ANSI sequences to do the pretty printing.
 4. The `type` field is the type of message (CAN, GPS, or IMU currently).
 
 
