@@ -546,7 +546,7 @@ def main():
                 message = ser.readline()
  
         live_filters = args.live_on
-        if args.live_on[0].upper() == "ALL" or (len(args.live_on) == 0 and args.live_on != None):
+        if args.live_on[0].upper() == "ALL":
             live_filters = ["ALL"]
         elif args.live_off:
             live_filters = ["NONE"]
