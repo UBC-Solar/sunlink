@@ -439,7 +439,7 @@ def main():
         check_health_handler()
         return 0
 
-    validate_args(parser, args)
+    # validate_args(parser, args)
 
 
     # build the correct URL to make POST request to
