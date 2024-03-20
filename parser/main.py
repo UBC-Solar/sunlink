@@ -241,6 +241,8 @@ def filter_stream(message, filter_list):
             class_name = message.data["Class"][0]
             id = CAR_DBC.get_message_by_name(class_name).frame_id
 
+            return [id, filter]
+
             # Check if the filter has a 0x or not. 
             if filter[:2] == "0x" and hex(id) == filter:
                 return True
@@ -287,7 +289,7 @@ def parse_and_write_request_bucket(bucket):
     return {
         "result": "PARSE_FAIL",
         "message": str(parse_request["message"]),
-        "error": str(live_filters),
+        "error": str(filter_stream(message, live_filters)),
     }
 
     # try putting the extracted measurements in the queue for Grafana streaming
