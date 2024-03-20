@@ -234,29 +234,26 @@ def filter_stream(message, filter_list):
         return False
       
     for filter in filter_list:
-        # Check if filter is a word (not convertible to int and does not start with 0x)
-        if filter.isalpha() and message.type == filter.upper():
-            return True
-        else:
-            # Figure out hex_id based on message class
+        if len(filter) > 2 and filter[:2] == "0x":
             class_name = message.data["Class"][0]
             id = CAR_DBC.get_message_by_name(class_name).frame_id
 
-            # Check if the filter is a hex number
-            if filter[:2] == "0x":
-                try:
-                    if hex(id) == filter:
-                        return True
-                except ValueError:
-                    pass
+            if hex(id) == filter:
+                return True
+            continue
+        if filter.isdigit():
+            class_name = message.data["Class"][0]
+            id = CAR_DBC.get_message_by_name(class_name).frame_id
+
+            if int(filter) == id:
+                return True
             else:
-                # Check if the filter is a decimal/int
-                try:
-                    if id == int(filter):
-                        return True
-                except ValueError:
-                    pass
-            
+                continue
+        if filter.isalpha():
+            if filter.upper() == message.type:
+                return True
+            continue
+
     return False
 
 
