@@ -529,7 +529,8 @@ def main():
             id: int = can_bytes.arbitration_id                    # int
             id_str = id.to_bytes(4, 'big').decode('latin-1')
 
-            data_pad = can_bytes.data.extend(b'\x00' * (8 - len(can_bytes.data)))    # Pad to 8 bytes 
+            data_bytes = can_bytes.data
+            data_pad = data_bytes.ljust(8, b'\0')
             data_str = data_pad.decode('latin-1')                                    # string 
 
             data_len: str = str(can_bytes.dlc)                    # string
