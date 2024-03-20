@@ -287,7 +287,7 @@ def parse_and_write_request_bucket(bucket):
     return {
         "result": "PARSE_FAIL",
         "message": str(parse_request["message"]),
-        "error": str(filter_stream(message, live_filters)),
+        "error": str(live_filters),
     }
 
     # try putting the extracted measurements in the queue for Grafana streaming
