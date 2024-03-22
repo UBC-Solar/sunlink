@@ -51,7 +51,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -304,7 +304,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -449,7 +449,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "description": "",
         "fieldConfig": {
@@ -500,7 +500,7 @@
           {
             "datasource": {
               "type": "influxdb",
-              "uid": "P951FEA4DE68E13C5"
+              "uid": "o2uhkwje8832ha"
             },
             "query": "from(bucket: \"CAN\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ESTOP_Pressed\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
             "refId": "A"
@@ -525,7 +525,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -1072,7 +1072,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -1135,7 +1135,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -1240,7 +1240,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -1316,7 +1316,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -1772,7 +1772,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -2228,7 +2228,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -2680,7 +2680,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "description": "",
         "fieldConfig": {
@@ -2732,7 +2732,7 @@
           {
             "datasource": {
               "type": "influxdb",
-              "uid": "P951FEA4DE68E13C5"
+              "uid": "o2uhkwje8832ha"
             },
             "query": "from(bucket: \"CAN\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SuppBattVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
             "refId": "A"
@@ -2854,7 +2854,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -2917,7 +2917,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "o2uhkwje8832ha"
         },
         "fieldConfig": {
           "defaults": {
@@ -3051,4 +3051,3 @@
     "version": 26,
     "weekStart": ""
   }
-  
