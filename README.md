@@ -424,7 +424,7 @@ Here are some example invocations:
 | `./link_telemetry.py -r all -l 0x401 1795 IMU --debug` | Makes the link randomly generate message data for CAN, GPS, and IMU (all), requests the parser to write to the debug InfluxDB bucket, and **l**ivestreams only message ID 0x401 (hex), 1795 (decimal), and IMU messages to Grafana |
 | `./link_telemetry.py -r all --live-off --debug` | Makes the link randomly generate message data for CAN, GPS, and IMU (all), requests the parser to write to the debug InfluxDB bucket, and **l**ivestreams nothing to Grafana. |
 | `./link_telemetry.py -r all -l all --debug` | Makes the link randomly generate message data for CAN, GPS, and IMU (all), requests the parser to write to the debug InfluxDB bucket, and **l**ivestreams all data to Grafana. |
-| `./link_telemetry.py -r -f 100 --debug` | Makes the link randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket. |
+| `./link_telemetry.py -r can -f 100 --debug` | Makes the link randomly generate CAN message data at 100Hz and requests the parser to write to the debug InfluxDB bucket. |
 | `./link_telemetry.py -o --debug` | Makes the link to recieve data from PCAN and requests the parser to write to the debug InfluxDB bucket. |
 | `./link_telemetry.py -o --prod` | Makes the link to recieve data from PCAN and requests the parser to write to the CAN InfluxDB bucket. |
 
