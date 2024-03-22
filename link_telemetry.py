@@ -149,10 +149,11 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
         if args.prod and not args.force_random:
             parser.error("-r cannot be used with --prod since randomly generated data should not be written to the production database")
     else:
-        if not args.port and not args.baudrate:
-            parser.error("Must specify either -r or both -p and -b arguments")
-        elif not (args.port and args.baudrate):
-            parser.error("-p and -b options must both be specified")
+        pass
+        # if not args.port and not args.baudrate:
+        #     parser.error("Must specify either -r or both -p and -b arguments")
+        # elif not (args.port and args.baudrate):
+        #     parser.error("-p and -b options must both be specified")
 
     if args.no_write:
         if args.debug or args.prod:
@@ -445,7 +446,7 @@ def main():
         check_health_handler()
         return 0
 
-    # validate_args(parser, args)
+    validate_args(parser, args)
 
 
     # build the correct URL to make POST request to
