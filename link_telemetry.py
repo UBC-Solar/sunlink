@@ -180,7 +180,9 @@ def print_config_table(args: 'argparse.Namespace', live_filters: list):
     config_table.add_row(["DATA SOURCE", msg_types])
 
     filters_string = "LIVE STREAM FILTERS: "
-    filters_string += str(live_filters)
+    for live_filter in live_filters:
+        filters_string += live_filter + ","
+    filters_string = filters_string.rstrip(',')
     config_table.add_row(["LIVE STREAM FILTERS", filters_string])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
