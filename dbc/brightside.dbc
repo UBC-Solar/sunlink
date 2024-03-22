@@ -451,3 +451,5 @@ SIG_VALTYPE_ 1793 VoltSensor1 : 1;
 SIG_VALTYPE_ 1793 VoltSensor2 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
+SIG_VALTYPE_ 1025 MotorVelocity : 1;
+SIG_VALTYPE_ 1025 MotorCurrent : 1;
