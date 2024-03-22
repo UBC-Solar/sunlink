@@ -165,7 +165,7 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
             parser.error("Must specify one of --debug, --prod, or --no-write.")
 
 
-def print_config_table(args: 'argparse.Namespace'):
+def print_config_table(args: 'argparse.Namespace', live_filters: list):
     """
     Prints a table containing the current script configuration.
     """
@@ -178,6 +178,10 @@ def print_config_table(args: 'argparse.Namespace'):
     msg_types += f" @ {args.frequency_hz} Hz" 
     msg_types += f" {'UART PORT ({args.port})' if not args.randomList else ''}" 
     config_table.add_row(["DATA SOURCE", msg_types])
+
+    filters_string = "LIVE STREAM FILTERS: "
+    filters_string += str(live_filters)
+    config_table.add_row(["LIVE STREAM FILTERS", filters_string])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
     config_table.add_row(["DBC FILE", parameters.DBC_FILE])
@@ -475,10 +479,16 @@ def main():
         # Defining the Can bus
         can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
 
+    # <----- Define Live Filters ----->
+    live_filters = args.live_on
+    if args.live_on and args.live_on[0].upper() == "ALL":
+        live_filters = ["ALL"]
+    elif args.live_off or not args.live_on:
+        live_filters = ["NONE"]
 
     # <----- Configuration confirmation ----->
     if not args.log_upload:
-        print_config_table(args)
+        print_config_table(args, live_filters)
         choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
         if choice.lower() != "y":
             return
@@ -547,11 +557,6 @@ def main():
                 # read in bytes from COM port
                 message = ser.readline()
  
-        live_filters = args.live_on
-        if args.live_on and args.live_on[0].upper() == "ALL":
-            live_filters = ["ALL"]
-        elif args.live_off or not args.live_on:
-            live_filters = ["NONE"]
         
         payload = {
             "message" : message,
