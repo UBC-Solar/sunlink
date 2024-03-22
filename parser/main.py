@@ -219,7 +219,7 @@ def parse_request():
         "message": message.data["display_data"],
         "type": type
     }
-
+ 
 
 """
 Filters what to live stream based on args in link_telemetry
@@ -236,14 +236,30 @@ def filter_stream(message, filter_list):
     for filter in filter_list:
         if len(filter) > 2 and filter[:2] == "0x":
             class_name = message.data["Class"][0]
-            id = CAR_DBC.get_message_by_name(class_name).frame_id
+
+            # try if it is CAN message
+            can_message = None
+            try:
+                can_message = CAR_DBC.get_message_by_name(class_name)
+            except:
+                continue
+
+            id = can_message.frame_id
 
             if hex(id) == filter:
                 return True
             continue
         if filter.isdigit():
             class_name = message.data["Class"][0]
-            id = CAR_DBC.get_message_by_name(class_name).frame_id
+
+            # try if it is CAN message
+            can_message = None
+            try:
+                can_message = CAR_DBC.get_message_by_name(class_name)
+            except:
+                continue
+
+            id = can_message.frame_id
 
             if int(filter) == id:
                 return True
