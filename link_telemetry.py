@@ -438,7 +438,6 @@ def main():
                                     are discouraged.")))
 
     args = parser.parse_args()
-    print(args.randomList)
 
     # <----- Argument validation and handling ----->
 
@@ -559,7 +558,8 @@ def main():
 
                 # read in bytes from COM port
                 message = ser.readline()
- 
+                message = message.decode('latin-1')
+    
         
         payload = {
             "message" : message,
