@@ -48,10 +48,6 @@ git clone https://github.com/UBC-Solar/sunlink.git sunlink_test
 cd sunlink_test
 echo -e "\nChanged directory to sunlink\n"
 
-
-# Set up .env
-touch .env
-
 # Get user input for GRAFANA_ADMIN_USERNAME
 read -p "Enter GRAFANA_ADMIN_USERNAME (empty for default): " GRAFANA_ADMIN_USERNAME
 GRAFANA_ADMIN_USERNAME=${GRAFANA_ADMIN_USERNAME:-admin}
@@ -99,6 +95,7 @@ SECRET_KEY="dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
 
 
 # Populate everything in .env
+touch .env
 echo -e "# Grafana environment variables\n" >> .env
 echo -e "GRAFANA_ADMIN_USERNAME=\"$GRAFANA_ADMIN_USERNAME\"" >> .env
 echo -e "GRAFANA_ADMIN_PASSWORD=\"$GRAFANA_ADMIN_PASSWORD\"\n" >> .env
@@ -116,5 +113,22 @@ echo -e "# Access tokens\n" >> .env
 echo -e "INFLUX_TOKEN=\"\"" >> .env
 echo -e "GRAFANA_TOKEN=\"\"" >> .env
 
+# Telemetry link configuration 
+touch telemetry.toml
+echo -e "[parser]" >> telemetry.toml
+echo -e "url = \"http://localhost:5000/\"\n" >> telemetry.toml
+echo -e "[security]" >> telemetry.toml
+echo -e "secret_key = \"$SECRET_KEY\"\n" >> telemetry.toml
+echo -e "[offline]" >> telemetry.toml
+echo -e "channel = \"can0\"" >> telemetry.toml
+echo -e "channel = bitrate = \"500000\"" >> telemetry.toml
 
+# Creating a python virtual environment
+# echo -e "\nCreating Python Virtual Environment and Installing Requirements.txt\n"
+# python3 -m venv environment
+# source environment/bin/activate
+# python -m pip install -r requirements.txt
+
+# Starting the telemetry cluster 
+sudo docker compose up
 
