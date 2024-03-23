@@ -16,17 +16,36 @@ done
 
 # Update apt
 echo "Updating apt..."
-# sudo apt update
-# sudo apt-get update
+sudo apt update
+sudo apt-get update
 
+
+# install gnome terminal
+sudo apt install gnome-terminal
+
+# install docker
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources: 
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+## install latest version of docker 
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Clone Sunlink
 echo -e "\nCloning Sunlink Repository\n"
-# git clone https://github.com/UBC-Solar/sunlink.git
+git clone https://github.com/UBC-Solar/sunlink.git sunlink_test
 
 
 # Change directory into sunlink
-cd sunlink
+cd sunlink_test
 echo -e "\nChanged directory to sunlink\n"
 
 
@@ -39,12 +58,19 @@ GRAFANA_ADMIN_USERNAME=${GRAFANA_ADMIN_USERNAME:-admin}
 echo -e "GRAFANA_ADMIN_USERNAME set: $GRAFANA_ADMIN_USERNAME\n"
 
 # Get user input for GRAFANA_ADMIN_PASSWORD
-
+read -p "Enter GRAFANA_ADMIN_PASSWORD (empty for default): " GRAFANA_ADMIN_PASSWORD
+GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-new_password}
+echo -e "GRAFANA_ADMIN_PASSWORD set: $GRAFANA_ADMIN_PASSWORD\n"
 
 # Get user input for INFLUX_ADMIN_USERNAME
-
+read -p "Enter INFLUX_ADMIN_USERNAME (empty for default): " INFLUX_ADMIN_USERNAME
+INFLUX_ADMIN_USERNAME=${INFLUX_ADMIN_USERNAME:-admin}
+echo -e "INFLUX_ADMIN_USERNAME set: $INFLUX_ADMIN_USERNAME\n"
 
 # Get user input for INFLUX_ADMIN_PASSWORD
+read -p "Enter INFLUX_ADMIN_PASSWORD (empty for default): " INFLUX_ADMIN_PASSWORD
+INFLUX_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD:-new_password}
+echo -e "INFLUX_ADMIN_PASSWORD set: $INFLUX_ADMIN_PASSWORD\n"
 
 
 # Secret key
@@ -54,7 +80,27 @@ SECRET_KEY="dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
 # Access tokens currently empty
 
 
-# Populate everything else in .env
+# Populate everything in .env
+echo -e "# Grafana environment variables\n" >> .env
+echo -e "GRAFANA_ADMIN_USERNAME=\"$GRAFANA_ADMIN_USERNAME\"" >> .env
+echo -e "GRAFANA_ADMIN_PASSWORD=\"$GRAPHANA_ADMIN_PASSWORD\"\n" >> .env
+echo -e "# InfluxDB environment variables\n" >> .env
+echo -e "INFLUX_ADMIN_USERNAME=\"$INFLUX_ADMIN_USERNAME\"" >> .env
+echo -e "INFLUX_ADMIN_PASSWORD=\"$INFLUX_ADMIN_PASSWORD\"\n" >> .env
+echo -e "INFLUX_ORG=\"UBC Solar\"\n" >> .env
+echo -e "# used to store random data for debugging purposes" >> .env
+echo -e "INFLUX_DEBUG_BUCKET=\"Debug\"\n" >> .env
+echo -e "# used to store real data from the car" >> .env
+echo -e "INFLUX_CAN_BUCKET=\"CAN\"\n" >> .env
+echo -e "# Secret key\n" >> .env 
+echo -e "SECRET_KEY=\"dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4\"\n" >> .env 
+echo -e "# Access tokens\n" >> .env
+echo -e "INFLUX_TOKEN=\"\"" >> .env
+echo -e "GRAFANA_TOKEN=\"\"" >> .env
+
+
+
+
 
 
 
