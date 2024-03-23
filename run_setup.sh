@@ -58,9 +58,18 @@ GRAFANA_ADMIN_USERNAME=${GRAFANA_ADMIN_USERNAME:-admin}
 echo -e "GRAFANA_ADMIN_USERNAME set: $GRAFANA_ADMIN_USERNAME\n"
 
 # Get user input for GRAFANA_ADMIN_PASSWORD
-read -p "Enter GRAFANA_ADMIN_PASSWORD (empty for default): " GRAFANA_ADMIN_PASSWORD
-GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-new_password}
-echo -e "GRAFANA_ADMIN_PASSWORD set: $GRAFANA_ADMIN_PASSWORD\n"
+while true; do
+    read -p "Enter GRAFANA_ADMIN_PASSWORD (minimum 8 characters) (empty for default): " GRAFANA_ADMIN_PASSWORD
+    GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-new_password}
+    length=${#GRAFANA_ADMIN_PASSWORD}
+    if [[ $length -lt 8 ]]
+    then
+        echo -e "Enter a password with minimum 8 characters"
+    else
+        echo -e "GRAFANA_ADMIN_PASSWORD set: $GRAFANA_ADMIN_PASSWORD\n"
+        break;
+    fi
+done
 
 # Get user input for INFLUX_ADMIN_USERNAME
 read -p "Enter INFLUX_ADMIN_USERNAME (empty for default): " INFLUX_ADMIN_USERNAME
@@ -68,9 +77,18 @@ INFLUX_ADMIN_USERNAME=${INFLUX_ADMIN_USERNAME:-admin}
 echo -e "INFLUX_ADMIN_USERNAME set: $INFLUX_ADMIN_USERNAME\n"
 
 # Get user input for INFLUX_ADMIN_PASSWORD
-read -p "Enter INFLUX_ADMIN_PASSWORD (empty for default): " INFLUX_ADMIN_PASSWORD
-INFLUX_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD:-new_password}
-echo -e "INFLUX_ADMIN_PASSWORD set: $INFLUX_ADMIN_PASSWORD\n"
+while true; do
+    read -p "Enter INFLUX_ADMIN_PASSWORD (minimum 8 characters) (empty for default): " INFLUX_ADMIN_PASSWORD
+    INFLUX_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD:-new_password}
+    length=${#INFLUX_ADMIN_PASSWORD}
+    if [[ $length -lt 8 ]]
+    then
+        echo -e "Enter a password with minimum 8 characters"
+    else
+        echo -e "INFLUX_ADMIN_PASSWORD set: $INFLUX_ADMIN_PASSWORD\n"
+        break;
+    fi
+done
 
 
 # Secret key
@@ -83,7 +101,7 @@ SECRET_KEY="dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
 # Populate everything in .env
 echo -e "# Grafana environment variables\n" >> .env
 echo -e "GRAFANA_ADMIN_USERNAME=\"$GRAFANA_ADMIN_USERNAME\"" >> .env
-echo -e "GRAFANA_ADMIN_PASSWORD=\"$GRAPHANA_ADMIN_PASSWORD\"\n" >> .env
+echo -e "GRAFANA_ADMIN_PASSWORD=\"$GRAFANA_ADMIN_PASSWORD\"\n" >> .env
 echo -e "# InfluxDB environment variables\n" >> .env
 echo -e "INFLUX_ADMIN_USERNAME=\"$INFLUX_ADMIN_USERNAME\"" >> .env
 echo -e "INFLUX_ADMIN_PASSWORD=\"$INFLUX_ADMIN_PASSWORD\"\n" >> .env
@@ -97,10 +115,6 @@ echo -e "SECRET_KEY=\"dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4\"\n" >> .env
 echo -e "# Access tokens\n" >> .env
 echo -e "INFLUX_TOKEN=\"\"" >> .env
 echo -e "GRAFANA_TOKEN=\"\"" >> .env
-
-
-
-
 
 
 
