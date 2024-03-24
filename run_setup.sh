@@ -123,12 +123,7 @@ echo -e "[offline]" >> telemetry.toml
 echo -e "channel = \"can0\"" >> telemetry.toml
 echo -e "channel = bitrate = \"500000\"" >> telemetry.toml
 
-# Creating a python virtual environment
-# echo -e "\nCreating Python Virtual Environment and Installing Requirements.txt\n"
-# python3 -m venv environment
-# source environment/bin/activate
-# python -m pip install -r requirements.txt
 
 # Starting the telemetry cluster 
-sudo docker compose up
+sudo docker compose up -d
 
