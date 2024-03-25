@@ -1,0 +1,2089 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 11,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "panels": [],
+      "title": "Drive State",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveState\")\n  |> filter(fn: (r) => r[\"class\"] == \"DriverInterface\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Drive State",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 2,
+      "panels": [],
+      "title": "Motor Details",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "velocityms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"MotorDriveCommand\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Motor Velocity (m/s)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "velocityms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 9,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\n  |> filter(fn: (r) => r[\"class\"] == \"MotorDriveCommand\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Motor Velocity (m/s)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "velocityms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 12,
+        "y": 8
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"VelocityMeasurement\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Motor Velocity (RPM)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "velocityms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 21,
+        "y": 8
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\n  |> filter(fn: (r) => r[\"class\"] == \"VelocityMeasurement\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Motor Velocity (RPM)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 0,
+        "y": 14
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorTemp\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"SinkMotorTempMeas\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Motor Temp (°C)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "velocityms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 9,
+        "y": 14
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorTemp\")\n  |> filter(fn: (r) => r[\"class\"] == \"SinkMotorTempMeas\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Motor Temp (°C)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "amp"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 12,
+        "y": 14
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"MotorDriveCommand\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrent\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Motor Current (A)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "amp"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 21,
+        "y": 14
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\n  |> filter(fn: (r) => r[\"class\"] == \"MotorDriveCommand\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Motor Current (A)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "id": 11,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"StatusInfo\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrent\" or r[\"_field\"] == \"Velocity\" or r[\"_field\"] == \"BusCurrent\" or r[\"_field\"] == \"BusVoltUpperLim\" or r[\"_field\"] == \"BusVoltLowerLim\" or r[\"_field\"] == \"HeadsinkTemp\" or r[\"_field\"] == \"HardwareOverCurrent\" or r[\"_field\"] == \"SoftwareOverCurrent\" or r[\"_field\"] == \"DCBusOverVoltage\")\r\n  |> sample(n: 10, pos: 1)\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Status Information",
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 10,
+      "panels": [],
+      "title": "Acceleration and Speed ",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "velocityms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 16,
+        "x": 0,
+        "y": 27
+      },
+      "id": 19,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"SimulationSpeed\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"SimulationSpeedRec\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Simulation Speed",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "velocityms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 27
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"SimulationSpeed\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"SimulationSpeedRec\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Simulation Speed",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "accMS2"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 33
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"IMU_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"X\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "IMU (AX)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "accMS2"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 33
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"IMU_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"X\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "IMU (AX)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "accMS2"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 33
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"IMU_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Z\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "IMU (AZ)",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 39
+      },
+      "id": 20,
+      "panels": [],
+      "title": "Temperatures",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 70,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 45
+              },
+              {
+                "color": "dark-red",
+                "value": 65
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp1 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp2 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T2"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp3 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T3"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp4 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T4"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp5 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp6 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T6"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp7 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T7"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp8 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T8"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp9 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T9"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp10 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp11 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp12 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp13 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp14 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp15 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp16 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T16"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp17 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T17"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp18 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T18"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp19 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T19"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp20 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T20"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp21 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T21"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp22 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T22"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp23 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T23"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp24 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T24"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp25 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T25"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp26 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T26"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp27 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T27"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp28 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T28"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp29 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T29"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp30 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T30"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp31 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T31"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp32 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T32"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "id": 21,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleTemps\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Temp1\" or r[\"_field\"] == \"Temp2\" or r[\"_field\"] == \"Temp3\" or r[\"_field\"] == \"Temp4\" or r[\"_field\"] == \"Temp5\"or r[\"_field\"] == \"Temp6\" or r[\"_field\"] == \"Temp7\" or r[\"_field\"] == \"Temp8\" or r[\"_field\"] == \"Temp9\" or r[\"_field\"] == \"Temp10\" or r[\"_field\"] == \"Temp11\" or r[\"_field\"] == \"Temp12\" or r[\"_field\"] == \"Temp13\" or r[\"_field\"] == \"Temp14\" or r[\"_field\"] == \"Temp15\"or r[\"_field\"] == \"Temp16\" or r[\"_field\"] == \"Temp17\" or r[\"_field\"] == \"Temp18\" or r[\"_field\"] == \"Temp19\" or r[\"_field\"] == \"Temp20\" or r[\"_field\"] == \"Temp21\" or r[\"_field\"] == \"Temp22\" or r[\"_field\"] == \"Temp23\" or r[\"_field\"] == \"Temp24\" or r[\"_field\"] == \"Temp25\"or r[\"_field\"] == \"Temp26\" or r[\"_field\"] == \"Temp27\" or r[\"_field\"] == \"Temp28\" or r[\"_field\"] == \"Temp29\" or r[\"_field\"] == \"Temp30\" or r[\"_field\"] == \"Temp31\" or r[\"_field\"] == \"Temp32\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Module Temperatures",
+      "transformations": [],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "o2uhkwje8832ha"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 70,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 45
+              },
+              {
+                "color": "dark-red",
+                "value": 65
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp1 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp2 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T2"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp3 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T3"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp4 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T4"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp5 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp6 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T6"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp7 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T7"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp8 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T8"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp9 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T9"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp10 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp11 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp12 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp13 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp14 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp15 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp16 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T16"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp17 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T17"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp18 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T18"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp19 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T19"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp20 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T20"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp21 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T21"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp22 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T22"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp23 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T23"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp24 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T24"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp25 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T25"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp26 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T26"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp27 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T27"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp28 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T28"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp29 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T29"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp30 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T30"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp31 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T31"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp32 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T32"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 47
+      },
+      "id": 22,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "o2uhkwje8832ha"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"AMB\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TempSensors1\" or r[\"_field\"] == \"TempSensors2\" or r[\"_field\"] == \"TempSensors3\" or r[\"_field\"] == \"TempSensors4\" or r[\"_field\"] == \"TempSensors5\" or r[\"_field\"] == \"TempSensors6\" or r[\"_field\"] == \"TempSensors7\" or r[\"_field\"] == \"TempSensors8\")\n  |> filter(fn: (r) => r[\"class\"] == \"TempSensorsData\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Temp Sensors AMB",
+      "transformations": [],
+      "type": "bargauge"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-5s",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Pit Crew Dashboard",
+  "uid": "e3e801b9-6d09-48e4-9306-81b946558bfe",
+  "version": 8,
+  "weekStart": ""
+}
