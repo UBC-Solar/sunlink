@@ -125,5 +125,6 @@ echo -e "channel = bitrate = \"500000\"" >> telemetry.toml
 
 
 # Starting the telemetry cluster 
+echo -e "\nStarting up docker containers. May take a few minutes...\n"
 sudo docker compose up -d
 
