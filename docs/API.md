@@ -26,7 +26,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE RESPONSE:** 
+**SAMPLE RESPONSE:**
 
 ```json
 {
@@ -40,12 +40,12 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
             "name": "grafana",
             "status": "UP",
             "url": "http://grafana:3000/"
-        },
+        }
     ]
 }
 ```
 
-**RESPONSE NOTES:** 
+**RESPONSE NOTES:**
 
 1. The `status` field can be one of `"UP"`, `"DOWN"`, or `"UNEXPECTED_STATUS_CODE"`.
 
@@ -57,7 +57,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
     - `"UNEXPECTED_STATUS_CODE"` => The respective service is reachable but it returned an unexpected status code. It is not recommended to run telemetry in this case as well.
 
-## Parse CAN message
+## Parse message
 
 **URL:** `/api/v1/parse`
 
@@ -69,45 +69,26 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE REQUEST:** 
+**SAMPLE REQUEST: (IMU RAW DATA)**
 
 ```json
 {
-    "id": "0401",
-    "timestamp": "deadbeef" ,
-    "data": "000089426666e63e",
-    "data_length": "8",
+    "message": "7f0ebf09@AYÄZÃ."
 }
 ```
 
-**SAMPLE RESPONSES:** 
+**SAMPLE RESPONSE: (PARSED IMU MESSAGE FROM ABOVE)**
 
 ```json
 {
-  "id": 1025,
-  "measurements": [
-    {
-      "m_class": "drive_command",
-      "name": "desired_velocity",
-      "source": "speed_controller",
-      "value": 68.5
+    "result": "OK",
+    "message": {
+        "Type": ["A"],
+        "Dimension": ["Y"],
+        "Value": [-875.049683],
+        "Timestamp": [2131672841]
     },
-    {
-      "m_class": "drive_command",
-      "name": "current_setpoint",
-      "source": "speed_controller",
-      "value": 0.44999998807907104
-    }
-  ],
-  "result": "OK"
-}
-```
-
-```json
-{
-    "id": 990,
-    "measurements": [],
-    "result": "PARSE_FAIL"
+    "type": "IMU"
 }
 ```
 
@@ -119,11 +100,11 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
     - `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
 
-2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
+2. The `message` field is a dictionary of the parsed message that came into the parser. This field is only populated when the `result` field is `'OK'`.
 
-3. The `id` field is simply the CAN ID of the message that was parsed.
+4. The `type` field is the type of message (CAN, GPS, or IMU currently).
 
-## Parse CAN message + write to debug bucket
+## Parse message + write to debug bucket
 
 **URL:** `/api/v1/parse/write/debug`
 
@@ -131,72 +112,49 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **REQUEST CONTENT TYPE:** `application/json`
 
-**DESCRIPTION:** Parses the requested CAN message, writes the measurements to a debug bucket (usually called "Test") on InfluxDB, and sends back the parsed measurements.
+**DESCRIPTION:** Parses the requested message, writes the measurements to an "<MESSAGE_NAME>_test" bucket on InfluxDB, and sends back the parsed measurements.
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE REQUEST:** 
+**SAMPLE REQUEST: (CAN RAW DATA)**
 
 ```json
 {
-    "id": "0401",
-    "timestamp": "deadbeef" ,
-    "data": "000089426666e63e",
-    "data_length": "8",
+    "message": "28eb942c0628¶nÌWùjs8"
 }
 ```
 
-**SAMPLE RESPONSES:** 
+**SAMPLE RESPONSES: (PARSED CAN MESSAGE FROM ABOVE)**
 
 ```json
 {
-    "id": 1025,
-    "measurements": 
-        [
-            {
-                "m_class": "drive_command",
-                "name": "desired_velocity",
-                "source": "speed_controller",
-                "value": 56.31
-            },
-            {
-                "m_class": "drive_command", 
-                "name": "current_setpoint", 
-                "source": "speed_controller",
-                "value": 0.44
-            }
-        ],
-    "result": "OK"
+    "result": "OK",
+    "message": {
+        "Hex_ID": ["0x628", "0x628", "0x628", "0x628", "0x628"], 
+        "Source": ["BMS", "BMS", "BMS", "BMS", "BMS"], 
+        "Class": ["ModuleStatuses", "ModuleStatuses", "ModuleStatuses", "ModuleStatuses", "ModuleStatuses"], 
+        "Measurement": ["MultiplexingBits", "Module25", "Module26", "Module27", "Module28"], 
+        "Value": [6, 110, 204, 87, 249], 
+        "Timestamp": [686527532, 686527532, 686527532, 686527532, 686527532]
+    },
+    "type": "CAN"
 }
 ```
 
 ```json
 {
-    "id": 990,
-    "measurements": [],
-    "result": "PARSE_FAIL"
+    "result": "PARSE_FAIL",
+    "message": "28eb942c0628¶nÌWùjs8",
+    "error": str(Exception as e),
 }
 ```
 
 ```json
 {
-    "id": 1282, 
-    "measurements": 
-        [
-            {
-                "m_class": "motor_bus",
-                "name": "bus_voltage",
-                "source": "daybreak_motor_controller",
-                "value": 103.4
-            },
-            {
-                "m_class": "motor_bus",
-                "name": "bus_current",
-                "source": "daybreak_motor_controller",
-                "value": 34.2
-            }
-        ],
-    "result": "INFLUX_WRITE_FAIL"
+    "result": "INFLUX_WRITE_FAIL",
+    "message": "28eb942c0628¶nÌWùjs8",
+    "error": str(Exception as e),
+    "type": "CAN"      
 }
 ```
 
@@ -206,15 +164,16 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
     - `'OK'` => parsing completed successfully.
 
-    - `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser).
+    - `'PARSE_FAIL'` => parsing failed for some reason (could be because the CAN ID is not in the DBC file used by the parser or any data formatting error/inconsistency).
 
-    - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. 
+    - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. Another problem could be interference of different types in the same Influx bucket (Ex. adding ints to a bucket already containing floats)
 
-2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
+2. The `message` field is a dictionary of the parsed message that came into the parser. This field is  populated with the data dictionary when the `result` field is `'OK'`. However, if the `result` field is `'PARSE_FAIL'` or `'INFLUX_WRITE_FAIL'` then the `message` field is a string of the raw message payload. This is to allow offline logging of failed messages for later debugging.
+3. The `error` field (in `PARSE_FAIL` responses) is a pretty printed description of the file, line, and what error occurred. This also traces back to the function at which this error occurred and the data that caused it. Note that it uses ANSI sequences to do the pretty printing.
+4. The `type` field is the type of message (CAN, GPS, or IMU currently).
 
-3. The `id` field is simply the CAN ID of the message that was parsed.
 
-## Parse CAN message + write to production bucket
+## Parse message + write to production bucket
 
 **URL:** `/api/v1/parse/write/production`
 
@@ -222,7 +181,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **REQUEST CONTENT TYPE:** `application/json`
 
-**DESCRIPTION:** Parses the requested CAN message, writes the measurements to a production bucket (usually called "Telemetry") on InfluxDB, and sends back the parsed measurements.
+**DESCRIPTION:** Parses the requested message, writes the measurements to a production bucket (usually called "<MESSAGE_NAME>_prod") on InfluxDB, and sends back the parsed measurements.
 
 **AUTHENTICATION:** Required.
 

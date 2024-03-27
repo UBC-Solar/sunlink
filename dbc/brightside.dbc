@@ -35,7 +35,6 @@ BS_:
 
 BU_: AMB BMS DID ECU MDU MCB SDL TEL OBC
 
-
 BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ ConfigReadError : 21|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ WatchdogCausedLast : 20|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -344,7 +343,36 @@ BO_ 2566869221 OBCStatus: 8 OBC
 BO_ 1872 SimulationSpeed: 4 TEL
  SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 2550588916 ECUChargerModes: 8 ECU
+ SG_ MaxChargingVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
+ SG_ MaxChargingCurrent : 16|16@1+ (0.1,0) [0|0] "A" Vector__XXX
+ SG_ ChargerEnables : 32|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ChargingModes : 40|8@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 2566869221 OBCStatus: 8 OBC
+ SG_ OutputVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
+ SG_ OutputCurrent : 16|16@1+ (0.1,0) [0|0] "A" Vector__XXX
+ SG_ HardwareProtection : 32|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ TemepratureProtection : 33|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ InputVoltageStatus : 34|2@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OutputUnderVoltage : 36|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OutputOverVoltage : 37|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OutputOverCurrent : 38|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OutputShortCircuit : 39|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CommunicationStatus : 40|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ WorkingStatus : 41|2@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CompletionOfInitialization : 43|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ FanEnable : 44|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CoolingPumpFanEnable : 45|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CCsignalStatus : 48|2@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CPSignalStatus : 50|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ChargingSocketTempFault : 51|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ElectronicLockState : 52|3@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ S2SwitchControlStatus : 55|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Temperaturre : 56|8@1+ (1,-40) [0|0] "C" Vector__XXX
+
+BO_ 1872 SimulationSpeed: 4 TEL
+ SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ SG_ 3221225472 DOC_COC "Discharge and Charge Overcurrent Status";
 CM_ SG_ 3221225472 ModuleStatusofBits "Each bit indicates bal status (active high)";
@@ -454,4 +482,5 @@ SIG_VALTYPE_ 1793 VoltSensor1 : 1;
 SIG_VALTYPE_ 1793 VoltSensor2 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
-
+SIG_VALTYPE_ 1025 MotorVelocity : 1;
+SIG_VALTYPE_ 1025 MotorCurrent : 1;
