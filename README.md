@@ -177,10 +177,10 @@ INFLUX_ADMIN_PASSWORD=""
 INFLUX_ORG="UBC Solar"
 
 # used to store random data for debugging purposes
-INFLUX_DEBUG_BUCKET="Test"
+INFLUX_DEBUG_BUCKET="Debug"
 
 # used to store real data from the car
-INFLUX_PROD_BUCKET="Telemetry"
+INFLUX_CAN_BUCKET="CAN"
 
 # Parser secret key
 
@@ -208,10 +208,10 @@ INFLUX_ADMIN_PASSWORD="new_password"
 INFLUX_ORG="UBC Solar"
 
 # used to store random data for debugging purposes
-INFLUX_DEBUG_BUCKET="Test"
+INFLUX_DEBUG_BUCKET="Debug"
 
 # used to store real data from the car
-INFLUX_PROD_BUCKET="Telemetry"
+INFLUX_CAN_BUCKET="CAN"
 
 # Secret key
 

@@ -16,8 +16,7 @@ import os
 import glob
 import struct
 
-from datetime import datetime
-
+from datetime import datetime 
 from toml.decoder import TomlDecodeError
 from pathlib import Path
 from prettytable import PrettyTable
