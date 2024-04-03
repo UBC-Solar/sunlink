@@ -60,6 +60,18 @@ services:
 
     restart: always
 
+   nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./etc/nginx/nginx.conf
+      - ./path/to/your/ssl/certs:/etc/ssl/certs
+      certbot:
+    image: certbot/certbot
+    
+    
 volumes:
   grafana:
   influxdb-storage:
