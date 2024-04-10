@@ -335,7 +335,7 @@ def read_lines_from_file(file_path):
         for line in file:
             yield line.strip()
 
-def upload_logs(args):
+def upload_logs(args, live_filters):
     # Get a list of all .txt files in the logfiles directory
     txt_files = glob.glob(LOG_DIRECTORY + '/*.txt')
     print(f"Found {len(txt_files)} .txt files in {LOG_DIRECTORY}\n")
@@ -354,7 +354,11 @@ def upload_logs(args):
                 break
 
             # Create payload
-            payload = {"message": log_line}
+            payload = {
+                "message" : log_line,
+                "live_filters" : live_filters
+            }
+                
             future = executor.submit(parser_request, payload, DEBUG_WRITE_ENDPOINT)
             
             # register done callback with future (lambda function to pass in arguments) 
@@ -500,7 +504,7 @@ def main():
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
 
     if args.log_upload:
-        upload_logs(args)
+        upload_logs(args, live_filters)
         return 0
     
     global start_time
