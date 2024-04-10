@@ -349,7 +349,7 @@ def upload_logs(args):
             try:
                 # Converts a string of hex characters to a string of ASCII characters
                 # Preserves weird characters to be written and copied correctly
-                log_line = bytes.fromhex(next(message_generator)).decode()
+                log_line = bytes.fromhex(next(message_generator)).decode('latin-1')
             except StopIteration:
                 break
 
