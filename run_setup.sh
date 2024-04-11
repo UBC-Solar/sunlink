@@ -123,16 +123,19 @@ echo -e "[offline]" >> telemetry.toml
 echo -e "channel = \"can0\"" >> telemetry.toml
 echo -e "channel = bitrate = \"500000\"" >> telemetry.toml
 
+
+#sudo apt install nginx 
+
 # NGINX stuff
 sudo docker pull nginx:latest
-sudo docker run -p 80:80 nginx
-sudo apt install nginx 
+sudo docker run -v nginx/nginx.conf:/etc/nginx/nginx.conf:ro -d -p 80:80 nginx
 
 # Starting the telemetry cluster 
 echo -e "\nStarting up docker containers. May take a few minutes...\n"
 sudo docker compose up -d
 
-# NGINX stuff
+
+
 
 # sudo ufw allow 'Nginx HTTP'
 
@@ -142,9 +145,10 @@ sudo docker compose up -d
 
 
 
-systemctl status nginx # Checking if NGINX is up
+# systemctl status nginx # Checking if NGINX is up
 
-sudo docker ps -a # Show all containers
+sudo docker compose ps # Show all containers
+# sudo docker compose logs nginx
 
 # sudo apt install certbot python3-certbot-nginx # Installing certbot
 

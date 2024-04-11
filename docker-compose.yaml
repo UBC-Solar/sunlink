@@ -60,16 +60,18 @@ services:
 
     restart: always
 
-   nginx:
+  nginx:
     image: nginx:latest
+    container_name: my_nginx
     ports:
-      - "80:80"
-      - "443:443"
+      - 127.0.0.1:80:80
     volumes:
-      - ./etc/nginx/nginx.conf
-      - ./path/to/your/ssl/certs:/etc/ssl/certs
-      certbot:
-    image: certbot/certbot
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+      
+    
     
     
 volumes:
