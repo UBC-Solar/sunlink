@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from ast import parse
 import serial
 import sys
 import signal
@@ -12,6 +13,7 @@ import toml
 import numpy as np
 import json
 import os
+import glob
 import struct
 
 from datetime import datetime 
@@ -19,6 +21,8 @@ from toml.decoder import TomlDecodeError
 from pathlib import Path
 from prettytable import PrettyTable
 from typing import Dict
+from parser.randomizer import RandomMessage
+import parser.parameters as parameters
 
 import concurrent.futures
 
@@ -26,8 +30,6 @@ __PROGRAM__ = "link_telemetry"
 __VERSION__ = "0.4"
 
 # <----- Constants ----->
-
-DBC_FILE = Path("./dbc/brightside.dbc")
 
 TOML_CONFIG_FILE = Path("./telemetry.toml")
 
@@ -80,42 +82,6 @@ DEFAULT_RANDOM_FREQUENCY_HZ = 10
 # global flag that indicates whether a SIGINT signal was received
 SIGINT_RECVD = False
 
-# <----- Randomizer CAN functions ------>
-
-
-def random_can_str(dbc) -> str:
-    """
-    Generates a random string (which represents a CAN message) that mimics
-    the format sent over by the telemetry board over radio. This function
-    is useful when debugging the telemetry system.
-    """
-    # collect CAN IDs
-    can_ids = list()
-    for message in dbc.messages:
-        can_ids.append(message.frame_id)
-
-    # 0 to 2^32
-    random_timestamp = random.randint(0, pow(2, 32))
-    random_timestamp_str = "{0:0{1}x}".format(random_timestamp, 8)
-
-    # random identifier
-    random_identifier = random.choice(can_ids)
-    random_id_str = "{0:0{1}x}".format(random_identifier, 4)
-
-    # random data
-    random_data = random.randint(0, pow(2, 64))
-    random_data_str = "{0:0{1}x}".format(random_data, 16)
-
-    # fixed data length
-    data_length = "8"
-
-    # collect into single string
-    can_str = random_timestamp_str + random_id_str + random_data_str \
-        + data_length + "\n"
-
-    return can_str
-
-
 # <----- Utility functions ------>
 
 def check_health_handler():
@@ -163,18 +129,30 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     Ensures that certain argument invariants have been adhered to.
     """
-
-    if args.randomize:
+    if args.live_on and args.live_off:
+        parser.error("--live-on and --live-off cannot be used together")
+    if (args.log_upload and args.debug) or (args.log_upload and args.prod) or (args.log_upload and args.no_write) or (args.offline and args.log_upload):
+        parser.error("-u (--log-upload) can only be used alone (cannot be used with ANY other options)")
+    elif args.log_upload:
+        return
+    if args.randomList:
+        # Check if it contains 'all' somewhere in the list
+        if 'all' in args.randomList:
+            args.randomList = []
+            type_names = glob.glob('./parser/data_classes' + '/*_Msg.py')
+            for name in type_names:
+                args.randomList.append(name.split('/')[-1][:-7])    
         if args.port or args.baudrate:
             parser.error("-r cannot be used with -p and -b options")
 
-        if args.prod:
+        if args.prod and not args.force_random:
             parser.error("-r cannot be used with --prod since randomly generated data should not be written to the production database")
     else:
-        if not args.port and not args.baudrate:
-            parser.error("Must specify either -r or both -p and -b arguments")
-        elif not (args.port and args.baudrate):
-            parser.error("-p and -b options must both be specified")
+        pass
+        # if not args.port and not args.baudrate:
+        #     parser.error("Must specify either -r or both -p and -b arguments")
+        # elif not (args.port and args.baudrate):
+        #     parser.error("-p and -b options must both be specified")
 
     if args.no_write:
         if args.debug or args.prod:
@@ -187,17 +165,28 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
             parser.error("Must specify one of --debug, --prod, or --no-write.")
 
 
-def print_config_table(args: 'argparse.Namespace'):
+def print_config_table(args: 'argparse.Namespace', live_filters: list):
     """
     Prints a table containing the current script configuration.
     """
     print(f"Running {ANSI_BOLD}{__PROGRAM__} (v{__VERSION__}){ANSI_ESCAPE} with the following configuration...\n")
     config_table = PrettyTable()
     config_table.field_names = ["PARAM", "VALUE"]
-    config_table.add_row(["DATA SOURCE", f"RANDOMLY GENERATED @ {args.frequency_hz} Hz" if args.randomize else f"UART PORT ({args.port})"])
+
+    msg_types = f"RANDOMLY GENERATED " if args.randomList else "FROM "
+    msg_types += ' '.join([item.upper() for item in args.randomList]) if not args.offline else "OFFLINE"
+    msg_types += f" @ {args.frequency_hz} Hz" 
+    msg_types += f" {'UART PORT ({args.port})' if not args.randomList else ''}" 
+    config_table.add_row(["DATA SOURCE", msg_types])
+
+    filters_string = "LIVE STREAM FILTERS: "
+    for live_filter in live_filters:
+        filters_string += live_filter + ", "
+    filters_string = filters_string.rstrip(', ')
+    config_table.add_row(["LIVE STREAM FILTERS", filters_string])
 
     config_table.add_row(["PARSER URL", PARSER_URL])
-    config_table.add_row(["DBC FILE", DBC_FILE])
+    config_table.add_row(["DBC FILE", parameters.DBC_FILE])
     if LOG_FILE: config_table.add_row(["LOG FILE", "{}{}".format(LOG_DIRECTORY, LOG_FILE)]) # Only show row if log file option selected
     config_table.add_row(["MAX THREADS", args.jobs])
 
@@ -210,12 +199,12 @@ def print_config_table(args: 'argparse.Namespace'):
 
     # POSSIBLE CONFIGURATIONS
 
-    # case 1: --randomize with --debug: generate random data and write to the `Test` bucket (INTENDED USAGE)
+    # case : --randomize with --debug: generate random data and write to the `Test` bucket (INTENDED USAGE)
     # case 2: --randomize without --debug: generate random data and write to the `Telemetry` bucket (SHOULD BE IMPOSSIBLE)
     # case 3: -p and -b with --debug: parse radio data and write to the `Test` bucket (LIKELY)
     # case 4: -p and -b without --debug: parse radio data and write to the `Telemetry` bucket (ACTUAL OPERATION MODE)
 
-    if not args.randomize:
+    if not args.randomList:
         config_table.add_row(["PORT", args.port])
         config_table.add_row(["BAUDRATE", args.baudrate])
 
@@ -258,15 +247,20 @@ def parser_request(payload: Dict, url: str):
     """
     try:
         r = requests.post(url=url, json=payload, timeout=5.0, headers=AUTH_HEADER)
-    except requests.ConnectionError:
+    except requests.ConnectionError as e:
+        print(e)
         print(f"Unable to make POST request to {url=}!\n")
     except requests.Timeout:
         print(f"Connection timeout when making request to {url=}!\n")
     else:
         return r
 
+def write_to_log_file(message: str, log_file_name):
+    # Message encoded to hex to ensure all characters stay
+    with open(log_file_name, "a", encoding='latin-1') as output_log_file:
+        output_log_file.write(message.encode().hex() + '\n')
 
-def process_response(future: concurrent.futures.Future):
+def process_response(future: concurrent.futures.Future, args):
     """
     Implements the post-processing after receiving a response from the parser.
     Formats the parsed measurements into a table for convenience.
@@ -274,7 +268,7 @@ def process_response(future: concurrent.futures.Future):
     This function should be registered as a "done callback". This means that once a
     future is done executing, this function should be automatically called.
     """
-
+    formatted_time = current_log_time.strftime('%Y-%m-%d_%H:%M:%S')
     # get the response from the future
     response = future.result()
 
@@ -295,33 +289,90 @@ def process_response(future: concurrent.futures.Future):
         print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
     
-    parse_response: dict = response.json()
-       
+    try:
+        parse_response: dict = response.json()
+    except json.JSONDecodeError:
+        print(f"Failed to parse response from parser as JSON!")
+        print(f"Response content: {response.content}")
+        return
+    
     if parse_response["result"] == "OK":
         table = PrettyTable()
-        table.field_names = ["ID", "Source", "Class", "Measurement", "Value"]
-        measurements: list = parse_response["measurements"]
 
-        # format response as a table
-        for measurement in measurements:
-            id = parse_response['id']
-            table.add_row([hex(id), measurement["source"], measurement["m_class"], measurement["name"], measurement["value"]])
+        table.title = f"{ANSI_BOLD}{parse_response['type']}{ANSI_ESCAPE}"
+        extracted_measurements = parse_response["message"]
+        table.field_names = list(extracted_measurements.keys())     # Keys are column headings
+        for i in range(len(extracted_measurements[table.field_names[0]])):
+            row_data = [extracted_measurements[key][i] for key in table.field_names]
+            table.add_row(row_data)
 
         print(table)
+        
     elif parse_response["result"] == "PARSE_FAIL":
-        print(f"Failed to parse message with id={parse_response['id']}!")
+        print(
+            f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n"
+            f"      {parse_response['error']}"
+        )
+
+        # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
+        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
-        print(f"Failed to write measurements for CAN message with id={parse_response['id']} to InfluxDB!")
+        print(f"Failed to write measurements for {parse_response['type']} message to InfluxDB!")
+        print(parse_response['error'])
+
+        # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
+        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
     print()
+
+def read_lines_from_file(file_path):
+    """
+    Reads lines from the specified file and returns a generator.
+    """
+    with open(file_path, 'r', encoding='latin-1') as file:
+        for line in file:
+            yield line.strip()
+
+def upload_logs(args, live_filters):
+    # Get a list of all .txt files in the logfiles directory
+    txt_files = glob.glob(LOG_DIRECTORY + '/*.txt')
+    print(f"Found {len(txt_files)} .txt files in {LOG_DIRECTORY}\n")
+
+    # Iterate over each .txt file
+    for file_path in txt_files:
+        print(f"Reading file {file_path}...")
+        message_generator = read_lines_from_file(file_path)
+
+        while True:
+            try:
+                # Converts a string of hex characters to a string of ASCII characters
+                # Preserves weird characters to be written and copied correctly
+                log_line = bytes.fromhex(next(message_generator)).decode('latin-1')
+            except StopIteration:
+                break
+
+            # Create payload
+            payload = {
+                "message" : log_line,
+                "live_filters" : live_filters
+            }
+                
+            future = executor.submit(parser_request, payload, DEBUG_WRITE_ENDPOINT)
+            
+            # register done callback with future (lambda function to pass in arguments) 
+            future.add_done_callback(lambda future: process_response(future, args))
+
+        print(f"Done reading {file_path}")
+        print()
 
 
 def main():
     """
     Main telemetry link entrypoint.
     """
+
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
@@ -350,9 +401,6 @@ def main():
     write_group.add_argument("--no-write", action="store_true",
                              help=(("Requests parser to skip writing to the InfluxDB bucket and streaming"
                                    "to Grafana. Cannot be used with --debug and --prod options.")))
-    write_group.add_argument("--log", action="store_true",
-                             help=("Write data to json log file at current date/time"))
-
     source_group.add_argument("-p", "--port", action="store",
                               help=("Specifies the serial port to read radio data from. "
                                     "Typical values include: COM5, /dev/ttyUSB0, etc."))
@@ -360,14 +408,28 @@ def main():
                               help=("Specifies the baudrate for the serial port specified. "
                                     "Typical values include: 9600, 115200, 230400, etc."))
 
-    source_group.add_argument("-r", "--randomize", action="store_true",
+    source_group.add_argument("-r", "--randomList", nargs='+',
                               help=("Allows using the telemetry link with "
-                                    "randomly generated CAN data rather than "
-                                    "a real radio telemetry stream."))
+                                    "chosen randomly generated message types rather than "
+                                    "a real radio telemetry stream. do -r can -r gps -r imu"))
     
+    source_group.add_argument("--live-off", action="store_true",
+                              help=("Will not stream any data to grafana"))
+    
+    source_group.add_argument("-l", "--live-on", nargs='+',
+                              help=("Args create a list of message classes or ID's to stream to grafana. no args for all, all for all"))
+    
+    source_group.add_argument("-u", "--log-upload", action="store_true",
+                            help=("Will attempt to upload each line of each file in the logfiles directory "
+                                "If upload does not succeed then these lines will be stored "
+                                "in a file named `FAILED_UPLOADS.txt in the logfiles directory`"))
+
     source_group.add_argument("-o", "--offline", action="store_true",
                               help=("Allows using the telemetry link with "
                                     "the data recieved directly from the CAN bus "))
+    
+    source_group.add_argument("--force-random", action="store_true",
+                            help=("allows randomization with production bucket. Please user carefully and locally "))
     
     source_group.add_argument("--dbc", action="store",
                               help="Specifies the dbc file to use. For example: ./dbc/brightside.dbc"
@@ -386,10 +448,11 @@ def main():
         check_health_handler()
         return 0
 
-    #validate_args(parser, args)
+    validate_args(parser, args)
+
 
     # build the correct URL to make POST request to
-    if args.prod:
+    if args.prod or args.offline:
         PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
     elif args.debug:
         PARSER_ENDPOINT = DEBUG_WRITE_ENDPOINT
@@ -402,37 +465,48 @@ def main():
     LOG_FILE = ''
     LOG_DIRECTORY = './logfiles/'
 
-    if args.log:
-        current_log_time = datetime.now()
-        LOG_FILE = Path('link_telemetry_log_{}.json'.format(current_log_time))
+    global current_log_time
+    current_log_time = datetime.now()
+    formatted_time = current_log_time.strftime('%Y-%m-%d_%H:%M:%S')
+    LOG_FILE = Path('link_telemetry_log_{}.txt'.format(formatted_time))
 
     # compute the period to generate random messages at
     period_s = 1 / args.frequency_hz
-
-    # <----- Read in DBC file ----->
-        
+    
+    # <----- Change DBC file based on args ----->
     if (args.dbc):
-        PROVIDED_DBC_FILE = Path(args.dbc)
-        car_dbc = cantools.database.load_file(PROVIDED_DBC_FILE)
-    else:
-        car_dbc = cantools.database.load_file(DBC_FILE)
-        
+        parameters.DBC_FILE = Path(args.dbc)
+        parameters.CAR_DBC  = cantools.database.load_file(parameters.DBC_FILE)
+
+
+    # <----- Define Can Bus for Offline Mode ----->
     if args.offline:
         # Defining the Can bus
         can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
 
-    # <----- Configuration confirmation ----->
+    # <----- Define Live Filters ----->
+    live_filters = args.live_on
+    if args.live_on and args.live_on[0].upper() == "ALL":
+        live_filters = ["ALL"]
+    elif args.live_off or not args.live_on:
+        live_filters = ["NONE"]
 
-    print_config_table(args)
-    choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
-    if choice.lower() != "y":
-        return
+    # <----- Configuration confirmation ----->
+    if not args.log_upload:
+        print_config_table(args, live_filters)
+        choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
+        if choice.lower() != "y":
+            return
 
     # <----- Create the thread pool ----->
 
     global executor
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
 
+    if args.log_upload:
+        upload_logs(args, live_filters)
+        return 0
+    
     global start_time
     start_time = datetime.now()
 
@@ -442,35 +516,41 @@ def main():
     # <----- Create Empty Log File ----->
     if LOG_FILE and not os.path.exists(LOG_DIRECTORY):
         os.makedirs(LOG_DIRECTORY)
+    global LOG_FILE_NAME 
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
     
 
     while True:
         message: bytes
 
-        if args.randomize:
-            message_str = random_can_str(car_dbc)
-            message = message_str.encode(encoding="UTF-8")
+        if args.randomList:
+            try:
+                message = RandomMessage().random_message_str(args.randomList)
+            except Exception as e:
+                print(f"Failed to generate random message: {e}")
+                continue
+            
             time.sleep(period_s)
 
-            #print(message)
-            # partition string into pieces
-            timestamp: str = message[0:8].decode()      # 8 bytes
-            id: str = message[8:12].decode()            # 4 bytes
-            data: str = message[12:28].decode()         # 16 bytes
-            data_len: str = message[28:29].decode()     # 1 byte`
-
         elif args.offline:     
-            
             # read in bytes from CAN bus
-            message = can_bus.recv()          
+            can_bytes = can_bus.recv()          
 
             # partition string into pieces
-            epoch_time = int(time.time())                       # epoch time as integer 
-            timestamp: str = hex(epoch_time)                    # epoch time has 16 hex digits (8 bytes)
-            id: str = str(hex(message.arbitration_id))          # int
-            data: str = (message.data).hex()                    # bytearray
-            data_len: str = str(message.dlc)                    # int
+            epoch_time = time.time()                            # epoch time as float
+            timestamp_bytes = struct.pack('>d', epoch_time)
+            timestamp_str = timestamp_bytes.decode('latin-1')
+
+            id: int = can_bytes.arbitration_id                    # int
+            id_str = id.to_bytes(4, 'big').decode('latin-1')
+
+            data_bytes = can_bytes.data
+            data_pad = data_bytes.ljust(8, b'\0')
+            data_str = data_pad.decode('latin-1')                                    # string 
+
+            data_len: str = str(can_bytes.dlc)                    # string
+
+            message = timestamp_str + "#" + id_str + data_str + data_len
 
         else:
             with serial.Serial() as ser:
@@ -481,42 +561,19 @@ def main():
 
                 # read in bytes from COM port
                 message = ser.readline()
-
-                if len(message) != EXPECTED_CAN_MSG_LENGTH:
-                    print(
-                        f"WARNING: got message length {len(message)}, expected {EXPECTED_CAN_MSG_LENGTH}. Dropping message...")
-                    print(message)
-                    continue
-
-            # partition string into pieces
-            timestamp: str = message[0:8].decode()      # 8 bytes
-            id: str = message[8:12].decode()            # 4 bytes
-            data: str = message[12:28].decode()         # 16 bytes
-            data_len: str = message[28:29].decode()     # 1 byte
-                
-            # TODO: check that all characters in message are either hex characters ([0-9A-F]) or a carriage return
-
+                message = message.decode('latin-1')
     
-
+        
         payload = {
-            "timestamp": timestamp,
-            "id": id,
-            "data": data,
-            "data_length": data_len,
+            "message" : message,
+            "live_filters" : live_filters
         }
-
-        # Write to log file
-        if LOG_FILE:
-            with open(LOG_FILE_NAME, "a") as output_log_file:
-                json.dump(payload, output_log_file, indent=2)
-                output_log_file.write('\n')
-
-
+        
         # submit to thread pool
         future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
 
-        # register done callback with future
-        future.add_done_callback(process_response)
+        # register done callback with future (lambda function to pass in arguments) 
+        future.add_done_callback(lambda future: process_response(future, args))
 
 
 if __name__ == "__main__":
