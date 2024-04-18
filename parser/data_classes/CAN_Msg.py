@@ -1,5 +1,6 @@
 import struct
 from parser.parameters import *
+from time import strftime, localtime
 
 
 """
@@ -36,20 +37,20 @@ class CAN:
 
 
     """
-    Gets the timestamp of the message as a float
+    Gets the timestamp of the message interpreted as a 32 bit unsigned integer in seconds
 
     Parameters:
         message_timestamp - the timestamp of the message as a latin-1 string
     
     Returns:
-        float - the timestamp of the message
+        int - the timestamp of the message interpreted in seconds
     """
     def get_timestamp(self, message_timestamp) -> float:
         try:
-            timestamp = struct.unpack('>d', message_timestamp.encode('latin-1'))[0]
-            float_timestamp = float(timestamp)
+            timestamp = int.from_bytes(bytearray(message_timestamp.encode('latin-1')), "big")
+            timestamp += 2**32 if timestamp < 0 else 0      # if timestamp negative then need to add 2^32 to get correct value
 
-            return float_timestamp
+            return timestamp
         except Exception as e:
             generate_exception(e, "get_timestamp")
         
@@ -155,15 +156,15 @@ class CAN:
             raise Exception(
                 f"Could not extract {ANSI_BOLD}CAN{ANSI_ESCAPE} message with properties: \n"
                 f"      Message Length = {len(self.message)} \n"
-                f"      Message Hex Data = {self.message.encode().hex()} \n\n"
+                f"      Message Hex Data = {self.message.encode('latin-1').hex()} \n\n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
                 f"      {ANSI_GREEN}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"
-                f"        {ANSI_BOLD}get_timestamp( message[:8] = {self.message[:8].encode().hex()} ){ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_timestamp( message[:8] = {self.message[:8].encode('latin-1').hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to a 64 bit double \n"
-                f"        {ANSI_BOLD}get_hex_id( message[9:13] = {self.message[9:13].encode().hex()} ){ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_hex_id( message[9:13] = {self.message[9:13].encode('latin-1').hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to int then to hex \n"
-                f"        {ANSI_BOLD}get_data_bytes( message[13:21] = {self.message[13:21].encode().hex()} ){ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_data_bytes( message[13:21] = {self.message[13:21].encode('latin-1').hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to a bytearray \n"
                 f"        {ANSI_BOLD}get_measurements( int(hex_id, 16) = {int(hex_id, 16) if hex_id else 'NOT SET'}, databytes = {data_bytes if data_bytes else 'NOT SET'} ){ANSI_ESCAPE}, \n"
                 f"          - Performs decode_message using databytes and int ID and DBC_FILE={DBC_FILE}\n"
@@ -204,14 +205,14 @@ class CAN:
             data["Class"].append(message.name)
             data["Measurement"].append(name)
             data["Value"].append(dbc_data)
-            data["Timestamp"].append(round(timestamp, 3))
+            data["Timestamp"].append(timestamp)
         
             # DISPLAY FIELDS
             data["display_data"]["Hex_ID"].append(hex_id)
             data["display_data"]["Source"].append(source)
             data["display_data"]["Class"].append(message.name)
             data["display_data"]["Measurement"].append(name)
-            data["display_data"]["Timestamp"].append(round(timestamp, 3))
+            data["display_data"]["Timestamp"].append(strftime('%Y-%m-%d %H:%M:%S', localtime(timestamp)))
             data["display_data"]["Value"].append(dbc_data)
 
         return data

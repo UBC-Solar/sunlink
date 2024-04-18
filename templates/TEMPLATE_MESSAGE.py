@@ -72,7 +72,7 @@ class MESSAGE_NAME:
             raise Exception(
                 f"Could not extract {ANSI_BOLD}<MESSAGE_NAME>{ANSI_ESCAPE} message with properties: \n"
                 f"      Message Length = {len(self.message)} \n"
-                f"      Message Hex Data = {self.message.encode().hex()} \n\n"
+                f"      Message Hex Data = {self.message.encode('latin-1').hex()} \n\n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
                 f"      {ANSI_GREEN}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"

@@ -16,7 +16,7 @@ In the `firmware_v3` repository, the `CAN` messages are a `uint8_t` buffer that 
 
 On the parser side, we randomize CAN messages by doing the following. Note that latin-1 format is used because it can convert 0 to 255 to a **single width** character, whereas as UTF-8 can convert 0 to 127 to a single width character. Characters after this are not always single width.
 
--   8-byte current timestamp (in seconds as a double) converted to a latin-1 decoded string that is 8 characters long. When parsed this is rounded to 3 decimal places (CAN messages will not be sent at rates higher than 1ms = 0.001s).
+-   8-byte current timestamp (in seconds as an int) converted to a latin-1 decoded string that is 8 characters long.
 -   5-byte id: 1 byte for the `'#'` character and 4 bytes for the random id from the DBC.
     -   **4 bytes is necessary because extended ids are 29 bits so rounded to the nearest byte is 32 bits or 4 bytes.**
 -   8-byte data randomly generated as a an integer ranging from 0 to 2^64. This is then converted to a latin-1 decoded string that is 8 characters long.

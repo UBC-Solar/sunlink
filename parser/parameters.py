@@ -26,7 +26,7 @@ def generate_exception(e: Exception, func_name: str) -> Exception:
 CAN_LENGTH_MIN      = 21
 CAN_LENGTH_MAX      = 23
 GPS_LENGTH_MIN      = 122
-GPS_LENGTH_MAX      = 133
+GPS_LENGTH_MAX      = 205
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 

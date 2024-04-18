@@ -319,37 +319,6 @@ BO_ 2550588916 ECUChargerModes: 8 ECU
  SG_ ChargingModes : 40|8@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 2566869221 OBCStatus: 8 OBC
- SG_ OutputVoltage : 7|16@0+ (0.1,0) [0|0] "V" Vector__XXX
- SG_ OutputCurrent : 23|16@0+ (0.1,0) [0|0] "A" Vector__XXX
- SG_ HardwareProtection : 32|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ TemepratureProtection : 33|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ InputVoltageStatus : 34|2@1+ (1,0) [0|0] "" Vector__XXX
- SG_ OutputUnderVoltage : 36|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ OutputOverVoltage : 37|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ OutputOverCurrent : 38|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ OutputShortCircuit : 39|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CommunicationStatus : 40|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ WorkingStatus : 41|2@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CompletionOfInitialization : 43|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ FanEnable : 44|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CoolingPumpFanEnable : 45|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CCsignalStatus : 48|2@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CPSignalStatus : 50|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ ChargingSocketTempFault : 51|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ ElectronicLockState : 52|3@1+ (1,0) [0|0] "" Vector__XXX
- SG_ S2SwitchControlStatus : 55|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ Temperaturre : 56|8@1+ (1,-40) [0|0] "C" Vector__XXX
-
-BO_ 1872 SimulationSpeed: 4 TEL
- SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 2550588916 ECUChargerModes: 8 ECU
- SG_ MaxChargingVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
- SG_ MaxChargingCurrent : 16|16@1+ (0.1,0) [0|0] "A" Vector__XXX
- SG_ ChargerEnables : 32|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ ChargingModes : 40|8@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 2566869221 OBCStatus: 8 OBC
  SG_ OutputVoltage : 0|16@1+ (0.1,0) [0|0] "V" Vector__XXX
  SG_ OutputCurrent : 16|16@1+ (0.1,0) [0|0] "A" Vector__XXX
  SG_ HardwareProtection : 32|1@1+ (1,0) [0|0] "" Vector__XXX
