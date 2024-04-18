@@ -1,5 +1,6 @@
 import struct
 from parser.parameters import *
+from time import strftime, localtime
 
 
 """
@@ -32,20 +33,20 @@ class IMU:
 
 
     """
-    Gets the timestamp of the message as a float
+    Gets the timestamp of the message interpreted as a 32 bit unsigned integer in seconds
 
     Parameters:
         message_timestamp - the timestamp of the message as a latin-1 string
     
     Returns:
-        float - the timestamp of the message
+        int - the timestamp of the message interpreted in seconds
     """
     def get_timestamp(self, message_timestamp) -> float:
         try:
-            timestamp = struct.unpack('>d', message_timestamp.encode('latin-1'))[0]
-            float_timestamp = float(timestamp)
+            timestamp = int.from_bytes(bytearray(message_timestamp.encode('latin-1')), "big")
+            timestamp += 2**32 if timestamp < 0 else 0      # if timestamp negative then need to add 2^32 to get correct value
 
-            return float_timestamp
+            return timestamp
         except Exception as e:
             generate_exception(e, "get_timestamp")
         
@@ -112,15 +113,15 @@ class IMU:
             raise Exception(
                 f"Could not extract {ANSI_BOLD}IMU{ANSI_ESCAPE} message with properties: \n"
                 f"      Message Length = {len(self.message)} \n"
-                f"      Message Hex Data = {self.message.encode().hex()} \n\n"
+                f"      Message Hex Data = {self.message.encode('latin-1').hex()} \n\n"
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
                 f"      {ANSI_GREEN}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"
-                f"        {ANSI_BOLD}get_timestamp( message[:8] = {self.message[:8].encode().hex()} ){ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_timestamp( message[:8] = {self.message[:8].encode('latin-1').hex()} ){ANSI_ESCAPE}, \n"
                 f"          - Converts latin-1 arg to a 64 bit double \n"
-                f"        {ANSI_BOLD}get_value( message[11:] = {self.message[11:15].encode().hex()} ){ANSI_ESCAPE},\n"
+                f"        {ANSI_BOLD}get_value( message[11:] = {self.message[11:15].encode('latin-1').hex()} ){ANSI_ESCAPE},\n"
                 f"          - Converts latin-1 arg to a 32 bit float \n"
-                f"        {ANSI_BOLD}id (self.message[9:11]) = {self.message[9:11].encode().hex()},{ANSI_ESCAPE}  \n"
+                f"        {ANSI_BOLD}id (self.message[9:11]) = {self.message[9:11].encode('latin-1').hex()},{ANSI_ESCAPE}  \n"
             )
 
         data = {}
@@ -130,14 +131,14 @@ class IMU:
         data["Class"] = [id[0]]
         data["Measurement"] = [id[1]]
         data["Value"] = [round(value, 6)]
-        data["Timestamp"] = [round(timestamp, 3)]
+        data["Timestamp"] = [timestamp]
 
         # DISPLAY FIELDS
         data["display_data"] = {
             "Type": [id[0]],
             "Dimension": [id[1]],
             "Value": [round(value, 6)],
-            "Timestamp": [round(timestamp, 3)],
+            "Timestamp": [strftime('%Y-%m-%d %H:%M:%S', localtime(timestamp))],
         }
         
         return data

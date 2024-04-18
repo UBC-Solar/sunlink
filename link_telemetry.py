@@ -174,9 +174,9 @@ def print_config_table(args: 'argparse.Namespace', live_filters: list):
     config_table.field_names = ["PARAM", "VALUE"]
 
     msg_types = f"RANDOMLY GENERATED " if args.randomList else "FROM "
-    msg_types += ' '.join([item.upper() for item in args.randomList]) if not args.offline else "OFFLINE"
-    msg_types += f" @ {args.frequency_hz} Hz" 
-    msg_types += f" {'UART PORT ({args.port})' if not args.randomList else ''}" 
+    msg_types += ' '.join([item.upper() for item in args.randomList]) if (not args.offline and not args.port) else ("OFFLINE" if not args.port else "RADIO")
+    msg_types += f" @ {args.frequency_hz} Hz" if args.randomList else ""
+    msg_types += f" {'UART PORT ' + str(args.port) if not args.randomList else ''}" 
     config_table.add_row(["DATA SOURCE", msg_types])
 
     filters_string = "LIVE STREAM FILTERS: "
@@ -258,7 +258,7 @@ def parser_request(payload: Dict, url: str):
 def write_to_log_file(message: str, log_file_name):
     # Message encoded to hex to ensure all characters stay
     with open(log_file_name, "a", encoding='latin-1') as output_log_file:
-        output_log_file.write(message.encode().hex() + '\n')
+        output_log_file.write(message.encode('latin-1').hex() + '\n')
 
 def process_response(future: concurrent.futures.Future, args):
     """
@@ -318,7 +318,7 @@ def process_response(future: concurrent.futures.Future, args):
         write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
         print(f"Failed to write measurements for {parse_response['type']} message to InfluxDB!")
-        print(parse_response['error'])
+        print(parse_response)
 
         # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
         write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
@@ -337,7 +337,7 @@ def read_lines_from_file(file_path):
 
 def upload_logs(args, live_filters):
     # Get a list of all .txt files in the logfiles directory
-    txt_files = glob.glob(LOG_DIRECTORY + '/*.txt')
+    txt_files = [file for file in glob.glob(LOG_DIRECTORY + '/*.txt') if not file[len(LOG_DIRECTORY):].startswith('FAILED_UPLOADS')]
     print(f"Found {len(txt_files)} .txt files in {LOG_DIRECTORY}\n")
 
     # Iterate over each .txt file

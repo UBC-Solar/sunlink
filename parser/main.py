@@ -341,7 +341,7 @@ def parse_and_write_request_bucket(bucket):
                 "result": "INFLUX_WRITE_FAIL",
                 "message": str(parse_request["message"]),
                 "error": str(e),
-                "type": type
+                "type": type 
             }
 
     return {

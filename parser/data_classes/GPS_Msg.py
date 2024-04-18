@@ -52,7 +52,7 @@ class GPS:
             r"HDOP: (?P<HDOP>-?\d+\.\d+), "
             r"Satellites: (?P<Satellites>\d+), "
             r"Fix: (?P<Fix>\d+), "
-            r"Time: (?P<Timestamp>\d+\.\d+)"
+            r"Time: (?P<Timestamp>\d+)"
         )
         match = re.search(pattern, self.message)
         
