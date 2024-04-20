@@ -59,8 +59,10 @@ class RandomMessage:
             can_ids.append(message.frame_id)
 
         # Convert current time to a 32 bit unsigned integer to latin-1 string 
-        current_time = int(time.time()) + (2**32 if time.time() < 0 else 0)
-        current_time_str = current_time.to_bytes(8, 'big').decode('latin-1')
+        # Convert current time to float bytes to latin-1 string 
+        current_time = time.time()
+        current_time_bytes = struct.pack('>d', current_time)
+        current_time_str = current_time_bytes.decode('latin-1')
 
         # random identifier
         random_identifier = random.choice(can_ids)
@@ -100,7 +102,7 @@ class RandomMessage:
         hdop = random.uniform(0, 50)
         satelliteCount = random.randint(0, 12)
         fix = random.randint(0, 1)
-        lastMeasure = int(time.time()) + (2**32 if int(time.time()) < 0 else 0)
+        lastMeasure = round(time.time(), 1)
 
         nmea_msg = "Latitude: {:.6f} {}, Longitude: {:.6f} {}, Altitude: {:.2f} meters, HDOP: {:.2f}, Satellites: {}, Fix: {}, Time: {}".format(
             abs(latitude), latSide,
@@ -125,9 +127,10 @@ class RandomMessage:
                     F - data            = 4 bytes
     """
     def random_imu_str(self) -> str:
-        # Convert current time to a 32 bit unsigned integer to latin-1 string 
-        current_time = int(time.time()) + (2**32 if time.time() < 0 else 0)
-        current_time_str = current_time.to_bytes(8, 'big').decode('latin-1')
+        # Convert current time to float bytes to latin-1 string 
+        current_time = time.time()
+        current_time_bytes = struct.pack('>d', current_time)
+        current_time_str = current_time_bytes.decode('latin-1')
 
 
         # Generate a random identifier
@@ -143,3 +146,4 @@ class RandomMessage:
         imu_bytes = current_time_str + "@" + identifier + value_bytes.decode('latin-1')
 
         return imu_bytes
+    

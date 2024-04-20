@@ -1,6 +1,7 @@
 import struct
 from parser.parameters import *
 from time import strftime, localtime
+from datetime import datetime
 
 
 """
@@ -33,23 +34,22 @@ class IMU:
 
 
     """
-    Gets the timestamp of the message interpreted as a 32 bit unsigned integer in seconds
-
+    Gets the timestamp of the message as a 64 bit float
     Parameters:
         message_timestamp - the timestamp of the message as a latin-1 string
     
     Returns:
-        int - the timestamp of the message interpreted in seconds
+        float - the timestamp of the message
     """
     def get_timestamp(self, message_timestamp) -> float:
         try:
-            timestamp = int.from_bytes(bytearray(message_timestamp.encode('latin-1')), "big")
-            timestamp += 2**32 if timestamp < 0 else 0      # if timestamp negative then need to add 2^32 to get correct value
+            timestamp = struct.unpack('>d', message_timestamp.encode('latin-1'))[0]
+            float_timestamp = float(timestamp)
 
-            return timestamp
+            return float_timestamp
         except Exception as e:
             generate_exception(e, "get_timestamp")
-        
+   
 
     """
     Gets the value of the message as a float
@@ -138,8 +138,7 @@ class IMU:
             "Type": [id[0]],
             "Dimension": [id[1]],
             "Value": [round(value, 6)],
-            "Timestamp": [strftime('%Y-%m-%d %H:%M:%S', localtime(timestamp))],
+            "Timestamp": [datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]],
         }
         
         return data
-
