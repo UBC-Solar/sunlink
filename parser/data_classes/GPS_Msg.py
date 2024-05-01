@@ -32,7 +32,6 @@ class GPS:
         self.data = self.extract_measurements()
         self.type = "GPS"
 
-
     """
     Extracts measurements from a GPS message based on a specified format
     Keys of the display_dict in the data dict are column headings. 
