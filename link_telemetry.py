@@ -616,8 +616,6 @@ def main():
                     parts, buffer = process_message(chunk, buffer)
 
                     for part in parts:
-                        f = open('test.txt', 'a')
-                        f.write(part.encode('latin-1').hex() + '\n')
                         sendToParser(part, live_filters, args, PARSER_ENDPOINT)
 
         sendToParser(message, live_filters, args, PARSER_ENDPOINT)
