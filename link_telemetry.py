@@ -5,12 +5,10 @@ import sys
 import signal
 import cantools
 import can
-import random
 import time
 import argparse
 import requests
 import toml
-import numpy as np
 import json
 import os
 import glob
@@ -81,6 +79,10 @@ DEFAULT_RANDOM_FREQUENCY_HZ = 10
 
 # global flag that indicates whether a SIGINT signal was received
 SIGINT_RECVD = False
+
+# Chunks read per iteration
+CHUNK_SIZE = 512
+
 
 # <----- Utility functions ------>
 
@@ -368,6 +370,54 @@ def upload_logs(args, live_filters):
         print()
 
 
+"""
+Purpose: Processes the message by splitting it into parts and returning the parts and the buffer
+Parameters: 
+    message - The total chunk read from the serial stream
+    buffer - the buffer to be added to the start of the message
+Returns (tuple):
+    parts - the fully complete messages of the total chunk read
+    buffer - leftover chunk that is not a message
+"""
+def process_message(message: str, buffer: str = "") -> list:
+    # Remove 00 0a from the start if present
+    if message.startswith("000a"):
+        message = message[4:]
+    
+    # Add buffer to the start of the message
+    message = buffer + message
+
+    # Split the message by 0d 0a
+    parts = message.split("0d0a")
+
+    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
+        buffer = parts.pop()
+
+    return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
+
+
+"""
+Purpose: Sends data and filters to parser and registers a callback to process the response
+Parameters: 
+    message - raw byte data to be parsed on parser side
+    live_filters - filters for which messages to live stream to Grafana
+    args - the arguments passed to ./link_telemetry.py
+    parser_endpoint - the endpoint to send the data to
+Returns: None
+"""
+def sendToParser(message: str, live_filters: list, args: list, parser_endpoint: str):
+    payload = {
+        "message" : message,
+        "live_filters" : live_filters
+    }
+    
+    # submit to thread pool
+    future = executor.submit(parser_request, payload, parser_endpoint)
+
+    # register done callback with future (lambda function to pass in arguments) 
+    future.add_done_callback(lambda future: process_response(future, args))
+
+
 def main():
     """
     Main telemetry link entrypoint.
@@ -519,7 +569,6 @@ def main():
     global LOG_FILE_NAME 
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
     
-
     while True:
         message: bytes
 
@@ -553,27 +602,23 @@ def main():
             message = timestamp_str + "#" + id_str + data_str + data_len
 
         else:
+            buffer = ""
             with serial.Serial() as ser:
                 # <----- Configure COM port ----->
                 ser.baudrate = args.baudrate
                 ser.port = args.port
                 ser.open()
 
-                # read in bytes from COM port
-                message = ser.readline()
-                message = message.decode('latin-1')
-    
-        
-        payload = {
-            "message" : message,
-            "live_filters" : live_filters
-        }
-        
-        # submit to thread pool
-        future = executor.submit(parser_request, payload, PARSER_ENDPOINT)
+                while True:
+                    # read in bytes from COM port
+                    chunk = ser.read(CHUNK_SIZE)
+                    chunk = chunk.hex()
+                    parts, buffer = process_message(chunk, buffer)
 
-        # register done callback with future (lambda function to pass in arguments) 
-        future.add_done_callback(lambda future: process_response(future, args))
+                    for part in parts:
+                        sendToParser(part, live_filters, args, PARSER_ENDPOINT)
+
+        sendToParser(message, live_filters, args, PARSER_ENDPOINT)
 
 
 if __name__ == "__main__":
