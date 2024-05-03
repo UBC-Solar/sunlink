@@ -98,6 +98,18 @@ Whether you're setting up the cluster locally or remotely, the setup instruction
 -   Linux PCAN Driver (https://www.peak-system.com/fileadmin/media/linux/index.htm)
 -   A cloned copy of this repository
 
+### Aside: Using Sunlink with WSL2
+> https://learn.microsoft.com/en-us/windows/wsl/connect-usb
+
+Follow these instructions to attach a USB device to a Linux distribution running on WSL 2:
+1. Follow the instructions in the link above to install the USBIPD-WIN project as support for connecting USB devices is not natively available in WSL.
+2. Follow the instructions in the same link to attach the USB device.
+
+> [!NOTE]
+> This has to be done every time WSL2 is restarted.
+
+<br>
+
 Clone the repository with:
 
 ```bash
