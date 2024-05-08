@@ -65,7 +65,7 @@ class RandomMessage:
         current_time_str = current_time_bytes.decode('latin-1')
 
         # random identifier
-        random_identifier = random.choice(can_ids) + 690000
+        random_identifier = random.choice(can_ids)
         random_id_str = random_identifier.to_bytes(4, 'big').decode('latin-1')  # to encoded string
 
         # random data 8 bytes. Then 2 HEX to ASCII
