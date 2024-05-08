@@ -257,10 +257,13 @@ def parser_request(payload: Dict, url: str):
     else:
         return r
 
-def write_to_log_file(message: str, log_file_name):
+def write_to_log_file(message: str, log_file_name, convert_to_hex=True):
     # Message encoded to hex to ensure all characters stay
     with open(log_file_name, "a", encoding='latin-1') as output_log_file:
-        output_log_file.write(message.encode('latin-1').hex() + '\n')
+        if convert_to_hex:
+            output_log_file.write(message.encode('latin-1').hex() + '\n')
+        else:
+            output_log_file.write(message + '\n')
 
 def process_response(future: concurrent.futures.Future, args):
     """
@@ -311,19 +314,19 @@ def process_response(future: concurrent.futures.Future, args):
         print(table)
         
     elif parse_response["result"] == "PARSE_FAIL":
-        print(
-            f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n"
-            f"      {parse_response['error']}"
-        )
+        fail_msg = f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n" + f"{parse_response['error']}"
+        print(fail_msg)
 
         # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
+        write_to_log_file(parse_response['message'], os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
+        write_to_log_file(fail_msg + '\n', os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
         print(f"Failed to write measurements for {parse_response['type']} message to InfluxDB!")
         print(parse_response)
 
         # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
         write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
+        write_to_log_file(fail_msg + '\n', os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
@@ -462,7 +465,7 @@ def main():
                               help=("Allows using the telemetry link with "
                                     "chosen randomly generated message types rather than "
                                     "a real radio telemetry stream. do -r can -r gps -r imu"))
-    
+
     source_group.add_argument("--live-off", action="store_true",
                               help=("Will not stream any data to grafana"))
     
@@ -512,8 +515,10 @@ def main():
     # Check if logging is selected
     global LOG_FILE
     global LOG_DIRECTORY
+    global DEBUG_DIRECTORY
     LOG_FILE = ''
     LOG_DIRECTORY = './logfiles/'
+    DEBUG_DIRECTORY = './dbgfiles/'
 
     global current_log_time
     current_log_time = datetime.now()
@@ -566,8 +571,13 @@ def main():
     # <----- Create Empty Log File ----->
     if LOG_FILE and not os.path.exists(LOG_DIRECTORY):
         os.makedirs(LOG_DIRECTORY)
+    if LOG_FILE and not os.path.exists(DEBUG_DIRECTORY):
+        os.makedirs(DEBUG_DIRECTORY)
+
     global LOG_FILE_NAME 
+    global DEBUG_FILE_NAME
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
+    DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
     while True:
         message: bytes
