@@ -1,11 +1,35 @@
 version: "3.9"
 services:
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - nginx_network
+    volumes:
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+    restart: always
+  
+  certbot:
+    image: certbot/certbot
+    networks:
+      - nginx_network
+    restart: always
+
   
   grafana:
     image: grafana/grafana-oss:9.5.2
     container_name: grafana
     ports:
-      - 127.0.0.1:3000:3000
+      - 3000:3000
+    networks:
+      - nginx_network 
     volumes:
       - grafana:/var/lib/grafana
       - type: bind
@@ -19,6 +43,7 @@ services:
         target: /var/lib/grafana/dashboards
     depends_on:
       - influxdb
+      - nginx
     restart: always
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USERNAME}
@@ -36,14 +61,20 @@ services:
     volumes:
       - .:/sunlink
     ports:
-      - 127.0.0.1:5001:5000
+      - 5000:5000
+    networks:
+      - nginx_network
+    depends_on: 
+      - nginx
     restart: always
   
   influxdb:
     image: influxdb:2.7.1
     container_name: influxdb
     ports:
-      - 127.0.0.1:8087:8086
+      - 8086:8086
+    networks:
+      - nginx_network
     volumes:
       - influxdb-storage:/var/lib/influxdb2
       - influxdb-config:/etc/influxdb2
@@ -58,23 +89,13 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_CAN_BUCKET}
       - INFLUX_DEBUG_BUCKET=${INFLUX_DEBUG_BUCKET}
       - DS_INFLUXDB=${DS_INFLUXDB}
+    depends_on:
+      - nginx
     restart: always
 
-  nginx:
-    image: nginx:latest
-    container_name: my_nginx
-    ports:
-      - 127.0.0.1:80:80
-    volumes:
-      - type: bind
-        source: ./nginx/nginx.conf
-        target: /etc/nginx/nginx.conf
-        read_only: true
-    restart: always
-  
-  certbot:
-    image: certbot/certbot
-    restart: always
+networks:
+  nginx_network:
+    external: true
 
 volumes:
   grafana:
