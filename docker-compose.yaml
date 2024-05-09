@@ -7,8 +7,6 @@ services:
     ports:
       - 80:80
       - 443:443
-    networks:
-      - nginx_network
     volumes:
       - type: bind
         source: ./nginx/nginx.conf
@@ -18,8 +16,6 @@ services:
   
   certbot:
     image: certbot/certbot
-    networks:
-      - nginx_network
     restart: always
 
   
@@ -28,8 +24,6 @@ services:
     container_name: grafana
     ports:
       - 3000:3000
-    networks:
-      - nginx_network 
     volumes:
       - grafana:/var/lib/grafana
       - type: bind
@@ -62,8 +56,6 @@ services:
       - .:/sunlink
     ports:
       - 5000:5000
-    networks:
-      - nginx_network
     depends_on: 
       - nginx
     restart: always
@@ -73,8 +65,6 @@ services:
     container_name: influxdb
     ports:
       - 8086:8086
-    networks:
-      - nginx_network
     volumes:
       - influxdb-storage:/var/lib/influxdb2
       - influxdb-config:/etc/influxdb2
@@ -92,10 +82,6 @@ services:
     depends_on:
       - nginx
     restart: always
-
-networks:
-  nginx_network:
-    external: true
 
 volumes:
   grafana:
