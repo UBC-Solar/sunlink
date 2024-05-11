@@ -15,11 +15,17 @@ REQUIRED (INFLUX) FIELDS:
 
 DISPLAY FIELDS:
     "display_data" : {
-        "Hex_ID": (list) The ID of the CAN message in hex
-        "Source": (list) The board which the message came from
-        "Class": (list) The class of the message (Ex. Voltage Sensors Data)
-        "Measurment": (list) Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
-        "Value": (list) The value of the associated measurement
+        "ROW": {
+            "Raw Hex": (list) raw hex data of the CAN message
+        },
+        "COL": {
+            "Hex_ID": (list) The hex id of the message
+            "Source": (list) The board which the message came from
+            "Class": (list) The class of the message (Ex. Voltage Sensors Data)
+            "Measurement": (list) Specifc measurement name in this class (Ex. Volt Sensor 1, Volt Sensor 2)
+            "Value": (list) The value of the associated measurement
+            "Timestamp": (list) The time the message was sent
+        }
     }
 
 self.type = "CAN"
@@ -187,13 +193,18 @@ class CAN:
             "Measurement": [],
             "Value": [],
             "Timestamp": [],
-            "display_data": {   
-                "Hex_ID": [],
-                "Source": [],
-                "Class": [],
-                "Measurement": [],
-                "Value": [],
-                "Timestamp": []
+            "display_data": {  
+                "ROW": {
+                    "Raw Hex": [self.message.encode('latin-1').hex()]
+                },
+                "COL": { 
+                    "Hex_ID": [],
+                    "Source": [],
+                    "Class": [],
+                    "Measurement": [],
+                    "Value": [],
+                    "Timestamp": []
+                }
             }
         }
 
@@ -207,11 +218,11 @@ class CAN:
             data["Timestamp"].append(timestamp)
         
             # DISPLAY FIELDS
-            data["display_data"]["Hex_ID"].append(hex_id)
-            data["display_data"]["Source"].append(source)
-            data["display_data"]["Class"].append(message.name)
-            data["display_data"]["Measurement"].append(name)
-            data["display_data"]["Timestamp"].append(datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
-            data["display_data"]["Value"].append(dbc_data)
+            data["display_data"]["COL"]["Hex_ID"].append(hex_id)
+            data["display_data"]["COL"]["Source"].append(source)
+            data["display_data"]["COL"]["Class"].append(message.name)
+            data["display_data"]["COL"]["Measurement"].append(name)
+            data["display_data"]["COL"]["Timestamp"].append(datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
+            data["display_data"]["COL"]["Value"].append(dbc_data)
 
         return data
