@@ -1,5 +1,12 @@
 import re
+import time
+from time import strftime, localtime
+from datetime import datetime
 from parser.parameters import ANSI_RED, ANSI_ESCAPE
+
+
+SECOND_IN_DAY       = 86400
+
 
 """
 GPS Message data class. Assumes message parameter in constructor is a latin-1 decoded string.
@@ -32,6 +39,37 @@ class GPS:
         self.data = self.extract_measurements()
         self.type = "GPS"
 
+
+    """
+    Given a GPS timestamp formatted as HHMMSS converts it to an epoch
+    timestamp by getting the current day and adding on the GPS timestamp.
+    
+    Parameters:
+        timestamp (str): GPS timestamp in the form HHMMSS (ex. 093021 is 9:31 am 21 seconds
+    Returns: 
+        (str) epoch timestamp in seconds
+    """
+    def getEpochTS(self, timestamp: str) -> str:
+        epoch_time = time.time()
+        epoch_day = epoch_time - (epoch_time % SECOND_IN_DAY)
+        epoch_offset = int(timestamp[:2]) * 3600 + int(timestamp[2:4]) * 60 + int(timestamp[4:])
+        return str(epoch_day + epoch_offset)
+    
+
+    """
+    Formats an epoch timestamp to a human readable format
+    of YYYY-MM-DD HH:MM:SS.mmm
+
+    Parameters:
+        timestamp (str): epoch timestamp in seconds
+    
+    Returns:
+        (str) human readable timestamp in the form YYYY-MM-DD HH:MM:SS.mmm
+    """
+    def formatEpochTS(self, timestamp: str) -> str:
+        return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+
+
     """
     Extracts measurements from a GPS message based on a specified format
     Keys of the display_dict in the data dict are column headings. 
@@ -58,6 +96,9 @@ class GPS:
         data = {}
         if match:
             gps_data = match.groupdict()
+
+            epochTSFloat = float(self.getEpochTS(gps_data['Timestamp']))
+            formattedTS = self.formatEpochTS(epochTSFloat)
             
             # REQUIRED FIELDS
             data["Source"] = ["GPS"] * len(gps_data.keys())
@@ -67,7 +108,7 @@ class GPS:
             data["Timestamp"] = []
             for key in data["Measurement"]:
                 data["Value"].append(self.getType(key, gps_data[key]))
-                data["Timestamp"].append(float(gps_data['Timestamp']))
+                data["Timestamp"].append(epochTSFloat)
 
             # DISPLAY FIELDS
             data["display_data"] = {
@@ -77,7 +118,7 @@ class GPS:
                 "HDOP": [gps_data['HDOP']],
                 "Satellites": [gps_data['Satellites']],
                 "Fix": [gps_data['Fix']],
-                "Time": [gps_data['Timestamp']]
+                "Time": [formattedTS]
             }
         else:
             raise Exception(

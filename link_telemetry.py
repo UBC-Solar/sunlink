@@ -318,15 +318,15 @@ def process_response(future: concurrent.futures.Future, args):
         print(fail_msg)
 
         # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
-        write_to_log_file(fail_msg + '\n', os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
+        write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
         print(f"Failed to write measurements for {parse_response['type']} message to InfluxDB!")
         print(parse_response)
 
         # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
         write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
-        write_to_log_file(fail_msg + '\n', os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+        write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
@@ -557,10 +557,6 @@ def main():
 
     global executor
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
-
-    if args.log_upload:
-        upload_logs(args, live_filters)
-        return 0
     
     global start_time
     start_time = datetime.now()
@@ -573,12 +569,16 @@ def main():
         os.makedirs(LOG_DIRECTORY)
     if LOG_FILE and not os.path.exists(DEBUG_DIRECTORY):
         os.makedirs(DEBUG_DIRECTORY)
-
+    
     global LOG_FILE_NAME 
     global DEBUG_FILE_NAME
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
+    if args.log_upload:
+        upload_logs(args, live_filters)
+        return 0
+
     while True:
         message: bytes
 
