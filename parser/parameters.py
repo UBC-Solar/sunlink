@@ -2,6 +2,10 @@ import cantools
 from pathlib import Path
 import sys    
 
+ENERGY_DETECT_TIME = 0x01
+
+
+
 #  <----- Multi-Class Functions  ----->
 """
 Generates a custom exception based on the caught exception and the function name
@@ -30,6 +34,18 @@ GPS_LENGTH_MAX      = 205
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 
+CAN_MSG_LENGTH = 24
+IMU_MSG_LENGTH = 17
+GPS_MSG_LENGTH = 200
+
+#  <--- Bytes used to indicate message types ---->
+
+CAN_BYTE = 0x00
+IMU_BYTE = 0x01
+GPS_BYTE = 0x02
+LOCAL_AT_BYTE = 0x03
+REMOTE_AT_BYTE = 0x04
+UNKNOWN_BYTE = 0x05
 
 # <----- DBC Variables (Can be changed by user arguement in Link Tel) ----->
 DBC_FILE = Path("./dbc/brightside.dbc")
@@ -45,3 +61,13 @@ ANSI_RED = "\033[1;31m"
 ANSI_GREEN = "\033[1;32m"
 ANSI_YELLOW = "\033[1;33m"
 ANSI_BOLD = "\033[1m"
+
+
+# <----- AT Commands ------>
+
+DB = bytes.fromhex("7E00040801444270") #RSSI
+ER = bytes.fromhex("7E0004080145525F") #Error Count
+GD = bytes.fromhex("7E0004080147446B") #Good Packets Receieved
+ED = bytes.fromhex("7E 00 05 08 01 45 44" + ENERGY_DETECT_TIME + "3C") #Energy detect
+
+command_list = [DB, ER, GD, ED]

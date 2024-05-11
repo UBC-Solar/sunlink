@@ -13,6 +13,8 @@ import json
 import os
 import glob
 import struct
+import re
+import threading
 
 from datetime import datetime 
 from toml.decoder import TomlDecodeError
@@ -72,6 +74,19 @@ NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
 EXPECTED_CAN_MSG_LENGTH = 30
+CAN_MSG_LENGTH = 24
+IMU_MSG_LENGTH = 17
+GPS_MSG_LENGTH = 200
+
+CAN_BYTE = 0x00
+IMU_BYTE = 0x01
+GPS_BYTE = 0x02
+
+
+LOCAL_AT_BYTE = 0x03
+REMOTE_AT_BYTE = 0x04
+
+UNKNOWN_BYTE = 0x05
 
 # ANSI sequences
 ANSI_ESCAPE = "\033[0m"
@@ -416,30 +431,78 @@ Returns (tuple):
     buffer - leftover chunk that is not a message
 """
 def process_message(message: str, buffer: str = "") -> list:
-    # Remove 00 0a from the start if present
-    if message.startswith("000a"):
-        message = message[4:]
-    elif message.startswith("0a"):
-        message = message[2:]
-    
+   
     # Add buffer to the start of the message
     message = buffer + message
 
-    # Split the message by 0d 0a
-    parts = message.split("0d0a")
+    # Split the message by 7e and one of 88, 97, 10 (types of radio messages we get)
+    pattern = '(?=7E....88|7E....97|7E....10)'
+    parts = re.split(pattern, message)
+ 
+    if len(parts) > 1:
+       buffer = parts.pop()
 
-    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
-        buffer = parts.pop()
+    return [bytes.fromhex(part).decode('latin-1') for part in parts]
+    
 
-    return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
+"""""
+smaller_parts = []
+    for part in parts:
+        if part[3] == '10':
+            if part[17] == CAN_BYTE:
+                smaller_parts.extend(split_api_packet(part, CAN_MSG_LENGTH, CAN_BYTE))
+            elif part[17] == IMU_BYTE:
+                smaller_parts.extend(split_api_packet(part, IMU_MSG_LENGTH, IMU_BYTE))
+            elif part[17] == GPS_BYTE:
+                smaller_parts.extend(split_api_packet(part, GPS_MSG_LENGTH, GPS_BYTE))
+            else:
+                smaller_parts.extend(UNKNOWN_BYTE + part)
+        elif part[3] == '88':
+            smaller_parts.extend(LOCAL_AT_BYTE + part)
+        elif part[3] == '97':
+            smaller_parts.extend(REMOTE_AT_BYTE + part)
+        else:
+            smaller_parts.extend(UNKNOWN_BYTE + part)
+    
+    return [bytes.fromhex(part).decode('latin-1') for part in smaller_parts] , buffer
 
+def split_api_packet(message, message_size, message_byte):
+    return [message_byte + message[i: i + message_size] for i in range(19, len(message), message_size)]
 
+"""
+"""
+Purpose: Sends data and filters to parser and registers a callback to process the response
+Parameters: 
+    message - raw byte data to be parsed on parser side
+    live_filters - filters for which messages to live stream to Grafana
+    args - the arguments passed to ./link_telemetry.py
+    parser_endpoint - the endpoint to send the data to
+Returns: None
+"""
+def sendToParser(message: str, live_filters: list, args: list, parser_endpoint: str):
+    payload = {
+        "message" : message,
+        "live_filters" : live_filters
+    }
+    
+    # submit to thread pool
+    future = executor.submit(parser_request, payload, parser_endpoint)
 
+    # register done callback with future (lambda function to pass in arguments) 
+    future.add_done_callback(lambda future: process_response(future, args))
+
+def atDiagnosticCommand(command_list):
+    lock.acquire()
+    while True:
+        for command in command_list:
+                serial.write(command)
+        time.sleep(1)
+    lock.release()
 def main():
     """
     Main telemetry link entrypoint.
     """
-
+    lock = threading.Lock()
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
@@ -580,7 +643,7 @@ def main():
         choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
         if choice.lower() != "y":
             return
-
+    # Define
     # <----- Create the thread pool ----->
 
     global executor
@@ -610,6 +673,9 @@ def main():
     if args.log_upload:
         upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
         return 0
+    ##ADD New Thread Here!
+    future = executor.submit(atDiagnosticCommand, command_list)
+
 
     while True:
         message: bytes
@@ -652,11 +718,12 @@ def main():
                 ser.open()
 
                 while True:
+                    lock.acquire()
                     # read in bytes from COM port
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
                     parts, buffer = process_message(chunk, buffer)
-
+                    lock.release()
                     for part in parts:
                         sendToParser(part, live_filters, log_filters, args, PARSER_ENDPOINT)
 
