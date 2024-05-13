@@ -373,8 +373,8 @@ def read_lines_from_file(file_path):
 
 def upload_logs(args, live_filters):
     # Get a list of all .txt files in the logfiles directory
-    txt_files = [file for file in glob.glob(LOG_DIRECTORY + '/*.txt') if not file[len(LOG_DIRECTORY):].startswith('FAILED_UPLOADS')]
-    print(f"Found {len(txt_files)} .txt files in {LOG_DIRECTORY}\n")
+    txt_files = [file for file in glob.glob(FAIL_DIRECTORY + '/*.txt') if not file[len(FAIL_DIRECTORY):].startswith('FAILED_UPLOADS')]
+    print(f"Found {len(txt_files)} .txt files in {FAIL_DIRECTORY}\n")
 
     # Iterate over each .txt file
     for file_path in txt_files:
