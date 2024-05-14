@@ -35,21 +35,6 @@ BS_:
 
 BU_: AMB BMS DID ECU MDU MCB SDL TEL OBC
 
-BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
- SG_ ConfigReadError : 21|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ WatchdogCausedLast : 20|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ Unused : 0|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ DOC_COC : 24|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ RESERVED : 48|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ PackCurrent : 0|16@1- (0.015259021897,0) [0|0] "A" Vector__XXX
- SG_ LVcurrent : 16|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
- SG_ SuppBattVoltage : 24|16@1+ (0.001,0) [0|0] "V" Vector__XXX
- SG_ PackOverDischargeWarning : 40|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ PackOverchargeWarning : 41|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ DOC : 42|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ ESTOPpressed : 44|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ ModuleStatusofBits : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -181,7 +166,7 @@ BO_ 1575 ModuleTemps: 5 BMS
  SG_ Temp31 m7 : 24|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
  SG_ Temp32 m7 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
 
-BO_ 1104 ECUStatus: 6 ECU
+BO_ 1104 ECUStatus: 7 ECU
  SG_ PackCurrent : 0|16@1- (0.015259021897,0) [-127|127] "A" Vector__XXX
  SG_ LVCurrent : 32|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
  SG_ SuppBattVoltage : 16|16@1+ (0.001,0) [0|16] "V" Vector__XXX
@@ -191,6 +176,7 @@ BO_ 1104 ECUStatus: 6 ECU
  SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ ESTOP_Pressed : 45|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ ResetFromWatchdog : 44|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ VicorHeatSinkTemp : 48|8@1+ (1,0) [-127|127] "" Vector__XXX
 
 BO_ 1280 Information: 8 MDU
  SG_ TritiumID : 0|32@1+ (1,0) [0|0] "" Vector__XXX
@@ -227,21 +213,6 @@ BO_ 1283 VelocityMeasurement: 8 MDU
 BO_ 1291 SinkMotorTempMeas: 8 MDU
  SG_ MotorTemp : 0|32@1+ (1,0) [0|0] "C" Vector__XXX
  SG_ SurfaceTempController : 32|32@1+ (1,0) [0|0] "C" Vector__XXX
-
-BO_ 1024 DriverInterface: 2 MCB
- SG_ NextScreenPressed : 0|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CruiseEnabled : 1|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ Unused : 2|6@1+ (1,0) [0|0] "" Vector__XXX
- SG_ DriveState : 8|8@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1025 MotorDriveCommand: 8 MCB
- SG_ MotorVelocity : 0|32@1+ (1,0) [0|0] "m/s" Vector__XXX
- SG_ MotorCurrent : 32|32@1+ (1,0) [0|0] "%" Vector__XXX
-
-BO_ 1026 MotorPowerCommand: 8 MCB
- SG_ Reserved : 8|24@1+ (1,0) [0|0] "" Vector__XXX
- SG_ BusCurrent : 32|32@1+ (1,0) [0|0] "%" Vector__XXX
- SG_ ResetCommand : 0|8@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1576 ModuleStatuses: 5 BMS
  SG_ MultiplexingBits M : 0|3@1+ (1,0) [0|0] "" Vector__XXX
@@ -343,8 +314,107 @@ BO_ 2566869221 OBCStatus: 8 OBC
 BO_ 1872 SimulationSpeed: 4 TEL
  SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
-CM_ SG_ 3221225472 DOC_COC "Discharge and Charge Overcurrent Status";
-CM_ SG_ 3221225472 ModuleStatusofBits "Each bit indicates bal status (active high)";
+BO_ 1284 PhaseCurrentMeasurement: 8 MDU
+
+BO_ 1285 MotorVoltageVectorMeasurment: 8 MDU
+
+BO_ 1286 MotorCurrentVectorMeasurment: 8 MDU
+
+BO_ 1287 MotorBackEMFMeasurement: 8 MDU
+
+BO_ 1288 VoltageRailMeasurement_FifteenV: 8 MDU
+
+BO_ 1289 VoltageRailMeasurement_TwoFiveV: 8 MDU
+
+BO_ 1290 FanSpeedMeasurement: 8 MDU
+
+BO_ 1291 SinkMotorTemperatureMeasurement: 8 MDU
+ SG_ MotorTemperature : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ SurfaceTemperatureControllerSink : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1292 AirInCPUTemperatureMeasurement: 8 MDU
+
+BO_ 1293 OdometerBusAmpHoursMeasurement: 8 MDU
+
+BO_ 2297992512 MitsubaDataRequest: 1 MDU
+ SG_ RequestForFrames : 0|1@1+ (2,0) [0|0] "" Vector__XXX
+
+BO_ 2290418213 Frame0: 8 MDU
+ SG_ BatteryVoltage : 0|10@1+ (1,0) [0|0] "V" Vector__XXX
+ SG_ BatteryCurrent : 10|9@1+ (1,0) [0|0] "A" Vector__XXX
+ SG_ BatteryCurrentDirection : 19|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorCurrentPeakAverage : 20|10@1+ (1,0) [0|0] "A" Vector__XXX
+ SG_ FETTemperature : 30|5@1+ (1,0) [0|0] "C" Vector__XXX
+ SG_ MotorRotatingSpeed : 35|12@1+ (1,0) [0|0] "RPM" Vector__XXX
+ SG_ PWMDuty : 47|10@1+ (1,0) [0|0] "%" Vector__XXX
+ SG_ LeadAngle : 57|7@1+ (1,0) [0|0] "C" Vector__XXX
+
+BO_ 2291466789 Frame1: 5 MDU
+ SG_ PowerMode : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorControlMode : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ AcceleratorPosition : 2|10@1+ (1,0) [0|0] "%" Vector__XXX
+ SG_ RegenerationVRPosition : 12|10@1+ (1,0) [0|0] "%" Vector__XXX
+ SG_ DigitSWPosition : 22|4@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OutputTargetValue : 26|10@1+ (1,0) [0|0] "A" Vector__XXX
+ SG_ DriveActionStatus : 36|2@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RegenerationStatus : 38|1@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2292515365 Frame2: 5 MDU
+ SG_ AnalogSensorError : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorCurrentSensorUError : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorCurrentSensorWError : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ FETThermistorError : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RFU : 4|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ BatteryVoltageSensorError : 5|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ BatteryCurrentSensorError : 6|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ BatteryCurrentSensorAdjustError : 7|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorCurrentSensorAdjustError : 8|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ AcceleratorPositionError : 9|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RFU2 : 10|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ControllerVoltageSensorError : 11|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RFU3 : 12|4@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ PowerSystemError : 16|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OverCurrentError : 17|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RFU4 : 18|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OverVoltageError : 19|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RFU5 : 20|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OverCurrentLimit : 21|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RFU6 : 22|2@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorSystemError : 24|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorLock : 25|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ HallSensorShort : 26|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ HallSensorOpen : 27|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RFU7 : 28|4@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ OverHeatLevel : 32|2@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1024 DIDNextScreenButtonPress: 1 MCB
+ SG_ NextScreenPressed : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Unused5 : 1|7@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1025 PercentageOfMaxCurrent: 8 MCB
+ SG_ MotorVelocity : 0|32@1- (1,0) [0|0] "m/s" Vector__XXX
+ SG_ MotorCurrent : 32|32@1- (1,0) [0|0] "%" Vector__XXX
+
+BO_ 1026 MotorPowerResetCommand: 8 MCB
+ SG_ ResetCommand : 0|0@1+ (8,0) [0|0] "m/s" Vector__XXX
+ SG_ Reserved : 8|24@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ BusCurrent : 32|32@1+ (1,0) [0|0] "%" Vector__XXX
+
+BO_ 1027 MCBDriveState: 1 MCB
+ SG_ DriveState : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1028 MCBDiagnostics: 3 MCB
+ SG_ ThrottleADCReading : 0|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ PedalADCOutOfRange : 16|0@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RegenEnabled : 17|0@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CruiseControlEnabled : 18|0@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MechBrakePressed : 19|0@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1873 RTCTimestamp: 8 TEL
+ SG_ EpochRTCTimestamp : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+
+
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
 CM_ SG_ 1573 AverageTemp "Twos Complement";
@@ -404,13 +474,9 @@ CM_ SG_ 1104 ESTOP_Pressed "Active High
 CM_ SG_ 1104 ResetFromWatchdog "Active High
 
 ";
+CM_ SG_ 1104 VicorHeatSinkTemp "int8_t -127 to 127°C";
 CM_ SG_ 1280 TritiumID "Unused char[4]string";
 CM_ SG_ 1280 SerialNumber "Unused";
-CM_ SG_ 1024 DriveState "Drive state of the MCB: INVALID = 0x00, DRIVE= 0x02, REGEN = 0x03,  CRUISE = 0x04,  PARK = 0x06, REVERSE = 0x07";
-CM_ SG_ 1025 MotorCurrent "Percentage of max current
-";
-CM_ SG_ 1026 BusCurrent "Percentage of the max bus current";
-CM_ SG_ 1026 ResetCommand "Unused";
 CM_ SG_ 2550588916 ChargerEnables "0x00: Start charger
 0x01: Close output of charger
 0x02: Stop charging (sleep mode)
@@ -445,6 +511,47 @@ CM_ SG_ 2566869221 S2SwitchControlStatus "0: Switch off, 1: Closed";
 CM_ SG_ 2566869221 Temperaturre "";
 CM_ SG_ 1872 SimulationSpeedRec "UNITS + FACTOR TBD
 ";
+CM_ SG_ 1291 MotorTemperature "Degree celsius";
+CM_ SG_ 1291 SurfaceTemperatureControllerSink "Degree celsius";
+CM_ SG_ 2297992512 RequestForFrames "(0000 0111) is all the frames. Comes from MDI to mitsuba motor controller";
+CM_ SG_ 2290418213 BatteryVoltage "0.5V/LSB";
+CM_ SG_ 2290418213 BatteryCurrent "1A/LSB";
+CM_ SG_ 2290418213 BatteryCurrentDirection "0:positive current. 1:negative ";
+CM_ SG_ 2290418213 MotorCurrentPeakAverage "1A/LSB";
+CM_ SG_ 2290418213 FETTemperature "5deg (C)/LSB";
+CM_ SG_ 2290418213 MotorRotatingSpeed "1rpm/LSB";
+CM_ SG_ 2290418213 PWMDuty "0.5%/LSB (only in PWM control mode)";
+CM_ SG_ 2290418213 LeadAngle "0.5deg/LSB (electric lead angle)";
+CM_ SG_ 2291466789 PowerMode "0: Eco Mode. 1: Power Mode";
+CM_ SG_ 2291466789 MotorControlMode "0: Current Mode. 1: PWM Mode";
+CM_ SG_ 2291466789 AcceleratorPosition "0.5%/LSB";
+CM_ SG_ 2291466789 RegenerationVRPosition "0.5%/LSB";
+CM_ SG_ 2291466789 OutputTargetValue "0.5A/LSB (Current mode)";
+CM_ SG_ 2291466789 DriveActionStatus "0: Stop. 1: RFU. 2: Forward Drive. 3: Reverse Drive";
+CM_ SG_ 2291466789 RegenerationStatus "0: Drive. 1: Regeneration";
+CM_ SG_ 2292515365 AnalogSensorError "AD sensor error";
+CM_ SG_ 2292515365 MotorCurrentSensorUError "U phase sensor problem";
+CM_ SG_ 2292515365 MotorCurrentSensorWError "W phase sensor problem";
+CM_ SG_ 2292515365 FETThermistorError "controller Temp sensor error";
+CM_ SG_ 2292515365 BatteryCurrentSensorError "battery current sensor ZERO(reference) position error";
+CM_ SG_ 2292515365 BatteryCurrentSensorAdjustError "motor current ZERO(reference) position error";
+CM_ SG_ 2292515365 ControllerVoltageSensorError "12V line voltage senor error";
+CM_ SG_ 2292515365 PowerSystemError "power line error";
+CM_ SG_ 2292515365 MotorLock "motor locked and no rotation";
+CM_ BO_ 1024 "Interrupt based";
+CM_ SG_ 1025 MotorVelocity "in m/s (float)";
+CM_ SG_ 1025 MotorCurrent "Percentage of max current
+";
+CM_ SG_ 1026 ResetCommand "In m/s";
+CM_ SG_ 1026 BusCurrent "Percentage of max current";
+CM_ SG_ 1027 DriveState "Drive state of the MCB: INVALID = 0x00, DRIVE= 0x01, CRUISE = 0x02,  REVERSE = 0x03, PARK = 0x04";
+CM_ SG_ 1028 ThrottleADCReading "Raw throttle ADC reading";
+CM_ SG_ 1028 PedalADCOutOfRange "1 if true 0 if false";
+CM_ SG_ 1028 RegenEnabled "1 if true 0 if false";
+CM_ SG_ 1028 CruiseControlEnabled "1 if true 0 if false";
+CM_ SG_ 1028 MechBrakePressed "1 if pressed 0 if not pressed";
+CM_ SG_ 1873 EpochRTCTimestamp "Timestamp from RTC, in the standard UNIX epoch format See online for unix epoch format. Eveyr 5 seconds
+";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
@@ -453,3 +560,4 @@ SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
 SIG_VALTYPE_ 1025 MotorVelocity : 1;
 SIG_VALTYPE_ 1025 MotorCurrent : 1;
+
