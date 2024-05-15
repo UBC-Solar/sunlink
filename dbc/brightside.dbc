@@ -474,7 +474,7 @@ CM_ SG_ 1104 ESTOP_Pressed "Active High
 CM_ SG_ 1104 ResetFromWatchdog "Active High
 
 ";
-CM_ SG_ 1104 VicorHeatSinkTemp "int8_t -127 to 127�C";
+CM_ SG_ 1104 VicorHeatSinkTemp "int8_t -127 to 127ï¿½C";
 CM_ SG_ 1280 TritiumID "Unused char[4]string";
 CM_ SG_ 1280 SerialNumber "Unused";
 CM_ SG_ 2550588916 ChargerEnables "0x00: Start charger
