@@ -328,10 +328,6 @@ BO_ 1289 VoltageRailMeasurement_TwoFiveV: 8 MDU
 
 BO_ 1290 FanSpeedMeasurement: 8 MDU
 
-BO_ 1291 SinkMotorTemperatureMeasurement: 8 MDU
- SG_ MotorTemperature : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ SurfaceTemperatureControllerSink : 32|32@1+ (1,0) [0|0] "" Vector__XXX
-
 BO_ 1292 AirInCPUTemperatureMeasurement: 8 MDU
 
 BO_ 1293 OdometerBusAmpHoursMeasurement: 8 MDU
