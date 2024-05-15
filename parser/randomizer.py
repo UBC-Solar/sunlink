@@ -1,9 +1,13 @@
 import random
 import struct
 import time
+from datetime import timedelta
 
 # Get format specifiers
 from parser.parameters import CAR_DBC
+
+# Constants
+SECONDS_IN_DAY = 86400
 
 """
 Class to provide random message generaters for testing purposes.
@@ -102,7 +106,11 @@ class RandomMessage:
         hdop = random.uniform(0, 50)
         satelliteCount = random.randint(0, 12)
         fix = random.randint(0, 1)
-        lastMeasure = round(time.time(), 1)
+        current_time = time.time() % SECONDS_IN_DAY
+        hours = int(current_time // 3600)
+        minutes = int(current_time // 60) % 60
+        seconds = int(current_time % 60)
+        lastMeasure = "{:02d}{:02d}{:02d}".format(hours, minutes, seconds)
 
         nmea_msg = "Latitude: {:.6f} {}, Longitude: {:.6f} {}, Altitude: {:.2f} meters, HDOP: {:.2f}, Satellites: {}, Fix: {}, Time: {}".format(
             abs(latitude), latSide,

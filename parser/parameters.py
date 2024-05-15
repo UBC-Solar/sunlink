@@ -25,7 +25,7 @@ def generate_exception(e: Exception, func_name: str) -> Exception:
 #  <----- Lengths of messages for differentiating message types ----->
 CAN_LENGTH_MIN      = 21
 CAN_LENGTH_MAX      = 25
-GPS_LENGTH_MIN      = 122
+GPS_LENGTH_MIN      = 110
 GPS_LENGTH_MAX      = 205
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17

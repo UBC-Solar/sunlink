@@ -21,11 +21,17 @@ from prettytable import PrettyTable
 from typing import Dict
 from parser.randomizer import RandomMessage
 import parser.parameters as parameters
+from beautifultable import BeautifulTable
+import warnings
 
 import concurrent.futures
 
 __PROGRAM__ = "link_telemetry"
 __VERSION__ = "0.4"
+
+# <----- Supress Beatiful Table Warnings ----->
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 
 # <----- Constants ----->
 
@@ -259,11 +265,13 @@ def parser_request(payload: Dict, url: str):
 
 def write_to_log_file(message: str, log_file_name, convert_to_hex=True):
     # Message encoded to hex to ensure all characters stay
-    with open(log_file_name, "a", encoding='latin-1') as output_log_file:
         if convert_to_hex:
-            output_log_file.write(message.encode('latin-1').hex() + '\n')
+            with open(log_file_name, "a", encoding='latin-1') as output_log_file:
+                output_log_file.write(message.encode('latin-1').hex() + '\n')
         else:
-            output_log_file.write(message + '\n')
+            with open(log_file_name, "a") as output_log_file:
+                print(message, file=output_log_file)
+
 
 def process_response(future: concurrent.futures.Future, args):
     """
@@ -302,31 +310,54 @@ def process_response(future: concurrent.futures.Future, args):
         return
     
     if parse_response["result"] == "OK":
-        table = PrettyTable()
+        # Create a table
+        table = BeautifulTable()
 
-        table.title = f"{ANSI_BOLD}{parse_response['type']}{ANSI_ESCAPE}"
-        extracted_measurements = parse_response["message"]
-        table.field_names = list(extracted_measurements.keys())     # Keys are column headings
-        for i in range(len(extracted_measurements[table.field_names[0]])):
-            row_data = [extracted_measurements[key][i] for key in table.field_names]
-            table.add_row(row_data)
+        # Set the table title
+        table.set_style(BeautifulTable.STYLE_RST)
+        table.column_widths = [110]
+        table.width_exceed_policy = BeautifulTable.WEP_WRAP
 
+        # Title
+        table.rows.append([f"{ANSI_GREEN}{parse_response['type']}{ANSI_ESCAPE}"])
+        display_data = parse_response['message']
+
+        # Add columns as subtable
+        subtable = BeautifulTable()
+        subtable.set_style(BeautifulTable.STYLE_GRID)
+
+        cols = display_data["COL"]
+        subtable.rows.append(cols.keys())
+        for i in range(len(list(cols.values())[0])):
+            subtable.rows.append([val[i] for val in cols.values()]) 
+
+        table.rows.append([subtable])
+
+        # Add rows
+        rows = display_data["ROW"]
+        for row_head, row_data in rows.items():
+            table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
+            table.rows.append(row_data)
+        
         print(table)
+
+        if parse_response["logMessage"]:
+            write_to_log_file(table, LOG_FILE_NAME, convert_to_hex=False)
         
     elif parse_response["result"] == "PARSE_FAIL":
         fail_msg = f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n" + f"{parse_response['error']}"
         print(fail_msg)
 
         # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
-        write_to_log_file(fail_msg + '\n', os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+        write_to_log_file(parse_response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
+        write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
     elif parse_response["result"] == "INFLUX_WRITE_FAIL":
         print(f"Failed to write measurements for {parse_response['type']} message to InfluxDB!")
         print(parse_response)
 
         # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else LOG_FILE_NAME)
-        write_to_log_file(fail_msg + '\n', os.path.join(LOG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+        write_to_log_file(parse_response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
+        write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
@@ -342,8 +373,8 @@ def read_lines_from_file(file_path):
 
 def upload_logs(args, live_filters):
     # Get a list of all .txt files in the logfiles directory
-    txt_files = [file for file in glob.glob(LOG_DIRECTORY + '/*.txt') if not file[len(LOG_DIRECTORY):].startswith('FAILED_UPLOADS')]
-    print(f"Found {len(txt_files)} .txt files in {LOG_DIRECTORY}\n")
+    txt_files = [file for file in glob.glob(FAIL_DIRECTORY + '/*.txt') if not file[len(FAIL_DIRECTORY):].startswith('FAILED_UPLOADS')]
+    print(f"Found {len(txt_files)} .txt files in {FAIL_DIRECTORY}\n")
 
     # Iterate over each .txt file
     for file_path in txt_files:
@@ -404,14 +435,16 @@ Purpose: Sends data and filters to parser and registers a callback to process th
 Parameters: 
     message - raw byte data to be parsed on parser side
     live_filters - filters for which messages to live stream to Grafana
+    log_filters - filters for which messages to log to file
     args - the arguments passed to ./link_telemetry.py
     parser_endpoint - the endpoint to send the data to
 Returns: None
 """
-def sendToParser(message: str, live_filters: list, args: list, parser_endpoint: str):
+def sendToParser(message: str, live_filters: list, log_filters: list, args: list, parser_endpoint: str):
     payload = {
         "message" : message,
-        "live_filters" : live_filters
+        "live_filters" : live_filters,
+        "log_filters" : log_filters
     }
     
     # submit to thread pool
@@ -464,12 +497,15 @@ def main():
     source_group.add_argument("-r", "--randomList", nargs='+',
                               help=("Allows using the telemetry link with "
                                     "chosen randomly generated message types rather than "
-                                    "a real radio telemetry stream. do -r can -r gps -r imu"))
+                                    "a real radio telemetry stream. do -r can gps imu"))
 
     source_group.add_argument("--live-off", action="store_true",
                               help=("Will not stream any data to grafana"))
     
-    source_group.add_argument("-l", "--live-on", nargs='+',
+    source_group.add_argument("-l", "--log", nargs='+',
+                              help=("Args create a list of message classes or ID's to pretty log to a file. no args for all, all for all"))
+    
+    source_group.add_argument("--live-on", nargs='+',
                               help=("Args create a list of message classes or ID's to stream to grafana. no args for all, all for all"))
     
     source_group.add_argument("-u", "--log-upload", action="store_true",
@@ -515,9 +551,11 @@ def main():
     # Check if logging is selected
     global LOG_FILE
     global LOG_DIRECTORY
+    global FAIL_DIRECTORY
     global DEBUG_DIRECTORY
     LOG_FILE = ''
     LOG_DIRECTORY = './logfiles/'
+    FAIL_DIRECTORY = './failfiles/'
     DEBUG_DIRECTORY = './dbgfiles/'
 
     global current_log_time
@@ -546,6 +584,13 @@ def main():
     elif args.live_off or not args.live_on:
         live_filters = ["NONE"]
 
+    # <----- Define Log Filters ----->
+    log_filters = args.log
+    if args.log and args.log[0].upper() == "ALL":
+        log_filters = ["ALL"]
+    elif not args.log:
+        log_filters = ["NONE"]
+
     # <----- Configuration confirmation ----->
     if not args.log_upload:
         print_config_table(args, live_filters)
@@ -557,10 +602,6 @@ def main():
 
     global executor
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS)
-
-    if args.log_upload:
-        upload_logs(args, live_filters)
-        return 0
     
     global start_time
     start_time = datetime.now()
@@ -571,14 +612,22 @@ def main():
     # <----- Create Empty Log File ----->
     if LOG_FILE and not os.path.exists(LOG_DIRECTORY):
         os.makedirs(LOG_DIRECTORY)
+    if LOG_FILE and not os.path.exists(FAIL_DIRECTORY):
+        os.makedirs(FAIL_DIRECTORY)
     if LOG_FILE and not os.path.exists(DEBUG_DIRECTORY):
         os.makedirs(DEBUG_DIRECTORY)
 
     global LOG_FILE_NAME 
+    global FAIL_FILE_NAME
     global DEBUG_FILE_NAME
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
+    FAIL_FILE_NAME = os.path.join(FAIL_DIRECTORY, LOG_FILE)
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
+    if args.log_upload:
+        upload_logs(args, live_filters)
+        return 0
+
     while True:
         message: bytes
 
@@ -626,9 +675,9 @@ def main():
                     parts, buffer = process_message(chunk, buffer)
 
                     for part in parts:
-                        sendToParser(part, live_filters, args, PARSER_ENDPOINT)
+                        sendToParser(part, live_filters, log_filters, args, PARSER_ENDPOINT)
 
-        sendToParser(message, live_filters, args, PARSER_ENDPOINT)
+        sendToParser(message, live_filters, log_filters, args, PARSER_ENDPOINT)
 
 
 if __name__ == "__main__":

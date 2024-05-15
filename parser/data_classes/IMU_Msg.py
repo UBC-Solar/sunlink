@@ -17,10 +17,15 @@ REQUIRED (INFLUX) FIELDS:
 
 DISPLAY FIELDS DICT:
     "display_data" : {
-        "Type": (list) type of the IMU message (A or G),
-        "Dimension": (list) dimension of the IMU message (X, Y, or Z),
-        "Value": (list) value of the IMU message (rounded to 6 decimal places),
-        "Timestamp": (list) timestamp of the IMU message
+        "ROW": {
+            "Raw Hex": (list) raw hex data of the IMU message
+        },
+        "COL": {
+            "Type": (list) A or G (for Accelerometer or Gyroscope)
+            "Dimension": (list) X, Y, or Z (for the axis of the IMU)
+            "Value": (list) value of the IMU message (rounded to 6 decimal places)
+            "Timestamp": (list) timestamp of the IMU message 
+        }
     }
 
 self.type = "IMU"
@@ -135,10 +140,15 @@ class IMU:
 
         # DISPLAY FIELDS
         data["display_data"] = {
-            "Type": [id[0]],
-            "Dimension": [id[1]],
-            "Value": [round(value, 6)],
-            "Timestamp": [datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]],
+            "ROW": {
+                "Raw Hex": [self.message.encode('latin-1').hex()]
+            },
+            "COL": {
+                "Type": [id[0]],
+                "Dimension": [id[1]],
+                "Value": [round(value, 6)],
+                "Timestamp": [datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]],
+            }
         }
         
         return data
