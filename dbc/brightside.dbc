@@ -396,7 +396,7 @@ BO_ 1025 PercentageOfMaxCurrent: 8 MCB
  SG_ MotorCurrent : 32|32@1- (1,0) [0|0] "%" Vector__XXX
 
 BO_ 1026 MotorPowerResetCommand: 8 MCB
- SG_ ResetCommand : 0|0@1+ (8,0) [0|0] "m/s" Vector__XXX
+ SG_ ResetCommand : 0|1@1+ (8,0) [0|0] "m/s" Vector__XXX
  SG_ Reserved : 8|24@1+ (1,0) [0|0] "" Vector__XXX
  SG_ BusCurrent : 32|32@1+ (1,0) [0|0] "%" Vector__XXX
 
@@ -405,10 +405,10 @@ BO_ 1027 MCBDriveState: 1 MCB
 
 BO_ 1028 MCBDiagnostics: 3 MCB
  SG_ ThrottleADCReading : 0|16@1+ (1,0) [0|0] "" Vector__XXX
- SG_ PedalADCOutOfRange : 16|0@1+ (1,0) [0|0] "" Vector__XXX
- SG_ RegenEnabled : 17|0@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CruiseControlEnabled : 18|0@1+ (1,0) [0|0] "" Vector__XXX
- SG_ MechBrakePressed : 19|0@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ PedalADCOutOfRange : 16|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RegenEnabled : 17|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CruiseControlEnabled : 18|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MechBrakePressed : 19|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1873 RTCTimestamp: 8 TEL
  SG_ EpochRTCTimestamp : 0|64@1+ (1,0) [0|0] "" Vector__XXX
@@ -474,7 +474,7 @@ CM_ SG_ 1104 ESTOP_Pressed "Active High
 CM_ SG_ 1104 ResetFromWatchdog "Active High
 
 ";
-CM_ SG_ 1104 VicorHeatSinkTemp "int8_t -127 to 127�C";
+CM_ SG_ 1104 VicorHeatSinkTemp "int8_t -127 to 127ï¿½C";
 CM_ SG_ 1280 TritiumID "Unused char[4]string";
 CM_ SG_ 1280 SerialNumber "Unused";
 CM_ SG_ 2550588916 ChargerEnables "0x00: Start charger
