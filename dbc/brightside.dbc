@@ -417,12 +417,27 @@ BO_ 1874 IMU_X: 8 TEL
  SG_ Gyroscope_X : 32|32@1- (1,0) [-100|100] "" Vector__XXX
 
 BO_ 1875 IMU_Y: 8 TEL
- SG_ Acceleration_Y : 0|32@1- (1,0) [0|0] "" Vector__XXX
- SG_ Gyroscope_Y : 32|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Acceleration_Y : 0|32@1- (1,0) [-100|100] "" Vector__XXX
+ SG_ Gyroscope_Y : 32|32@1- (1,0) [-100|100] "" Vector__XXX
 
 BO_ 1876 IMU_Z: 8 TEL
- SG_ Acceleration_Z : 0|32@1- (1,0) [0|0] "" Vector__XXX
- SG_ Gyroscope_Z : 32|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Acceleration_Z : 0|32@1- (1,0) [-100|100] "" Vector__XXX
+ SG_ Gyroscope_Z : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+
+BO_ 1877 GPSLatitude: 8 TEL
+ SG_ Latitude : 0|64@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1878 GPSLongitude: 8 TEL
+ SG_ Longitude : 0|64@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1879 GPSAltitudeHdop: 8 TEL
+ SG_ Altitude : 0|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Hdop : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1880 GPSSideCount: 8 TEL
+ SG_ Latside : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Lonside : 8|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ SatelliteCount : 16|16@1+ (1,0) [0|100] "" Vector__XXX
 
 
 
@@ -575,4 +590,8 @@ SIG_VALTYPE_ 1875 Acceleration_Y : 1;
 SIG_VALTYPE_ 1875 Gyroscope_Y : 1;
 SIG_VALTYPE_ 1876 Acceleration_Z : 1;
 SIG_VALTYPE_ 1876 Gyroscope_Z : 1;
+SIG_VALTYPE_ 1877 Latitude : 2;
+SIG_VALTYPE_ 1878 Longitude : 2;
+SIG_VALTYPE_ 1879 Altitude : 1;
+SIG_VALTYPE_ 1879 Hdop : 1;
 
