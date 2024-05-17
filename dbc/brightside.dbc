@@ -439,6 +439,13 @@ BO_ 1880 GPSSideCount: 8 TEL
  SG_ Lonside : 8|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ SatelliteCount : 16|16@1+ (1,0) [0|100] "" Vector__XXX
 
+BO_ 1872 TELDiagnostics: 1 TEL
+ SG_ RTCReset : 0|1@1- (1,0) [0|0] "" Vector__XXX
+ SG_ GPSSyncFail : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ IMUFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSFail : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ WatchdogReset : 4|1@1+ (1,0) [0|0] "" Vector__XXX
+
 
 
 CM_ SG_ 1572 b0x00 "Unused";
@@ -594,4 +601,5 @@ SIG_VALTYPE_ 1877 Latitude : 2;
 SIG_VALTYPE_ 1878 Longitude : 2;
 SIG_VALTYPE_ 1879 Altitude : 1;
 SIG_VALTYPE_ 1879 Hdop : 1;
+SIG_VALTYPE_ 1872 RTCReset : 1;
 
