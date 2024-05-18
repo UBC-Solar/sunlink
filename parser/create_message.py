@@ -2,6 +2,8 @@
 from parser.data_classes.CAN_Msg import CAN      # CAN message
 from parser.data_classes.IMU_Msg import IMU      # IMU message
 from parser.data_classes.GPS_Msg import GPS      # GPS message
+from parser.data_classes.Local_AT_Command_Return import AT as AT_LOCAL
+from parser.data_classes.Remote_AT_Command_Return import AT as AT_REMOTE
 from parser.parameters import *     # For mins and maxes of messages
 
 
@@ -29,6 +31,10 @@ def create_message(message: str):
             return GPS(message)
         elif IMU_LENGTH_MIN <= len(message) <= IMU_LENGTH_MAX:
             return IMU(message)
+        elif message[3] == 136:
+            return AT_LOCAL(message)
+        elif message[3] == 151:
+            return AT_REMOTE(message)
         else:
             raise Exception(
                 f"Message length of {len(message)} is not a valid length for any message type\n"

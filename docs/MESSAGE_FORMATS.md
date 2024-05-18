@@ -72,4 +72,35 @@ On the parser side, we randomize the IMU message as follows:
 
 **EXAMPLE RAW IMU STRING**: "AÙw«â»K@AYD>#"
 
+## Local AT Command
+
+This is the xbee generated response that is returned after we send a local AT Command from Sunlink. The minimum length is 9 bytes, which is when the command returns no data. The length will increase depending on the length of the return data. The length is comprised of:
+
+- 7E start delimiter ( 1 byte)
+- 2 Byte Length
+- 1 by indicating frame type (0x88 in this case)
+- 1 Byte indicating Frame ID
+- 2 Bytes indicating the corresponding AT Command
+- 1 Byte indicating the command Status
+- 0-256 bytes indicateing the command data
+- 1 byte indicating the checksum
+
+A detailed look into the specific AT command returns we expect to get on sunlink can be found in the API Frames BOM.
+
+
+## Remote AT Command
+This is the xbee response returned after we send a remote AT Command from Sunlink (Command that affects Xbee module connected to Telemetry board.) The minimum length is 19 bytes, which occurs when the command returns no data. The length will increase depending on the length of the return data. The length is comprised of 
+
+- 1 Byte start delimiter
+- 2 bytes length
+- 1 Byte Frame Type (0x97) 
+- 1 Byte Frame ID
+- 8 Byte 64 bit address (of remote radio returning message)
+- 2 Byte 16 bit Address (of remote device)
+- 2 Byte AT Command
+- 1 Byte command status
+- 0-256 Byte Command Data
+- 1 Byte Checksum
+
+
 ## NEW MESSAGE TYPE HERE

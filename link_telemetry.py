@@ -63,6 +63,19 @@ NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
 EXPECTED_CAN_MSG_LENGTH = 30
+CAN_MSG_LENGTH = 22
+IMU_MSG_LENGTH = 17
+GPS_MSG_LENGTH = 200
+
+CAN_BYTE = 0x00
+IMU_BYTE = 0x01
+GPS_BYTE = 0x10
+
+
+LOCAL_AT_BYTE = 0x11
+REMOTE_AT_BYTE = 0x12
+
+UNKNOWN_BYTE = 0x22
 
 # ANSI sequences
 ANSI_ESCAPE = "\033[0m"
@@ -380,20 +393,47 @@ Returns (tuple):
     buffer - leftover chunk that is not a message
 """
 def process_message(message: str, buffer: str = "") -> list:
-    # Remove 00 0a from the start if present
-    if message.startswith("000a"):
+    # Remove 7e 00 from the start if present
+    if message.startswith("7e00"):
         message = message[4:]
     
     # Add buffer to the start of the message
     message = buffer + message
 
-    # Split the message by 0d 0a
-    parts = message.split("0d0a")
+    # Split the message by 7e 00
+    parts = message.split("7e00")
 
+    
+    
     if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
-        buffer = parts.pop()
+       buffer = parts.pop()
 
-    return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
+    smaller_parts = []
+
+    for part in parts:
+        if part[3] == '10':
+            if part[17] == CAN_BYTE:
+                smaller_parts.extend(split_api_packet(part, CAN_MSG_LENGTH, CAN_BYTE))
+            elif part[17] == IMU_BYTE:
+                smaller_parts.extend(split_api_packet(part, IMU_MSG_LENGTH, IMU_BYTE))
+            elif part[17] == GPS_BYTE:
+                smaller_parts.extend(split_api_packet, GPS_MSG_LENGTH, GPS_BYTE)
+            else:
+                smaller_parts.extend(UNKNOWN_BYTE + part)
+        elif part[3] == '88':
+            smaller_parts.extend(LOCAL_AT_BYTE + part)
+        elif part[3] == '97':
+            smaller_parts.extend(REMOTE_AT_BYTE + part)
+        else:
+            smaller_parts.extend(UNKNOWN_BYTE + part)
+    
+    return [bytes.fromhex(part).decode('latin-1') for part in smaller_parts] , buffer
+
+
+
+
+def split_api_packet(message, message_size, message_byte):
+    return [message_byte + message[i: i + message_size] for i in range(19, len(message), message_size)]
 
 
 """
