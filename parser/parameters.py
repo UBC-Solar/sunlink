@@ -30,6 +30,14 @@ GPS_LENGTH_MAX      = 205
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 
+#  <--- Bytes used to indicate message types ---->
+
+CAN_BYTE = 0x00
+IMU_BYTE = 0x01
+GPS_BYTE = 0x10
+LOCAL_AT_BYTE = 0x11
+REMOTE_AT_BYTE = 0x12
+UNKNOWN_BYTE = 0x22
 
 # <----- DBC Variables (Can be changed by user arguement in Link Tel) ----->
 DBC_FILE = Path("./dbc/brightside.dbc")

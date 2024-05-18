@@ -401,10 +401,8 @@ def process_message(message: str, buffer: str = "") -> list:
     message = buffer + message
 
     # Split the message by 7e 00
-    parts = message.split("7e00")
-
-    
-    
+    parts = message.split("7e")
+ 
     if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
        buffer = parts.pop()
 
@@ -417,7 +415,7 @@ def process_message(message: str, buffer: str = "") -> list:
             elif part[17] == IMU_BYTE:
                 smaller_parts.extend(split_api_packet(part, IMU_MSG_LENGTH, IMU_BYTE))
             elif part[17] == GPS_BYTE:
-                smaller_parts.extend(split_api_packet, GPS_MSG_LENGTH, GPS_BYTE)
+                smaller_parts.extend(split_api_packet(part, GPS_MSG_LENGTH, GPS_BYTE))
             else:
                 smaller_parts.extend(UNKNOWN_BYTE + part)
         elif part[3] == '88':
@@ -428,9 +426,6 @@ def process_message(message: str, buffer: str = "") -> list:
             smaller_parts.extend(UNKNOWN_BYTE + part)
     
     return [bytes.fromhex(part).decode('latin-1') for part in smaller_parts] , buffer
-
-
-
 
 def split_api_packet(message, message_size, message_byte):
     return [message_byte + message[i: i + message_size] for i in range(19, len(message), message_size)]
