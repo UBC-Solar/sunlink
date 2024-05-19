@@ -33,11 +33,12 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MDU MCB SDL TEL OBC
+BU_: AMB BMS DID ECU MDU MCB TEL OBC
 
 
 BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ NewSignal_0001 : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -314,9 +315,6 @@ BO_ 2566869221 OBCStatus: 8 OBC
  SG_ S2SwitchControlStatus : 55|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Temperaturre : 56|8@1+ (1,-40) [0|0] "C" Vector__XXX
 
-BO_ 1872 SimulationSpeed: 4 TEL
- SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
-
 BO_ 1284 PhaseCurrentMeasurement: 8 MDU
 
 BO_ 1285 MotorVoltageVectorMeasurment: 8 MDU
@@ -440,7 +438,7 @@ BO_ 1880 GPSSideCount: 8 TEL
  SG_ SatelliteCount : 16|16@1+ (1,0) [0|100] "" Vector__XXX
 
 BO_ 1872 TELDiagnostics: 1 TEL
- SG_ RTCReset : 0|1@1- (1,0) [0|0] "" Vector__XXX
+ SG_ RTCReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSSyncFail : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSFail : 3|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -448,6 +446,8 @@ BO_ 1872 TELDiagnostics: 1 TEL
 
 
 
+CM_ SG_ 3221225472 SimulationSpeedRec "UNITS + FACTOR TBD
+";
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
 CM_ SG_ 1573 AverageTemp "Twos Complement";
@@ -542,8 +542,6 @@ Overheating fault occurs when temp is > 90 degrees
 CM_ SG_ 2566869221 ElectronicLockState "0: in Judgment, 1: Locked, 2: Unlocked, 3: Unlock fault, 4: Locked fault";
 CM_ SG_ 2566869221 S2SwitchControlStatus "0: Switch off, 1: Closed";
 CM_ SG_ 2566869221 Temperaturre "";
-CM_ SG_ 1872 SimulationSpeedRec "UNITS + FACTOR TBD
-";
 CM_ SG_ 2297992512 RequestForFrames "(0000 0111) is all the frames. Comes from MDI to mitsuba motor controller";
 CM_ SG_ 2290418213 BatteryVoltage "0.5V/LSB";
 CM_ SG_ 2290418213 BatteryCurrent "1A/LSB";
@@ -601,5 +599,4 @@ SIG_VALTYPE_ 1877 Latitude : 2;
 SIG_VALTYPE_ 1878 Longitude : 2;
 SIG_VALTYPE_ 1879 Altitude : 1;
 SIG_VALTYPE_ 1879 Hdop : 1;
-SIG_VALTYPE_ 1872 RTCReset : 1;
 
