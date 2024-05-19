@@ -38,7 +38,6 @@ BU_: AMB BMS DID ECU MDU MCB TEL OBC
 
 BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ NewSignal_0001 : 0|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -446,8 +445,6 @@ BO_ 1872 TELDiagnostics: 1 TEL
 
 
 
-CM_ SG_ 3221225472 SimulationSpeedRec "UNITS + FACTOR TBD
-";
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
 CM_ SG_ 1573 AverageTemp "Twos Complement";
