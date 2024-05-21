@@ -188,14 +188,11 @@ INFLUX_ADMIN_PASSWORD=""
 
 INFLUX_ORG="UBC Solar"
 
-# used to store random data for debugging purposes
-INFLUX_DEBUG_BUCKET="Debug"
-
-# used to store real data from the car
-INFLUX_CAN_BUCKET="CAN"
+# Needed to Initialize InfluxDB
+INFLUX_INIT_BUCKET="Init_test"
+INFLUX_DEBUG_BUCKET="CAN_test"
 
 # Parser secret key
-
 SECRET_KEY=""
 
 # Access tokens
@@ -219,11 +216,9 @@ INFLUX_ADMIN_PASSWORD="new_password"
 
 INFLUX_ORG="UBC Solar"
 
-# used to store random data for debugging purposes
-INFLUX_DEBUG_BUCKET="Debug"
-
-# used to store real data from the car
-INFLUX_CAN_BUCKET="CAN"
+# Needed to Initialize InfluxDB
+INFLUX_INIT_BUCKET="Init_test"
+INFLUX_DEBUG_BUCKET="CAN_test"
 
 # Secret key
 
@@ -348,8 +343,6 @@ If all your tokens are correctly set up, the parser should return the following:
 -   If your output doesn't look like the above, double-check the tokens you entered into the `.env` file and ensure that you **restarted the docker containers** after changing the tokens. Of course, make sure your docker containers are running in the first place. For more information about the parser API health endpoint, go [here](#parser-http-api).
 
 -   If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
-
-## Seting up PCAN drivers
 
 ## Telemetry link setup
 
@@ -479,7 +472,7 @@ Here are some example invocations:
 
 ## Running the Offline Log Uploader
 
-To run the offline log uploader the `logfiles` folder should have a generated log file to read and request the parser to write to InfluxDB in the `_test` buckets (like in debug mode). To do this use the -u (--log-upload) flag as follows:
+To run the offline log uploader the `logfiles` folder should have a generated log file to read and request the parser to write to InfluxDB in the specified buckets (_test or _prod based on --debug or --prod options respectively). To do this use the -u (--log-upload) flag as follows:
 
 ```bash
 ./link_telemetry.py -u
