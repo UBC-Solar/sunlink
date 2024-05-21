@@ -25,6 +25,8 @@ from beautifultable import BeautifulTable
 import warnings
 
 import concurrent.futures
+from tools.MemoratorUploader import memorator_upload_script
+
 
 __PROGRAM__ = "link_telemetry"
 __VERSION__ = "0.4"
@@ -371,37 +373,34 @@ def read_lines_from_file(file_path):
         for line in file:
             yield line.strip()
 
-def upload_logs(args, live_filters):
-    # Get a list of all .txt files in the logfiles directory
-    txt_files = [file for file in glob.glob(FAIL_DIRECTORY + '/*.txt') if not file[len(FAIL_DIRECTORY):].startswith('FAILED_UPLOADS')]
-    print(f"Found {len(txt_files)} .txt files in {FAIL_DIRECTORY}\n")
 
-    # Iterate over each .txt file
-    for file_path in txt_files:
-        print(f"Reading file {file_path}...")
-        message_generator = read_lines_from_file(file_path)
+"""
+Purpose: Sends data and filters to parser and registers a callback to process the response
+Parameters: 
+    message - raw byte data to be parsed on parser side
+    live_filters - filters for which messages to live stream to Grafana
+    log_filters - filters for which messages to log to file
+    args - the arguments passed to ./link_telemetry.py
+    parser_endpoint - the endpoint to send the data to
+Returns: None
+"""
+def sendToParser(message: str, live_filters: list, log_filters: list, args: list, parser_endpoint: str):
+    payload = {
+        "message" : message,
+        "live_filters" : live_filters,
+        "log_filters" : log_filters
+    }
+    
+    # submit to thread pool
+    future = executor.submit(parser_request, payload, parser_endpoint)
 
-        while True:
-            try:
-                # Converts a string of hex characters to a string of ASCII characters
-                # Preserves weird characters to be written and copied correctly
-                log_line = bytes.fromhex(next(message_generator)).decode('latin-1')
-            except StopIteration:
-                break
+    # register done callback with future (lambda function to pass in arguments) 
+    future.add_done_callback(lambda future: process_response(future, args))
 
-            # Create payload
-            payload = {
-                "message" : log_line,
-                "live_filters" : live_filters
-            }
-                
-            future = executor.submit(parser_request, payload, DEBUG_WRITE_ENDPOINT)
-            
-            # register done callback with future (lambda function to pass in arguments) 
-            future.add_done_callback(lambda future: process_response(future, args))
 
-        print(f"Done reading {file_path}")
-        print()
+def upload_logs(args, live_filters, log_filters, endpoint):
+    # Call the memorator log uploader function
+    memorator_upload_script(sendToParser, live_filters, log_filters, args, endpoint) 
 
 
 """
@@ -429,29 +428,6 @@ def process_message(message: str, buffer: str = "") -> list:
 
     return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
 
-
-"""
-Purpose: Sends data and filters to parser and registers a callback to process the response
-Parameters: 
-    message - raw byte data to be parsed on parser side
-    live_filters - filters for which messages to live stream to Grafana
-    log_filters - filters for which messages to log to file
-    args - the arguments passed to ./link_telemetry.py
-    parser_endpoint - the endpoint to send the data to
-Returns: None
-"""
-def sendToParser(message: str, live_filters: list, log_filters: list, args: list, parser_endpoint: str):
-    payload = {
-        "message" : message,
-        "live_filters" : live_filters,
-        "log_filters" : log_filters
-    }
-    
-    # submit to thread pool
-    future = executor.submit(parser_request, payload, parser_endpoint)
-
-    # register done callback with future (lambda function to pass in arguments) 
-    future.add_done_callback(lambda future: process_response(future, args))
 
 
 def main():
@@ -625,7 +601,7 @@ def main():
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
     if args.log_upload:
-        upload_logs(args, live_filters)
+        upload_logs(args, live_filters, log_filters, PARSER_ENDPOINT)
         return 0
 
     while True:
