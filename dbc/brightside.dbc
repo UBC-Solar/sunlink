@@ -33,8 +33,11 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MDU MCB SDL TEL OBC
+BU_: AMB BMS DID ECU MDU MCB TEL OBC
 
+
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ NewSignal_0001 : 0|8@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -311,9 +314,6 @@ BO_ 2566869221 OBCStatus: 8 OBC
  SG_ S2SwitchControlStatus : 55|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Temperaturre : 56|8@1+ (1,-40) [0|0] "C" Vector__XXX
 
-BO_ 1872 SimulationSpeed: 4 TEL
- SG_ SimulationSpeedRec : 0|32@1+ (1,0) [0|0] "" Vector__XXX
-
 BO_ 1284 PhaseCurrentMeasurement: 8 MDU
 
 BO_ 1285 MotorVoltageVectorMeasurment: 8 MDU
@@ -328,10 +328,6 @@ BO_ 1289 VoltageRailMeasurement_TwoFiveV: 8 MDU
 
 BO_ 1290 FanSpeedMeasurement: 8 MDU
 
-BO_ 1291 SinkMotorTemperatureMeasurement: 8 MDU
- SG_ MotorTemperature : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ SurfaceTemperatureControllerSink : 32|32@1+ (1,0) [0|0] "" Vector__XXX
-
 BO_ 1292 AirInCPUTemperatureMeasurement: 8 MDU
 
 BO_ 1293 OdometerBusAmpHoursMeasurement: 8 MDU
@@ -339,7 +335,7 @@ BO_ 1293 OdometerBusAmpHoursMeasurement: 8 MDU
 BO_ 2297992512 MitsubaDataRequest: 1 MDU
  SG_ RequestForFrames : 0|1@1+ (2,0) [0|0] "" Vector__XXX
 
-BO_ 2290418213 Frame0: 8 MDU
+BO_ 2290418213 Mitsuba_Frame0: 8 MDU
  SG_ BatteryVoltage : 0|10@1+ (1,0) [0|0] "V" Vector__XXX
  SG_ BatteryCurrent : 10|9@1+ (1,0) [0|0] "A" Vector__XXX
  SG_ BatteryCurrentDirection : 19|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -349,7 +345,7 @@ BO_ 2290418213 Frame0: 8 MDU
  SG_ PWMDuty : 47|10@1+ (1,0) [0|0] "%" Vector__XXX
  SG_ LeadAngle : 57|7@1+ (1,0) [0|0] "C" Vector__XXX
 
-BO_ 2291466789 Frame1: 5 MDU
+BO_ 2291466789 Mitsuba_Frame1: 5 MDU
  SG_ PowerMode : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorControlMode : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ AcceleratorPosition : 2|10@1+ (1,0) [0|0] "%" Vector__XXX
@@ -359,7 +355,7 @@ BO_ 2291466789 Frame1: 5 MDU
  SG_ DriveActionStatus : 36|2@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RegenerationStatus : 38|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 2292515365 Frame2: 5 MDU
+BO_ 2292515365 Mitsuba_Frame2: 5 MDU
  SG_ AnalogSensorError : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCurrentSensorUError : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCurrentSensorWError : 2|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -412,6 +408,40 @@ BO_ 1028 MCBDiagnostics: 3 MCB
 
 BO_ 1873 RTCTimestamp: 8 TEL
  SG_ EpochRTCTimestamp : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1874 IMU_X: 8 TEL
+ SG_ Acceleration_X : 0|32@1- (1,0) [-100|100] "" Vector__XXX
+ SG_ Gyroscope_X : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+
+BO_ 1875 IMU_Y: 8 TEL
+ SG_ Acceleration_Y : 0|32@1- (1,0) [-100|100] "" Vector__XXX
+ SG_ Gyroscope_Y : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+
+BO_ 1876 IMU_Z: 8 TEL
+ SG_ Acceleration_Z : 0|32@1- (1,0) [-100|100] "" Vector__XXX
+ SG_ Gyroscope_Z : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+
+BO_ 1877 GPSLatitude: 8 TEL
+ SG_ Latitude : 0|64@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1878 GPSLongitude: 8 TEL
+ SG_ Longitude : 0|64@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1879 GPSAltitudeHdop: 8 TEL
+ SG_ Altitude : 0|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Hdop : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1880 GPSSideCount: 8 TEL
+ SG_ Latside : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Lonside : 8|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ SatelliteCount : 16|16@1+ (1,0) [0|100] "" Vector__XXX
+
+BO_ 1872 TELDiagnostics: 1 TEL
+ SG_ RTCReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSSyncFail : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ IMUFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSFail : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ WatchdogReset : 4|1@1+ (1,0) [0|0] "" Vector__XXX
 
 
 
@@ -509,10 +539,6 @@ Overheating fault occurs when temp is > 90 degrees
 CM_ SG_ 2566869221 ElectronicLockState "0: in Judgment, 1: Locked, 2: Unlocked, 3: Unlock fault, 4: Locked fault";
 CM_ SG_ 2566869221 S2SwitchControlStatus "0: Switch off, 1: Closed";
 CM_ SG_ 2566869221 Temperaturre "";
-CM_ SG_ 1872 SimulationSpeedRec "UNITS + FACTOR TBD
-";
-CM_ SG_ 1291 MotorTemperature "Degree celsius";
-CM_ SG_ 1291 SurfaceTemperatureControllerSink "Degree celsius";
 CM_ SG_ 2297992512 RequestForFrames "(0000 0111) is all the frames. Comes from MDI to mitsuba motor controller";
 CM_ SG_ 2290418213 BatteryVoltage "0.5V/LSB";
 CM_ SG_ 2290418213 BatteryCurrent "1A/LSB";
@@ -560,4 +586,14 @@ SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
 SIG_VALTYPE_ 1025 MotorVelocity : 1;
 SIG_VALTYPE_ 1025 MotorCurrent : 1;
+SIG_VALTYPE_ 1874 Acceleration_X : 1;
+SIG_VALTYPE_ 1874 Gyroscope_X : 1;
+SIG_VALTYPE_ 1875 Acceleration_Y : 1;
+SIG_VALTYPE_ 1875 Gyroscope_Y : 1;
+SIG_VALTYPE_ 1876 Acceleration_Z : 1;
+SIG_VALTYPE_ 1876 Gyroscope_Z : 1;
+SIG_VALTYPE_ 1877 Latitude : 2;
+SIG_VALTYPE_ 1878 Longitude : 2;
+SIG_VALTYPE_ 1879 Altitude : 1;
+SIG_VALTYPE_ 1879 Hdop : 1;
 
