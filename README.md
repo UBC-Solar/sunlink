@@ -236,7 +236,7 @@ For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD` fields, you may ch
 
 The `SECRET_KEY` field must be generated.
 
-> :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_DEBUG_BUCKET`, and `INFLUX_PROD_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
+> :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_INIT_BUCKET`, and `INFLU_DEBUG_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
 
 #### Generating the secret key
 
