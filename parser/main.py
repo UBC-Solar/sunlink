@@ -289,6 +289,11 @@ def parse_and_write_request():
 def parse_and_write_request_to_prod():
     return parse_and_write_request_bucket("_prod")
 
+@app.post(f"{API_PREFIX}/parse/write/log")
+@auth.login_required
+def parse_and_write_request():
+    return parse_and_write_request_bucket("_log")
+
 """
 Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production)
 that is specifc to the message type (CAN, GPS, IMU, for example).

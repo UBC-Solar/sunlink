@@ -67,6 +67,7 @@ AUTH_HEADER = {"Authorization": f"Bearer {SECRET_KEY}"}
 # API endpoints
 DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
 PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
+LOG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/log"
 NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
@@ -604,7 +605,7 @@ def main():
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
     if args.log_upload:
-        upload_logs(args, live_filters, log_filters, PARSER_ENDPOINT)
+        upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
         return 0
 
     while True:
