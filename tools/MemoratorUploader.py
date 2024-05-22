@@ -85,34 +85,28 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
             print(f"{ANSI_BOLD}\tStart time         : {start_time}{ANSI_RESET}")
             print(f"{ANSI_BOLD}\tEnd time           : {end_time}{ANSI_RESET}")
 
-        # Ask the user what to upload
-        upload_input = input(f"{ANSI_GREEN}Enter what logs to upload ('all' or x-y inclusive ranges comma separated):{ANSI_RESET} ")
-        if upload_input.lower() == 'all':
-            # Upload all logs
-            for j in range(num_logs):
-                upload(log[j], parserCallFunc, live_filters, log_filters, args, endpoint)
-        else:
-            # Parse the user input
-            ranges = upload_input.split(',')
-            for r in ranges:
-                if '-' not in r:
-                    idx = int(r)
-                    if idx < 0 or idx >= num_logs:
-                        print(f"{ANSI_RED}Index {idx} is out of range{ANSI_RESET}")
-                    else:
-                        upload(log[idx], parserCallFunc, live_filters, log_filters, args, endpoint)
-                else:
-                    start, end = map(int, r.split('-'))
-                    # Upload the specified logs
-                    for j in range(start, end + 1):
-                        if j < 0 or j >= num_logs:
-                            print(f"{ANSI_RED}Index {j} is out of range{ANSI_RESET}")
-                        else:
-                            upload(log[j], parserCallFunc, live_filters, log_filters, args, endpoint)
-        
         # Close the KMF file
         kmf_file.close()
 
+    upload_input = input(f"{ANSI_GREEN}Do you want to upload all logs now (y/n)?: {ANSI_RESET} ")
+    if upload_input.lower() == 'y' or upload_input.lower() == '\n':
+        for i in range(NUM_LOGS):
+            kmf_file = kvmlib.openKmf(PATH.format(i))
+            print(f"{ANSI_GREEN}Opening file: {PATH.format(i)}{ANSI_RESET}")  # Green stdout
+
+            # Access the log attribute of the KMF object
+            log = kmf_file.log
+            
+            # Iterate over all log files
+            for j, log_file in enumerate(log):
+                upload(log[j], parserCallFunc, live_filters, log_filters, args, endpoint)
+
+            # Clear the log files
+            log.delete_all()
+            
+            # Close the KMF file
+            kmf_file.close()
+        
 
 # TESTING PURPOSES
 def main():
