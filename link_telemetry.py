@@ -13,6 +13,7 @@ import json
 import os
 import glob
 import struct
+import re
 
 from datetime import datetime 
 from toml.decoder import TomlDecodeError
@@ -63,19 +64,19 @@ NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
 EXPECTED_CAN_MSG_LENGTH = 30
-CAN_MSG_LENGTH = 22
+CAN_MSG_LENGTH = 24
 IMU_MSG_LENGTH = 17
 GPS_MSG_LENGTH = 200
 
 CAN_BYTE = 0x00
 IMU_BYTE = 0x01
-GPS_BYTE = 0x10
+GPS_BYTE = 0x02
 
 
-LOCAL_AT_BYTE = 0x11
-REMOTE_AT_BYTE = 0x12
+LOCAL_AT_BYTE = 0x03
+REMOTE_AT_BYTE = 0x04
 
-UNKNOWN_BYTE = 0x22
+UNKNOWN_BYTE = 0x05
 
 # ANSI sequences
 ANSI_ESCAPE = "\033[0m"
@@ -393,21 +394,22 @@ Returns (tuple):
     buffer - leftover chunk that is not a message
 """
 def process_message(message: str, buffer: str = "") -> list:
-    # Remove 7e 00 from the start if present
-    if message.startswith("7e00"):
-        message = message[4:]
-    
+   
     # Add buffer to the start of the message
     message = buffer + message
 
-    # Split the message by 7e 00
-    parts = message.split("7e")
+    # Split the message by 7e and one of 88, 97, 10 (types of radio messages we get)
+    pattern = '(?=7E....88|7E....97|7E....10)'
+    parts = re.split(pattern, message)
  
-    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
+    if len(parts) > 1:
        buffer = parts.pop()
 
-    smaller_parts = []
+    return [bytes.fromhex(part).decode('latin-1') for part in parts]
+    
 
+"""""
+smaller_parts = []
     for part in parts:
         if part[3] == '10':
             if part[17] == CAN_BYTE:
@@ -430,7 +432,7 @@ def process_message(message: str, buffer: str = "") -> list:
 def split_api_packet(message, message_size, message_byte):
     return [message_byte + message[i: i + message_size] for i in range(19, len(message), message_size)]
 
-
+"""
 """
 Purpose: Sends data and filters to parser and registers a callback to process the response
 Parameters: 
@@ -604,6 +606,8 @@ def main():
     global LOG_FILE_NAME 
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
     
+    ##ADD New Thread Here!
+
     while True:
         message: bytes
 
