@@ -25,7 +25,6 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
     start_time = None
     for event in log_file:
         str_event = str(event)
-        print(str_event)
         if PATTERN_DATETIME.search(str_event):
             match = PATTERN_DATETIME.search(str_event)
             date_time_str = match.group(2)
