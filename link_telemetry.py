@@ -312,36 +312,37 @@ def process_response(future: concurrent.futures.Future, args):
         return
     
     if parse_response["result"] == "OK":
-        # Create a table
-        table = BeautifulTable()
+        if args.table_on:
+            # Create a table
+            table = BeautifulTable()
 
-        # Set the table title
-        table.set_style(BeautifulTable.STYLE_RST)
-        table.column_widths = [110]
-        table.width_exceed_policy = BeautifulTable.WEP_WRAP
+            # Set the table title
+            table.set_style(BeautifulTable.STYLE_RST)
+            table.column_widths = [110]
+            table.width_exceed_policy = BeautifulTable.WEP_WRAP
 
-        # Title
-        table.rows.append([f"{ANSI_GREEN}{parse_response['type']}{ANSI_ESCAPE}"])
-        display_data = parse_response['message']
+            # Title
+            table.rows.append([f"{ANSI_GREEN}{parse_response['type']}{ANSI_ESCAPE}"])
+            display_data = parse_response['message']
 
-        # Add columns as subtable
-        subtable = BeautifulTable()
-        subtable.set_style(BeautifulTable.STYLE_GRID)
+            # Add columns as subtable
+            subtable = BeautifulTable()
+            subtable.set_style(BeautifulTable.STYLE_GRID)
 
-        cols = display_data["COL"]
-        subtable.rows.append(cols.keys())
-        for i in range(len(list(cols.values())[0])):
-            subtable.rows.append([val[i] for val in cols.values()]) 
+            cols = display_data["COL"]
+            subtable.rows.append(cols.keys())
+            for i in range(len(list(cols.values())[0])):
+                subtable.rows.append([val[i] for val in cols.values()]) 
 
-        table.rows.append([subtable])
+            table.rows.append([subtable])
 
-        # Add rows
-        rows = display_data["ROW"]
-        for row_head, row_data in rows.items():
-            table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
-            table.rows.append(row_data)
-        
-        print(table)
+            # Add rows
+            rows = display_data["ROW"]
+            for row_head, row_data in rows.items():
+                table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
+                table.rows.append(row_data)
+            
+            print(table)
 
         if parse_response["logMessage"]:
             write_to_log_file(table, LOG_FILE_NAME, convert_to_hex=False)
@@ -460,6 +461,8 @@ def main():
                              help=("Requests parser to write parsed data to the debug InfluxDB bucket."))
     write_group.add_argument("--prod", action="store_true",
                              help=("Requests parser to write parsed data to the production InfluxDB bucket."))
+    write_group.add_argument("--table-on", action="store_true",
+                             help=("Will display pretty tables. Normally off and parse fails only show"))
     write_group.add_argument("--no-write", action="store_true",
                              help=(("Requests parser to skip writing to the InfluxDB bucket and streaming"
                                    "to Grafana. Cannot be used with --debug and --prod options.")))

@@ -46,7 +46,7 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             dlc_str = match.group(4)
 
             data = bytes.fromhex(match.group(5).replace(' ', ''))
-            data_str = data.decode('latin-1')
+            data_str = data.ljust(8, b'\0').decode('latin-1')
             
             can_str = timestamp_str + "#" + id_str + data_str + dlc_str
 
@@ -122,3 +122,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
