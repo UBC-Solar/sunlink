@@ -25,6 +25,8 @@ from beautifultable import BeautifulTable
 import warnings
 
 import concurrent.futures
+from tools.MemoratorUploader import memorator_upload_script
+
 
 __PROGRAM__ = "link_telemetry"
 __VERSION__ = "0.4"
@@ -65,6 +67,7 @@ AUTH_HEADER = {"Authorization": f"Bearer {SECRET_KEY}"}
 # API endpoints
 DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
 PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
+LOG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/log"
 NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
@@ -298,9 +301,9 @@ def process_response(future: concurrent.futures.Future, args):
         print(f"{ANSI_BOLD}Config file location:{ANSI_ESCAPE} \"{TOML_CONFIG_FILE.absolute()}\"\n")
         return
     
-    if response.status_code != 200:
-        print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
-    print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
+    # if response.status_code != 200:
+    #     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
+    # print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
     
     try:
         parse_response: dict = response.json()
@@ -310,36 +313,39 @@ def process_response(future: concurrent.futures.Future, args):
         return
     
     if parse_response["result"] == "OK":
-        # Create a table
-        table = BeautifulTable()
+        table = None
+        if args.log is not None or args.table_on:
+            # Create a table
+            table = BeautifulTable()
 
-        # Set the table title
-        table.set_style(BeautifulTable.STYLE_RST)
-        table.column_widths = [110]
-        table.width_exceed_policy = BeautifulTable.WEP_WRAP
+            # Set the table title
+            table.set_style(BeautifulTable.STYLE_RST)
+            table.column_widths = [110]
+            table.width_exceed_policy = BeautifulTable.WEP_WRAP
 
-        # Title
-        table.rows.append([f"{ANSI_GREEN}{parse_response['type']}{ANSI_ESCAPE}"])
-        display_data = parse_response['message']
+            # Title
+            table.rows.append([f"{ANSI_GREEN}{parse_response['type']}{ANSI_ESCAPE}"])
+            display_data = parse_response['message']
 
-        # Add columns as subtable
-        subtable = BeautifulTable()
-        subtable.set_style(BeautifulTable.STYLE_GRID)
+            # Add columns as subtable
+            subtable = BeautifulTable()
+            subtable.set_style(BeautifulTable.STYLE_GRID)
 
-        cols = display_data["COL"]
-        subtable.rows.append(cols.keys())
-        for i in range(len(list(cols.values())[0])):
-            subtable.rows.append([val[i] for val in cols.values()]) 
+            cols = display_data["COL"]
+            subtable.rows.append(cols.keys())
+            for i in range(len(list(cols.values())[0])):
+                subtable.rows.append([val[i] for val in cols.values()]) 
 
-        table.rows.append([subtable])
+            table.rows.append([subtable])
 
-        # Add rows
-        rows = display_data["ROW"]
-        for row_head, row_data in rows.items():
-            table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
-            table.rows.append(row_data)
-        
-        print(table)
+            # Add rows
+            rows = display_data["ROW"]
+            for row_head, row_data in rows.items():
+                table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
+                table.rows.append(row_data)
+            
+        if args.table_on:
+            print(table)
 
         if parse_response["logMessage"]:
             write_to_log_file(table, LOG_FILE_NAME, convert_to_hex=False)
@@ -361,7 +367,6 @@ def process_response(future: concurrent.futures.Future, args):
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
-    print()
 
 def read_lines_from_file(file_path):
     """
@@ -370,64 +375,6 @@ def read_lines_from_file(file_path):
     with open(file_path, 'r', encoding='latin-1') as file:
         for line in file:
             yield line.strip()
-
-def upload_logs(args, live_filters):
-    # Get a list of all .txt files in the logfiles directory
-    txt_files = [file for file in glob.glob(FAIL_DIRECTORY + '/*.txt') if not file[len(FAIL_DIRECTORY):].startswith('FAILED_UPLOADS')]
-    print(f"Found {len(txt_files)} .txt files in {FAIL_DIRECTORY}\n")
-
-    # Iterate over each .txt file
-    for file_path in txt_files:
-        print(f"Reading file {file_path}...")
-        message_generator = read_lines_from_file(file_path)
-
-        while True:
-            try:
-                # Converts a string of hex characters to a string of ASCII characters
-                # Preserves weird characters to be written and copied correctly
-                log_line = bytes.fromhex(next(message_generator)).decode('latin-1')
-            except StopIteration:
-                break
-
-            # Create payload
-            payload = {
-                "message" : log_line,
-                "live_filters" : live_filters
-            }
-                
-            future = executor.submit(parser_request, payload, DEBUG_WRITE_ENDPOINT)
-            
-            # register done callback with future (lambda function to pass in arguments) 
-            future.add_done_callback(lambda future: process_response(future, args))
-
-        print(f"Done reading {file_path}")
-        print()
-
-
-"""
-Purpose: Processes the message by splitting it into parts and returning the parts and the buffer
-Parameters: 
-    message - The total chunk read from the serial stream
-    buffer - the buffer to be added to the start of the message
-Returns (tuple):
-    parts - the fully complete messages of the total chunk read
-    buffer - leftover chunk that is not a message
-"""
-def process_message(message: str, buffer: str = "") -> list:
-    # Remove 00 0a from the start if present
-    if message.startswith("000a"):
-        message = message[4:]
-    
-    # Add buffer to the start of the message
-    message = buffer + message
-
-    # Split the message by 0d 0a
-    parts = message.split("0d0a")
-
-    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
-        buffer = parts.pop()
-
-    return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
 
 
 """
@@ -452,6 +399,40 @@ def sendToParser(message: str, live_filters: list, log_filters: list, args: list
 
     # register done callback with future (lambda function to pass in arguments) 
     future.add_done_callback(lambda future: process_response(future, args))
+
+
+def upload_logs(args, live_filters, log_filters, endpoint):
+    # Call the memorator log uploader function
+    memorator_upload_script(sendToParser, live_filters, log_filters, args, endpoint) 
+
+
+"""
+Purpose: Processes the message by splitting it into parts and returning the parts and the buffer
+Parameters: 
+    message - The total chunk read from the serial stream
+    buffer - the buffer to be added to the start of the message
+Returns (tuple):
+    parts - the fully complete messages of the total chunk read
+    buffer - leftover chunk that is not a message
+"""
+def process_message(message: str, buffer: str = "") -> list:
+    # Remove 00 0a from the start if present
+    if message.startswith("000a"):
+        message = message[4:]
+    elif message.startswith("0a"):
+        message = message[2:]
+    
+    # Add buffer to the start of the message
+    message = buffer + message
+
+    # Split the message by 0d 0a
+    parts = message.split("0d0a")
+
+    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
+        buffer = parts.pop()
+
+    return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
+
 
 
 def main():
@@ -484,6 +465,8 @@ def main():
                              help=("Requests parser to write parsed data to the debug InfluxDB bucket."))
     write_group.add_argument("--prod", action="store_true",
                              help=("Requests parser to write parsed data to the production InfluxDB bucket."))
+    write_group.add_argument("--table-on", action="store_true",
+                             help=("Will display pretty tables. Normally off and parse fails only show"))
     write_group.add_argument("--no-write", action="store_true",
                              help=(("Requests parser to skip writing to the InfluxDB bucket and streaming"
                                    "to Grafana. Cannot be used with --debug and --prod options.")))
@@ -625,7 +608,7 @@ def main():
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
     if args.log_upload:
-        upload_logs(args, live_filters)
+        upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
         return 0
 
     while True:
@@ -683,4 +666,5 @@ def main():
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, sigint_handler)
     main()
-    
+   
+
