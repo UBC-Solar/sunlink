@@ -313,7 +313,8 @@ def process_response(future: concurrent.futures.Future, args):
         return
     
     if parse_response["result"] == "OK":
-        if args.table_on:
+        table = None
+        if args.log is not None or args.table_on:
             # Create a table
             table = BeautifulTable()
 
@@ -343,6 +344,7 @@ def process_response(future: concurrent.futures.Future, args):
                 table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
                 table.rows.append(row_data)
             
+        if args.table_on:
             print(table)
 
         if parse_response["logMessage"]:
