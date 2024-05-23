@@ -301,9 +301,9 @@ def process_response(future: concurrent.futures.Future, args):
         print(f"{ANSI_BOLD}Config file location:{ANSI_ESCAPE} \"{TOML_CONFIG_FILE.absolute()}\"\n")
         return
     
-    if response.status_code != 200:
-        print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
-    print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
+    # if response.status_code != 200:
+    #     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
+    # print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
     
     try:
         parse_response: dict = response.json()
@@ -365,7 +365,6 @@ def process_response(future: concurrent.futures.Future, args):
     else:
         print(f"Unexpected response: {parse_response['result']}")
 
-    print()
 
 def read_lines_from_file(file_path):
     """
@@ -418,6 +417,8 @@ def process_message(message: str, buffer: str = "") -> list:
     # Remove 00 0a from the start if present
     if message.startswith("000a"):
         message = message[4:]
+    elif message.startswith("0a"):
+        message = message[2:]
     
     # Add buffer to the start of the message
     message = buffer + message

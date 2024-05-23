@@ -291,7 +291,7 @@ def parse_and_write_request_to_prod():
 
 @app.post(f"{API_PREFIX}/parse/write/log")
 @auth.login_required
-def parse_and_write_request():
+def parse_and_write_request_to_log():
     return parse_and_write_request_bucket("_log")
 
 """
