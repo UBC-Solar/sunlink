@@ -33,7 +33,7 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MDU MCB TEL OBC
+BU_: AMB BMS DID ECU MDU MCB TEL OBC MEMORATOR
 
 
 BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
@@ -406,8 +406,8 @@ BO_ 1028 MCBDiagnostics: 3 MCB
  SG_ CruiseControlEnabled : 18|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MechBrakePressed : 19|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1873 RTCTimestamp: 8 TEL
- SG_ EpochRTCTimestamp : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+BO_ 1873 RTCTimestamp: 8 MEMORATOR
+ SG_ EpochRTCTimestamp : 0|64@1- (1,0) [0|0] "" Vector__XXX
 
 BO_ 1874 IMU_X: 8 TEL
  SG_ Acceleration_X : 0|32@1- (1,0) [-100|100] "" Vector__XXX
@@ -576,8 +576,7 @@ CM_ SG_ 1028 PedalADCOutOfRange "1 if true 0 if false";
 CM_ SG_ 1028 RegenEnabled "1 if true 0 if false";
 CM_ SG_ 1028 CruiseControlEnabled "1 if true 0 if false";
 CM_ SG_ 1028 MechBrakePressed "1 if pressed 0 if not pressed";
-CM_ SG_ 1873 EpochRTCTimestamp "Timestamp from RTC, in the standard UNIX epoch format See online for unix epoch format. Eveyr 5 seconds
-";
+CM_ SG_ 1873 EpochRTCTimestamp "Timestamp from RTC inside Kvaser Memorator 2xHS v2";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
@@ -586,6 +585,7 @@ SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
 SIG_VALTYPE_ 1025 MotorVelocity : 1;
 SIG_VALTYPE_ 1025 MotorCurrent : 1;
+SIG_VALTYPE_ 1873 EpochRTCTimestamp : 2;
 SIG_VALTYPE_ 1874 Acceleration_X : 1;
 SIG_VALTYPE_ 1874 Gyroscope_X : 1;
 SIG_VALTYPE_ 1875 Acceleration_Y : 1;
