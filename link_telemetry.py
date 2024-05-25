@@ -654,7 +654,7 @@ def main():
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
     if args.log_upload:
-        upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
+        upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
         return 0
 
     while True:
