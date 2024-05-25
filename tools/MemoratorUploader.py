@@ -21,7 +21,7 @@ PATTERN_TRIGGER     = re.compile(r't:\s+(.*?)\s+Log Trigger Event.*')
 PATTERN_EVENT       = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:\s+(.*?) dlc:\s+(.*?) d:(.*)')
 
 
-def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, args: list, endpoint: str):
+def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     start_time = None
     for event in log_file:
         str_event = str(event)
@@ -49,10 +49,10 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             
             can_str = timestamp_str + "#" + id_str + data_str + dlc_str
 
-            parserCallFunc(can_str, live_filters, log_filters, args, endpoint)
+            parserCallFunc(can_str, live_filters, log_filters, display_filters, args, endpoint)
             
 
-def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, args: list, endpoint: str):
+def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     # Open each KMF file
     for i in range(NUM_LOGS):
         kmf_file = kvmlib.openKmf(PATH.format(i))
@@ -99,7 +99,7 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
             
             # Iterate over all log files
             for j, log_file in enumerate(log):
-                upload(log[j], parserCallFunc, live_filters, log_filters, args, endpoint)
+                upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint)
 
             # Clear the log files
             log.delete_all()
