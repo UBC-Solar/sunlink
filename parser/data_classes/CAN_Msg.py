@@ -109,6 +109,8 @@ class CAN:
     def get_measurements(self, identifier, data_bytes):
         try:
             measurements = CAR_DBC.decode_message(identifier, data_bytes)
+            if measurements == {}:
+                raise Exception(f"Could not decode_message on ID = {identifier} with data = {data_bytes}")
             return measurements
         except Exception as e:
             generate_exception(e, "get_measurements")
