@@ -53,8 +53,9 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     # Open each KMF file
-    log_path = LOG_FOLDER + "LOG000{:02d}".format(i)
+    log_path = None
     for i in range(NUM_LOGS):
+        log_path = LOG_FOLDER + "LOG000{:02d}".format(i)
         kmf_file = kvmlib.openKmf(log_path.format(i))
         print(f"{ANSI_GREEN}Opening file: {log_path.format(i)}{ANSI_RESET}")  # Green stdout
 
