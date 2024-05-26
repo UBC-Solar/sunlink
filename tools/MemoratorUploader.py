@@ -4,7 +4,7 @@ import datetime
 import struct
 
 # Script Constants
-PATH                = "D:\\LOG000{:02d}.KMF"
+LOG_FOLDER          = "D:\\"
 NUM_LOGS            = 15
 MB_TO_KB            = 1024
 EPOCH_START         = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
@@ -28,7 +28,6 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
         if PATTERN_DATETIME.search(str_event):
             match = PATTERN_DATETIME.search(str_event)
             date_time_str = match.group(2)
-            print(f"Matched DateTime: {date_time_str}")
             date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
             date_time_obj = date_time_obj.replace(tzinfo=datetime.timezone.utc)  
             start_time = (date_time_obj - EPOCH_START).total_seconds()
@@ -54,9 +53,10 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     # Open each KMF file
+    log_path = LOG_FOLDER + "LOG000{:02d}".format(i)
     for i in range(NUM_LOGS):
-        kmf_file = kvmlib.openKmf(PATH.format(i))
-        print(f"{ANSI_GREEN}Opening file: {PATH.format(i)}{ANSI_RESET}")  # Green stdout
+        kmf_file = kvmlib.openKmf(log_path.format(i))
+        print(f"{ANSI_GREEN}Opening file: {log_path.format(i)}{ANSI_RESET}")  # Green stdout
 
         # Access the log attribute of the KMF object
         log = kmf_file.log
@@ -91,8 +91,8 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
     upload_input = input(f"{ANSI_GREEN}Do you want to upload all logs now (y/n)?: {ANSI_RESET} ")
     if upload_input.lower() == 'y' or upload_input.lower() == '\n':
         for i in range(NUM_LOGS):
-            kmf_file = kvmlib.openKmf(PATH.format(i))
-            print(f"{ANSI_GREEN}Opening file: {PATH.format(i)}{ANSI_RESET}")  # Green stdout
+            kmf_file = kvmlib.openKmf(log_path.format(i))
+            print(f"{ANSI_GREEN}Opening file: {log_path.format(i)}{ANSI_RESET}")  # Green stdout
 
             # Access the log attribute of the KMF object
             log = kmf_file.log
