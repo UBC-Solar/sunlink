@@ -14,6 +14,7 @@ import os
 import glob
 import struct
 import re
+import threading
 
 from datetime import datetime 
 from toml.decoder import TomlDecodeError
@@ -454,12 +455,18 @@ def sendToParser(message: str, live_filters: list, args: list, parser_endpoint: 
     # register done callback with future (lambda function to pass in arguments) 
     future.add_done_callback(lambda future: process_response(future, args))
 
-
+def atDiagnosticCommand(command_list):
+    lock.acquire()
+    while True:
+        for command in command_list:
+                serial.write(command)
+        time.sleep(1)
+    lock.release()
 def main():
     """
     Main telemetry link entrypoint.
     """
-
+    lock = threading.Lock()
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
@@ -577,14 +584,14 @@ def main():
         live_filters = ["ALL"]
     elif args.live_off or not args.live_on:
         live_filters = ["NONE"]
-
+    
     # <----- Configuration confirmation ----->
     if not args.log_upload:
         print_config_table(args, live_filters)
         choice = input("Are you sure you want to continue with this configuration? (y/N) > ")
         if choice.lower() != "y":
             return
-
+    # Define
     # <----- Create the thread pool ----->
 
     global executor
@@ -607,6 +614,8 @@ def main():
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
     
     ##ADD New Thread Here!
+    future = executor.submit(atDiagnosticCommand, command_list)
+
 
     while True:
         message: bytes
@@ -649,11 +658,12 @@ def main():
                 ser.open()
 
                 while True:
+                    lock.acquire()
                     # read in bytes from COM port
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
                     parts, buffer = process_message(chunk, buffer)
-
+                    lock.release()
                     for part in parts:
                         sendToParser(part, live_filters, args, PARSER_ENDPOINT)
 

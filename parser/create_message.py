@@ -24,31 +24,32 @@ Parameters:
 Returns:
     a message object (CAN, GPS, IMU, etc.)
 """
-def split_api_packet(message, message_size, message_byte):
-    return [message_byte + message[i: i + message_size] for i in range(19, len(message), message_size)]
-
-def create_message(message: str):
-    
-    try:
-        individual_messsages = []
-        if message[3] == '10':
-                if message[17] == CAN_BYTE:
-                    individual_messsages.extend(split_api_packet(message, CAN_MSG_LENGTH, CAN_BYTE))
-                elif message[17] == IMU_BYTE:
-                    individual_messsages.extend(split_api_packet(message, IMU_MSG_LENGTH, IMU_BYTE))
-                elif message[17] == GPS_BYTE:
-                    individual_messsages.extend(split_api_packet(message, GPS_MSG_LENGTH, GPS_BYTE))
+# def split_api_packet(message, message_size, message_byte):
+#     return [message_byte + message[i: i + message_size] for i in range(19, len(message), message_size)]
+#     try:
+#         individual_messsages = []
+#         if message[3] == '10':
+#                 if message[17] == CAN_BYTE:
+#                     individual_messsages.extend(split_api_packet(message, CAN_MSG_LENGTH, CAN_BYTE))
+#                 elif message[17] == IMU_BYTE:
+#                     individual_messsages.extend(split_api_packet(message, IMU_MSG_LENGTH, IMU_BYTE))
+#                 elif message[17] == GPS_BYTE:
+#                     individual_messsages.extend(split_api_packet(message, GPS_MSG_LENGTH, GPS_BYTE))
             
-        elif message[3] == '88':
-            individual_messsages.extend(LOCAL_AT_BYTE + message)
-        elif message[3] == '97':
-            individual_messsages.extend(REMOTE_AT_BYTE + message)
+#         elif message[3] == '88':
+#             individual_messsages.extend(LOCAL_AT_BYTE + message)
+#         elif message[3] == '97':
+#             individual_messsages.extend(REMOTE_AT_BYTE + message)
     
-    ## [bytes.fromhex(part).decode('latin-1') for part in smaller_parts] 
+#     ## [bytes.fromhex(part).decode('latin-1') for part in smaller_parts] 
 
-        for part in individual_messsages:
-            part = bytes.fromhex(part).decode('latin-1')
-
+#         for part in individual_messsages:
+#             part = bytes.fromhex(part).decode('latin-1')
+def create_message(message: str):
+    if message[0] == "7E" and (message[4] == ("88" or "97")):
+        parse_api_packet(message)
+    else:
+        try:
             if part[0] == CAN_BYTE:
                 return CAN(part[1:])
             elif part[0] == GPS_BYTE:
@@ -65,10 +66,9 @@ def create_message(message: str):
                 f"      Message: {message}\n"
                 f"      Hex Message: {message.encode('latin-1').hex()}"
             )
-        
-            
-    except Exception as e:
-        raise Exception(
+
+        except Exception as e:
+            raise Exception(
             f"{ANSI_BOLD}Failed in create_message{ANSI_ESCAPE}:\n"
             f"      {e}"
         )

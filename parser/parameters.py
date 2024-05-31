@@ -2,6 +2,10 @@ import cantools
 from pathlib import Path
 import sys    
 
+ENERGY_DETECT_TIME = 0x01
+
+
+
 #  <----- Multi-Class Functions  ----->
 """
 Generates a custom exception based on the caught exception and the function name
@@ -57,3 +61,13 @@ ANSI_RED = "\033[1;31m"
 ANSI_GREEN = "\033[1;32m"
 ANSI_YELLOW = "\033[1;33m"
 ANSI_BOLD = "\033[1m"
+
+
+# <----- AT Commands ------>
+
+DB = bytes.fromhex("7E00040801444270") #RSSI
+ER = bytes.fromhex("7E0004080145525F") #Error Count
+GD = bytes.fromhex("7E0004080147446B") #Good Packets Receieved
+ED = bytes.fromhex("7E 00 05 08 01 45 44" + ENERGY_DETECT_TIME + "3C") #Energy detect
+
+command_list = [DB, ER, GD, ED]
