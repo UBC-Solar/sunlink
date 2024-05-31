@@ -421,55 +421,7 @@ def upload_logs(args, live_filters, log_filters, endpoint):
     memorator_upload_script(sendToParser, live_filters, log_filters, args, endpoint) 
 
 
-"""
-Purpose: Processes the message by splitting it into parts and returning the parts and the buffer
-Parameters: 
-    message - The total chunk read from the serial stream
-    buffer - the buffer to be added to the start of the message
-Returns (tuple):
-    parts - the fully complete messages of the total chunk read
-    buffer - leftover chunk that is not a message
-"""
-def process_message(message: str, buffer: str = "") -> list:
-   
-    # Add buffer to the start of the message
-    message = buffer + message
 
-    # Split the message by 7e and one of 88, 97, 10 (types of radio messages we get)
-    pattern = '(?=7E....88|7E....97|7E....10)'
-    parts = re.split(pattern, message)
- 
-    if len(parts) > 1:
-       buffer = parts.pop()
-
-    return [bytes.fromhex(part).decode('latin-1') for part in parts]
-    
-
-"""""
-smaller_parts = []
-    for part in parts:
-        if part[3] == '10':
-            if part[17] == CAN_BYTE:
-                smaller_parts.extend(split_api_packet(part, CAN_MSG_LENGTH, CAN_BYTE))
-            elif part[17] == IMU_BYTE:
-                smaller_parts.extend(split_api_packet(part, IMU_MSG_LENGTH, IMU_BYTE))
-            elif part[17] == GPS_BYTE:
-                smaller_parts.extend(split_api_packet(part, GPS_MSG_LENGTH, GPS_BYTE))
-            else:
-                smaller_parts.extend(UNKNOWN_BYTE + part)
-        elif part[3] == '88':
-            smaller_parts.extend(LOCAL_AT_BYTE + part)
-        elif part[3] == '97':
-            smaller_parts.extend(REMOTE_AT_BYTE + part)
-        else:
-            smaller_parts.extend(UNKNOWN_BYTE + part)
-    
-    return [bytes.fromhex(part).decode('latin-1') for part in smaller_parts] , buffer
-
-def split_api_packet(message, message_size, message_byte):
-    return [message_byte + message[i: i + message_size] for i in range(19, len(message), message_size)]
-
-"""
 """
 Purpose: Sends data and filters to parser and registers a callback to process the response
 Parameters: 
