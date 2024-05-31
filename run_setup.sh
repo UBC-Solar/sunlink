@@ -31,9 +31,9 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # Clone Sunlink
 echo -e "\nCloning Sunlink Repository\n"
-git clone https://github.com/UBC-Solar/sunlink/tree/user/diegoarmstrong/nginx_configuration sunlink_test
+git clone https://github.com/UBC-Solar/sunlink/tree/main sunlink
 # Change directory into sunlink
-cd sunlink_test
+cd sunlink
 echo -e "\nChanged directory to sunlink\n"
 # Get user input for GRAFANA_ADMIN_USERNAME
 read -p "Enter GRAFANA_ADMIN_USERNAME (empty for default): " GRAFANA_ADMIN_USERNAME
