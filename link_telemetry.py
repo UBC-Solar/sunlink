@@ -13,6 +13,8 @@ import json
 import os
 import glob
 import struct
+import re
+import threading
 
 from datetime import datetime 
 from toml.decoder import TomlDecodeError
@@ -416,30 +418,32 @@ Returns (tuple):
     buffer - leftover chunk that is not a message
 """
 def process_message(message: str, buffer: str = "") -> list:
-    # Remove 00 0a from the start if present
-    if message.startswith("000a"):
-        message = message[4:]
-    elif message.startswith("0a"):
-        message = message[2:]
     
     # Add buffer to the start of the message
     message = buffer + message
 
-    # Split the message by 0d 0a
-    parts = message.split("0d0a")
+    pattern = '(?=7E....88|7E....97|7E....10)'
+    parts = re.split(pattern, message)
 
-    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
+    if len(parts) > 1:
         buffer = parts.pop()
 
-    return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
+    return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
 
-
+def atDiagnosticCommand(command_list):
+    lock.acquire()
+    while True:
+        for command in command_list:
+                serial.write(command)
+        time.sleep(AT_COMMAND_FREQUENCY)
+    lock.release()
 
 def main():
     """
     Main telemetry link entrypoint.
     """
-
+    ##lock for access to serial stream to manage writing AT commands and reading API frames
+    lock = threading.Lock()
     # <----- Argument parsing ----->
 
     parser = argparse.ArgumentParser(
@@ -611,6 +615,8 @@ def main():
         upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
         return 0
 
+    future = executor.submit(atDiagnosticCommand, command_list)
+
     while True:
         message: bytes
 
@@ -646,16 +652,19 @@ def main():
         else:
             buffer = ""
             with serial.Serial() as ser:
+               
                 # <----- Configure COM port ----->
                 ser.baudrate = args.baudrate
                 ser.port = args.port
                 ser.open()
 
                 while True:
+                    lock.acquire()
                     # read in bytes from COM port
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
                     parts, buffer = process_message(chunk, buffer)
+                    lock.release()
 
                     for part in parts:
                         sendToParser(part, live_filters, log_filters, args, PARSER_ENDPOINT)
