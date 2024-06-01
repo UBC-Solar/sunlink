@@ -81,6 +81,18 @@ This includes a bash script to automate the setup of Sunlink with Nginx as a rev
 
 The `run_setup.sh` script simplifies the process of installing dependencies and setting up Sunlink. This additionally configures Nginx and Docker to manage your telemetry cluster. It sets up Nginx as a reverse proxy, enabling seamless communication between your Docker containers.
 
+#### Script Summary
+
+The `run_setup.sh` script:
+
+- Updates the system packages.
+- Installs Docker and Docker Compose.
+- Clones the Sunlink repository.
+- Prompts the user for Grafana and InfluxDB credentials.
+- Creates necessary configuration files for nginx and docker compose.
+- Starts the Docker containers for the telemetry cluster.
+
+
 #### Usage
 
 1. **Download the Script**
