@@ -403,7 +403,7 @@ BO_ 1028 MCBDiagnostics: 3 MCB
  SG_ CruiseControlEnabled : 18|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MechBrakePressed : 19|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1873 RTCTimestamp: 8 MEMORATOR
+BO_ 768 RTCTimestamp: 8 MEMORATOR
  SG_ Second : 0|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Minute : 8|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Hour : 16|8@1+ (1,0) [0|0] "" Vector__XXX
