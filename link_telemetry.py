@@ -249,9 +249,46 @@ def sigint_handler(sig, frame):
 
     sys.exit(0)
 
+
+def filter_stream(parse_response, filter_list):  
+    data_dict = parse_response['message']
+    type = parse_response['type']
+    if "ALL" in filter_list:
+        return True
+    elif "NONE" in filter_list:
+        return False
+      
+    for filter in filter_list:
+        if len(filter) > 2 and filter[:2] == "0x":
+            in_table_data = data_dict['COL']
+            for data_list in in_table_data.values():
+                if filter in data_list:
+                    return True
+        if filter.isdigit():
+            class_name = data_dict["Class"][0]
+
+            # try if it is CAN message
+            can_message = None
+            try:
+                can_message = parameters.CAR_DBC.get_message_by_name(class_name)
+            except:
+                continue
+
+            id = can_message.frame_id
+
+            if int(filter) == id:
+                return True
+            else:
+                continue
+        if filter.isalpha():
+            if filter.upper() == type.upper():
+                return True
+            continue
+
+    return False
+
+
 # <----- Co-routine definitions ----->
-
-
 def parser_request(payload: Dict, url: str):
     """
     Makes a parse request to the given `url`.
@@ -276,7 +313,7 @@ def write_to_log_file(message: str, log_file_name, convert_to_hex=True):
                 print(message, file=output_log_file)
 
 
-def process_response(future: concurrent.futures.Future, args):
+def process_response(future: concurrent.futures.Future, args, display_filters: list):
     """
     Implements the post-processing after receiving a response from the parser.
     Formats the parsed measurements into a table for convenience.
@@ -311,10 +348,11 @@ def process_response(future: concurrent.futures.Future, args):
         print(f"Failed to parse response from parser as JSON!")
         print(f"Response content: {response.content}")
         return
-    
+
     if parse_response["result"] == "OK":
         table = None
-        if args.log is not None or args.table_on:
+        do_display_table = filter_stream(parse_response, display_filters)
+        if args.log is not None or do_display_table:
             # Create a table
             table = BeautifulTable()
 
@@ -344,7 +382,7 @@ def process_response(future: concurrent.futures.Future, args):
                 table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
                 table.rows.append(row_data)
             
-        if args.table_on:
+        if do_display_table:
             print(table)
 
         if parse_response["logMessage"]:
@@ -383,11 +421,12 @@ Parameters:
     message - raw byte data to be parsed on parser side
     live_filters - filters for which messages to live stream to Grafana
     log_filters - filters for which messages to log to file
+    display_filters - filters for which messages to display in terminal
     args - the arguments passed to ./link_telemetry.py
     parser_endpoint - the endpoint to send the data to
 Returns: None
 """
-def sendToParser(message: str, live_filters: list, log_filters: list, args: list, parser_endpoint: str):
+def sendToParser(message: str, live_filters: list, log_filters: list, display_filters: list, args: list, parser_endpoint: str):
     payload = {
         "message" : message,
         "live_filters" : live_filters,
@@ -398,12 +437,12 @@ def sendToParser(message: str, live_filters: list, log_filters: list, args: list
     future = executor.submit(parser_request, payload, parser_endpoint)
 
     # register done callback with future (lambda function to pass in arguments) 
-    future.add_done_callback(lambda future: process_response(future, args))
+    future.add_done_callback(lambda future: process_response(future, args, display_filters))
 
 
-def upload_logs(args, live_filters, log_filters, endpoint):
+def upload_logs(args, live_filters, log_filters, display_filters, endpoint):
     # Call the memorator log uploader function
-    memorator_upload_script(sendToParser, live_filters, log_filters, args, endpoint) 
+    memorator_upload_script(sendToParser, live_filters, log_filters, display_filters, args, endpoint) 
 
 
 """
@@ -465,8 +504,8 @@ def main():
                              help=("Requests parser to write parsed data to the debug InfluxDB bucket."))
     write_group.add_argument("--prod", action="store_true",
                              help=("Requests parser to write parsed data to the production InfluxDB bucket."))
-    write_group.add_argument("--table-on", action="store_true",
-                             help=("Will display pretty tables. Normally off and parse fails only show"))
+    write_group.add_argument("--table-on", nargs='+',
+                             help=("Will display pretty tables. Choose what to show like --log option"))
     write_group.add_argument("--no-write", action="store_true",
                              help=(("Requests parser to skip writing to the InfluxDB bucket and streaming"
                                    "to Grafana. Cannot be used with --debug and --prod options.")))
@@ -574,6 +613,13 @@ def main():
     elif not args.log:
         log_filters = ["NONE"]
 
+    # <----- Define Display Table Filters ----->
+    display_filters = args.table_on
+    if args.table_on and args.table_on[0].upper() == "ALL":
+        display_filters = ["ALL"]
+    elif not args.table_on:
+        display_filters = ["NONE"]
+
     # <----- Configuration confirmation ----->
     if not args.log_upload:
         print_config_table(args, live_filters)
@@ -608,7 +654,7 @@ def main():
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
     if args.log_upload:
-        upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
+        upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
         return 0
 
     while True:
@@ -658,9 +704,9 @@ def main():
                     parts, buffer = process_message(chunk, buffer)
 
                     for part in parts:
-                        sendToParser(part, live_filters, log_filters, args, PARSER_ENDPOINT)
+                        sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
-        sendToParser(message, live_filters, log_filters, args, PARSER_ENDPOINT)
+        sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
 
 if __name__ == "__main__":
