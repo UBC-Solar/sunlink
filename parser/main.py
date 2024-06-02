@@ -300,7 +300,14 @@ that is specifc to the message type (CAN, GPS, IMU, for example).
 Also sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
-    parse_request = flask.request.json
+    parse_request = flask.request.get_json()
+
+    return {
+        "result": "OK",
+        "message": parse_request,
+        "logMessage": True,
+        "type": "CAN"
+    }
 
     # try extracting measurements
     try:

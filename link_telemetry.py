@@ -23,9 +23,11 @@ from parser.randomizer import RandomMessage
 import parser.parameters as parameters
 from beautifultable import BeautifulTable
 import warnings
+import threading
+import queue
 
 import concurrent.futures
-from tools.MemoratorUploader import memorator_upload_script
+# from tools.MemoratorUploader import memorator_upload_script
 
 
 __PROGRAM__ = "link_telemetry"
@@ -92,6 +94,9 @@ SIGINT_RECVD = False
 # Chunks read per iteration
 CHUNK_SIZE = 512
 
+# Create a queue for the send to parser thread to read message from
+message_queue = queue.Queue()
+
 
 # <----- Utility functions ------>
 
@@ -140,6 +145,8 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     Ensures that certain argument invariants have been adhered to.
     """
+    if (args.raw and not args.port):
+        parser.error("You must use --raw with -p and -b options only")        
     if args.live_on and args.live_off:
         parser.error("--live-on and --live-off cannot be used together")
     if (args.log_upload and args.debug) or (args.log_upload and args.prod) or (args.log_upload and args.no_write) or (args.offline and args.log_upload):
@@ -172,7 +179,7 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
         if args.debug and args.prod:
             parser.error("Conflicting configuration. Cannot specify both --debug and --prod. Must choose one.")
 
-        if args.debug is False and args.prod is False:
+        if args.debug is False and args.prod is False and not args.raw:
             parser.error("Must specify one of --debug, --prod, or --no-write.")
 
 
@@ -349,9 +356,13 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
         print(f"Response content: {response.content}")
         return
 
+    # print(f"{ANSI_GREEN}{parse_response}{ANSI_ESCAPE}", f"{ANSI_RED}{parse_response['message']}{ANSI_ESCAPE}")
+    print(f"{ANSI_RED}{parse_response['message']}{ANSI_ESCAPE}")
     if parse_response["result"] == "OK":
         table = None
         do_display_table = filter_stream(parse_response, display_filters)
+        # if args.raw:
+        #     print(f"{ANSI_BOLD}{parse_response['message']['ROW']['Raw Hex'][0]}{ANSI_ESCAPE}")
         if args.log is not None or do_display_table:
             # Create a table
             table = BeautifulTable()
@@ -381,7 +392,7 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
             for row_head, row_data in rows.items():
                 table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
                 table.rows.append(row_data)
-            
+        
         if do_display_table:
             print(table)
 
@@ -414,30 +425,6 @@ def read_lines_from_file(file_path):
         for line in file:
             yield line.strip()
 
-
-"""
-Purpose: Sends data and filters to parser and registers a callback to process the response
-Parameters: 
-    message - raw byte data to be parsed on parser side
-    live_filters - filters for which messages to live stream to Grafana
-    log_filters - filters for which messages to log to file
-    display_filters - filters for which messages to display in terminal
-    args - the arguments passed to ./link_telemetry.py
-    parser_endpoint - the endpoint to send the data to
-Returns: None
-"""
-def sendToParser(message: str, live_filters: list, log_filters: list, display_filters: list, args: list, parser_endpoint: str):
-    payload = {
-        "message" : message,
-        "live_filters" : live_filters,
-        "log_filters" : log_filters
-    }
-    
-    # submit to thread pool
-    future = executor.submit(parser_request, payload, parser_endpoint)
-
-    # register done callback with future (lambda function to pass in arguments) 
-    future.add_done_callback(lambda future: process_response(future, args, display_filters))
 
 
 def upload_logs(args, live_filters, log_filters, display_filters, endpoint):
@@ -478,6 +465,7 @@ def main():
     """
     Main telemetry link entrypoint.
     """
+
 
     # <----- Argument parsing ----->
 
@@ -520,6 +508,9 @@ def main():
                               help=("Allows using the telemetry link with "
                                     "chosen randomly generated message types rather than "
                                     "a real radio telemetry stream. do -r can gps imu"))
+    
+    source_group.add_argument("--raw", action="store_true",
+                                help=("prints the raw serial bytes converted to hex nums"))
 
     source_group.add_argument("--live-off", action="store_true",
                               help=("Will not stream any data to grafana"))
@@ -657,6 +648,10 @@ def main():
         upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
         return 0
 
+    sendToParserThread = threading.Thread(target=sendToParser, args=(live_filters, log_filters, display_filters, args, PARSER_ENDPOINT))
+    sendToParserThread.daemon = True                # Will make this thread stop when main thread stops
+    sendToParserThread.start()
+
     while True:
         message: bytes
 
@@ -688,7 +683,6 @@ def main():
             data_len: str = str(can_bytes.dlc)                    # string
 
             message = timestamp_str + "#" + id_str + data_str + data_len
-
         else:
             buffer = ""
             with serial.Serial() as ser:
@@ -703,10 +697,48 @@ def main():
                     chunk = chunk.hex()
                     parts, buffer = process_message(chunk, buffer)
 
+                    
                     for part in parts:
-                        sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
+                        # if args.raw:
+                        #     print(f"{ANSI_BOLD}{part.encode('latin-1').hex()}{ANSI_ESCAPE}")
+                        message = part.encode('latin-1').hex()
+                        message_queue.put(message)
+                        # sendToParser(part.encode('latin-1').hex(), live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
-        sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
+        message_queue.put(message)
+        
+
+"""
+Purpose: Reads from the message queue to then send the message, live filters,
+         log filters, and display filters to the parser.
+Parameters: 
+    live_filters - filters for which messages to live stream to Grafana
+    log_filters - filters for which messages to log to file
+    display_filters - filters for which messages to display in terminal
+    args - the arguments passed to ./link_telemetry.py
+    parser_endpoint - the endpoint to send the data to
+Returns: None
+"""
+def sendToParser(live_filters: list, log_filters: list, display_filters: list, args: list, parser_endpoint: str):
+    while True:
+        if not message_queue.empty():            
+            message = message_queue.get()
+
+            payload = {
+                "message" : message,
+                "live_filters" : live_filters,
+                "log_filters" : log_filters
+            }
+            
+            # submit to thread pool
+            future = executor.submit(parser_request, payload, parser_endpoint)
+
+            # register done callback with future (lambda function to pass in arguments) 
+            future.add_done_callback(lambda future: process_response(future, args, display_filters))
+
+            time.sleep(0.3)
+        else:
+            time.sleep(0.005)
 
 
 if __name__ == "__main__":
