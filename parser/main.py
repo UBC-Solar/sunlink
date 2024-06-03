@@ -221,19 +221,6 @@ def filter_stream(message, filter_list):
     return False
 
 
-def try_extract_measurements():
-    # try extracting measurements
-    try:
-        message = create_message(parse_request["message"])
-    except Exception as e:
-        app.logger.warn(
-            f"Unable to extract measurements for raw message {parse_request['message']}")
-        return {
-            "result": "PARSE_FAIL",
-            "message": str(parse_request["message"]),
-            "error": str(e),
-        }
-
 @app.post(f"{API_PREFIX}/parse")
 @auth.login_required
 def parse_request():
@@ -242,39 +229,56 @@ def parse_request():
     """
     parse_request = flask.request.json
 
-    # try extracting measurements
-    try:
-        message = create_message(parse_request["message"])
-    except Exception as e:
-        app.logger.warn(
-            f"Unable to extract measurements for raw message {parse_request['message']}")
-        return {
-            "result": "PARSE_FAIL",
-            "message": str(parse_request["message"]),
-            "error": str(e),
+    buffer = parse_request["buffer"]
+    parts, buffer = process_message(parse_request['message'], buffer)
+
+    all_responses = []
+
+    for messageStr in parts:
+        curr_response = {}
+
+        # try extracting measurements
+        try:
+            message = create_message(messageStr)
+        except Exception as e:
+            app.logger.warn(
+                f"Unable to extract measurements for raw message {messageStr}")
+            curr_response = {
+                "result": "PARSE_FAIL",
+                "message": str(messageStr),
+                "error": str(e),
+                "buffer": buffer,
+            }
+            all_responses.append(curr_response)
+            continue
+        
+        type = message.type
+
+        app.logger.info(f"Successfully parsed {type} message placed into queue")
+
+        # try putting the extracted measurements in the queue for Grafana streaming
+        try:
+            stream_queue.put(message.data, block=False)
+        except queue.Full:
+            app.logger.warn(
+                "Stream queue full. Unable to add measurements to stream queue!"
+            )
+
+        # Check if this message should be logged into a file based on args
+        log_filters = parse_request.get("log_filters", False)
+        doLogMessage = filter_stream(message, log_filters)    
+
+        curr_response = {
+            "result": "OK",
+            "message": message.data["display_data"],
+            "logMessage": doLogMessage,
+            "type": type,
+            "buffer": buffer,
         }
+        all_responses.append(curr_response)
     
-    type = message.type
-
-    app.logger.info(f"Successfully parsed {type} message placed into queue")
-
-    # try putting the extracted measurements in the queue for Grafana streaming
-    try:
-        stream_queue.put(message.data, block=False)
-    except queue.Full:
-        app.logger.warn(
-            "Stream queue full. Unable to add measurements to stream queue!"
-        )
-
-    # Check if this message should be logged into a file based on args
-    log_filters = parse_request.get("log_filters", False)
-    doLogMessage = filter_stream(message, log_filters)    
-
     return {
-        "result": "OK",
-        "message": message.data["display_data"],
-        "logMessage": doLogMessage,
-        "type": type
+        "all_responses": all_responses,
     }
  
 
