@@ -294,6 +294,37 @@ def parse_and_write_request_to_prod():
 def parse_and_write_request_to_log():
     return parse_and_write_request_bucket("_log")
 
+
+"""
+Purpose: Processes the message by splitting it into parts and returning the parts and the buffer
+Parameters: 
+    message - The total chunk read from the serial stream
+    buffer - the buffer to be added to the start of the message
+Returns (tuple):
+    parts - the fully complete messages of the total chunk read
+    buffer - leftover chunk that is not a message
+"""
+def process_message(message: str, buffer: str) -> list:
+    # Remove 00 0a from the start if present
+    if message.startswith("000a"):
+        message = message[4:]
+    elif message.startswith("0a"):
+        message = message[2:]
+    
+    # Add buffer to the start of the message
+    message = buffer + message
+
+    # Split the message by 0d 0a
+    parts = message.split("0d0a")
+
+    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
+        buffer = parts.pop()
+
+    # return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
+
+    return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
+
+
 """
 Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production)
 that is specifc to the message type (CAN, GPS, IMU, for example).
@@ -302,75 +333,87 @@ Also sends back parsed measurements back to client.
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.get_json()
 
-    return {
-        "result": "OK",
-        "message": parse_request,
-        "logMessage": True,
-        "type": "CAN"
-    }
-
-    # try extracting measurements
-    try:
-        message = create_message(parse_request["message"])
-    except Exception as e:
-        app.logger.warn(
-            f"Unable to extract measurements for raw message {parse_request['message']}")
-        return {
-            "result": "PARSE_FAIL",
-            "message": str(parse_request["message"]),
-            "error": str(e),
-        }
-
-    type = message.type
-    live_filters = parse_request.get("live_filters", False)
-    log_filters = parse_request.get("log_filters", False)
-
-    # try putting the extracted measurements in the queue for Grafana streaming
-    if (filter_stream(message, live_filters)):
-        try:
-            stream_queue.put(message.data, block=False)
-        except queue.Full:
-            app.logger.warn(
-                "Stream queue full. Unable to add measurements to stream queue!"
-            )
     
-    # Check if this message should be logged into a file based on args
-    doLogMessage = filter_stream(message, log_filters)
+    buffer = parse_request["buffer"]
+    parts, buffer = process_message(parse_request['message'], buffer)
 
-    # try writing the measurements extracted
-    for i in range(len(message.data[list(message.data.keys())[0]])):
-        # REQUIRED FIELDS
-        name = message.data["Measurement"][i]
-        source = message.data["Source"][i]
-        m_class = message.data["Class"][i]
-        value = message.data["Value"][i]
-        
-        timestamp = message.data.get("Timestamp", ["NA"])[i]
-
-        point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
-            "class", m_class).field(name, value)
-        
-        if timestamp != "NA":
-            point.time(int(timestamp * 1e9))
-        
-        # write to InfluxDB
+    all_responses = []
+    for messageStr in parts:
+        # try extracting measurements
+        curr_response = {}
         try:
-            write_api.write(bucket=message.type + bucket, org=INFLUX_ORG, record=point)
-            write_api.close()
+            message = create_message(messageStr)
         except Exception as e:
-            app.logger.warning("Unable to write measurement to InfluxDB!")
-            return {
-                "result": "INFLUX_WRITE_FAIL",
-                "message": str(parse_request["message"]),
+            app.logger.warn(
+                f"Unable to extract measurements for raw message {parse_request['message']}")
+            curr_response = {
+                "result": "PARSE_FAIL",
+                "message": str(messageStr),
                 "error": str(e),
-                "type": type 
+                "buffer": buffer,
             }
+            all_responses.append(curr_response)
+            continue
 
+        type = message.type
+        live_filters = parse_request.get("live_filters", False)
+        log_filters = parse_request.get("log_filters", False)
+
+        # try putting the extracted measurements in the queue for Grafana streaming
+        if (filter_stream(message, live_filters)):
+            try:
+                stream_queue.put(message.data, block=False)
+            except queue.Full:
+                app.logger.warn(
+                    "Stream queue full. Unable to add measurements to stream queue!"
+                )
+        
+        # Check if this message should be logged into a file based on args
+        doLogMessage = filter_stream(message, log_filters)
+
+        # try writing the measurements extracted
+        for i in range(len(message.data[list(message.data.keys())[0]])):
+            # REQUIRED FIELDS
+            name = message.data["Measurement"][i]
+            source = message.data["Source"][i]
+            m_class = message.data["Class"][i]
+            value = message.data["Value"][i]
+            
+            timestamp = message.data.get("Timestamp", ["NA"])[i]
+
+            point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+                "class", m_class).field(name, value)
+            
+            if timestamp != "NA":
+                point.time(int(timestamp * 1e9))
+            
+            # write to InfluxDB
+            try:
+                write_api.write(bucket=message.type + bucket, org=INFLUX_ORG, record=point)
+                write_api.close()
+            except Exception as e:
+                app.logger.warning("Unable to write measurement to InfluxDB!")
+                curr_response = {
+                    "result": "INFLUX_WRITE_FAIL",
+                    "message": str(messageStr),
+                    "error": str(e),
+                    "type": type,
+                    "buffer": buffer,
+                }
+                all_responses.append(curr_response)
+                continue
+
+        curr_response = {
+            "result": "OK",
+            "message": message.data["display_data"],
+            "logMessage": doLogMessage,
+            "type": type,
+            "buffer": buffer,
+        }
+        all_responses.append(curr_response)
+    
     return {
-        "result": "OK",
-        "message": message.data["display_data"],
-        "logMessage": doLogMessage,
-        "type": type
+        "all_responses": all_responses
     }
 
 def write_measurements():
