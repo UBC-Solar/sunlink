@@ -19,7 +19,7 @@ from flask import Flask
 from flask_httpauth import HTTPTokenAuth
 
 from parser.create_message import create_message
-from parser.parameters import CAR_DBC
+from parser.parameters import CAR_DBC, EXPECTED_CAN_HEX_LENGTH, EXPECTED_GPS_HEX_LENGTH, EXPECTED_IMU_HEX_LENGTH
 
 from dotenv import dotenv_values
 
@@ -321,7 +321,7 @@ def process_message(message: str, buffer: str) -> list:
     # Split the message by 0d 0a
     parts = message.split("0d0a")
 
-    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
+    if len(parts[-1]) != EXPECTED_IMU_HEX_LENGTH or len(parts[-1]) != EXPECTED_GPS_HEX_LENGTH or len(parts[-1]) != EXPECTED_CAN_HEX_LENGTH:
         buffer = parts.pop()
 
     # return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
