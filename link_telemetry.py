@@ -439,7 +439,7 @@ def sendToParser(message: str, live_filters: list, log_filters: list, display_fi
         # submit to thread pool
         
         future = executor.submit(parser_request, payload, parser_endpoint)
-        # print(f"{ANSI_BOLD}{payload['message'].encode('latin-1').hex()}{ANSI_ESCAPE}")
+        
         # register done callback with future (lambda function to pass in arguments) 
         future.add_done_callback(lambda future: process_response(future, args, display_filters))
 
