@@ -90,7 +90,7 @@ DEFAULT_RANDOM_FREQUENCY_HZ = 10
 SIGINT_RECVD = False
 
 # Chunks read per iteration
-CHUNK_SIZE = 512
+CHUNK_SIZE = 24 * 21        # 21 CAN messages from serial at a time.
 
 
 # <----- Utility functions ------>
@@ -289,6 +289,7 @@ def filter_stream(parse_response, filter_list):
 
 
 # <----- Co-routine definitions ----->
+    
 def parser_request(payload: Dict, url: str):
     """
     Makes a parse request to the given `url`.
@@ -349,61 +350,63 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
         print(f"Response content: {response.content}")
         return
 
-    if parse_response["result"] == "OK":
-        table = None
-        do_display_table = filter_stream(parse_response, display_filters)
-        if args.log is not None or do_display_table:
-            # Create a table
-            table = BeautifulTable()
+    all_responeses = parse_response['all_responses']
+    for response in all_responeses:
+        if response["result"] == "OK":
+            table = None
+            do_display_table = filter_stream(response, display_filters)
+            if args.log is not None or do_display_table:
+                # Create a table
+                table = BeautifulTable()
 
-            # Set the table title
-            table.set_style(BeautifulTable.STYLE_RST)
-            table.column_widths = [110]
-            table.width_exceed_policy = BeautifulTable.WEP_WRAP
+                # Set the table title
+                table.set_style(BeautifulTable.STYLE_RST)
+                table.column_widths = [110]
+                table.width_exceed_policy = BeautifulTable.WEP_WRAP
 
-            # Title
-            table.rows.append([f"{ANSI_GREEN}{parse_response['type']}{ANSI_ESCAPE}"])
-            display_data = parse_response['message']
+                # Title
+                table.rows.append([f"{ANSI_GREEN}{response['type']}{ANSI_ESCAPE}"])
+                display_data = response['message']
 
-            # Add columns as subtable
-            subtable = BeautifulTable()
-            subtable.set_style(BeautifulTable.STYLE_GRID)
+                # Add columns as subtable
+                subtable = BeautifulTable()
+                subtable.set_style(BeautifulTable.STYLE_GRID)
 
-            cols = display_data["COL"]
-            subtable.rows.append(cols.keys())
-            for i in range(len(list(cols.values())[0])):
-                subtable.rows.append([val[i] for val in cols.values()]) 
+                cols = display_data["COL"]
+                subtable.rows.append(cols.keys())
+                for i in range(len(list(cols.values())[0])):
+                    subtable.rows.append([val[i] for val in cols.values()]) 
 
-            table.rows.append([subtable])
+                table.rows.append([subtable])
 
-            # Add rows
-            rows = display_data["ROW"]
-            for row_head, row_data in rows.items():
-                table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
-                table.rows.append(row_data)
+                # Add rows
+                rows = display_data["ROW"]
+                for row_head, row_data in rows.items():
+                    table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
+                    table.rows.append(row_data)
+                
+            if do_display_table:
+                print(table)
+
+            if response["logMessage"]:
+                write_to_log_file(table, LOG_FILE_NAME, convert_to_hex=False)
             
-        if do_display_table:
-            print(table)
+        elif response["result"] == "PARSE_FAIL":
+            fail_msg = f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n" + f"{response['error']}"
+            print(fail_msg)
 
-        if parse_response["logMessage"]:
-            write_to_log_file(table, LOG_FILE_NAME, convert_to_hex=False)
-        
-    elif parse_response["result"] == "PARSE_FAIL":
-        fail_msg = f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n" + f"{parse_response['error']}"
-        print(fail_msg)
+            # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
+            write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
+            write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+        elif response["result"] == "INFLUX_WRITE_FAIL":
+            print(f"Failed to write measurements for {response['type']} message to InfluxDB!")
+            print(response)
 
-        # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
-        write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
-    elif parse_response["result"] == "INFLUX_WRITE_FAIL":
-        print(f"Failed to write measurements for {parse_response['type']} message to InfluxDB!")
-        print(parse_response)
-
-        # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
-        write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
-    else:
-        print(f"Unexpected response: {parse_response['result']}")
+            # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
+            write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
+            write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+        else:
+            print(f"Unexpected response: {response['result']}")
 
 
 def read_lines_from_file(file_path):
@@ -427,17 +430,18 @@ Parameters:
 Returns: None
 """
 def sendToParser(message: str, live_filters: list, log_filters: list, display_filters: list, args: list, parser_endpoint: str):
-    payload = {
-        "message" : message,
-        "live_filters" : live_filters,
-        "log_filters" : log_filters
-    }
+        payload = {
+            "message" : message,
+            "live_filters" : live_filters,
+            "log_filters" : log_filters,
+        }
     
-    # submit to thread pool
-    future = executor.submit(parser_request, payload, parser_endpoint)
-
-    # register done callback with future (lambda function to pass in arguments) 
-    future.add_done_callback(lambda future: process_response(future, args, display_filters))
+        # submit to thread pool
+        
+        future = executor.submit(parser_request, payload, parser_endpoint)
+        
+        # register done callback with future (lambda function to pass in arguments) 
+        future.add_done_callback(lambda future: process_response(future, args, display_filters))
 
 
 def upload_logs(args, live_filters, log_filters, display_filters, endpoint):
@@ -464,7 +468,7 @@ def process_message(message: str, buffer: str = "") -> list:
     # Add buffer to the start of the message
     message = buffer + message
 
-    # Split the message by 0d 0a
+    # Split the message by 0d 0a. TEL board sends messages ending with \r\n which is 0d0a in hex. Use as delimeter
     parts = message.split("0d0a")
 
     if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
