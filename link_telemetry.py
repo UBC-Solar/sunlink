@@ -432,6 +432,8 @@ Returns: None
 def sendToParser(message: str, live_filters: list, log_filters: list, display_filters: list, args: list, parser_endpoint: str):
         payload = {
             "message" : message,
+            "live_filters" : live_filters,
+            "log_filters" : log_filters,
         }
     
         # submit to thread pool
