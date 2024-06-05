@@ -69,11 +69,11 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE REQUEST: (IMU RAW DATA)**
+**SAMPLE REQUEST: (CAN RAW DATA. Shown as hex string but MUST convert and send hex string to encoded to bytes then latin-1 string)**
 
 ```json
 {
-    "message": "41d99749c232e14823000004010000000000000000080d0a"
+    "message": "41d99749c232e14823000006280000000000000000080d41d99749c232e1482300000401000000000000000008"
 }
 ```
 
@@ -82,6 +82,24 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 ```json
 {
     "all_responses" : [
+        {
+            "result": "OK",
+            "message": {
+                "ROW": {
+                    "Raw Hex": "41d99749c232e1482300000628000000000000000008"
+                },
+                "COL": {
+                    "Hex_ID": "0x628",
+                    "Source": "BMS",
+                    "Class": "Module Statuses",
+                    "Measurement": "Multiplexing bits",
+                    "Value": "0.0",
+                    "Timestamp": "2024-06-03 02:17:39.224"
+                }
+            },
+            "logMessage": "True",
+            "type": "CAN",
+        },
         {
             "result": "OK",
             "message": {
@@ -99,7 +117,6 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
             },
             "logMessage": "True",
             "type": "CAN",
-            "buffer": "",
         },
     ]
 }
@@ -107,7 +124,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **RESPONSE NOTES:**
 
-1. The `all_responses` field is a list of dictionaries which contain information about the parsing result of each valid message in the chunk that was sent to the parser. This chunk is typically received from `serial.Serial.read(CHUNK_SIZE).hex()`. This was done to abstract all parsing logic to the parser and to free up time for `link_telemetry.py` to focus on reading the serial data and sending it.
+1. The `all_responses` field is a list of dictionaries which contain information about the parsing result of each valid message in the chunk that was sent to the parser. This chunk is typically received from `serial.Serial.read(CHUNK_SIZE).decode('latin-1)` (Note that .hex() was only applied for visual aid in these docs otherwise you must send a latin-1 encoded string).
 2. The `result` field can be one of `'OK'` or `'PARSE_FAIL'`.
 
     - `'OK'` => parsing completed successfully
@@ -117,7 +134,6 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 3. The `message` field is the display dictionary of one of the valid messages from the total chunk that came into the parser. This field is only populated when the `result` field is `'OK'`.
 4. The `logMessage` field is a boolean that indicates whether the message was logged into a local file in the `logfiles` directory. This field is only populated when the `result` field is `'OK'`.
 5. The `type` field is the type of message (CAN, GPS, or IMU currently).
-6. The `buffer` field is a string that contains the remaining data that was not parsed in the chunk.
 
 ## Parse message + write to debug bucket
 
@@ -131,18 +147,19 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE REQUESTS: (CAN RAW DATA)**
+**SAMPLE REQUEST: (CAN RAW DATA. Shown as hex string but MUST convert and send hex string to encoded to bytes then latin-1 string)**
 
 ```json
 {
-    "message": "41d99749c232e14823000004010000000000000000080d0a"
+    "message": "41d99749c232e1482300000401000000000000000008"
 }
 ```
 
 ```json
 {
-    "message": "000000000008"
+    "message": "41d997abfa06a7f02300000628030041d997abfa0800002300000401000000000000000008"
 }
+```
 
 **SAMPLE RESPONSES: (PARSED CAN MESSAGE FROM ABOVE)**
 
@@ -166,7 +183,6 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
             },
             "logMessage": "True",
             "type": "CAN",
-            "buffer": "",
         },
     ]
 }
@@ -176,14 +192,13 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 {
     "all_responses" : [
         {
-            "result": "OK",
-            "message": "000000000008",
+            "result": "PARSE_FAIL",
+            "message": "41d997abfa06a7f02300000628030041d997abfa0800002300000401000000000000000008",
             "error": "PARSE_FAIL: 
                         Failed in create_message:
-                            Message length of 6 is not a valid length for any message type
+                            Message length of 37 is not a valid length for any message type
                             Message: 
-                            Hex Message: 000000000008",
-            "buffer": "",
+                            Hex Message: 41d997abfa06a7f02300000628030041d997abfa0800002300000401000000000000000008",
         },
     ]
 }
@@ -194,10 +209,9 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
     "all_responses" : [
         {
             "result": "INFLUX_WRITE_FAIL",
-            "message": "000000000008",
+            "message": "41d99749c232e1482300000401000000000000000008",
             "error": "<class 'influxdb.exceptions.InfluxDBClientError'>: 400: {\"error\":\"partial write: field type conflict: input field \"Value\" on measurement \"MotorCurrent\" is type float, already exists as type integer\"}",
             "type": "CAN",
-            "buffer": "",
         },
     ]
 }
@@ -205,7 +219,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **RESPONSE NOTES:**
 
-1. The `all_responses` field is a list of dictionaries which contain information about the parsing result of each valid message in the chunk that was sent to the parser. This chunk is typically received from `serial.Serial.read(CHUNK_SIZE).hex()`. This was done to abstract all parsing logic to the parser and to free up time for `link_telemetry.py` to focus on reading the serial data and sending it.
+1. The `all_responses` field is a list of dictionaries which contain information about the parsing result of each valid message in the chunk that was sent to the parser. This chunk is typically received from `serial.Serial.read(CHUNK_SIZE).decode('latin-1)` (Note that .hex() was only applied for visual aid in these docs otherwise you must send a latin-1 encoded string).
 2. The `result` field can be one of `'OK'`, `'PARSE_FAIL'`, `'INFLUX_WRITE_FAIL'`.
 
     - `'OK'` => parsing completed successfully.
@@ -218,7 +232,6 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 4. The `logMessage` field is a boolean that indicates whether the message was logged into a local file in the `logfiles` directory. This field is only populated when the `result` field is `'OK'`.
 5. The `error` field (in `PARSE_FAIL` responses) is a pretty printed description of the file, line, and what error occurred. This also traces back to the function at which this error occurred and the data that caused it. Note that it uses ANSI sequences to do the pretty printing.
 6. The `type` field is the type of message (CAN, GPS, or IMU currently).
-7. The `buffer` field is a string that contains the remaining data that was not parsed in the chunk.
 
 
 ## Parse message + write to production bucket
