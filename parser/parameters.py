@@ -30,10 +30,6 @@ GPS_LENGTH_MAX      = 205
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 
-EXPECTED_CAN_HEX_LENGTH = 44
-EXPECTED_GPS_HEX_LENGTH = 396
-EXPECTED_IMU_HEX_LENGTH = 30
-
 
 # <----- DBC Variables (Can be changed by user arguement in Link Tel) ----->
 DBC_FILE = Path("./dbc/brightside.dbc")
