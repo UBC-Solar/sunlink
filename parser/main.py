@@ -19,7 +19,7 @@ from flask import Flask
 from flask_httpauth import HTTPTokenAuth
 
 from parser.create_message import create_message
-from parser.parameters import CAR_DBC, EXPECTED_CAN_HEX_LENGTH, EXPECTED_GPS_HEX_LENGTH, EXPECTED_IMU_HEX_LENGTH
+from parser.parameters import CAR_DBC
 
 from dotenv import dotenv_values
 
@@ -229,27 +229,30 @@ def parse_request():
     """
     parse_request = flask.request.json
 
-    buffer = parse_request["buffer"]
-    parts, buffer = process_message(parse_request['message'], buffer)
+    msgs = []
+    msg = parse_request['message']
+    if len(msg) == 45:
+        msgs.append(msg[:22])                  # Might need to change splitting logic
+        msgs.append(msg[23:])                  # Might need to change splitting logic
+    else:
+        msgs = [msg]
 
-    all_responses = []
-
-    for messageStr in parts:
+    all_response = []
+    for msg in msgs:
         curr_response = {}
 
         # try extracting measurements
         try:
-            message = create_message(messageStr)
+            message = create_message(parse_request["message"])
         except Exception as e:
             app.logger.warn(
-                f"Unable to extract measurements for raw message {messageStr}")
+                f"Unable to extract measurements for raw message {parse_request['message']}")
             curr_response = {
                 "result": "PARSE_FAIL",
-                "message": str(messageStr),
+                "message": str(parse_request["message"]),
                 "error": str(e),
-                "buffer": buffer,
             }
-            all_responses.append(curr_response)
+            all_response.append(curr_response)
             continue
         
         type = message.type
@@ -268,20 +271,18 @@ def parse_request():
         log_filters = parse_request.get("log_filters", False)
         doLogMessage = filter_stream(message, log_filters)    
 
-        curr_response = {
+        curr_response =  {
             "result": "OK",
             "message": message.data["display_data"],
             "logMessage": doLogMessage,
-            "type": type,
-            "buffer": buffer,
+            "type": type
         }
-        all_responses.append(curr_response)
-    
-    return {
-        "all_responses": all_responses,
-    }
- 
+        all_response.append(curr_response)
 
+    return {
+        "all_responses": all_response,
+    }
+    
 
 @app.post(f"{API_PREFIX}/parse/write/debug")
 @auth.login_required
@@ -298,65 +299,37 @@ def parse_and_write_request_to_prod():
 def parse_and_write_request_to_log():
     return parse_and_write_request_bucket("_log")
 
-
-"""
-Purpose: Processes the message by splitting it into parts and returning the parts and the buffer
-Parameters: 
-    message - The total chunk read from the serial stream
-    buffer - the buffer to be added to the start of the message
-Returns (tuple):
-    parts - the fully complete messages of the total chunk read
-    buffer - leftover chunk that is not a message
-"""
-def process_message(message: str, buffer: str) -> list:
-    # Remove 00 0a from the start if present
-    if message.startswith("000a"):
-        message = message[4:]
-    elif message.startswith("0a"):
-        message = message[2:]
-    
-    # Add buffer to the start of the message
-    message = buffer + message
-
-    # Split the message by 0d 0a
-    parts = message.split("0d0a")
-
-    if len(parts[-1]) != EXPECTED_IMU_HEX_LENGTH or len(parts[-1]) != EXPECTED_GPS_HEX_LENGTH or len(parts[-1]) != EXPECTED_CAN_HEX_LENGTH:
-        buffer = parts.pop()
-
-    # return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
-
-    return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
-
-
 """
 Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production)
 that is specifc to the message type (CAN, GPS, IMU, for example).
 Also sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
-    parse_request = flask.request.get_json()
+    parse_request = flask.request.json
 
-    
-    buffer = parse_request["buffer"]
-    parts, buffer = process_message(parse_request['message'], buffer)
+    msgs = []
+    msg = parse_request['message']
+    if len(msg) == 45:
+        msgs.append(msg[:22])                  # Might need to change splitting logic
+        msgs.append(msg[23:])                  # Might need to change splitting logic
+    else:
+        msgs = [msg]
 
-    all_responses = []
-    for messageStr in parts:
-        # try extracting measurements
+    all_response = []
+    for msg in msgs:
         curr_response = {}
+        # try extracting measurements
         try:
-            message = create_message(messageStr)
+            message = create_message(msg)
         except Exception as e:
             app.logger.warn(
-                f"Unable to extract measurements for raw message {parse_request['message']}")
-            curr_response = {
+                f"Unable to extract measurements for raw message {msg}")
+            curr_response =  {
                 "result": "PARSE_FAIL",
-                "message": str(messageStr),
+                "message": str(msg),
                 "error": str(e),
-                "buffer": buffer,
             }
-            all_responses.append(curr_response)
+            all_response.append(curr_response)
             continue
 
         type = message.type
@@ -397,27 +370,26 @@ def parse_and_write_request_bucket(bucket):
                 write_api.close()
             except Exception as e:
                 app.logger.warning("Unable to write measurement to InfluxDB!")
-                curr_response = {
+                curr_response =  {
                     "result": "INFLUX_WRITE_FAIL",
-                    "message": str(messageStr),
+                    "message": str(parse_request["message"]),
                     "error": str(e),
-                    "type": type,
-                    "buffer": buffer,
+                    "type": type 
                 }
-                all_responses.append(curr_response)
+                all_response.append(curr_response)
                 continue
+                
 
         curr_response = {
             "result": "OK",
             "message": message.data["display_data"],
             "logMessage": doLogMessage,
-            "type": type,
-            "buffer": buffer,
+            "type": type
         }
-        all_responses.append(curr_response)
-    
+        all_response.append(curr_response)
+
     return {
-        "all_responses": all_responses
+        "all_responses": all_response
     }
 
 def write_measurements():

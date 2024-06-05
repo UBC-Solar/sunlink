@@ -4,7 +4,7 @@ import datetime
 import struct
 
 # Script Constants
-LOG_FOLDER          = "D:\\"
+LOG_FOLDER          = "/media/electrical/disk/"
 NUM_LOGS            = 15
 MB_TO_KB            = 1024
 EPOCH_START         = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
@@ -23,7 +23,6 @@ PATTERN_EVENT       = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:\s+(.*?) dlc:
 
 def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     start_time = None
-    buffer = ""
     for event in log_file:
         str_event = str(event)
         if PATTERN_DATETIME.search(str_event):
@@ -47,16 +46,15 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             data = bytes.fromhex(match.group(5).replace(' ', ''))
             data_str = data.ljust(8, b'\0').decode('latin-1')
             
-            can_str = timestamp_str + "#" + id_str + data_str + dlc_str + "\r" + "\n"
-            can_hex_str = can_str.encode('latin-1').hex()
-        
-            parserCallFunc(can_hex_str, buffer, live_filters, log_filters, display_filters, args, endpoint)
+            can_str = timestamp_str + "#" + id_str + data_str + dlc_str
+
+            parserCallFunc(can_str, live_filters, log_filters, display_filters, args, endpoint)
             
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     # Open each KMF file
     for i in range(NUM_LOGS):
-        log_path = LOG_FOLDER + "LOG000{:02d}".format(i)
+        log_path = LOG_FOLDER + "LOG000{:02d}.KMF".format(i)
         kmf_file = kvmlib.openKmf(log_path.format(i))
         print(f"{ANSI_GREEN}Opening file: {log_path.format(i)}{ANSI_RESET}")  # Green stdout
 
