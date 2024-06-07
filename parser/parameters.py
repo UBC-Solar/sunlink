@@ -68,6 +68,6 @@ ENERGY_DETECT_TIME = '01' #Time energy detect command spends cycling through cha
 DB = bytes.fromhex("7E00040801444270") #RSSI
 ER = bytes.fromhex("7E0004080145525F") #Error Count
 GD = bytes.fromhex("7E0004080147446B") #Good Packets Receieved
-ED = bytes.fromhex("7E 00 05 08 01 45 44" + ENERGY_DETECT_TIME + "3C") #Energy detect
+##ED = bytes.fromhex("7E 00 05 08 01 45 44" + ENERGY_DETECT_TIME + "3C") #Energy detect
 
-command_list = [DB, ER, GD, ED]
+command_list = [DB, ER, GD]

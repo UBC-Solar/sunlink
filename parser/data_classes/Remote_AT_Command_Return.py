@@ -18,13 +18,18 @@ REQUIRED FILEDS
     "Status": (list) <<The status of the AT Command ("0x00  = OK 0x01  = ERROR 0x02  = Invalid Command 0x03 =  Invalid Parameter")>
    
 
-DIPSLAY FIELDS
+DISPLAY FIELDS
     "display_data" : {
-        "Type": (list) <Whether the AT Command is a local or remote Command> 
-        "Command": (list) <Specific AT Command Sent> 
-        "Value": (list) <Value of associated Command>
-        "Timestamp": (list) >The time the message was sent>
-        "Status": (list) <The status of the AT Command ("0x00  = OK 0x01  = ERROR 0x02  = Invalid Command 0x03 =  Invalid Parameter")>
+        "ROW": {
+            "Raw Hex": (list) raw hex data of the IMU message
+        },
+        "COL": {
+            "Type": (list) <Whether the AT Command is a local or remote Command> 
+            "Command": (list) <Specific AT Command Sent> 
+            "Value": (list) <Value of associated Command>
+            "Timestamp": (list) >The time the message was sent>
+            "Status": (list) <The status of the AT Command ("0x00  = OK 0x01  = ERROR 0x02  = Invalid Command 0x03 =  Invalid Parameter")>
+        }
     }
 
 self.type = "<AT>"
@@ -159,13 +164,17 @@ class AT:
         data["Status"] = [status]
 
         # SET DISPLAY FIELDS
+
         data["display_data"] = {
-            "Type": ["Remote"],
+            "ROW": {
+                "Raw Hex": [self.message.encode('latin-1').hex()]
+            },
+            "COL": {
+                "Type": ["Remote"],
             "Command": [measurement],
             "Value": [value],
             "Timestamp": [datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]],
-
-
+            }
         }
         return data
     

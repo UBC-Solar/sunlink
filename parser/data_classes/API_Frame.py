@@ -3,27 +3,34 @@ from parser.parameters import *
 import struct
 from time import strftime, localtime
 from datetime import datetime
+from parser.create_message import create_message
 
-FRAME_DATA_POSITION = 19
 
+##Breaks API Frames into individul messages, sends messages back to create_message as individual CAN, IMU, or GPS messages
+
+FRAME_DATA_POSITION = 18 #Start of first message in API Frame
+BYTE_POSITION = 16 #where Identifier byte in API frame is located
+FRAME_TYPE = 3 #API Overhead frame type identifer (0x90 for receive frame, 0x88 for local AT return, 0x97 for remote at Return)
+
+##Function used to split API packets. Starts at FRAME_DATA_POSITION, which is the first position in the API frame where we have data
+##Loops frame until end, grabbing each individual message by looping through message_size characters.
 def split_api_packet(message, message_size, message_byte):
     return [message_byte + message[i: i + message_size] for i in range(FRAME_DATA_POSITION, len(message), message_size)]
     
 def parse_api_packet(message):
     individual_messsages = []
-    if message[3] == '10':
-            if message[17] == CAN_BYTE:
-                individual_messsages.extend(split_api_packet(message, CAN_MSG_LENGTH, CAN_BYTE))
-            elif message[17] == IMU_BYTE:
+    if message[FRAME_TYPE] == '\x90':
+            if message[BYTE_POSITION] == CAN_BYTE:
+                individbual_messsages.extend(split_api_packet(message, CAN_MSG_LENGTH, CAN_BYTE))
+            elif message[BYTE_POSITION] == IMU_BYTE:
                 individual_messsages.extend(split_api_packet(message, IMU_MSG_LENGTH, IMU_BYTE))
-            elif message[17] == GPS_BYTE:
+            elif message[BYTE_POSITION] == GPS_BYTE:
                 individual_messsages.extend(split_api_packet(message, GPS_MSG_LENGTH, GPS_BYTE))
         
-    elif message[3] == '88':
+    elif message[FRAME_TYPE] == '\x88':
         individual_messsages.extend(LOCAL_AT_BYTE + message)
-    elif message[3] == '97':
+    elif message[FRAME_TYPE] == '\x97':
         individual_messsages.extend(REMOTE_AT_BYTE + message)
 
     for message in individual_messsages:
-        message = bytes.fromhex(message).decode('latin-1')
         create_message(message)

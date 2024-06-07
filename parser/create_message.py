@@ -24,24 +24,27 @@ Returns:
     a message object (CAN, GPS, IMU, etc.)
 """
 def create_message(message: str):
-    if message[0] == "7E" and (message[4] == ("88" or "97")):
+    if message[0] == "\x7e" and (message[4] == ("\x88" or "\x97" or "\x90")):
         parse_api_packet(message)
     else:
         try:
-            if CAN_LENGTH_MIN <= len(message) <= CAN_LENGTH_MAX:
-                return CAN(message)
-            elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:
-                return GPS(message)
-            elif IMU_LENGTH_MIN <= len(message) <= IMU_LENGTH_MAX:
-                return IMU(message)
+            if message[0]  == bytes.fromhex(CAN_BYTE).decode('latin-1'):
+                return CAN(message[1:])
+            elif message[0] == bytes.fromhex(GPS_BYTE).decode('latin-1'):
+                return GPS(message[1:])
+            elif message[0] == bytes.fromhex(IMU_BYTE).decode('latin-1'):
+                return IMU(message[1:])
+            elif message[0] == bytes.fromhex(LOCAL_AT_BYTE).decode('latin-1'):
+                return AT_LOCAL.AT(message[1:])
+            elif message[0] == bytes.fromhex(REMOTE_AT_BYTE).decode('latin-1'):
+                return AT_REMOTE.AT(message[1:])
             else:
                 raise Exception(
-                    f"Message length of {len(message)} is not a valid length for any message type\n"
-                    f"      Message: {message}\n"
-                    f"      Hex Message: {message.encode('latin-1').hex()}"
-                )
+                f"Message byte of {message[0]} is not a valid byte for any message type\n"
+                f"      Message: {message}\n"
+                f"      Hex Message: {message.encode('latin-1').hex()}"
+            )
             
-                raise Exception(f"Message length of {len(message)} is not a valid length for any message type")
         except Exception as e:
             raise Exception(
                 f"{ANSI_BOLD}Failed in create_message{ANSI_ESCAPE}:\n"
