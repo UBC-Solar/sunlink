@@ -31,7 +31,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # Clone Sunlink
 echo -e "\nCloning Sunlink Repository\n"
-git clone https://github.com/UBC-Solar/sunlink/tree/main sunlink
+git clone https://github.com/UBC-Solar/sunlink.git sunlink
 # Change directory into sunlink
 cd sunlink
 echo -e "\nChanged directory to sunlink\n"
