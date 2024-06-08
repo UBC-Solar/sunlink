@@ -33,7 +33,7 @@ DISPLAY FIELDS
     }
 self.type = "<AT>"
 """
-class AT:
+class ATL:
     def __init__(self, message: str) -> None:      
         """
         In general, the init should set the data dictionary 
@@ -44,7 +44,7 @@ class AT:
 
         self.message = message
         self.data = self.extract_measurements()
-        self.type = "AT"
+        self.type = "ATL"
 
 
     """
@@ -56,10 +56,10 @@ class AT:
     Returns:
         float_val - the value of the message
     """
-    def get_value(self, message_val) -> float:
+    def get_value(self, message_val) -> bytes:
         try:
             val = struct.unpack('>f', bytearray(message_val.encode('latin-1')))[0]
-            float_val = float(val)
+            float_val = (val)
 
             return float_val
         except Exception as e:
@@ -75,10 +75,10 @@ class AT:
     Returns:
         float - the value of the message
     """
-    def get_measurement(self, message_measurement) -> float:
+    def get_measurement(self, message_measurement) -> bytes:
         try:
             measurement = struct.unpack('>f', bytearray(message_measurement.encode('latin-1')))[0]
-            float_measurement = float(measurement)
+            float_measurement = (measurement)
 
             return float_measurement
         except Exception as e:
@@ -94,10 +94,10 @@ class AT:
     Returns:
         float - the value of the message
     """
-    def get_status(self, message_status) -> float:
+    def get_status(self, message_status) -> bytes:
         try:
             status = struct.unpack('>f', bytearray(message_status.encode('latin-1')))[0]
-            float_status = float(status)
+            float_status = (status)
 
             return float_status
         except Exception as e:
@@ -127,10 +127,10 @@ class AT:
         try:
             measurement = self.get_measurement(self.message[5:6])
             status = self.get_status(self.message[7])
-            if (len(self.message)) < 10:
+            if (len(self.message)) < 9:
                 value = "None"
             else:
-                value = self.get_value(self.message[8:len(self.message)-2])
+                value = self.get_value(self.message[7])
 
 
 

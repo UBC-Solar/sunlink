@@ -1,0 +1,78 @@
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~ýýGDý
+      Hex Message: 7efdfd8801474402fd
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~üüEBü
+      Hex Message: 7efcfc8801454203fc
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~þþEBþ
+      Hex Message: 7efefe8801454201fe
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~þþGDþ
+      Hex Message: 7efefe8801474401fe
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~ýýEBý
+      Hex Message: 7efdfd8801454202fd
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~þþEBþ
+      Hex Message: 7efefe8801454201fe
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~þþEBþ
+      Hex Message: 7efefe8801454201fe
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~þþGDþ
+      Hex Message: 7efefe8801474401fe
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~þþEBþ
+      Hex Message: 7efefe8801454201fe
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~üüGDü
+      Hex Message: 7efcfc8801474403fc
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~ýýEBý
+      Hex Message: 7efdfd8801454202fd
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~üüDBü
+      Hex Message: 7efcfc8801444203fc
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of ~ is not a valid byte for any message type
+      Message: ~üüEBü
+      Hex Message: 7efcfc8801454203fc
+

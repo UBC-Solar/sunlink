@@ -1,0 +1,72 @@
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Message byte of 0 is not a valid byte for any message type
+      Message: 0
+      Hex Message: 30
+

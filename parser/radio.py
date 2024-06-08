@@ -1,4 +1,5 @@
 from parser.parameters import*
+import math
     
 """
     Returns a hex string of the most significant byte of an API Frame:
@@ -15,7 +16,8 @@ def generate_msb(message_contents) -> str:
 
     total_bytes = bytes.fromhex(message_contents)
     msb_int = math.floor(len(total_bytes) /256)
-    msb = hex(msb_int)[2:]
+    msb_byte = msb_int.to_bytes(1, 'big')
+    msb = msb_byte.hex()
 
     return(msb)
 
@@ -34,8 +36,8 @@ def generate_msb(message_contents) -> str:
 def generate_lsb(message_contents) -> str:
     total_bytes = bytes.fromhex(message_contents)
     lsb_int = len(total_bytes) % 256
-    lsb = hex(lsb_int)[2:]
-
+    lsb_byte = lsb_int.to_bytes(1, 'big')
+    lsb = lsb_byte.hex()
     return(lsb)
 
 
@@ -54,8 +56,9 @@ def generate_lsb(message_contents) -> str:
 def generate_checksum(message_contents) -> str:
     total_bytes = bytes.fromhex(message_contents)
     bytes_sum = int.from_bytes(total_bytes)
-    checksum_int =  255 - (bytes_sum & 255);
-    checksum = hex(checksum_int)[2:]
+    checksum_int =  255 - (bytes_sum & 255)
+    checksum_byte = checksum_int.to_bytes(1, 'big')
+    checksum = checksum_byte.hex()
 
     return(checksum)
 

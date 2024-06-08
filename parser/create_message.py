@@ -2,10 +2,10 @@
 from parser.data_classes.CAN_Msg import CAN      # CAN message
 from parser.data_classes.IMU_Msg import IMU      # IMU message
 from parser.data_classes.GPS_Msg import GPS      # GPS message
-from parser.data_classes.Local_AT_Command_Return import AT as AT_LOCAL
-from parser.data_classes.Remote_AT_Command_Return import AT as AT_REMOTE
+from parser.data_classes.Local_AT_Command_Return import ATL
+from parser.data_classes.Remote_AT_Command_Return import ATR
 from parser.parameters import *     # For mins and maxes of messages
-
+from parser.data_classes.API_Frame import parse_api_packet
 
 """
 Factory method for creating a Message object based on the message type
@@ -24,7 +24,7 @@ Returns:
     a message object (CAN, GPS, IMU, etc.)
 """
 def create_message(message: str):
-    if message[0] == "\x7e" and (message[4] == ("\x88" or "\x97" or "\x90")):
+    if message[0] == "\x7e": # and (message[3] == ("\x88" or "\x97" or "\x90")):
         parse_api_packet(message)
     else:
         try:
@@ -35,9 +35,9 @@ def create_message(message: str):
             elif message[0] == bytes.fromhex(IMU_BYTE).decode('latin-1'):
                 return IMU(message[1:])
             elif message[0] == bytes.fromhex(LOCAL_AT_BYTE).decode('latin-1'):
-                return AT_LOCAL.AT(message[1:])
+                return ATL(message[1:])
             elif message[0] == bytes.fromhex(REMOTE_AT_BYTE).decode('latin-1'):
-                return AT_REMOTE.AT(message[1:])
+                return ATR(message[1:])
             else:
                 raise Exception(
                 f"Message byte of {message[0]} is not a valid byte for any message type\n"

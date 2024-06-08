@@ -25,9 +25,9 @@ from parser.randomizer import RandomMessage
 import parser.parameters as parameters
 from beautifultable import BeautifulTable
 import warnings
-
+        
 import concurrent.futures
-from tools.MemoratorUploader import memorator_upload_script
+# from tools.MemoratorUploader import memorator_upload_script
 
 
 __PROGRAM__ = "link_telemetry"
@@ -315,6 +315,9 @@ def process_response(future: concurrent.futures.Future, args):
         print(f"Response content: {response.content}")
         return
     
+    print(parse_response)
+    return
+
     if parse_response["result"] == "OK":
         table = None
         if args.log is not None or args.table_on:
@@ -616,7 +619,7 @@ def main():
         upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
         return 0
 
-    future = executor.submit(atDiagnosticCommand, command_list)
+   # future = executor.submit(atDiagnosticCommand, command_list)
 
     while True:
         message: bytes

@@ -34,7 +34,7 @@ DISPLAY FIELDS
 
 self.type = "<AT>"
 """
-class AT:
+class ATR:
     def __init__(self, message: str) -> None:      
         """
         In general, the init should set the data dictionary 
@@ -45,7 +45,7 @@ class AT:
 
         self.message = message
         self.data = self.extract_measurements()
-        self.type = "AT"
+        self.type = "ATR"
 
 
     """

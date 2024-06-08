@@ -1,0 +1,88 @@
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      name 'AT_LOCAL' is not defined
+

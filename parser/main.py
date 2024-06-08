@@ -302,6 +302,13 @@ Also sends back parsed measurements back to client.
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
 
+    """ return {
+            
+            "message": str(parse_request["message"].encode('latin-1').hex()),
+            
+        }"""
+
+
     # try extracting measurements
     try:
         message = create_message(parse_request["message"])

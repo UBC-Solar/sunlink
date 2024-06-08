@@ -91,7 +91,7 @@ class RandomMessage:
         data_length = "8"
 
         # collect into single string
-        can_str = current_time_str + "#" + random_id_str + random_data_str \
+        can_str = bytes.fromhex(CAN_BYTE).decode('latin1') + current_time_str + "#" + random_id_str + random_data_str \
              + data_length
         return can_str
     
@@ -159,7 +159,7 @@ class RandomMessage:
         value_bytes = struct.pack('>f', value)
 
         # Combine all parts into a single bytes object
-        imu_bytes = current_time_str + "@" + identifier + value_bytes.decode('latin-1')
+        imu_bytes = bytes.fromhex(IMU_BYTE).decode('latin-1') + current_time_str + "@" + identifier + value_bytes.decode('latin-1')
 
         return imu_bytes
     
@@ -189,26 +189,26 @@ class RandomMessage:
         start_delimiter = '7E'
         frame_type = '88'
         frame_id = '01'
-        at_command =   random.choice(command_list)
-        command_status = random.choice('00', '01', '02', '03')
+        at_command =   random.choice(['4442','4744', '4542'])
+        command_status = random.choice(['00', '01', '02', '03'])
 
         #if command is unsuccesful, there will be no data field
         if command_status == '00':
             
-            command_data = hex(random.randint(1,1000))[2:]
+            command_data = hex(random.randint(16,255))[2:]
             message_contents = frame_type + frame_id + at_command + command_status + command_data
-            msb = generate_checksum(message_contents)
+            msb = generate_msb(message_contents)
             lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = start_delimiter + lsb + msb + frame_type + frame_id  + at_command + command_status + command_data + checksum
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id  + at_command + command_status + command_data + checksum
         
         else:
 
             message_contents = frame_type + frame_id  + at_command + command_status
-            msb = generate_checksum(message_contents)
-            lsb = generate_checksum(message_contents)
+            msb = generate_msb(message_contents)
+            lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = start_delimiter + lsb + msb + frame_type + frame_id + at_command + command_status + checksum
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id + at_command + command_status + checksum
         
         return bytes.fromhex(api_frame).decode('latin-1')
 
@@ -223,7 +223,7 @@ class RandomMessage:
         None
     
     Returns:
-        string - random AT local return message in the format as a string with latin-1 decoding (each 1 byte):
+        string - random AT remote return message in the format as a string with latin-1 decoding (each 1 byte):
                  1. 7E - start delimiter
                  2. LSB
                  3. MSB
@@ -242,8 +242,8 @@ class RandomMessage:
         frame_id = '01'
         dest_address_long = '0000000000000000'
         dest_address_short = 'FeFe'
-        at_command =   random.choice('4442','4744', '4542')
-        command_status = random.choice('00', '01', '02', '03')
+        at_command =   random.choice(['4442','4744', '4542'])
+        command_status = random.choice(['00', '01', '02', '03'])
 
         #if command is unsuccesful, there will be no data field
         if command_status == '00':
@@ -253,7 +253,7 @@ class RandomMessage:
             msb = generate_checksum(message_contents)
             lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = start_delimiter + lsb + msb + frame_type + frame_id  + at_command + command_status + command_data + checksum
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id  + at_command + command_status + command_data + checksum
         
         else:
 
@@ -261,7 +261,7 @@ class RandomMessage:
             msb = generate_checksum(message_contents)
             lsb = generate_checksum(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = start_delimiter + lsb + msb + frame_type + frame_id + dest_address_long + dest_address_short + at_command + command_status + checksum
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id + dest_address_long + dest_address_short + at_command + command_status + checksum
         
         return bytes.fromhex(api_frame).decode('latin-1')
 
@@ -295,12 +295,13 @@ class RandomMessage:
         recieve_options = '00'
 
         #randomly choose 5 - 10 messages for api Frame
-        message_count = random.randint(5,10)
-        message_byte = random.choice(CAN_BYTE, IMU_BYTE, GPS_BYTE) #choose message type 
+        message_count =  16 #random.randint(16,16)
+        #message_type = random.choice([CAN_BYTE, '''IMU_BYTE, GPS_BYTE''']) #choose message type 
+        message_type = CAN_BYTE
         messages = ""
 
-        for i in range(message_count):
-            if message_byte == CAN_BYTE:
+        for i in range(4):
+            if message_type == CAN_BYTE:
                 messages = messages +  self.random_can_str()
             elif message_type == GPS_BYTE:
                 messages = messages +  self.random_gps_str()
@@ -312,16 +313,15 @@ class RandomMessage:
         message_hex = message.hex()
         
         #collect all information between length and checksum to help calculate length and checksum
-        message_contents = source_address_long + source_address_short + recieve_options + frame_type  + message_hex + message_count + message_byte
+        message_contents = source_address_long + source_address_short + recieve_options + frame_type  + message_hex + hex(message_count)[2:] + message_type
         
         #get checksum, lsb, and msb fields for frame
         msb = generate_msb(message_contents)
         lsb = generate_lsb(message_contents)
         checksum = generate_checksum(message_contents)
        
-        api_frame = start_delimiter + msb + lsb + frame_type + source_address_long + source_address_short + receive_options + message_byte + message_count + messages + checksum
+        api_frame = start_delimiter + msb + lsb + frame_type + source_address_long + source_address_short + recieve_options + message_type + hex(message_count)[2:] + message_hex + checksum
         
 
         return bytes.fromhex(api_frame).decode('latin-1')
-       
     
