@@ -243,13 +243,13 @@ def parse_request():
 
         # try extracting measurements
         try:
-            message = create_message(parse_request["message"])
+            message = create_message(msg)
         except Exception as e:
             app.logger.warn(
-                f"Unable to extract measurements for raw message {parse_request['message']}")
+                f"Unable to extract measurements for raw message {msg}")
             curr_response = {
                 "result": "PARSE_FAIL",
-                "message": str(parse_request["message"]),
+                "message": str(msg),
                 "error": str(e),
             }
             all_response.append(curr_response)
@@ -372,7 +372,7 @@ def parse_and_write_request_bucket(bucket):
                 app.logger.warning("Unable to write measurement to InfluxDB!")
                 curr_response =  {
                     "result": "INFLUX_WRITE_FAIL",
-                    "message": str(parse_request["message"]),
+                    "message": str(msg),
                     "error": str(e),
                     "type": type 
                 }

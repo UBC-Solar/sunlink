@@ -528,6 +528,12 @@ def main():
     source_group.add_argument("--live-off", action="store_true",
                               help=("Will not stream any data to grafana"))
     
+    source_group.add_argument("--raw", action="store_true",
+                              help=("Will enable displaying of raw data coming from serial stream AFTER cutting algorithm"))
+    
+    source_group.add_argument("--rawest", action="store_true",
+                            help=("Will enable displaying of raw data coming from serial stream in chunk size"))
+    
     source_group.add_argument("-l", "--log", nargs='+',
                               help=("Args create a list of message classes or ID's to pretty log to a file. no args for all, all for all"))
     
@@ -705,9 +711,15 @@ def main():
                     # read in bytes from COM port
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
+
+                    if args.rawest:
+                        print(chunk)
+                        
                     parts, buffer = process_message(chunk, buffer)
 
                     for part in parts:
+                        if args.raw:
+                            print(part.encode('latin-1').hex())
                         sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
         sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
