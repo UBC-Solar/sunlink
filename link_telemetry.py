@@ -475,6 +475,12 @@ def process_message(message: str, buffer: str = "") -> list:
     if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
         buffer = parts.pop()
 
+    try:
+        parts = [part + "0d0a" for part in parts if len(part) == 30 or len(part) == 396 or len(part) == 44]
+    except ValueError as e:
+        print(f"{ANSI_RED}Failed to split message: {str([part for part in parts])}{ANSI_ESCAPE}"
+              f"    ERROR: {e}")
+        return [], buffer
     return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
 
 
