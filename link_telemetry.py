@@ -25,7 +25,7 @@ from beautifultable import BeautifulTable
 import warnings
 
 import concurrent.futures
-from tools.MemoratorUploader import memorator_upload_script
+# from tools.MemoratorUploader import memorator_upload_script
 
 
 __PROGRAM__ = "link_telemetry"
@@ -399,6 +399,7 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
             write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
             write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
         elif response["result"] == "INFLUX_WRITE_FAIL":
+            fail_msg = f"{ANSI_RED}INFLUX_WRITE_FAIL{ANSI_ESCAPE}: \n" + f"{response['error']}"
             print(f"Failed to write measurements for {response['type']} message to InfluxDB!")
             print(response)
 
