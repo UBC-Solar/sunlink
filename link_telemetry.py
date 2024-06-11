@@ -399,6 +399,7 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
             write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
             write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
         elif response["result"] == "INFLUX_WRITE_FAIL":
+            fail_msg = f"{ANSI_RED}INFLUX_WRITE_FAIL{ANSI_ESCAPE}: \n" + f"{response['error']}"
             print(f"Failed to write measurements for {response['type']} message to InfluxDB!")
             print(response)
 
@@ -474,6 +475,12 @@ def process_message(message: str, buffer: str = "") -> list:
     if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
         buffer = parts.pop()
 
+    try:
+        parts = [part + "0d0a" for part in parts if len(part) == 30 or len(part) == 396 or len(part) == 44]
+    except ValueError as e:
+        print(f"{ANSI_RED}Failed to split message: {str([part for part in parts])}{ANSI_ESCAPE}"
+              f"    ERROR: {e}")
+        return [], buffer
     return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
 
 
@@ -527,6 +534,12 @@ def main():
 
     source_group.add_argument("--live-off", action="store_true",
                               help=("Will not stream any data to grafana"))
+    
+    source_group.add_argument("--raw", action="store_true",
+                              help=("Will enable displaying of raw data coming from serial stream AFTER cutting algorithm"))
+    
+    source_group.add_argument("--rawest", action="store_true",
+                            help=("Will enable displaying of raw data coming from serial stream in chunk size"))
     
     source_group.add_argument("-l", "--log", nargs='+',
                               help=("Args create a list of message classes or ID's to pretty log to a file. no args for all, all for all"))
@@ -705,9 +718,15 @@ def main():
                     # read in bytes from COM port
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
+
+                    if args.rawest:
+                        print(chunk)
+                        
                     parts, buffer = process_message(chunk, buffer)
 
                     for part in parts:
+                        if args.raw:
+                            print(part.encode('latin-1').hex())
                         sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
         sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
