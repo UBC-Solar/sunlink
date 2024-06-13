@@ -436,7 +436,7 @@ BO_ 1879 GPSAltitudeHdop: 8 TEL
 BO_ 1880 GPSSideCount: 8 TEL
  SG_ Latside : 0|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Lonside : 8|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ SatelliteCount : 16|16@1+ (1,0) [0|100] "" Vector__XXX
+ SG_ SatelliteCount : 16|32@1+ (1,0) [0|100] "" Vector__XXX
 
 BO_ 1872 TELDiagnostics: 1 TEL
  SG_ RTCReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
