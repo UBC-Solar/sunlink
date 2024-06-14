@@ -33,7 +33,7 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MDU MCB TEL OBC MEMORATOR
+BU_: AMB BMS DID ECU MDU MCB TEL OBC MEMORATOR VDS
 
 
 BO_ 1793 VoltageSensorsData: 8 AMB
@@ -438,11 +438,39 @@ BO_ 1880 GPSSideCount: 8 TEL
  SG_ Lonside : 8|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ SatelliteCount : 16|32@1+ (1,0) [0|100] "" Vector__XXX
 
-BO_ 1872 TELDiagnostics: 1 TEL
+BO_ 521 TELHeartbeat: 8 TEL
  SG_ RTCReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSFix : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ WatchdogReset : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ TELRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 513 AMBHeartbeat: 8 AMB
+ SG_ AMBRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 514 BMSHeartbeat: 8 BMS
+ SG_ BMSRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 515 DIDheartbeat: 8 DID
+ SG_ DIDRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 516 ECUHeartbeat: 8 ECU
+ SG_ ECURuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 517 OBCHeartbeat: 8 OBC
+ SG_ OBCRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 518 MDUHeartbeat: 8 MDU
+ SG_ MDURuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 519 MCBHeartbeat: 8 MCB
+ SG_ MCBRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 520 MEMORATORHeartbeat: 8 MEMORATOR
+ SG_ MEMORATORRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 522 VDSHeartbeat: 8 VDS
+ SG_ VDSRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
 
 
@@ -577,12 +605,6 @@ CM_ SG_ 1028 PedalADCOutOfRange "1 if true 0 if false";
 CM_ SG_ 1028 RegenEnabled "1 if true 0 if false";
 CM_ SG_ 1028 CruiseControlEnabled "1 if true 0 if false";
 CM_ SG_ 1028 MechBrakePressed "1 if pressed 0 if not pressed";
-CM_ SG_ 1873 Second "Seconds from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Minute "Minutes from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Hour "Hours from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Day "Days from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Month "Months from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Year "Years from RTC inside Kvaser Memorator 2xHS v2";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
