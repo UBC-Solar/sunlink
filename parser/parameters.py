@@ -71,3 +71,4 @@ GD = bytes.fromhex("7E0004080147446B") #Good Packets Receieved
 ##ED = bytes.fromhex("7E 00 05 08 01 45 44" + ENERGY_DETECT_TIME + "3C") #Energy detect
 
 command_list = [DB, ER, GD]
+hex_commandlist = ["4442", "4552", "4744" ] #same order as abobe

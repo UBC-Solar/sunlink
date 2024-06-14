@@ -1,0 +1,260 @@
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801474403fc 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4744 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 03 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801454202fd 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4542 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 02 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801454201fe 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4542 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 01 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801474401fe 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4744 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 01 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801474402fd 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4744 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 02 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801454203fc 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4542 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 03 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801454202fd 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4542 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 02 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801444202fd 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4442 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 02 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 10 
+      Message Hex Data = 7e000688014542003cc3 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4542 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 00 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 10 
+      Message Hex Data = 7e000688014442008d72 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4442 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 00 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801474403fc 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4744 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 03 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801444202fd 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4442 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 02 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1m<Local_AT_Command_Return>[0m message with properties: 
+      Message Length = 9 
+      Message Hex Data = 7e00058801444201fe 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/Local_AT_Command_Return.py -> Failed at Line: 61 in get_value()[0m: 
+      Caught Exception = unpack requires a buffer of 4 bytes, 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_value(message[8:len(message) -2]) =  ) [0m, 
+          - gets the message value 
+        [1mget_value(message[5:6]) = 4442 ) [0m, 
+          - gets the specific AT Command 
+        [1mget_value(message[7]) = 01 ) [0m, 
+          - gets the status of the AT command 
+Message byte of  is not a valid byte for any message type
+
+

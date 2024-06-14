@@ -49,5 +49,6 @@ def create_message(message: str):
             raise Exception(
                 f"{ANSI_BOLD}Failed in create_message{ANSI_ESCAPE}:\n"
                 f"      {e}"
+                f"Message byte of {message[0]} is not a valid byte for any message type\n"
             )
     

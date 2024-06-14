@@ -1,0 +1,50 @@
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      module 'datetime' has no attribute 'now'Message byte of  is not a valid byte for any message type
+
+

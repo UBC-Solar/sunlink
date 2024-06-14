@@ -315,8 +315,8 @@ def process_response(future: concurrent.futures.Future, args):
         print(f"Response content: {response.content}")
         return
     
-    print(parse_response)
-    return
+   # print(parse_response)
+    
 
     if parse_response["result"] == "OK":
         table = None
@@ -407,9 +407,9 @@ def sendToParser(message: str, live_filters: list, log_filters: list, args: list
     future.add_done_callback(lambda future: process_response(future, args))
 
 
-def upload_logs(args, live_filters, log_filters, endpoint):
+#def upload_logs(args, live_filters, log_filters, endpoint):
     # Call the memorator log uploader function
-    memorator_upload_script(sendToParser, live_filters, log_filters, args, endpoint) 
+    #memorator_upload_script(sendToParser, live_filters, log_filters, args, endpoint) 
 
 
 """
@@ -434,14 +434,14 @@ def process_message(message: str, buffer: str = "") -> list:
 
     return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
 
-def atDiagnosticCommand(command_list):
+"""def atDiagnosticCommand(command_list):
     lock.acquire()
     while True:
         for command in command_list:
                 serial.write(command)
         time.sleep(AT_COMMAND_FREQUENCY)
     lock.release()
-
+"""
 def main():
     """
     Main telemetry link entrypoint.
@@ -615,9 +615,9 @@ def main():
     FAIL_FILE_NAME = os.path.join(FAIL_DIRECTORY, LOG_FILE)
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
-    if args.log_upload:
-        upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
-        return 0
+    ##if args.log_upload:
+       ## upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
+        ##return 0
 
    # future = executor.submit(atDiagnosticCommand, command_list)
 

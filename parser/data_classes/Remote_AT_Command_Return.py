@@ -1,8 +1,8 @@
 # Parameter imports. ADD AND REMOVE AS NEEDED
 from parser.parameters import *
 import struct
-from time import strftime, localtime
-from datetime import datetime
+import time
+import datetime
 
 """
 AT_Command_Return message data class. <AT_Command_Return>.data[''] fields are:
@@ -57,15 +57,13 @@ class ATR:
     Returns:
         float_val - the value of the message
     """
-    def get_value(self, message_val) -> float:
+    def get_value(self, message_val) -> int:
         try:
-            val = struct.unpack('>f', bytearray(message_val.encode('latin-1')))[0]
-            float_val = float(val)
-
-            return float_val
+            val = struct.unpack('>i', bytearray(message_val.encode('latin-1')).rjust(4, b'\x00'))[0]
+            int_val = int(val)
+            return int_val
         except Exception as e:
             generate_exception(e, "get_value")
-
 
     """
     Gets the measurement/specific AT command of the message as a float
@@ -76,12 +74,17 @@ class ATR:
     Returns:
         float - the value of the message
     """
-    def get_measurement(self, message_measurement) -> float:
+    def get_measurement(self, message_measurement) -> str:
         try:
-            measurement = struct.unpack('>f', bytearray(message_measurement.encode('latin-1')))[0]
-            float_measurement = float(measurement)
+            measurement = None
+            if message_measurement == bytes.fromhex(hex_commandlist[0]).decode('latin-1'):
+                measurement = "RSSI"
+            elif message_measurement == bytes.fromhex(hex_commandlist[1]).decode('latin-1'):
+                measurement = "Error Message Count"
+            elif message_measurement == bytes.fromhex(hex_commandlist[2]).decode('latin-1'):
+                measurement = "Good Packets Receieved Count"
 
-            return float_measurement
+            return measurement
         except Exception as e:
             generate_exception(e, "get_measurement")
 
@@ -93,14 +96,21 @@ class ATR:
         message_status - the status code of the message as a latin-1 string
     
     Returns:
-        float - the value of the message
+        str - the value of the message
     """
-    def get_status(self, message_status) -> float:
+    def get_status(self, message_status) -> str:
+        status = None
         try:
-            status = struct.unpack('>f', bytearray(message_status.encode('latin-1')))[0]
-            float_status = float(status)
+            if message_status == "\x00":
+                status = "OK"
+            elif message_status == "\x01":
+                status = "ERROR"
+            elif message_status == "\x02":
+                status = "INVALID COMMAND"
+            elif message_status == "\x03":
+                status = "INVALID PARAMETER"
 
-            return float_status
+            return status
         except Exception as e:
             generate_exception(e, "get_status")
 
@@ -124,14 +134,19 @@ class ATR:
         measurement = None
         value = None
         status = None
-
+        timestamp = None
+        current_time = time.time()
+        current_time_bytes = struct.pack('>d', current_time)
+        timestamp = current_time_bytes.decode('latin-1')
+        timestamp = struct.unpack('>d', timestamp.encode('latin-1'))[0]
+        float_timestamp = float(timestamp)
         try:
-            measurement = self.get_measurement(self.message[16:17])
-            status = self.get_status(self.message[18])
-            if (len(self.message)) < 10:
+            measurement = self.get_measurement(self.message[15:17])
+            status = self.get_status(self.message[17])
+            if (len(self.message)) < 18:
                 value = "None"
             else:
-                value = self.get_value(self.message[19:len(self.message)-2])
+                value = self.get_value(self.message[18:len(self.message)-1])
 
 
 
@@ -160,7 +175,7 @@ class ATR:
         data["Class"] = ["Remote"]
         data["Measurement"] = [measurement]
         data["Value"] = [value]
-        data["Timestamp"] = [datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]]
+        data["Timestamp"] = [float_timestamp]
         data["Status"] = [status]
 
         # SET DISPLAY FIELDS
@@ -174,6 +189,7 @@ class ATR:
             "Command": [measurement],
             "Value": [value],
             "Timestamp": [datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]],
+            "Status": [status]
             }
         }
         return data

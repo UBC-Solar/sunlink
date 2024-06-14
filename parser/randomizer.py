@@ -189,8 +189,8 @@ class RandomMessage:
         start_delimiter = '7E'
         frame_type = '88'
         frame_id = '01'
-        at_command =   random.choice(['4442','4744', '4542'])
-        command_status = random.choice(['00', '01', '02', '03'])
+        at_command =   random.choice(['4442','4744', '4552',])
+        command_status = random.choice(['00','01','02','03','00','00'])
 
         #if command is unsuccesful, there will be no data field
         if command_status == '00':
@@ -200,7 +200,7 @@ class RandomMessage:
             msb = generate_msb(message_contents)
             lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = start_delimiter + msb + lsb + frame_type + frame_id  + at_command + command_status + command_data + checksum
+            api_frame = LOCAL_AT_BYTE + start_delimiter + msb + lsb + frame_type + frame_id  + at_command + command_status + command_data + checksum
         
         else:
 
@@ -208,7 +208,7 @@ class RandomMessage:
             msb = generate_msb(message_contents)
             lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = start_delimiter + msb + lsb + frame_type + frame_id + at_command + command_status + checksum
+            api_frame = LOCAL_AT_BYTE + start_delimiter + msb + lsb + frame_type + frame_id + at_command + command_status + checksum
         
         return bytes.fromhex(api_frame).decode('latin-1')
 
@@ -242,26 +242,26 @@ class RandomMessage:
         frame_id = '01'
         dest_address_long = '0000000000000000'
         dest_address_short = 'FeFe'
-        at_command =   random.choice(['4442','4744', '4542'])
-        command_status = random.choice(['00', '01', '02', '03'])
+        at_command =   random.choice(hex_commandlist)
+        command_status = random.choice(['00','01','02','03','00','00'])
 
         #if command is unsuccesful, there will be no data field
         if command_status == '00':
             
-            command_data = hex(random.randint(1,1000))[2:]
+            command_data = hex(random.randint(16,255))[2:]
             message_contents = frame_type + frame_id + dest_address_long + dest_address_short + at_command + command_status + command_data
-            msb = generate_checksum(message_contents)
+            msb = generate_msb(message_contents)
             lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = start_delimiter + msb + lsb + frame_type + frame_id  + at_command + command_status + command_data + checksum
+            api_frame = REMOTE_AT_BYTE + start_delimiter + msb + lsb + frame_type + frame_id  + dest_address_long + dest_address_short + at_command + command_status + command_data + checksum
         
         else:
 
             message_contents = frame_type + frame_id + dest_address_long + dest_address_short  + at_command + command_status
-            msb = generate_checksum(message_contents)
-            lsb = generate_checksum(message_contents)
+            msb = generate_msb(message_contents)
+            lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = start_delimiter + msb + lsb + frame_type + frame_id + dest_address_long + dest_address_short + at_command + command_status + checksum
+            api_frame = REMOTE_AT_BYTE + start_delimiter + msb + lsb + frame_type + frame_id + dest_address_long + dest_address_short + at_command + command_status + checksum
         
         return bytes.fromhex(api_frame).decode('latin-1')
 
@@ -302,13 +302,13 @@ class RandomMessage:
 
         for i in range(4):
             if message_type == CAN_BYTE:
-                messages = messages +  self.random_can_str()
+                messages = messages +  self.random_can_str()[1:]
             elif message_type == GPS_BYTE:
-                messages = messages +  self.random_gps_str()
+                messages = messages +  self.random_gps_str()[1:]
             elif message_type == IMU_BYTE:
-                messages = messages + self.random_imu_str()
+                messages = messages + self.random_imu_str()[1:]
 
-        #turn messages into 
+        #turn messages into hex
         message = messages.encode('latin-1')
         message_hex = message.hex()
         

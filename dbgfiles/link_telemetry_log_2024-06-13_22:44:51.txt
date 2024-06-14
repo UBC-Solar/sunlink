@@ -1,0 +1,10 @@
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      string index out of rangeMessage byte of  is not a valid byte for any message type
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      string index out of rangeMessage byte of  is not a valid byte for any message type
+
+

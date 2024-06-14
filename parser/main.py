@@ -253,8 +253,10 @@ def parse_request():
             "message": str(parse_request["message"]),
             "error": str(e),
         }
-    
-    type = message.type
+    try:
+        type = message.type
+    except:
+        return
 
     app.logger.info(f"Successfully parsed {type} message placed into queue")
 
@@ -301,27 +303,32 @@ Also sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
-
-    """ return {
+    
+    """return {
             
             "message": str(parse_request["message"].encode('latin-1').hex()),
             
         }"""
-
+        
 
     # try extracting measurements
     try:
         message = create_message(parse_request["message"])
+        
     except Exception as e:
         app.logger.warn(
             f"Unable to extract measurements for raw message {parse_request['message']}")
         return {
             "result": "PARSE_FAIL",
-            "message": str(parse_request["message"]),
+            "message": str(parse_request["message"].encode('latin-1').hex()),
             "error": str(e),
         }
+    
+    try:
+        type = message.type
+    except:
+        return
 
-    type = message.type
     live_filters = parse_request.get("live_filters", False)
     log_filters = parse_request.get("log_filters", False)
 
