@@ -438,38 +438,35 @@ BO_ 1880 GPSSideCount: 8 TEL
  SG_ Lonside : 8|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ SatelliteCount : 16|32@1+ (1,0) [0|100] "" Vector__XXX
 
-BO_ 521 TELHeartbeat: 8 TEL
+BO_ 777 TELDiagnostic: 8 TEL
  SG_ RTCReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSFix : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ WatchdogReset : 3|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ TELRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 513 AMBHeartbeat: 8 AMB
+BO_ 769 AMBDiagnostic: 8 AMB
  SG_ AMBRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 514 BMSHeartbeat: 8 BMS
+BO_ 770 BMSDiagnostic: 8 BMS
  SG_ BMSRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 515 DIDheartbeat: 8 DID
+BO_ 771 DIDDiagnostic: 8 DID
  SG_ DIDRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 516 ECUHeartbeat: 8 ECU
+BO_ 772 ECUDiagnostic: 8 ECU
  SG_ ECURuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 517 OBCHeartbeat: 8 OBC
- SG_ OBCRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 518 MDUHeartbeat: 8 MDU
+BO_ 773 MDUDiagnostic: 8 MDU
  SG_ MDURuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 519 MCBHeartbeat: 8 MCB
+BO_ 774 MCBDiagnostic: 8 MCB
  SG_ MCBRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 520 MEMORATORHeartbeat: 8 MEMORATOR
+BO_ 775 MEMORATORDiagnostic: 8 MEMORATOR
  SG_ MEMORATORRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 522 VDSHeartbeat: 8 VDS
+BO_ 776 VDSDiagnostic: 8 VDS
  SG_ VDSRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
 
