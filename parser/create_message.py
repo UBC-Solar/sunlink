@@ -24,31 +24,30 @@ Returns:
     a message object (CAN, GPS, IMU, etc.)
 """
 def create_message(message: str):
-    if message[0] == "\x7e": # and (message[3] == ("\x88" or "\x97" or "\x90")):
+    """ if message[0] == "\x7e" and (message[3] == ("\x88" or "\x97" or "\x90")):
         parse_api_packet(message)
-    else:
-        try:
-            if message[0]  == bytes.fromhex(CAN_BYTE).decode('latin-1'):
-                return CAN(message[1:])
-            elif message[0] == bytes.fromhex(GPS_BYTE).decode('latin-1'):
-                return GPS(message[1:])
-            elif message[0] == bytes.fromhex(IMU_BYTE).decode('latin-1'):
-                return IMU(message[1:])
-            elif message[0] == bytes.fromhex(LOCAL_AT_BYTE).decode('latin-1'):
-                return ATL(message[1:])
-            elif message[0] == bytes.fromhex(REMOTE_AT_BYTE).decode('latin-1'):
-                return ATR(message[1:])
-            else:
-                raise Exception(
-                f"Message byte of {message[0]} is not a valid byte for any message type\n"
-                f"      Message: {message}\n"
-                f"      Hex Message: {message.encode('latin-1').hex()}"
-            )
-            
-        except Exception as e:
+    else:"""
+    try:
+        if message[0]  == bytes.fromhex(CAN_BYTE).decode('latin-1'):
+            return CAN(message[1:])
+        elif message[0] == bytes.fromhex(GPS_BYTE).decode('latin-1'):
+            return GPS(message[1:])
+        elif message[0] == bytes.fromhex(IMU_BYTE).decode('latin-1'):
+            return IMU(message[1:])
+        elif message[0] == bytes.fromhex(LOCAL_AT_BYTE).decode('latin-1'):
+            return ATL(message[1:])
+        elif message[0] == bytes.fromhex(REMOTE_AT_BYTE).decode('latin-1'):
+            return ATR(message[1:])
+        else:
             raise Exception(
-                f"{ANSI_BOLD}Failed in create_message{ANSI_ESCAPE}:\n"
-                f"      {e}"
-                f"Message byte of {message[0]} is not a valid byte for any message type\n"
-            )
-    
+            f"Message byte of {message[0]} is not a valid byte for any message type\n"
+            f"      Message: {message}\n"
+            f"      Hex Message: {message.encode('latin-1').hex()}"
+        )
+        
+    except Exception as e:
+        raise Exception(
+            f"{ANSI_BOLD}Failed in create_message{ANSI_ESCAPE}:\n"
+            f"      {e}"
+            f"Message byte of {message[0]} is not a valid byte for any message type\n"
+        )

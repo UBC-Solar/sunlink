@@ -254,6 +254,42 @@ def sigint_handler(sig, frame):
 
 # <----- Co-routine definitions ----->
 
+def filter_stream(parse_response, filter_list):  
+    data_dict = parse_response['message']
+    type = parse_response['type']
+    if "ALL" in filter_list:
+        return True
+    elif "NONE" in filter_list:
+        return False
+      
+    for filter in filter_list:
+        if len(filter) > 2 and filter[:2] == "0x":
+            in_table_data = data_dict['COL']
+            for data_list in in_table_data.values():
+                if filter in data_list:
+                    return True
+        if filter.isdigit():
+            class_name = data_dict["Class"][0]
+
+            # try if it is CAN message
+            can_message = None
+            try:
+                can_message = parameters.CAR_DBC.get_message_by_name(class_name)
+            except:
+                continue
+
+            id = can_message.frame_id
+
+            if int(filter) == id:
+                return True
+            else:
+                continue
+        if filter.isalpha():
+            if filter.upper() == type.upper():
+                return True
+            continue
+
+    return False
 
 def parser_request(payload: Dict, url: str):
     """
@@ -279,7 +315,7 @@ def write_to_log_file(message: str, log_file_name, convert_to_hex=True):
                 print(message, file=output_log_file)
 
 
-def process_response(future: concurrent.futures.Future, args):
+def process_response(future: concurrent.futures.Future, args, display_filters: list):
     """
     Implements the post-processing after receiving a response from the parser.
     Formats the parsed measurements into a table for convenience.
@@ -318,61 +354,64 @@ def process_response(future: concurrent.futures.Future, args):
    # print(parse_response)
     
 
-    if parse_response["result"] == "OK":
-        table = None
-        if args.log is not None or args.table_on:
-            # Create a table
-            table = BeautifulTable()
+    all_responeses = parse_response['all_responses']
+    for response in all_responeses:
+        if response["result"] == "OK":
+            table = None
+            do_display_table = filter_stream(response, display_filters)
+            if args.log is not None or do_display_table:
+                # Create a table
+                table = BeautifulTable()
 
-            # Set the table title
-            table.set_style(BeautifulTable.STYLE_RST)
-            table.column_widths = [110]
-            table.width_exceed_policy = BeautifulTable.WEP_WRAP
+                # Set the table title
+                table.set_style(BeautifulTable.STYLE_RST)
+                table.column_widths = [110]
+                table.width_exceed_policy = BeautifulTable.WEP_WRAP
 
-            # Title
-            table.rows.append([f"{ANSI_GREEN}{parse_response['type']}{ANSI_ESCAPE}"])
-            display_data = parse_response['message']
+                # Title
+                table.rows.append([f"{ANSI_GREEN}{response['type']}{ANSI_ESCAPE}"])
+                display_data = response['message']
 
-            # Add columns as subtable
-            subtable = BeautifulTable()
-            subtable.set_style(BeautifulTable.STYLE_GRID)
+                # Add columns as subtable
+                subtable = BeautifulTable()
+                subtable.set_style(BeautifulTable.STYLE_GRID)
 
-            cols = display_data["COL"]
-            subtable.rows.append(cols.keys())
-            for i in range(len(list(cols.values())[0])):
-                subtable.rows.append([val[i] for val in cols.values()]) 
+                cols = display_data["COL"]
+                subtable.rows.append(cols.keys())
+                for i in range(len(list(cols.values())[0])):
+                    subtable.rows.append([val[i] for val in cols.values()]) 
 
-            table.rows.append([subtable])
+                table.rows.append([subtable])
 
-            # Add rows
-            rows = display_data["ROW"]
-            for row_head, row_data in rows.items():
-                table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
-                table.rows.append(row_data)
+                # Add rows
+                rows = display_data["ROW"]
+                for row_head, row_data in rows.items():
+                    table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
+                    table.rows.append(row_data)
+                
+            if do_display_table:
+                print(table)
+
+            if response["logMessage"]:
+                write_to_log_file(table, LOG_FILE_NAME, convert_to_hex=False)
             
-        if args.table_on:
-            print(table)
+        elif response["result"] == "PARSE_FAIL":
+            fail_msg = f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n" + f"{response['error']}"
+            print(fail_msg)
 
-        if parse_response["logMessage"]:
-            write_to_log_file(table, LOG_FILE_NAME, convert_to_hex=False)
-        
-    elif parse_response["result"] == "PARSE_FAIL":
-        fail_msg = f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n" + f"{parse_response['error']}"
-        print(fail_msg)
+            # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
+            write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
+            write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+        elif response["result"] == "INFLUX_WRITE_FAIL":
+            fail_msg = f"{ANSI_RED}INFLUX_WRITE_FAIL{ANSI_ESCAPE}: \n" + f"{response['error']}"
+            print(f"Failed to write measurements for {response['type']} message to InfluxDB!")
+            print(response)
 
-        # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
-        write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
-    elif parse_response["result"] == "INFLUX_WRITE_FAIL":
-        print(f"Failed to write measurements for {parse_response['type']} message to InfluxDB!")
-        print(parse_response)
-
-        # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-        write_to_log_file(parse_response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
-        write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
-    else:
-        print(f"Unexpected response: {parse_response['result']}")
-
+            # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
+            write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
+            write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+        else:
+            print(f"Unexpected response: {response['result']}")
 
 def read_lines_from_file(file_path):
     """
@@ -393,18 +432,18 @@ Parameters:
     parser_endpoint - the endpoint to send the data to
 Returns: None
 """
-def sendToParser(message: str, live_filters: list, log_filters: list, args: list, parser_endpoint: str):
-    payload = {
-        "message" : message,
-        "live_filters" : live_filters,
-        "log_filters" : log_filters
-    }
+def sendToParser(message: str, live_filters: list, log_filters: list, display_filters: list, args: list, parser_endpoint: str):
+        payload = {
+            "message" : message,
+            "live_filters" : live_filters,
+            "log_filters" : log_filters
+        }
     
-    # submit to thread pool
-    future = executor.submit(parser_request, payload, parser_endpoint)
+        # submit to thread pool
+        future = executor.submit(parser_request, payload, parser_endpoint)
 
-    # register done callback with future (lambda function to pass in arguments) 
-    future.add_done_callback(lambda future: process_response(future, args))
+        # register done callback with future (lambda function to pass in arguments) 
+        future.add_done_callback(lambda future: process_response(future, args, display_filters))
 
 
 #def upload_logs(args, live_filters, log_filters, endpoint):
@@ -473,8 +512,8 @@ def main():
                              help=("Requests parser to write parsed data to the debug InfluxDB bucket."))
     write_group.add_argument("--prod", action="store_true",
                              help=("Requests parser to write parsed data to the production InfluxDB bucket."))
-    write_group.add_argument("--table-on", action="store_true",
-                             help=("Will display pretty tables. Normally off and parse fails only show"))
+    write_group.add_argument("--table-on", nargs='+',
+                             help=("Will display pretty tables. Choose what to show like --log option"))
     write_group.add_argument("--no-write", action="store_true",
                              help=(("Requests parser to skip writing to the InfluxDB bucket and streaming"
                                    "to Grafana. Cannot be used with --debug and --prod options.")))
@@ -492,7 +531,10 @@ def main():
 
     source_group.add_argument("--live-off", action="store_true",
                               help=("Will not stream any data to grafana"))
-    
+    source_group.add_argument("--raw", action="store_true",
+                              help=("Will enable displaying of raw data coming from serial stream AFTER cutting algorithm"))
+    source_group.add_argument("--rawest", action="store_true",
+                              help=("Will enable displaying of raw data coming from serial stream in chunk size"))
     source_group.add_argument("-l", "--log", nargs='+',
                               help=("Args create a list of message classes or ID's to pretty log to a file. no args for all, all for all"))
     
@@ -582,6 +624,13 @@ def main():
     elif not args.log:
         log_filters = ["NONE"]
 
+        # <----- Define Display Table Filters ----->
+    display_filters = args.table_on
+    if args.table_on and args.table_on[0].upper() == "ALL":
+        display_filters = ["ALL"]
+    elif not args.table_on:
+        display_filters = ["NONE"]
+
     # <----- Configuration confirmation ----->
     if not args.log_upload:
         print_config_table(args, live_filters)
@@ -667,17 +716,21 @@ def main():
                     # read in bytes from COM port
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
+                    if args.rawest:
+                        print(chunk)
                     parts, buffer = process_message(chunk, buffer)
                     lock.release()
 
                     for part in parts:
-                        sendToParser(part, live_filters, log_filters, args, PARSER_ENDPOINT)
+                        if args.raw:
+                            print(part.encode('latin-1').hex())
+                        sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
-        sendToParser(message, live_filters, log_filters, args, PARSER_ENDPOINT)
+        sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, sigint_handler)
     main()
-   
+    
 

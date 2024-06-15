@@ -17,7 +17,7 @@ FRAME_TYPE = 3 #API Overhead frame type identifer (0x90 for receive frame, 0x88 
 def split_api_packet(message, message_size, message_byte):
     return [bytes.fromhex(message_byte).decode('latin-1') + message[i: i + message_size] for i in range(FRAME_DATA_POSITION, len(message), message_size)]
     
-def parse_api_packet(message):
+def parse_api_packet(message) -> list:
     individual_messsages = []
     if message[FRAME_TYPE] == '\x90':
             if message[BYTE_POSITION] == CAN_BYTE:
@@ -32,6 +32,4 @@ def parse_api_packet(message):
     elif message[FRAME_TYPE] == '\x97':
         individual_messsages.extend(bytes.fromhex(REMOTE_AT_BYTE).decode('latin-1') + message)
 
-    from parser.create_message import create_message
-    for message in individual_messsages:
-        create_message(message)
+    return individual_messsages
