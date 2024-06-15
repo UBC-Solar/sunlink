@@ -305,7 +305,7 @@ Also sends back parsed measurements back to client.
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
     
-    """return {
+    """ return {
             
             "message": str(parse_request["message"].encode('latin-1').hex()),
             
@@ -316,12 +316,12 @@ def parse_and_write_request_bucket(bucket):
 
     if msg[0] == "\x7e": #and (msg[3] == ("\x88" or "\x97" or "\x90")):
         msgs = parse_api_packet(msg)
-
     else:
         msgs = [msg]
 
     all_response = []
     for msg in msgs:
+        
         curr_response = {}
          # try extracting measurements
         try:
@@ -398,7 +398,7 @@ def parse_and_write_request_bucket(bucket):
     return {
         "all_responses": all_response
     }
-
+    
     
 
 def write_measurements():

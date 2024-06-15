@@ -93,6 +93,7 @@ class RandomMessage:
         # collect into single string
         can_str = bytes.fromhex(CAN_BYTE).decode('latin1') + current_time_str + "#" + random_id_str + random_data_str \
              + data_length
+    
         return can_str
     
     """
@@ -160,7 +161,6 @@ class RandomMessage:
 
         # Combine all parts into a single bytes object
         imu_bytes = bytes.fromhex(IMU_BYTE).decode('latin-1') + current_time_str + "@" + identifier + value_bytes.decode('latin-1')
-
         return imu_bytes
     
 
@@ -253,7 +253,7 @@ class RandomMessage:
             msb = generate_msb(message_contents)
             lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = REMOTE_AT_BYTE + start_delimiter + msb + lsb + frame_type + frame_id  + dest_address_long + dest_address_short + at_command + command_status + command_data + checksum
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id  + dest_address_long + dest_address_short + at_command + command_status + command_data + checksum
         
         else:
 
@@ -261,7 +261,7 @@ class RandomMessage:
             msb = generate_msb(message_contents)
             lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = REMOTE_AT_BYTE + start_delimiter + msb + lsb + frame_type + frame_id + dest_address_long + dest_address_short + at_command + command_status + checksum
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id + dest_address_long + dest_address_short + at_command + command_status + checksum
         
         return bytes.fromhex(api_frame).decode('latin-1')
 
@@ -296,16 +296,18 @@ class RandomMessage:
 
         #randomly choose 5 - 10 messages for api Frame
         message_count =  16 #random.randint(16,16)
-        #message_type = random.choice([CAN_BYTE, '''IMU_BYTE, GPS_BYTE''']) #choose message type 
-        message_type = CAN_BYTE
+        message_type = random.choice([CAN_BYTE, IMU_BYTE, GPS_BYTE]) #choose message type 
         messages = ""
 
-        for i in range(4):
-            if message_type == CAN_BYTE:
+       
+        if message_type == CAN_BYTE:
+            for i in range(20):
                 messages = messages +  self.random_can_str()[1:]
-            elif message_type == GPS_BYTE:
-                messages = messages +  self.random_gps_str()[1:]
-            elif message_type == IMU_BYTE:
+        elif message_type == GPS_BYTE:
+            for i in range(1):
+                messages = messages +  self.random_gps_str()
+        elif message_type == IMU_BYTE:
+            for i in range(20):
                 messages = messages + self.random_imu_str()[1:]
 
         #turn messages into hex
