@@ -24,12 +24,9 @@ Returns:
     a message object (CAN, GPS, IMU, etc.)
 """
 def create_message(message: str):
-    """ if message[0] == "\x7e" and (message[3] == ("\x88" or "\x97" or "\x90")):
-        parse_api_packet(message)
-    else:"""
     try:
         if message[0]  == bytes.fromhex(CAN_BYTE).decode('latin-1'):
-            return CAN(message[1:])
+            return CAN(message[0:])
         elif message[0] == bytes.fromhex(GPS_BYTE).decode('latin-1'):
             return GPS(message[1:])
         elif message[0] == bytes.fromhex(IMU_BYTE).decode('latin-1'):

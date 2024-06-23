@@ -92,7 +92,7 @@ class RandomMessage:
 
         # collect into single string
         can_str = bytes.fromhex(CAN_BYTE).decode('latin1') + current_time_str + "#" + random_id_str + random_data_str \
-             + data_length
+             + data_length + bytes.fromhex("0a0d").decode('latin-1')
     
         return can_str
     
@@ -160,7 +160,7 @@ class RandomMessage:
         value_bytes = struct.pack('>f', value)
 
         # Combine all parts into a single bytes object
-        imu_bytes = bytes.fromhex(IMU_BYTE).decode('latin-1') + current_time_str + "@" + identifier + value_bytes.decode('latin-1')
+        imu_bytes = bytes.fromhex(IMU_BYTE).decode('latin-1') + current_time_str + "@" + identifier + value_bytes.decode('latin-1') + bytes.fromhex("0a0d").decode('latin-1')
         return imu_bytes
     
 

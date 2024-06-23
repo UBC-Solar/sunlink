@@ -27,7 +27,7 @@ from beautifultable import BeautifulTable
 import warnings
         
 import concurrent.futures
-# from tools.MemoratorUploader import memorator_upload_script
+#from tools.MemoratorUploader import memorator_upload_script
 
 
 __PROGRAM__ = "link_telemetry"
@@ -340,9 +340,9 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
         print(f"{ANSI_BOLD}Config file location:{ANSI_ESCAPE} \"{TOML_CONFIG_FILE.absolute()}\"\n")
         return
     
-    # if response.status_code != 200:
-    #     print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
-    # print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
+    if response.status_code != 200:
+        print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_YELLOW}{response.status_code}{ANSI_ESCAPE}")
+    print(f"{ANSI_BOLD}Response HTTP status code:{ANSI_ESCAPE} {ANSI_GREEN}{response.status_code}{ANSI_ESCAPE}")
     
     try:
         parse_response: dict = response.json()
@@ -350,12 +350,12 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
         print(f"Failed to parse response from parser as JSON!")
         print(f"Response content: {response.content}")
         return
-    
-    #print(parse_response)
-    
 
     all_responeses = parse_response['all_responses']
+    print (parse_response)
+    
     for response in all_responeses:
+        
         if response["result"] == "OK":
             table = None
             do_display_table = filter_stream(response, display_filters)
@@ -465,30 +465,45 @@ def process_message(message: str, buffer: str = "") -> list:
     # Add buffer to the start of the message
     message = buffer + message
 
-    pattern = '(?=7E....88|7E....97|7E....10)'
+    #splits Chunk into API frames (looking for 7E followed by a 88, 97, or 90 (API frame types we receive))
+    pattern = '(?=7e....88|7e....97|7e....90)'
     parts = re.split(pattern, message)
 
+    #assume last api frame is incomplete, so add it to the buffer.
     if len(parts) > 1:
         buffer = parts.pop()
 
     return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
 
-"""def atDiagnosticCommand(command_list):
-    lock.acquire()
-    while True:
-        for command in command_list:
-                serial.write(command)
-        time.sleep(AT_COMMAND_FREQUENCY)
-    lock.release()
+
 """
+Purpose: Sends AT Commands to the local receiver to get Diagnostic Data Back
+Parameters: 
+    lock -> threading.Lock used to manage access to the serial stream
+Returns :
+    NONE
+"""
+def atDiagnosticCommand(lock, args):
+    #lock.acquire()
+    with serial.Serial() as ser:
+        ser.baudrate = args.baudrate
+        ser.port = args.port
+        ser.open()
+        while True:
+            for command in parameters.command_list:
+                serial.write(command)
+                
+            time.sleep(parameters.AT_COMMAND_FREQUENCY)
+        
+
 def main():
     """
     Main telemetry link entrypoint.
     """
     ##lock for access to serial stream to manage writing AT commands and reading API frames
     lock = threading.Lock()
-    # <----- Argument parsing ----->
 
+    # <----- Argument parsing ----->
     parser = argparse.ArgumentParser(
         description="Link raw radio stream to telemetry cluster.",
         prog=__PROGRAM__)
@@ -668,7 +683,7 @@ def main():
        ## upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
         ##return 0
 
-   # future = executor.submit(atDiagnosticCommand, command_list)
+    future = executor.submit(atDiagnosticCommand, args)
 
     while True:
         message: bytes
@@ -712,14 +727,14 @@ def main():
                 ser.open()
 
                 while True:
-                    lock.acquire()
+                    #lock.acquire()
                     # read in bytes from COM port
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
                     if args.rawest:
                         print(chunk)
                     parts, buffer = process_message(chunk, buffer)
-                    lock.release()
+                    #lock.release()
 
                     for part in parts:
                         if args.raw:

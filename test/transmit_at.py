@@ -1,6 +1,8 @@
+import serial
 import cantools
 from pathlib import Path
-import sys    
+import sys  
+import time  
 
 #  <----- Multi-Class Functions  ----->
 """
@@ -72,3 +74,14 @@ GD = bytes.fromhex("7E0004080147446B") #Good Packets Receieved
 
 command_list = [DB, ER, GD]
 hex_commandlist = ["4442", "4552", "4744" ] #same order as abobe
+
+
+with serial.Serial() as ser:
+    ser.baudrate = args.baudrate
+    ser.port = args.port
+    ser.open()
+    while True:
+        for command in command_list:
+         serial.write(command)
+        #lock.release()
+        time.sleep(AT_COMMAND_FREQUENCY)

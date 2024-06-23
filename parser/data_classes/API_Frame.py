@@ -8,7 +8,7 @@ from datetime import datetime
 
 ##Breaks API Frames into individul messages, sends messages back to create_message as individual CAN, IMU, or GPS messages
 
-FRAME_DATA_POSITION = 17 #Start of first message in API Frame
+FRAME_DATA_POSITION = 16 #Start of first message in API Frame
 BYTE_POSITION = 15 #where Identifier byte in API frame is located
 FRAME_TYPE = 3 #API Overhead frame type identifer (0x90 for receive frame, 0x88 for local AT return, 0x97 for remote at Return)
 
@@ -21,12 +21,13 @@ def parse_api_packet(message) -> list:
     try:  
         individual_messsages = []
         if message[FRAME_TYPE] == '\x90':
-                if message[BYTE_POSITION] == bytes.fromhex(CAN_BYTE).decode('latin-1'):
+            individual_messsages.extend(split_api_packet(message, CAN_MSG_LENGTH, CAN_BYTE))
+            """ if message[BYTE_POSITION] == bytes.fromhex(CAN_BYTE).decode('latin-1'):
                     individual_messsages.extend(split_api_packet(message, CAN_MSG_LENGTH, CAN_BYTE))
                 elif message[BYTE_POSITION] == bytes.fromhex(IMU_BYTE).decode('latin-1'):
                     individual_messsages.extend(split_api_packet(message, IMU_MSG_LENGTH, IMU_BYTE))
                 elif message[BYTE_POSITION] == bytes.fromhex(GPS_BYTE).decode('latin-1'):
-                    individual_messsages.extend(split_api_packet(message, GPS_MSG_LENGTH, GPS_BYTE))
+                    individual_messsages.extend(split_api_packet(message, GPS_MSG_LENGTH, GPS_BYTE))"""
             
         elif message[FRAME_TYPE] == '\x88':
             individual_messsages.extend(bytes.fromhex(LOCAL_AT_BYTE).decode('latin-1') + message)
