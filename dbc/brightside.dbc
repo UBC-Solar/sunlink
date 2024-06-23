@@ -33,7 +33,7 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MDU MCB TEL OBC MEMORATOR VDS
+BU_: AMB BMS DID ECU MDU MCB TEL OBC MEMORATOR
 
 
 BO_ 1793 VoltageSensorsData: 8 AMB
@@ -438,16 +438,14 @@ BO_ 1880 GPSSideCount: 8 TEL
  SG_ Lonside : 8|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ SatelliteCount : 16|32@1+ (1,0) [0|100] "" Vector__XXX
 
-BO_ 777 TELDiagnostic: 8 TEL
+BO_ 1872 TELDiagnostics: 1 TEL
  SG_ RTCReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSFix : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ WatchdogReset : 3|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ TELRuntimeCounter : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1029 MCBGithash: 8 MCB
+BO_ 1029 MCBGithash: 8 MCB  
  SG_ ShortGithash : 0|64@1+ (1,0) [0|0] "" Vector__XXX
-
 
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
@@ -580,6 +578,12 @@ CM_ SG_ 1028 PedalADCOutOfRange "1 if true 0 if false";
 CM_ SG_ 1028 RegenEnabled "1 if true 0 if false";
 CM_ SG_ 1028 CruiseControlEnabled "1 if true 0 if false";
 CM_ SG_ 1028 MechBrakePressed "1 if pressed 0 if not pressed";
+CM_ SG_ 1873 Second "Seconds from RTC inside Kvaser Memorator 2xHS v2";
+CM_ SG_ 1873 Minute "Minutes from RTC inside Kvaser Memorator 2xHS v2";
+CM_ SG_ 1873 Hour "Hours from RTC inside Kvaser Memorator 2xHS v2";
+CM_ SG_ 1873 Day "Days from RTC inside Kvaser Memorator 2xHS v2";
+CM_ SG_ 1873 Month "Months from RTC inside Kvaser Memorator 2xHS v2";
+CM_ SG_ 1873 Year "Years from RTC inside Kvaser Memorator 2xHS v2";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
