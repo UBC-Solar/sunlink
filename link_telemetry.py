@@ -562,6 +562,9 @@ def main():
     source_group.add_argument("--dbc", action="store",
                               help="Specifies the dbc file to use. For example: ./dbc/brightside.dbc"
                               "Default: ./dbc/brightside.dbc")
+    
+    source_group.add_argument("--fast-u", action="store_true",
+                            help=("Same as -u but will only do 1 of the 15 Log containers"))
 
     source_group.add_argument("-f", "--frequency-hz", action="store", default=DEFAULT_RANDOM_FREQUENCY_HZ, type=int,
                               help=((f"Specifies the frequency (in Hz) for random message generation. \
@@ -672,10 +675,12 @@ def main():
     
     if args.log_upload:
         upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
-        return 0
+        print(f"{ANSI_GREEN}Log upload complete!{ANSI_ESCAPE}")
+        return
 
     while True:
         message: bytes
+
 
         if args.randomList:
             try:
