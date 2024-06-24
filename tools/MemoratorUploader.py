@@ -39,6 +39,10 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             timestamp_str = struct.pack('>d', timestamp).decode('latin-1')
 
             id = int(match.group(3), 16)
+
+            if id == 0:
+                continue
+            
             id_str = id.to_bytes(4, 'big').decode('latin-1') 
 
             dlc_str = match.group(4)
@@ -103,7 +107,9 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
                 upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint)
 
             # Clear the log files
-            log.delete_all()
+            delete_input = input(f"{ANSI_GREEN}Do you want to {ANSI_RESET}{ANSI_RED}DELETE{ANSI_RESET} {ANSI_GREEN}all logs now (y/n)?: {ANSI_RESET} ")
+            if delete_input.lower() == 'y' or delete_input.lower() == '\n':
+                log.delete_all()
             
             # Close the KMF file
             kmf_file.close()
