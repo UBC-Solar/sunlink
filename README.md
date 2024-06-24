@@ -475,7 +475,7 @@ Here are some example invocations:
 
 ## Running the Offline Log Uploader
 
-The offline log uploader will use the `MemoratorUploader` script in the `tools/` folder to read the contents of the SD card on the Memorator and then upload those messages to InfluxDB. There are two options for this: `-u fast` and `-u all`. `-u fast` will only upload one Log File Container (1 .KMF file will be read). In `-u all` all 15 .KMF files on the SD card will be read and their data will be uploaded.
+The offline log uploader will use the `MemoratorUploader` script in the `tools/` folder to read the contents of the SD card on the Memorator and then upload those messages to InfluxDB. There are two options for this: `-u fast` and `-u all`. `-u fast` will only upload one Log File Container (1 .KMF file will be read). In `-u all` all 15 .KMF files on the SD card will be read and their data will be uploaded. Note: data is sent to the `_log` suffixed bucket.
 
 ```bash
 ./link_telemetry.py -u fast
