@@ -18,7 +18,7 @@ ANSI_RESET          = "\033[0m"
 # Regex Patterns for logfile parsing
 PATTERN_DATETIME    = re.compile(r't:\s+(.*?)\s+DateTime:\s+(.*)')
 PATTERN_TRIGGER     = re.compile(r't:\s+(.*?)\s+Log Trigger Event.*')
-PATTERN_EVENT       = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:\s+(.*?) dlc:\s+(.*?) d:(.*)')
+PATTERN_EVENT       = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:(.*?) dlc:\s+(.*?) d:(.*)')
 
 
 def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
@@ -38,7 +38,7 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             timestamp = start_time + float(match.group(1))
             timestamp_str = struct.pack('>d', timestamp).decode('latin-1')
 
-            id = int(match.group(3), 16)
+            id = int(match.group(3).strip(), 16)
 
             if id == 0:
                 continue
@@ -56,8 +56,10 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
+    numLogs = 1 if args.fast_u else NUM_LOGS
+
     # Open each KMF file
-    for i in range(NUM_LOGS):
+    for i in range(numLogs):
         log_path = LOG_FOLDER + "LOG000{:02d}.KMF".format(i)
         kmf_file = kvmlib.openKmf(log_path.format(i))
         print(f"{ANSI_GREEN}Opening file: {log_path.format(i)}{ANSI_RESET}")  # Green stdout
@@ -94,7 +96,7 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
 
     upload_input = input(f"{ANSI_GREEN}Do you want to upload all logs now (y/n)?: {ANSI_RESET} ")
     if upload_input.lower() == 'y' or upload_input.lower() == '\n':
-        for i in range(NUM_LOGS):
+        for i in range(numLogs):
             log_path = LOG_FOLDER + "LOG000{:02d}".format(i)
             kmf_file = kvmlib.openKmf(log_path.format(i))
             print(f"{ANSI_GREEN}Opening file: {log_path.format(i)}{ANSI_RESET}")  # Green stdout
