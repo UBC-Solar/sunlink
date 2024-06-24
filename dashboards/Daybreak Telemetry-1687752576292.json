@@ -343,7 +343,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"speed_controller\")\n  |> filter(fn: (r) => r[\"_field\"] == \"current_setpoint\")\n  |> filter(fn: (r) => r[\"car\"] == \"Daybreak\")\n  |> filter(fn: (r) => r[\"class\"] == \"drive_command\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -368,7 +368,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -521,7 +521,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"car\"] == \"Daybreak\")\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\n  |> filter(fn: (r) => r[\"class\"] == \"motor_state\")\n  |> filter(fn: (r) => r[\"_field\"] == \"bridge_pwm_flag\" or r[\"_field\"] == \"motor_current_flag\" or r[\"_field\"] == \"velocity_flag\" or r[\"_field\"] == \"bus_current_flag\" or r[\"_field\"] == \"bus_voltage_lower_limit_flag\" or r[\"_field\"] == \"bus_voltage_upper_limit_flag\" or r[\"_field\"] == \"heat_sink_temp_flag\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -533,7 +533,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -686,7 +686,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"car\"] == \"Daybreak\")\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\n  |> filter(fn: (r) => r[\"class\"] == \"motor_state\")\n  |> filter(fn: (r) => r[\"_field\"] == \"watchdog_reset\" or r[\"_field\"] == \"undervoltage_lockout\" or r[\"_field\"] == \"sw_overcurrent\" or r[\"_field\"] == \"hw_overcurrent\" or r[\"_field\"] == \"dc_bus_overvoltage\" or r[\"_field\"] == \"config_read_error\" or r[\"_field\"] == \"bad_hall_sequence\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -699,7 +699,7 @@
       "collapsed": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "gridPos": {
         "h": 1,
@@ -715,7 +715,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -808,7 +808,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"motor_velocity\")\r\n  |> map(fn: (r) => ({r with _value: r._value * -1.0}))\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -820,7 +820,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -913,7 +913,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"vehicle_velocity\")\r\n  |> map(fn: (r) => ({r with _value: r._value * -1.0 * 3.6}))\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -926,7 +926,7 @@
       "collapsed": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "gridPos": {
         "h": 1,
@@ -942,7 +942,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1022,7 +1022,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"bus_voltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1034,7 +1034,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1114,7 +1114,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"bus_current\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1127,7 +1127,7 @@
       "collapsed": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "gridPos": {
         "h": 1,
@@ -1143,7 +1143,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1234,7 +1234,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"motor_temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1246,7 +1246,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1337,7 +1337,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"heatsink_temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1350,7 +1350,7 @@
       "collapsed": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "gridPos": {
         "h": 1,
@@ -1366,7 +1366,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1485,7 +1485,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"contactor_k1\" or r[\"_field\"] == \"contactor_k2\" or r[\"_field\"] == \"contactor_k3\"\r\nor r[\"_field\"] == \"fault_state\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1497,7 +1497,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1549,7 +1549,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"startup_time\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1561,7 +1561,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1611,7 +1611,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"fault_code\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1623,7 +1623,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1788,7 +1788,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"car\"] == \"Daybreak\")\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"source_power\" or r[\"_field\"] == \"load_power\" or r[\"_field\"] == \"interlock_tripped\" or r[\"_field\"] == \"hard_wire_contactor_request\" or r[\"_field\"] == \"can_contactor_request\" or r[\"_field\"] == \"llim_set\" or r[\"_field\"] == \"hlim_set\" or r[\"_field\"] == \"fan_on\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1800,7 +1800,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1965,7 +1965,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"over_voltage\" or r[\"_field\"] == \"under_voltage\" or r[\"_field\"] == \"over_temperature\" or r[\"_field\"] == \"discharge_overcurrent\" or r[\"_field\"] == \"charge_overcurrent\" or r[\"_field\"] == \"communication_fault\" or r[\"_field\"] == \"interlock_tripped\" or r[\"_field\"] == \"driving_off\")\r\n  |> sample(n: 10, pos: 1)\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1977,7 +1977,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2118,7 +2118,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_state\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"isolation_fault_warn\" or r[\"_field\"] == \"hot_temperature_warn\" or r[\"_field\"] == \"cold_temperature_warn\" or r[\"_field\"] == \"low_soh_warn\" or r[\"_field\"] == \"discharge_overcurrent_warn\" or r[\"_field\"] == \"charge_overcurrent_warn\")\r\n  |> sample(n: 10, pos: 1)\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2131,7 +2131,7 @@
       "collapsed": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "gridPos": {
         "h": 1,
@@ -2147,7 +2147,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2235,7 +2235,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_metadata\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"state_of_charge\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2248,7 +2248,7 @@
       "collapsed": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "gridPos": {
         "h": 1,
@@ -2264,7 +2264,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2352,7 +2352,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pack_temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2364,7 +2364,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2456,7 +2456,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"max_temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2468,7 +2468,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2518,7 +2518,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"max_temperature_idx\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2530,7 +2530,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2621,7 +2621,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"min_temperature\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2633,7 +2633,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2679,7 +2679,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_temperatures\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"min_temperature_idx\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2692,7 +2692,7 @@
       "collapsed": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "gridPos": {
         "h": 1,
@@ -2708,7 +2708,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2800,7 +2800,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_currents\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pack_current\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2812,7 +2812,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2903,7 +2903,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_currents\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"charge_limit\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2915,7 +2915,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -3007,7 +3007,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_currents\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"discharge_limit\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -3020,7 +3020,7 @@
       "collapsed": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "gridPos": {
         "h": 1,
@@ -3036,7 +3036,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -3125,7 +3125,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pack_voltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -3137,7 +3137,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -3235,7 +3235,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"max_voltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -3247,7 +3247,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -3293,7 +3293,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"max_voltage_idx\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -3305,7 +3305,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -3396,7 +3396,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"min_voltage\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -3408,7 +3408,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -3454,7 +3454,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"Telemetry\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_bms\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"battery_voltages\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"min_voltage_idx\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -3476,7 +3476,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "fieldConfig": {
             "defaults": {
@@ -3603,7 +3603,7 @@
             {
               "datasource": {
                 "type": "influxdb",
-                "uid": "o2uhkwje8832ha"
+                "uid": "P951FEA4DE68E13C5"
               },
               "query": "from(bucket: \"Telemetry\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\n  |> filter(fn: (r) => r[\"_field\"] == \"motor_velocity\")\n  |> map(fn: (r) => ({r with _value: r._value * -1.0}))\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"last\")\n\n  from(bucket: \"Telemetry\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\n  |> filter(fn: (r) => r[\"_field\"] == \"vehicle_velocity\")\n  |> map(fn: (r) => ({r with _value: r._value * -1.0 * 3.6}))\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
               "refId": "A"
@@ -3615,7 +3615,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "fieldConfig": {
             "defaults": {
@@ -3731,7 +3731,7 @@
             {
               "datasource": {
                 "type": "influxdb",
-                "uid": "o2uhkwje8832ha"
+                "uid": "P951FEA4DE68E13C5"
               },
               "hide": false,
               "query": "from(bucket: \"Telemetry\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"speed_controller\")\n  |> filter(fn: (r) => r[\"_field\"] == \"current_setpoint\")\n  |> filter(fn: (r) => r[\"car\"] == \"Daybreak\")\n  |> filter(fn: (r) => r[\"class\"] == \"drive_command\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"last\")\n\n  from(bucket: \"Telemetry\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\n  |> filter(fn: (r) => r[\"_field\"] == \"vehicle_velocity\")\n  |> map(fn: (r) => ({r with _value: r._value * -1.0 * 3.6}))\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
@@ -3744,7 +3744,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "fieldConfig": {
             "defaults": {
@@ -3865,7 +3865,7 @@
             {
               "datasource": {
                 "type": "influxdb",
-                "uid": "o2uhkwje8832ha"
+                "uid": "P951FEA4DE68E13C5"
               },
               "query": "from(bucket: \"Telemetry\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"speed_controller\")\n  |> filter(fn: (r) => r[\"_field\"] == \"current_setpoint\")\n  |> filter(fn: (r) => r[\"car\"] == \"Daybreak\")\n  |> filter(fn: (r) => r[\"class\"] == \"drive_command\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
@@ -3873,7 +3873,7 @@
             {
               "datasource": {
                 "type": "influxdb",
-                "uid": "o2uhkwje8832ha"
+                "uid": "P951FEA4DE68E13C5"
               },
               "hide": false,
               "query": "from(bucket: \"Telemetry\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"daybreak_motor_controller\")\n  |> filter(fn: (r) => r[\"_field\"] == \"bus_current\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"last\")",
