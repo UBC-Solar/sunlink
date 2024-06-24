@@ -87,7 +87,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -328,7 +328,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SlaveBoardComm\" or r[\"_field\"] == \"BMSSelfTest\" or r[\"_field\"] == \"OverTemp\" or r[\"_field\"] == \"UnderVoltage\" or r[\"_field\"] == \"OverVoltage\" or r[\"_field\"] == \"IsoLost\" or r[\"_field\"] == \"ChargeOvercurrent\" or r[\"_field\"] == \"VoltOutofRange\" or r[\"_field\"] == \"TempOutofRange\" or r[\"_field\"] == \"PackBalancingActive\" or r[\"_field\"] == \"LLIMActive\" or r[\"_field\"] == \"HLIMActive\" or r[\"_field\"] == \"ChargeOverTemp\" or r[\"_field\"] == \"RequestRegenOff\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -340,7 +340,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -474,7 +474,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LowVoltage\" or r[\"_field\"] == \"HighVoltage\" or r[\"_field\"] == \"LowTemp\" or r[\"_field\"] == \"HighTemp\" or r[\"_field\"] == \"NoECUCurrentMessage\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -486,7 +486,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -571,7 +571,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"BalancingStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ModuleStatusofBits\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -596,7 +596,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -687,7 +687,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofHighest\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -699,7 +699,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -750,7 +750,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofHighest\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -762,7 +762,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -853,7 +853,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofLeast\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -865,7 +865,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -916,7 +916,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofLeast\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -928,7 +928,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -978,7 +978,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"IndexofHighestModule\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -990,7 +990,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -1040,7 +1040,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"IndexofLowestModule\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1052,7 +1052,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -1143,7 +1143,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TotalPackVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1155,7 +1155,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -1246,7 +1246,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUCurrentStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1258,7 +1258,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -1349,7 +1349,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUCurrentStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LVCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1374,7 +1374,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -1462,7 +1462,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"PackHealth\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SOC\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1474,7 +1474,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -1525,7 +1525,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"PackHealth\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SOC\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1550,7 +1550,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -1991,7 +1991,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleVoltages\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Voltage1\" or r[\"_field\"] == \"Voltage2\" or r[\"_field\"] == \"Voltage3\" or r[\"_field\"] == \"Voltage4\" or r[\"_field\"] == \"Voltage5\"or r[\"_field\"] == \"Voltage6\" or r[\"_field\"] == \"Voltage7\" or r[\"_field\"] == \"Voltage8\" or r[\"_field\"] == \"Voltage9\" or r[\"_field\"] == \"Voltage10\" or r[\"_field\"] == \"Voltage11\" or r[\"_field\"] == \"Voltage12\" or r[\"_field\"] == \"Voltage13\" or r[\"_field\"] == \"Voltage14\" or r[\"_field\"] == \"Voltage15\"or r[\"_field\"] == \"Voltage16\" or r[\"_field\"] == \"Voltage17\" or r[\"_field\"] == \"Voltage18\" or r[\"_field\"] == \"Voltage19\" or r[\"_field\"] == \"Voltage20\" or r[\"_field\"] == \"Voltage21\" or r[\"_field\"] == \"Voltage22\" or r[\"_field\"] == \"Voltage23\" or r[\"_field\"] == \"Voltage24\" or r[\"_field\"] == \"Voltage25\"or r[\"_field\"] == \"Voltage26\" or r[\"_field\"] == \"Voltage27\" or r[\"_field\"] == \"Voltage28\" or r[\"_field\"] == \"Voltage29\" or r[\"_field\"] == \"Voltage30\" or r[\"_field\"] == \"Voltage31\" or r[\"_field\"] == \"Voltage32\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -2004,7 +2004,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "o2uhkwje8832ha"
       },
       "fieldConfig": {
         "defaults": {
@@ -2445,7 +2445,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
           "query": "from(bucket: \"Test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleTemps\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Temp1\" or r[\"_field\"] == \"Temp2\" or r[\"_field\"] == \"Temp3\" or r[\"_field\"] == \"Temp4\" or r[\"_field\"] == \"Temp5\"or r[\"_field\"] == \"Temp6\" or r[\"_field\"] == \"Temp7\" or r[\"_field\"] == \"Temp8\" or r[\"_field\"] == \"Temp9\" or r[\"_field\"] == \"Temp10\" or r[\"_field\"] == \"Temp11\" or r[\"_field\"] == \"Temp12\" or r[\"_field\"] == \"Temp13\" or r[\"_field\"] == \"Temp14\" or r[\"_field\"] == \"Temp15\"or r[\"_field\"] == \"Temp16\" or r[\"_field\"] == \"Temp17\" or r[\"_field\"] == \"Temp18\" or r[\"_field\"] == \"Temp19\" or r[\"_field\"] == \"Temp20\" or r[\"_field\"] == \"Temp21\" or r[\"_field\"] == \"Temp22\" or r[\"_field\"] == \"Temp23\" or r[\"_field\"] == \"Temp24\" or r[\"_field\"] == \"Temp25\"or r[\"_field\"] == \"Temp26\" or r[\"_field\"] == \"Temp27\" or r[\"_field\"] == \"Temp28\" or r[\"_field\"] == \"Temp29\" or r[\"_field\"] == \"Temp30\" or r[\"_field\"] == \"Temp31\" or r[\"_field\"] == \"Temp32\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"

@@ -292,9 +292,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"StatusInfo\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrent\" or r[\"_field\"] == \"Velocity\" or r[\"_field\"] == \"BusCurrent\" or r[\"_field\"] == \"BusVoltUpperLim\" or r[\"_field\"] == \"BusVoltLowerLim\" or r[\"_field\"] == \"HeadsinkTemp\" or r[\"_field\"] == \"HardwareOverCurrent\" or r[\"_field\"] == \"SoftwareOverCurrent\" or r[\"_field\"] == \"DCBusOverVoltage\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"StatusInfo\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrent\" or r[\"_field\"] == \"Velocity\" or r[\"_field\"] == \"BusCurrent\" or r[\"_field\"] == \"BusVoltUpperLim\" or r[\"_field\"] == \"BusVoltLowerLim\" or r[\"_field\"] == \"HeadsinkTemp\" or r[\"_field\"] == \"HardwareOverCurrent\" or r[\"_field\"] == \"SoftwareOverCurrent\" or r[\"_field\"] == \"DCBusOverVoltage\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -381,9 +381,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"VelocityMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"VelocityMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -486,9 +486,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"BusMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BusVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"BusMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BusVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -562,9 +562,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"BusMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BusVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"BusMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BusVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -638,9 +638,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"VelocityMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VehicleVelocity\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"VelocityMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VehicleVelocity\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -743,9 +743,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"BusMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BusCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"BusMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BusCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -819,9 +819,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "o2uhkwje8832ha"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"BusMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BusCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"class\"] == \"BusMeasurement\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BusCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
