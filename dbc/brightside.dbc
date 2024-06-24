@@ -444,7 +444,8 @@ BO_ 1872 TELDiagnostics: 1 TEL
  SG_ IMUFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ WatchdogReset : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
-
+BO_ 1029 MCBGithash: 8 MCB  
+ SG_ ShortGithash : 0|64@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
@@ -601,4 +602,3 @@ SIG_VALTYPE_ 1877 Latitude : 2;
 SIG_VALTYPE_ 1878 Longitude : 2;
 SIG_VALTYPE_ 1879 Altitude : 1;
 SIG_VALTYPE_ 1879 Hdop : 1;
-
