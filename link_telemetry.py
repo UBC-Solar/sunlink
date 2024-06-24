@@ -547,7 +547,7 @@ def main():
     source_group.add_argument("--live-on", nargs='+',
                               help=("Args create a list of message classes or ID's to stream to grafana. no args for all, all for all"))
     
-    source_group.add_argument("-u", "--log-upload", action="store_true",
+    source_group.add_argument("-u", "--log-upload", nargs='+',
                             help=("Will attempt to upload each line of each file in the logfiles directory "
                                 "If upload does not succeed then these lines will be stored "
                                 "in a file named `FAILED_UPLOADS.txt in the logfiles directory`"))
@@ -562,9 +562,6 @@ def main():
     source_group.add_argument("--dbc", action="store",
                               help="Specifies the dbc file to use. For example: ./dbc/brightside.dbc"
                               "Default: ./dbc/brightside.dbc")
-    
-    source_group.add_argument("--fast-u", action="store_true",
-                            help=("Same as -u but will only do 1 of the 15 Log containers"))
 
     source_group.add_argument("-f", "--frequency-hz", action="store", default=DEFAULT_RANDOM_FREQUENCY_HZ, type=int,
                               help=((f"Specifies the frequency (in Hz) for random message generation. \

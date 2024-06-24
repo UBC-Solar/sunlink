@@ -56,7 +56,7 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
-    numLogs = 1 if args.fast_u else NUM_LOGS
+    numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS
 
     # Open each KMF file
     for i in range(numLogs):
