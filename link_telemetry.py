@@ -502,7 +502,7 @@ def displaySunlinkTracking():
         current_formatted_time = current_datetime.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
         # 1ms precisios
         sunlink_formatted_runtime = str(sunlink_runtime)[:-3]
-        msg = f"Proccessed {num_processed_msgs} messages in {sunlink_formatted_runtime}. Current Time: {current_formatted_time}"
+        msg = f"LINK_TELEMETRY: Proccessed {num_processed_msgs} Messages in {sunlink_formatted_runtime}. Current Time: {current_formatted_time}"
 
         sys.stdout.write(parameters.ANSI_SAVE_CURSOR)  # Save cursor position
         sys.stdout.write(f"{parameters.ANSI_YELLOW}{msg}{ANSI_ESCAPE}")  # Yellow text
