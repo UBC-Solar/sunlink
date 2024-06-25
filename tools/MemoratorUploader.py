@@ -20,6 +20,9 @@ PATTERN_DATETIME    = re.compile(r't:\s+(.*?)\s+DateTime:\s+(.*)')
 PATTERN_TRIGGER     = re.compile(r't:\s+(.*?)\s+Log Trigger Event.*')
 PATTERN_EVENT       = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:(.*?) dlc:\s+(.*?) d:(.*)')
 
+# Data Constants
+ERROR_ID            = 0
+
 
 def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     start_time = None
@@ -40,7 +43,7 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
 
             id = int(match.group(3).strip(), 16)
 
-            if id == 0:
+            if id == ERROR_ID:
                 continue
             
             id_str = id.to_bytes(4, 'big').decode('latin-1') 
