@@ -33,7 +33,7 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MDU MCB TEL OBC MEMORATOR
+BU_: AMB BMS DID ECU MCB TEL OBC MEMORATOR MDI MC VDS
 
 
 BO_ 1793 VoltageSensorsData: 8 AMB
@@ -178,11 +178,11 @@ BO_ 1104 ECUStatus: 7 ECU
  SG_ ResetFromWatchdog : 44|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ VicorHeatSinkTemp : 48|8@1+ (1,0) [-127|127] "" Vector__XXX
 
-BO_ 1280 Information: 8 MDU
+BO_ 1280 Information: 8 MDI
  SG_ TritiumID : 0|32@1+ (1,0) [0|0] "" Vector__XXX
  SG_ SerialNumber : 32|32@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1281 StatusInfo: 8 MDU
+BO_ 1281 StatusInfo: 8 MDI
  SG_ BridgePWM : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCurrent : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Velocity : 2|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -202,15 +202,15 @@ BO_ 1281 StatusInfo: 8 MDU
  SG_ ActiveMotor : 32|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Reserved3 : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1282 BusMeasurement: 8 MDU
+BO_ 1282 BusMeasurement: 8 MDI
  SG_ BusVoltage : 0|32@1+ (1,0) [0|0] "V" Vector__XXX
  SG_ BusCurrent : 32|32@1+ (1,0) [0|0] "A" Vector__XXX
 
-BO_ 1283 VelocityMeasurement: 8 MDU
- SG_ MotorVelocity : 0|32@1+ (1,0) [0|0] "RPM" Vector__XXX
- SG_ VehicleVelocity : 32|32@1+ (1,0) [0|0] "m/s" Vector__XXX
+BO_ 1283 VelocityMeasurement: 8 MDI
+ SG_ MotorVelocity : 0|32@1- (1,0) [0|0] "RPM" Vector__XXX
+ SG_ VehicleVelocity : 32|32@1- (1,0) [0|0] "m/s" Vector__XXX
 
-BO_ 1291 SinkMotorTempMeas: 8 MDU
+BO_ 1291 SinkMotorTempMeas: 8 MDI
  SG_ MotorTemp : 0|32@1+ (1,0) [0|0] "C" Vector__XXX
  SG_ SurfaceTempController : 32|32@1+ (1,0) [0|0] "C" Vector__XXX
 
@@ -311,48 +311,48 @@ BO_ 2566869221 OBCStatus: 8 OBC
  SG_ S2SwitchControlStatus : 55|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Temperaturre : 56|8@1+ (1,-40) [0|0] "C" Vector__XXX
 
-BO_ 1284 PhaseCurrentMeasurement: 8 MDU
+BO_ 1284 PhaseCurrentMeasurement: 8 MDI
 
-BO_ 1285 MotorVoltageVectorMeasurment: 8 MDU
+BO_ 1285 MotorVoltageVectorMeasurment: 8 MDI
 
-BO_ 1286 MotorCurrentVectorMeasurment: 8 MDU
+BO_ 1286 MotorCurrentVectorMeasurment: 8 MDI
 
-BO_ 1287 MotorBackEMFMeasurement: 8 MDU
+BO_ 1287 MotorBackEMFMeasurement: 8 MDI
 
-BO_ 1288 VoltageRailMeasurement_FifteenV: 8 MDU
+BO_ 1288 VoltageRailMeasurement_FifteenV: 8 MDI
 
-BO_ 1289 VoltageRailMeasurement_TwoFiveV: 8 MDU
+BO_ 1289 VoltageRailMeasurement_TwoFiveV: 8 MDI
 
-BO_ 1290 FanSpeedMeasurement: 8 MDU
+BO_ 1290 FanSpeedMeasurement: 8 MDI
 
-BO_ 1292 AirInCPUTemperatureMeasurement: 8 MDU
+BO_ 1292 AirInCPUTemperatureMeasurement: 8 MDI
 
-BO_ 1293 OdometerBusAmpHoursMeasurement: 8 MDU
+BO_ 1294 OdometerBusAmpHoursMeasurement: 8 MDI
 
-BO_ 2297992512 MitsubaDataRequest: 1 MDU
+BO_ 2297992512 MitsubaDataRequest: 1 MC
  SG_ RequestForFrames : 0|1@1+ (2,0) [0|0] "" Vector__XXX
 
-BO_ 2290418213 Mitsuba_Frame0: 8 MDU
- SG_ BatteryVoltage : 0|10@1+ (1,0) [0|0] "V" Vector__XXX
+BO_ 2290418213 Mitsuba_Frame0: 8 MC
+ SG_ BatteryVoltage : 0|10@1+ (0.5,0) [0|0] "V" Vector__XXX
  SG_ BatteryCurrent : 10|9@1+ (1,0) [0|0] "A" Vector__XXX
  SG_ BatteryCurrentDirection : 19|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCurrentPeakAverage : 20|10@1+ (1,0) [0|0] "A" Vector__XXX
- SG_ FETTemperature : 30|5@1+ (1,0) [0|0] "C" Vector__XXX
+ SG_ FETTemperature : 30|5@1+ (5,0) [0|0] "C" Vector__XXX
  SG_ MotorRotatingSpeed : 35|12@1+ (1,0) [0|0] "RPM" Vector__XXX
- SG_ PWMDuty : 47|10@1+ (1,0) [0|0] "%" Vector__XXX
- SG_ LeadAngle : 57|7@1+ (1,0) [0|0] "C" Vector__XXX
+ SG_ PWMDuty : 47|10@1+ (0.5,0) [0|0] "%" Vector__XXX
+ SG_ LeadAngle : 57|7@1+ (0.5,0) [0|0] "C" Vector__XXX
 
-BO_ 2291466789 Mitsuba_Frame1: 5 MDU
+BO_ 2291466789 Mitsuba_Frame1: 5 MC
  SG_ PowerMode : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorControlMode : 1|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ AcceleratorPosition : 2|10@1+ (1,0) [0|0] "%" Vector__XXX
- SG_ RegenerationVRPosition : 12|10@1+ (1,0) [0|0] "%" Vector__XXX
+ SG_ AcceleratorPosition : 2|10@1+ (0.5,0) [0|0] "%" Vector__XXX
+ SG_ RegenerationVRPosition : 12|10@1+ (0.5,0) [0|0] "%" Vector__XXX
  SG_ DigitSWPosition : 22|4@1+ (1,0) [0|0] "" Vector__XXX
- SG_ OutputTargetValue : 26|10@1+ (1,0) [0|0] "A" Vector__XXX
+ SG_ OutputTargetValue : 26|10@1+ (0.5,0) [0|0] "A" Vector__XXX
  SG_ DriveActionStatus : 36|2@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RegenerationStatus : 38|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 2292515365 Mitsuba_Frame2: 5 MDU
+BO_ 2292515365 Mitsuba_Frame2: 5 MC
  SG_ AnalogSensorError : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCurrentSensorUError : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCurrentSensorWError : 2|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -444,8 +444,28 @@ BO_ 1872 TELDiagnostics: 1 TEL
  SG_ IMUFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ WatchdogReset : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1029 MCBGithash: 8 MCB  
+BO_ 1029 MCBGithash: 8 MCB
  SG_ ShortGithash : 0|64@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1293 AirOutCapTemp: 8 MDI
+
+BO_ 1808 ShockTravel: 8 VDS
+ SG_ ShockTravel1 : 0|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ShockTravel2 : 16|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ShockTravel3 : 32|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ShockTravel4 : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1809 BrakePressureSteeringAngle: 8 VDS
+ SG_ BrakePressure1 : 0|16@1+ (1,0) [0|0] "PSI" Vector__XXX
+ SG_ BrakePressure2 : 16|16@1+ (1,0) [0|0] "PSI" Vector__XXX
+ SG_ BrakePressure3 : 32|16@1+ (1,0) [0|0] "PSI" Vector__XXX
+ SG_ SteeringAngle : 48|16@1+ (1,0) [0|0] "Degrees" Vector__XXX
+
+BO_ 1810 VDSDiagnostics: 1 VDS
+ SG_ DMAStatus : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ IWDGStatus : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+
+
 
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
@@ -578,18 +598,23 @@ CM_ SG_ 1028 PedalADCOutOfRange "1 if true 0 if false";
 CM_ SG_ 1028 RegenEnabled "1 if true 0 if false";
 CM_ SG_ 1028 CruiseControlEnabled "1 if true 0 if false";
 CM_ SG_ 1028 MechBrakePressed "1 if pressed 0 if not pressed";
-CM_ SG_ 1873 Second "Seconds from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Minute "Minutes from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Hour "Hours from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Day "Days from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Month "Months from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Year "Years from RTC inside Kvaser Memorator 2xHS v2";
+CM_ SG_ 1808 ShockTravel1 "uint16_t";
+CM_ SG_ 1808 ShockTravel2 "uint16_t";
+CM_ SG_ 1808 ShockTravel3 "uint16_t";
+CM_ SG_ 1808 ShockTravel4 "uint16_t";
+CM_ SG_ 1809 BrakePressure1 "uint16_t, PSI";
+CM_ SG_ 1809 BrakePressure2 "uint16_t, PSI";
+CM_ SG_ 1809 BrakePressure3 "uint16_t, PSI";
+CM_ SG_ 1809 SteeringAngle "uint16_t, Angle in Degrees";
+CM_ SG_ 1810 DMAStatus "Determine if 1 bit or 1 for each channel";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
 SIG_VALTYPE_ 1793 VoltSensor2 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
+SIG_VALTYPE_ 1283 MotorVelocity : 1;
+SIG_VALTYPE_ 1283 VehicleVelocity : 1;
 SIG_VALTYPE_ 1025 MotorVelocity : 1;
 SIG_VALTYPE_ 1025 MotorCurrent : 1;
 SIG_VALTYPE_ 1874 Acceleration_X : 1;
@@ -602,3 +627,4 @@ SIG_VALTYPE_ 1877 Latitude : 2;
 SIG_VALTYPE_ 1878 Longitude : 2;
 SIG_VALTYPE_ 1879 Altitude : 1;
 SIG_VALTYPE_ 1879 Hdop : 1;
+
