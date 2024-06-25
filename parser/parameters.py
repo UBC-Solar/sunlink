@@ -45,3 +45,9 @@ ANSI_RED = "\033[1;31m"
 ANSI_GREEN = "\033[1;32m"
 ANSI_YELLOW = "\033[1;33m"
 ANSI_BOLD = "\033[1m"
+ANSI_SAVE_CURSOR = "\0337"
+ANSI_RESTORE_CURSOR = "\0338"
+
+
+# Sunlink Tracking Display Rate
+DISPLAY_RATE            = 0.005
