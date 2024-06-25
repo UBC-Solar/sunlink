@@ -341,7 +341,6 @@ BO_ 2290418213 Mitsuba_Frame0: 8 MC
  SG_ MotorRotatingSpeed : 35|12@1+ (1,0) [0|0] "RPM" Vector__XXX
  SG_ PWMDuty : 47|10@1+ (0.5,0) [0|0] "%" Vector__XXX
  SG_ LeadAngle : 57|7@1+ (0.5,0) [0|0] "C" Vector__XXX
- SG_ MCMotorSpeed : 35|12@1+ (0.10471975512,0) [0|0] "m/s" Vector__XXX
 
 BO_ 2291466789 Mitsuba_Frame1: 5 MC
  SG_ PowerMode : 0|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -559,7 +558,6 @@ CM_ SG_ 2290418213 FETTemperature "5deg (C)/LSB";
 CM_ SG_ 2290418213 MotorRotatingSpeed "1rpm/LSB";
 CM_ SG_ 2290418213 PWMDuty "0.5%/LSB (only in PWM control mode)";
 CM_ SG_ 2290418213 LeadAngle "0.5deg/LSB (electric lead angle)";
-CM_ SG_ 2290418213 MCMotorSpeed "(2 * PI / 60) /LSB. NOT raw sent by Motor controller. This is scaled version of RPM below";
 CM_ SG_ 2291466789 PowerMode "0: Eco Mode. 1: Power Mode";
 CM_ SG_ 2291466789 MotorControlMode "0: Current Mode. 1: PWM Mode";
 CM_ SG_ 2291466789 AcceleratorPosition "0.5%/LSB";
