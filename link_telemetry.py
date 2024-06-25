@@ -350,8 +350,8 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
     formatted_time = current_log_time.strftime('%Y-%m-%d_%H:%M:%S')
 
     global num_processed_msgs
-    num_processed_msgs += 1     
-
+    num_processed_msgs += 1                             # A call back is received so our request was processed
+    
     # get the response from the future
     response = future.result()
 
