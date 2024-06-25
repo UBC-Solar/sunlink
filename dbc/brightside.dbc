@@ -600,6 +600,8 @@ SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
 SIG_VALTYPE_ 1025 MotorVelocity : 1;
 SIG_VALTYPE_ 1025 MotorCurrent : 1;
+SIG_VALTYPE_ 1283 MotorVelocity : 1;
+SIG_VALTYPE_ 1283 VehicleVelocity : 1;
 SIG_VALTYPE_ 1874 Acceleration_X : 1;
 SIG_VALTYPE_ 1874 Gyroscope_X : 1;
 SIG_VALTYPE_ 1875 Acceleration_Y : 1;
