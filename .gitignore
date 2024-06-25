@@ -137,3 +137,4 @@ telemetry.toml
 logfiles/*
 dbgfiles/*
 failfiles/*
+logs/*

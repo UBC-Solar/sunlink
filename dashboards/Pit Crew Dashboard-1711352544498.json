@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 11,
+  "id": 8,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -38,7 +38,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "description": "",
       "fieldConfig": {
@@ -46,7 +46,38 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "INVALID"
+                },
+                "1": {
+                  "color": "green",
+                  "index": 1,
+                  "text": "DRIVE"
+                },
+                "2": {
+                  "color": "orange",
+                  "index": 2,
+                  "text": "CRUISE"
+                },
+                "3": {
+                  "color": "purple",
+                  "index": 3,
+                  "text": "REVERSE"
+                },
+                "4": {
+                  "color": "blue",
+                  "index": 4,
+                  "text": "PARK"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -89,7 +120,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveState\")\n  |> filter(fn: (r) => r[\"class\"] == \"DriverInterface\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -114,7 +145,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -192,7 +223,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"MotorDriveCommand\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -204,7 +235,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -255,7 +286,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\n  |> filter(fn: (r) => r[\"class\"] == \"MotorDriveCommand\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -267,7 +298,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -345,7 +376,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"VelocityMeasurement\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -357,7 +388,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -408,7 +439,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorVelocity\")\n  |> filter(fn: (r) => r[\"class\"] == \"VelocityMeasurement\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -420,7 +451,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -499,7 +530,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorTemp\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"SinkMotorTempMeas\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -511,7 +542,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -562,7 +593,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorTemp\")\n  |> filter(fn: (r) => r[\"class\"] == \"SinkMotorTempMeas\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -574,7 +605,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -652,7 +683,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"MotorDriveCommand\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrent\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -664,7 +695,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -715,7 +746,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\n  |> filter(fn: (r) => r[\"class\"] == \"MotorDriveCommand\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -727,7 +758,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -778,7 +809,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDU\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"StatusInfo\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrent\" or r[\"_field\"] == \"Velocity\" or r[\"_field\"] == \"BusCurrent\" or r[\"_field\"] == \"BusVoltUpperLim\" or r[\"_field\"] == \"BusVoltLowerLim\" or r[\"_field\"] == \"HeadsinkTemp\" or r[\"_field\"] == \"HardwareOverCurrent\" or r[\"_field\"] == \"SoftwareOverCurrent\" or r[\"_field\"] == \"DCBusOverVoltage\")\r\n  |> sample(n: 10, pos: 1)\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -803,7 +834,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -882,7 +913,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"SimulationSpeed\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"SimulationSpeedRec\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -894,7 +925,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -945,7 +976,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"SimulationSpeed\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"SimulationSpeedRec\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -957,7 +988,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1008,9 +1039,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"IMU_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"X\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_X\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1020,7 +1051,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1071,19 +1102,19 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"IMU_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"X\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_Y\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "IMU (AX)",
+      "title": "IMU (AY)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1134,9 +1165,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"IMU_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Z\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_Z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1159,7 +1190,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -1602,7 +1633,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleTemps\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Temp1\" or r[\"_field\"] == \"Temp2\" or r[\"_field\"] == \"Temp3\" or r[\"_field\"] == \"Temp4\" or r[\"_field\"] == \"Temp5\"or r[\"_field\"] == \"Temp6\" or r[\"_field\"] == \"Temp7\" or r[\"_field\"] == \"Temp8\" or r[\"_field\"] == \"Temp9\" or r[\"_field\"] == \"Temp10\" or r[\"_field\"] == \"Temp11\" or r[\"_field\"] == \"Temp12\" or r[\"_field\"] == \"Temp13\" or r[\"_field\"] == \"Temp14\" or r[\"_field\"] == \"Temp15\"or r[\"_field\"] == \"Temp16\" or r[\"_field\"] == \"Temp17\" or r[\"_field\"] == \"Temp18\" or r[\"_field\"] == \"Temp19\" or r[\"_field\"] == \"Temp20\" or r[\"_field\"] == \"Temp21\" or r[\"_field\"] == \"Temp22\" or r[\"_field\"] == \"Temp23\" or r[\"_field\"] == \"Temp24\" or r[\"_field\"] == \"Temp25\"or r[\"_field\"] == \"Temp26\" or r[\"_field\"] == \"Temp27\" or r[\"_field\"] == \"Temp28\" or r[\"_field\"] == \"Temp29\" or r[\"_field\"] == \"Temp30\" or r[\"_field\"] == \"Temp31\" or r[\"_field\"] == \"Temp32\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
@@ -1615,7 +1646,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "o2uhkwje8832ha"
+        "uid": "P951FEA4DE68E13C5"
       },
       "fieldConfig": {
         "defaults": {
@@ -2058,7 +2089,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "o2uhkwje8832ha"
+            "uid": "P951FEA4DE68E13C5"
           },
           "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"AMB\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TempSensors1\" or r[\"_field\"] == \"TempSensors2\" or r[\"_field\"] == \"TempSensors3\" or r[\"_field\"] == \"TempSensors4\" or r[\"_field\"] == \"TempSensors5\" or r[\"_field\"] == \"TempSensors6\" or r[\"_field\"] == \"TempSensors7\" or r[\"_field\"] == \"TempSensors8\")\n  |> filter(fn: (r) => r[\"class\"] == \"TempSensorsData\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
           "refId": "A"
@@ -2077,7 +2108,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5s",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
