@@ -306,14 +306,37 @@ def parser_request(payload: Dict, url: str):
     else:
         return r
 
-def write_to_log_file(message: str, log_file_name, convert_to_hex=True):
+
+# If the number of lines is more than 1000000 then write to new file
+num_fail_chars = 0
+num_log_chars = 0
+num_dbg_chars = 0
+def write_to_log_file(message: str, log_file_name: str, type: str, convert_to_hex=True):
+    global num_fail_chars
+    global num_log_chars 
+    global num_dbg_chars
+
+    if type == "fail":
+        num_fail_chars += len(str(message))
+        _doWrite(message, log_file_name, int(num_fail_chars / parameters.MAX_FILE_CHARS), convert_to_hex)
+    elif type == "log":
+        num_log_chars += len(str(message))
+        _doWrite(message, log_file_name, int(num_log_chars / parameters.MAX_FILE_CHARS), convert_to_hex)
+    elif type == "dbg":
+        num_dbg_chars += len(str(message))
+        _doWrite(message, log_file_name, int(num_dbg_chars / parameters.MAX_FILE_CHARS), convert_to_hex)
+
+
+def _doWrite(message: str, log_file_name: str, suffix: str, convert_to_hex=True):
     # Message encoded to hex to ensure all characters stay
-        if convert_to_hex:
-            with open(log_file_name, "a", encoding='latin-1') as output_log_file:
-                output_log_file.write(message.encode('latin-1').hex() + '\n')
-        else:
-            with open(log_file_name, "a") as output_log_file:
-                print(message, file=output_log_file)
+    new_file_name = f"{log_file_name}_{suffix}"
+    if convert_to_hex:
+        with open(new_file_name, "a", encoding='latin-1') as output_log_file:
+            output_log_file.write(message.encode('latin-1').hex() + '\n')
+    else:
+        with open(new_file_name, "a") as output_log_file:
+            print(message, file=output_log_file)
+
 
 
 def process_response(future: concurrent.futures.Future, args, display_filters: list):
@@ -328,7 +351,7 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
 
     global num_processed_msgs
     num_processed_msgs += 1                             # A call back is received so our request was processed
-
+    
     # get the response from the future
     response = future.result()
 
@@ -359,8 +382,6 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
     all_responeses = parse_response['all_responses']
     for response in all_responeses:
         if response["result"] == "OK":
-
-
             table = None
             do_display_table = filter_stream(response, display_filters)
             if args.log is not None or do_display_table:
@@ -397,23 +418,23 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
                 print(table)
 
             if response["logMessage"]:
-                write_to_log_file(table, LOG_FILE_NAME, convert_to_hex=False)
+                write_to_log_file(table, LOG_FILE_NAME, "log", convert_to_hex=False)
             
         elif response["result"] == "PARSE_FAIL":
             fail_msg = f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n" + f"{response['error']}"
             print(fail_msg)
 
             # If log upload AND parse fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-            write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
-            write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+            write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME, "fail")
+            write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, "dbg", convert_to_hex=False)
         elif response["result"] == "INFLUX_WRITE_FAIL":
             fail_msg = f"{ANSI_RED}INFLUX_WRITE_FAIL{ANSI_ESCAPE}: \n" + f"{response['error']}"
             print(f"Failed to write measurements for {response['type']} message to InfluxDB!")
             print(response)
 
             # If log upload AND INFLUX_WRITE_FAIL fails then log again to the FAILED_UPLOADS.txt file. If no log upload do normal
-            write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME)
-            write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, convert_to_hex=False)
+            write_to_log_file(response['message'], os.path.join(FAIL_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else FAIL_FILE_NAME, "fail")
+            write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, "dbg", convert_to_hex=False)
         else:
             print(f"Unexpected response: {response['result']}")
 

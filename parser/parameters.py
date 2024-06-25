@@ -49,5 +49,12 @@ ANSI_SAVE_CURSOR = "\0337"
 ANSI_RESTORE_CURSOR = "\0338"
 
 
+# Log File Constants. 110,000,000 characters is around when the file crashes (with some leeway)
+# However, when running the code with 100,000,00 set as the parameter we check the log file and it consistenly has 1.5 times the characters
+# Thus, we will stop logging at 100,000,000 / 1.5 characters so that the logfile will end up with around 110,000,000 characters and not crash
+# Then because of a range of computer capabiities we will set the max file size to be half this: 55,000,000 characters.
+MAX_FILE_CHARS          = 36666666
+
 # Sunlink Tracking Display Rate
 DISPLAY_RATE            = 0.005
+
