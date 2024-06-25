@@ -26,7 +26,7 @@ import warnings
 import threading
 
 import concurrent.futures
-# from tools.MemoratorUploader import memorator_upload_script
+from tools.MemoratorUploader import memorator_upload_script
 
 
 __PROGRAM__ = "link_telemetry"
