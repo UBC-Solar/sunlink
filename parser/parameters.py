@@ -50,7 +50,7 @@ ANSI_RESTORE_CURSOR = "\0338"
 
 
 # Log File Constants
-MAX_FILE_CHARS = 100000000
+MAX_FILE_CHARS          = 73333333
 
 # Sunlink Tracking Display Rate
 DISPLAY_RATE            = 0.005
