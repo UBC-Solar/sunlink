@@ -23,6 +23,7 @@ from parser.randomizer import RandomMessage
 import parser.parameters as parameters
 from beautifultable import BeautifulTable
 import warnings
+import threading
 
 import concurrent.futures
 from tools.MemoratorUploader import memorator_upload_script
@@ -92,6 +93,7 @@ SIGINT_RECVD = False
 # Chunks read per iteration
 CHUNK_SIZE = 24 * 21        # 21 CAN messages from serial at a time.
 
+num_processed_msgs = 0
 
 # <----- Utility functions ------>
 
@@ -323,6 +325,10 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
     future is done executing, this function should be automatically called.
     """
     formatted_time = current_log_time.strftime('%Y-%m-%d_%H:%M:%S')
+
+    global num_processed_msgs
+    num_processed_msgs += 1                             # A call back is received so our request was processed
+
     # get the response from the future
     response = future.result()
 
@@ -353,6 +359,8 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
     all_responeses = parse_response['all_responses']
     for response in all_responeses:
         if response["result"] == "OK":
+
+
             table = None
             do_display_table = filter_stream(response, display_filters)
             if args.log is not None or do_display_table:
@@ -484,6 +492,24 @@ def process_message(message: str, buffer: str = "") -> list:
     return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
 
 
+"""
+Continously prints the runtime, current time, and messages processed
+"""
+def displaySunlinkTracking():
+    while True:
+        current_datetime = datetime.now()
+        sunlink_runtime = current_datetime - start_time
+        current_formatted_time = current_datetime.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        # 1ms precisios
+        sunlink_formatted_runtime = str(sunlink_runtime)[:-3]
+        msg = f"Proccessed {num_processed_msgs} messages in {sunlink_formatted_runtime}. Current Time: {current_formatted_time}"
+
+        sys.stdout.write(parameters.ANSI_SAVE_CURSOR)  # Save cursor position
+        sys.stdout.write(f"{parameters.ANSI_YELLOW}{msg}{ANSI_ESCAPE}")  # Yellow text
+        sys.stdout.write(parameters.ANSI_RESTORE_CURSOR)  # Restore cursor position
+        sys.stdout.flush()
+        time.sleep(parameters.DISPLAY_RATE)
+    
 
 def main():
     """
@@ -556,6 +582,9 @@ def main():
                               help=("Allows using the telemetry link with "
                                     "the data recieved directly from the CAN bus "))
     
+    source_group.add_argument("-t", "--track", action="store_true",
+                            help=("Prints Sunlink runtime, current time, num messages processed"))
+    
     source_group.add_argument("--force-random", action="store_true",
                             help=("allows randomization with production bucket. Please user carefully and locally "))
     
@@ -577,7 +606,6 @@ def main():
         return 0
 
     validate_args(parser, args)
-
 
     # build the correct URL to make POST request to
     if args.prod or args.offline:
@@ -654,6 +682,13 @@ def main():
 
     print(f"{ANSI_GREEN}Telemetry link is up!{ANSI_ESCAPE}")
     print("Waiting for incoming messages...")
+
+
+    # Start Sunlink Runtime counter display
+    if args.track or (not args.table_on and not args.log):
+        time_thread = threading.Thread(target=displaySunlinkTracking, daemon=True)
+        time_thread.start()
+
 
     # <----- Create Empty Log File ----->
     if LOG_FILE and not os.path.exists(LOG_DIRECTORY):
