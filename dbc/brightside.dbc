@@ -33,7 +33,7 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MCB TEL OBC MEMORATOR MDI MC
+BU_: AMB BMS DID ECU MCB TEL OBC MEMORATOR MDI MC VDS
 
 
 BO_ 1793 VoltageSensorsData: 8 AMB
@@ -207,8 +207,8 @@ BO_ 1282 BusMeasurement: 8 MDI
  SG_ BusCurrent : 32|32@1+ (1,0) [0|0] "A" Vector__XXX
 
 BO_ 1283 VelocityMeasurement: 8 MDI
- SG_ MotorVelocity : 0|32@1+ (1,0) [0|0] "RPM" Vector__XXX
- SG_ VehicleVelocity : 32|32@1+ (1,0) [0|0] "m/s" Vector__XXX
+ SG_ MotorVelocity : 0|32@1- (1,0) [0|0] "RPM" Vector__XXX
+ SG_ VehicleVelocity : 32|32@1- (1,0) [0|0] "m/s" Vector__XXX
 
 BO_ 1291 SinkMotorTempMeas: 8 MDI
  SG_ MotorTemp : 0|32@1+ (1,0) [0|0] "C" Vector__XXX
@@ -453,6 +453,22 @@ BO_ 1291 SinkMotorTemp: 8 MDI
 
 BO_ 1293 AirOutCapTemp: 8 MDI
 
+BO_ 1808 ShockTravel: 8 VDS
+ SG_ ShockTravel1 : 0|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ShockTravel2 : 16|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ShockTravel3 : 32|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ShockTravel4 : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1809 BrakePressureSteeringAngle: 8 VDS
+ SG_ BrakePressure1 : 0|16@1+ (1,0) [0|0] "PSI" Vector__XXX
+ SG_ BrakePressure2 : 16|16@1+ (1,0) [0|0] "PSI" Vector__XXX
+ SG_ BrakePressure3 : 32|16@1+ (1,0) [0|0] "PSI" Vector__XXX
+ SG_ SteeringAngle : 48|16@1+ (1,0) [0|0] "Degrees" Vector__XXX
+
+BO_ 1810 VDSDiagnostics: 1 VDS
+ SG_ DMAStatus : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ IWDGStatus : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+
 
 
 CM_ SG_ 1572 b0x00 "Unused";
@@ -586,22 +602,25 @@ CM_ SG_ 1028 PedalADCOutOfRange "1 if true 0 if false";
 CM_ SG_ 1028 RegenEnabled "1 if true 0 if false";
 CM_ SG_ 1028 CruiseControlEnabled "1 if true 0 if false";
 CM_ SG_ 1028 MechBrakePressed "1 if pressed 0 if not pressed";
-CM_ SG_ 1873 Second "Seconds from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Minute "Minutes from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Hour "Hours from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Day "Days from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Month "Months from RTC inside Kvaser Memorator 2xHS v2";
-CM_ SG_ 1873 Year "Years from RTC inside Kvaser Memorator 2xHS v2";
+CM_ SG_ 1808 ShockTravel1 "uint16_t";
+CM_ SG_ 1808 ShockTravel2 "uint16_t";
+CM_ SG_ 1808 ShockTravel3 "uint16_t";
+CM_ SG_ 1808 ShockTravel4 "uint16_t";
+CM_ SG_ 1809 BrakePressure1 "uint16_t, PSI";
+CM_ SG_ 1809 BrakePressure2 "uint16_t, PSI";
+CM_ SG_ 1809 BrakePressure3 "uint16_t, PSI";
+CM_ SG_ 1809 SteeringAngle "uint16_t, Angle in Degrees";
+CM_ SG_ 1810 DMAStatus "Determine if 1 bit or 1 for each channel";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
 SIG_VALTYPE_ 1793 VoltSensor2 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
-SIG_VALTYPE_ 1025 MotorVelocity : 1;
-SIG_VALTYPE_ 1025 MotorCurrent : 1;
 SIG_VALTYPE_ 1283 MotorVelocity : 1;
 SIG_VALTYPE_ 1283 VehicleVelocity : 1;
+SIG_VALTYPE_ 1025 MotorVelocity : 1;
+SIG_VALTYPE_ 1025 MotorCurrent : 1;
 SIG_VALTYPE_ 1874 Acceleration_X : 1;
 SIG_VALTYPE_ 1874 Gyroscope_X : 1;
 SIG_VALTYPE_ 1875 Acceleration_Y : 1;
