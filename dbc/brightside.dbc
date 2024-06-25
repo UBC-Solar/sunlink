@@ -327,7 +327,7 @@ BO_ 1290 FanSpeedMeasurement: 8 MDI
 
 BO_ 1292 AirInCPUTemperatureMeasurement: 8 MDI
 
-BO_ 1293 OdometerBusAmpHoursMeasurement: 8 MDI
+BO_ 1294 OdometerBusAmpHoursMeasurement: 8 MDI
 
 BO_ 2297992512 MitsubaDataRequest: 1 MC
  SG_ RequestForFrames : 0|1@1+ (2,0) [0|0] "" Vector__XXX
@@ -446,10 +446,6 @@ BO_ 1872 TELDiagnostics: 1 TEL
 
 BO_ 1029 MCBGithash: 8 MCB
  SG_ ShortGithash : 0|64@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1291 SinkMotorTemp: 8 MDI
- SG_ MotorTemp : 0|32@1+ (1,0) [0|0] "*C" Vector__XXX
- SG_ ControllerHeatSinkSurfTemp : 32|32@1+ (1,0) [0|0] "*C" Vector__XXX
 
 BO_ 1293 AirOutCapTemp: 8 MDI
 
