@@ -707,7 +707,6 @@ def main():
     
     if args.log_upload:
         upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
-        print(f"{ANSI_GREEN}Log upload complete!{ANSI_ESCAPE}")
         return
 
     while True:
