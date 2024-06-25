@@ -321,8 +321,6 @@ def write_to_log_file(message: str, log_file_name: str, type: str, convert_to_he
         _doWrite(message, log_file_name, int(num_fail_chars / parameters.MAX_FILE_CHARS), convert_to_hex)
     elif type == "log":
         num_log_chars += len(str(message))
-        # print(f"num_log_chars: {num_log_chars}")
-        print(f"num_log_chars / parameters.MAX_FILE_CHARS: {int(num_log_chars / parameters.MAX_FILE_CHARS)}")
         _doWrite(message, log_file_name, int(num_log_chars / parameters.MAX_FILE_CHARS), convert_to_hex)
     elif type == "dbg":
         num_dbg_chars += len(str(message))
