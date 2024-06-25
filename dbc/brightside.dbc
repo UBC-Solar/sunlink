@@ -333,22 +333,22 @@ BO_ 2297992512 MitsubaDataRequest: 1 MDU
  SG_ RequestForFrames : 0|1@1+ (2,0) [0|0] "" Vector__XXX
 
 BO_ 2290418213 Mitsuba_Frame0: 8 MDU
- SG_ BatteryVoltage : 0|10@1+ (1,0) [0|0] "V" Vector__XXX
+ SG_ BatteryVoltage : 0|10@1+ (0.5,0) [0|0] "V" Vector__XXX
  SG_ BatteryCurrent : 10|9@1+ (1,0) [0|0] "A" Vector__XXX
  SG_ BatteryCurrentDirection : 19|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCurrentPeakAverage : 20|10@1+ (1,0) [0|0] "A" Vector__XXX
- SG_ FETTemperature : 30|5@1+ (1,0) [0|0] "C" Vector__XXX
+ SG_ FETTemperature : 30|5@1+ (5,0) [0|0] "C" Vector__XXX
  SG_ MotorRotatingSpeed : 35|12@1+ (1,0) [0|0] "RPM" Vector__XXX
- SG_ PWMDuty : 47|10@1+ (1,0) [0|0] "%" Vector__XXX
- SG_ LeadAngle : 57|7@1+ (1,0) [0|0] "C" Vector__XXX
+ SG_ PWMDuty : 47|10@1+ (0.5,0) [0|0] "%" Vector__XXX
+ SG_ LeadAngle : 57|7@1+ (0.5,0) [0|0] "C" Vector__XXX
 
 BO_ 2291466789 Mitsuba_Frame1: 5 MDU
  SG_ PowerMode : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorControlMode : 1|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ AcceleratorPosition : 2|10@1+ (1,0) [0|0] "%" Vector__XXX
- SG_ RegenerationVRPosition : 12|10@1+ (1,0) [0|0] "%" Vector__XXX
+ SG_ AcceleratorPosition : 2|10@1+ (0.5,0) [0|0] "%" Vector__XXX
+ SG_ RegenerationVRPosition : 12|10@1+ (0.5,0) [0|0] "%" Vector__XXX
  SG_ DigitSWPosition : 22|4@1+ (1,0) [0|0] "" Vector__XXX
- SG_ OutputTargetValue : 26|10@1+ (1,0) [0|0] "A" Vector__XXX
+ SG_ OutputTargetValue : 26|10@1+ (0.5,0) [0|0] "A" Vector__XXX
  SG_ DriveActionStatus : 36|2@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RegenerationStatus : 38|1@1+ (1,0) [0|0] "" Vector__XXX
 
@@ -602,3 +602,5 @@ SIG_VALTYPE_ 1877 Latitude : 2;
 SIG_VALTYPE_ 1878 Longitude : 2;
 SIG_VALTYPE_ 1879 Altitude : 1;
 SIG_VALTYPE_ 1879 Hdop : 1;
+
+
