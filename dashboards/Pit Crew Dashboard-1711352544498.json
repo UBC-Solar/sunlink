@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 11,
+  "id": 8,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -46,7 +46,38 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "INVALID"
+                },
+                "1": {
+                  "color": "green",
+                  "index": 1,
+                  "text": "DRIVE"
+                },
+                "2": {
+                  "color": "orange",
+                  "index": 2,
+                  "text": "CRUISE"
+                },
+                "3": {
+                  "color": "purple",
+                  "index": 3,
+                  "text": "REVERSE"
+                },
+                "4": {
+                  "color": "blue",
+                  "index": 4,
+                  "text": "PARK"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1010,7 +1041,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"IMU_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"X\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_X\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1073,11 +1104,11 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"IMU_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"X\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_Y\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "IMU (AX)",
+      "title": "IMU (AY)",
       "type": "stat"
     },
     {
@@ -1136,7 +1167,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"IMU_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"IMU\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Z\")\r\n  |> filter(fn: (r) => r[\"class\"] == \"A\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_Z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -2077,7 +2108,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5s",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
