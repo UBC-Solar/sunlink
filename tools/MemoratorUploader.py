@@ -4,10 +4,10 @@ import datetime
 import struct
 
 # Script Constants
-LOG_FOLDER          = "/media/electrical/disk/"
+LOG_FOLDER          = "/media/aarjav/disk/"
 NUM_LOGS            = 15
 MB_TO_KB            = 1024
-EPOCH_START         = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
+EPOCH_START         = datetime.datetime(1970, 1, 1)
 
 # Formatting Constants
 ANSI_GREEN          = "\033[92m"
@@ -31,9 +31,9 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
         if PATTERN_DATETIME.search(str_event):
             match = PATTERN_DATETIME.search(str_event)
             date_time_str = match.group(2)
-            date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
-            date_time_obj = date_time_obj.replace(tzinfo=datetime.timezone.utc)  
-            start_time = (date_time_obj - EPOCH_START).total_seconds()
+            date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S') 
+            utc_date_time_obj = date_time_obj.astimezone(datetime.timezone.utc)                 # Convert to UTC
+            start_time = (utc_date_time_obj - EPOCH_START).total_seconds()
         elif PATTERN_TRIGGER.search(str_event):
             continue
         elif PATTERN_EVENT.search(str_event):
@@ -97,7 +97,7 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
         # Close the KMF file
         kmf_file.close()
 
-    upload_input = input(f"{ANSI_GREEN}Do you want to upload all logs now (y/n)?: {ANSI_RESET} ")
+    upload_input = input(f"{ANSI_GREEN}Do you want to upload all logs now (y/n)?: {ANSI_RESET} \n")
     if upload_input.lower() == 'y' or upload_input.lower() == '\n':
         for i in range(numLogs):
             log_path = LOG_FOLDER + "LOG000{:02d}".format(i)
