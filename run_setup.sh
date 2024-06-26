@@ -31,10 +31,10 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # Clone Sunlink
 echo -e "\nCloning Sunlink Repository\n"
-git clone https://github.com/UBC-Solar/sunlink.git sunlink
+git clone https://github.com/UBC-Solar/sunlink.git ../sunlink_test
 # Change directory into sunlink
-cd sunlink
-echo -e "\nChanged directory to sunlink\n"
+cd ../sunlink_test/
+echo -e "\nChanged directory to sunlink_test\n"
 # Get user input for GRAFANA_ADMIN_USERNAME
 read -p "Enter GRAFANA_ADMIN_USERNAME (empty for default): " GRAFANA_ADMIN_USERNAME
 GRAFANA_ADMIN_USERNAME=${GRAFANA_ADMIN_USERNAME:-admin}
@@ -81,11 +81,12 @@ echo -e "# InfluxDB environment variables\n" >> .env
 echo -e "INFLUX_ADMIN_USERNAME=\"$INFLUX_ADMIN_USERNAME\"" >> .env
 echo -e "INFLUX_ADMIN_PASSWORD=\"$INFLUX_ADMIN_PASSWORD\"\n" >> .env
 echo -e "INFLUX_ORG=\"UBC Solar\"\n" >> .env
-echo -e "# used to store random data for debugging purposes" >> .env
+echo -e "MESSAGE_TYPES=\"CAN,GPS,IMU\"\n" >> .env
+echo -e "# Needed to Initialize InfluxDB" >> .env
+echo -e "INFLUX_INIT_BUCKET=\"Init_test\"" >> .env
 echo -e "INFLUX_DEBUG_BUCKET=\"Debug\"\n" >> .env
-echo -e "# used to store real data from the car" >> .env
-echo -e "INFLUX_CAN_BUCKET=\"CAN\"\n" >> .env
-echo -e "# Secret key\n" >> .env
+echo -e "DS_INFLUXDB=\"P951FEA4DE68E13C5\"\n" >> .env
+echo -e "# Parser Secret key\n" >> .env
 echo -e "SECRET_KEY=\"dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4\"\n" >> .env
 echo -e "# Access tokens\n" >> .env
 echo -e "INFLUX_TOKEN=\"\"" >> .env
