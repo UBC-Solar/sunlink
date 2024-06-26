@@ -4,7 +4,7 @@ import datetime
 import struct
 
 # Script Constants
-LOG_FOLDER          = "/media/eletrical/disk/"
+LOG_FOLDER          = "/media/electrical/disk/"
 NUM_LOGS            = 15
 MB_TO_KB            = 1024
 EPOCH_START         = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
