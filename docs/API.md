@@ -26,7 +26,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE RESPONSE:** 
+**SAMPLE RESPONSE:**
 
 ```json
 {
@@ -40,12 +40,12 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
             "name": "grafana",
             "status": "UP",
             "url": "http://grafana:3000/"
-        },
+        }
     ]
 }
 ```
 
-**RESPONSE NOTES:** 
+**RESPONSE NOTES:**
 
 1. The `status` field can be one of `"UP"`, `"DOWN"`, or `"UNEXPECTED_STATUS_CODE"`.
 
@@ -57,7 +57,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
     - `"UNEXPECTED_STATUS_CODE"` => The respective service is reachable but it returned an unexpected status code. It is not recommended to run telemetry in this case as well.
 
-## Parse CAN message
+## Parse message
 
 **URL:** `/api/v1/parse`
 
@@ -69,61 +69,73 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE REQUEST:** 
+**SAMPLE REQUEST: (CAN RAW DATA. Shown as hex string but MUST convert and send hex string to encoded to bytes then latin-1 string)**
 
 ```json
 {
-    "id": "0401",
-    "timestamp": "deadbeef" ,
-    "data": "000089426666e63e",
-    "data_length": "8",
+    "message": "41d99749c232e14823000006280000000000000000080d41d99749c232e1482300000401000000000000000008"
 }
 ```
 
-**SAMPLE RESPONSES:** 
+**SAMPLE RESPONSE: (PARSED CAN MESSAGE FROM ABOVE)**
 
 ```json
 {
-  "id": 1025,
-  "measurements": [
-    {
-      "m_class": "drive_command",
-      "name": "desired_velocity",
-      "source": "speed_controller",
-      "value": 68.5
-    },
-    {
-      "m_class": "drive_command",
-      "name": "current_setpoint",
-      "source": "speed_controller",
-      "value": 0.44999998807907104
-    }
-  ],
-  "result": "OK"
-}
-```
-
-```json
-{
-    "id": 990,
-    "measurements": [],
-    "result": "PARSE_FAIL"
+    "all_responses" : [
+        {
+            "result": "OK",
+            "message": {
+                "ROW": {
+                    "Raw Hex": "41d99749c232e1482300000628000000000000000008"
+                },
+                "COL": {
+                    "Hex_ID": "0x628",
+                    "Source": "BMS",
+                    "Class": "Module Statuses",
+                    "Measurement": "Multiplexing bits",
+                    "Value": "0.0",
+                    "Timestamp": "2024-06-03 02:17:39.224"
+                }
+            },
+            "logMessage": "True",
+            "type": "CAN",
+        },
+        {
+            "result": "OK",
+            "message": {
+                "ROW": {
+                    "Raw Hex": "41d99749c232e1482300000401000000000000000008"
+                },
+                "COL": {
+                    "Hex_ID": "0x401",
+                    "Source": "MCB",
+                    "Class": "PercentageOfMaxCurrent",
+                    "Measurement": "MotorCurrent",
+                    "Value": "0.0",
+                    "Timestamp": "2024-06-03 02:17:39.224"
+                }
+            },
+            "logMessage": "True",
+            "type": "CAN",
+        },
+    ]
 }
 ```
 
 **RESPONSE NOTES:**
 
-1. The `result` field can be one of `'OK'` or `'PARSE_FAIL'`.
+1. The `all_responses` field is a list of dictionaries which contain information about the parsing result of each valid message in the chunk that was sent to the parser. This chunk is typically received from `serial.Serial.read(CHUNK_SIZE).decode('latin-1)` (Note that .hex() was only applied for visual aid in these docs otherwise you must send a latin-1 encoded string).
+2. The `result` field can be one of `'OK'` or `'PARSE_FAIL'`.
 
     - `'OK'` => parsing completed successfully
 
     - `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser)
 
-2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
+3. The `message` field is the display dictionary of one of the valid messages from the total chunk that came into the parser. This field is only populated when the `result` field is `'OK'`.
+4. The `logMessage` field is a boolean that indicates whether the message was logged into a local file in the `logfiles` directory. This field is only populated when the `result` field is `'OK'`.
+5. The `type` field is the type of message (CAN, GPS, or IMU currently).
 
-3. The `id` field is simply the CAN ID of the message that was parsed.
-
-## Parse CAN message + write to debug bucket
+## Parse message + write to debug bucket
 
 **URL:** `/api/v1/parse/write/debug`
 
@@ -131,90 +143,98 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **REQUEST CONTENT TYPE:** `application/json`
 
-**DESCRIPTION:** Parses the requested CAN message, writes the measurements to a debug bucket (usually called "Test") on InfluxDB, and sends back the parsed measurements.
+**DESCRIPTION:** Parses the requested message, writes the measurements to an "<MESSAGE_NAME>_test" bucket on InfluxDB, and sends back the parsed measurements.
 
 **AUTHENTICATION:** Required.
 
-**SAMPLE REQUEST:** 
+**SAMPLE REQUEST: (CAN RAW DATA. Shown as hex string but MUST convert and send hex string to encoded to bytes then latin-1 string)**
 
 ```json
 {
-    "id": "0401",
-    "timestamp": "deadbeef" ,
-    "data": "000089426666e63e",
-    "data_length": "8",
+    "message": "41d99749c232e1482300000401000000000000000008"
 }
 ```
 
-**SAMPLE RESPONSES:** 
+```json
+{
+    "message": "41d997abfa06a7f02300000628030041d997abfa0800002300000401000000000000000008"
+}
+```
+
+**SAMPLE RESPONSES: (PARSED CAN MESSAGE FROM ABOVE)**
 
 ```json
 {
-    "id": 1025,
-    "measurements": 
-        [
-            {
-                "m_class": "drive_command",
-                "name": "desired_velocity",
-                "source": "speed_controller",
-                "value": 56.31
+    "all_responses" : [
+        {
+            "result": "OK",
+            "message": {
+                "ROW": {
+                    "Raw Hex": "41d99749c232e1482300000401000000000000000008"
+                },
+                "COL": {
+                    "Hex_ID": "0x401",
+                    "Source": "MCB",
+                    "Class": "PercentageOfMaxCurrent",
+                    "Measurement": "MotorCurrent",
+                    "Value": "0.0",
+                    "Timestamp": "2024-06-03 02:17:39.224"
+                }
             },
-            {
-                "m_class": "drive_command", 
-                "name": "current_setpoint", 
-                "source": "speed_controller",
-                "value": 0.44
-            }
-        ],
-    "result": "OK"
+            "logMessage": "True",
+            "type": "CAN",
+        },
+    ]
 }
 ```
 
 ```json
 {
-    "id": 990,
-    "measurements": [],
-    "result": "PARSE_FAIL"
+    "all_responses" : [
+        {
+            "result": "PARSE_FAIL",
+            "message": "41d997abfa06a7f02300000628030041d997abfa0800002300000401000000000000000008",
+            "error": "PARSE_FAIL: 
+                        Failed in create_message:
+                            Message length of 37 is not a valid length for any message type
+                            Message: 
+                            Hex Message: 41d997abfa06a7f02300000628030041d997abfa0800002300000401000000000000000008",
+        },
+    ]
 }
 ```
 
 ```json
 {
-    "id": 1282, 
-    "measurements": 
-        [
-            {
-                "m_class": "motor_bus",
-                "name": "bus_voltage",
-                "source": "daybreak_motor_controller",
-                "value": 103.4
-            },
-            {
-                "m_class": "motor_bus",
-                "name": "bus_current",
-                "source": "daybreak_motor_controller",
-                "value": 34.2
-            }
-        ],
-    "result": "INFLUX_WRITE_FAIL"
+    "all_responses" : [
+        {
+            "result": "INFLUX_WRITE_FAIL",
+            "message": "41d99749c232e1482300000401000000000000000008",
+            "error": "<class 'influxdb.exceptions.InfluxDBClientError'>: 400: {\"error\":\"partial write: field type conflict: input field \"Value\" on measurement \"MotorCurrent\" is type float, already exists as type integer\"}",
+            "type": "CAN",
+        },
+    ]
 }
 ```
 
 **RESPONSE NOTES:**
 
-1. The `result` field can be one of `'OK'`, `'PARSE_FAIL'`, `'INFLUX_WRITE_FAIL'`.
+1. The `all_responses` field is a list of dictionaries which contain information about the parsing result of each valid message in the chunk that was sent to the parser. This chunk is typically received from `serial.Serial.read(CHUNK_SIZE).decode('latin-1)` (Note that .hex() was only applied for visual aid in these docs otherwise you must send a latin-1 encoded string).
+2. The `result` field can be one of `'OK'`, `'PARSE_FAIL'`, `'INFLUX_WRITE_FAIL'`.
 
     - `'OK'` => parsing completed successfully.
 
-    - `'PARSE_FAIL'` => parsing failed for some reason (usually because the CAN ID is not in the DBC file used by the parser).
+    - `'PARSE_FAIL'` => parsing failed for some reason (could be because the CAN ID is not in the DBC file used by the parser or any data formatting error/inconsistency).
 
-    - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. 
+    - `'INFLUX_WRITE_FAIL'` => parsing succeeded but the parser was unable to write the measurements to the InfluxDB instance. In this case, check that the InfluxDB container is up and reachable. Another problem could be interference of different types in the same Influx bucket (Ex. adding ints to a bucket already containing floats)
 
-2. The `measurements` field is a list of measurements extracted from the CAN message provided in the request. This field is only populated when the `result` field is `'OK'`.
+3. The `message` field is a dictionary of the parsed message that came into the parser. This field is  populated with the data dictionary when the `result` field is `'OK'`. However, if the `result` field is `'PARSE_FAIL'` or `'INFLUX_WRITE_FAIL'` then the `message` field is a string of the raw message payload. This is to allow offline logging of failed messages for later debugging.
+4. The `logMessage` field is a boolean that indicates whether the message was logged into a local file in the `logfiles` directory. This field is only populated when the `result` field is `'OK'`.
+5. The `error` field (in `PARSE_FAIL` responses) is a pretty printed description of the file, line, and what error occurred. This also traces back to the function at which this error occurred and the data that caused it. Note that it uses ANSI sequences to do the pretty printing.
+6. The `type` field is the type of message (CAN, GPS, or IMU currently).
 
-3. The `id` field is simply the CAN ID of the message that was parsed.
 
-## Parse CAN message + write to production bucket
+## Parse message + write to production bucket
 
 **URL:** `/api/v1/parse/write/production`
 
@@ -222,7 +242,7 @@ This is the formal description of the HTTP API provided by the hosted parser. Th
 
 **REQUEST CONTENT TYPE:** `application/json`
 
-**DESCRIPTION:** Parses the requested CAN message, writes the measurements to a production bucket (usually called "Telemetry") on InfluxDB, and sends back the parsed measurements.
+**DESCRIPTION:** Parses the requested message, writes the measurements to a production bucket (usually called "<MESSAGE_NAME>_prod") on InfluxDB, and sends back the parsed measurements.
 
 **AUTHENTICATION:** Required.
 

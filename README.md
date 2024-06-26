@@ -4,38 +4,38 @@ Sunlink is UBC Solar's radio and cellular-based telemetry system. It allows us t
 
 Collecting and visualizing this data is useful since it allows for:
 
-1) Optimizing drive performance
-2) Debugging on-board electronic systems 
-3) Verifying race-strategy simulation models
-4) Enabling continuous race-strategy simulation recalculations
-5) Post-mortem system analysis
+1. Optimizing drive performance
+2. Debugging on-board electronic systems
+3. Verifying race-strategy simulation models
+4. Enabling continuous race-strategy simulation recalculations
+5. Post-mortem system analysis
 
 This repository contains all of the components that make up Sunlink.
 
 ## Table of contents
 
-- [Directory structure](#directory-structure)
-- [System overview](#system-overview)
-- [Getting started](#getting-started)
-- [Telemetry cluster setup](#telemetry-cluster-setup)
-- [Telemetry link setup](#telemetry-link-setup)
-- [Running the link](#running-the-link)
-- [Running the tests](#running-the-tests)
-- [Parser HTTP API](#parser-http-api)
-- [Screenshots](#screenshots)
+-   [Directory structure](#directory-structure)
+-   [System overview](#system-overview)
+-   [Getting started](#getting-started)
+-   [Telemetry cluster setup](#telemetry-cluster-setup)
+-   [Telemetry link setup](#telemetry-link-setup)
+-   [Running the link](#running-the-link)
+-   [Running the tests](#running-the-tests)
+-   [Parser HTTP API](#parser-http-api)
+-   [Screenshots](#screenshots)
 
 ## Directory structure
 
-- `config`: stores config files for Grafana and Influx.
-- `dashboards`: contains the provisioned Grafana dashboard JSONs.
-- `dbc`: stores DBC files for CAN parsing.
-- `docs`: contains additional system documentation.
-- `images`: contains images relevant to Sunlink.
-- `parser`: contains the Python implementation of the parser server.
-- `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
-- `scripts`: contains post-initialization scripts for InfluxDB.
-- `templates`: contains a template `.env` config file.
-- `test`: contains test framework for the CAN parser.
+-   `config`: stores config files for Grafana and Influx.
+-   `dashboards`: contains the provisioned Grafana dashboard JSONs.
+-   `dbc`: stores DBC files for CAN parsing.
+-   `docs`: contains additional system documentation.
+-   `images`: contains images relevant to Sunlink.
+-   `parser`: contains the Python implementation of the parser server.
+-   `provisioning`: contains YAML files that provision the initial dashboards and data sources for Grafana.
+-   `scripts`: contains post-initialization scripts for InfluxDB.
+-   `templates`: contains a template `.env` config file.
+-   `test`: contains test framework for the CAN parser.
 
 ## System overview
 
@@ -57,7 +57,7 @@ There are two technologies that our cars utilize to transmit data: _radio_ and _
 
 The cellular module on Daybreak runs MicroPython and can make HTTP requests which means it can communicate with the telemetry cluster directly.
 
-The radio module, however, is more complicated. It can only send a serial stream to a radio receiver. This radio receiver, when connected to a host computer, makes the stream of bytes coming from the radio transmitter available over a serial port. Unfortunately, this still leaves a gap between the incoming data stream and the telemetry cluster. 
+The radio module, however, is more complicated. It can only send a serial stream to a radio receiver. This radio receiver, when connected to a host computer, makes the stream of bytes coming from the radio transmitter available over a serial port. Unfortunately, this still leaves a gap between the incoming data stream and the telemetry cluster.
 
 This is where the `link_telemetry.py` script (AKA the telemetry link) comes in. Its main function is to bridge the gap between the incoming data stream and the telemetry cluster by splitting the data stream into individual messages, packaging each message in a JSON object, and finally making an HTTP request to the cluster.
 
@@ -69,9 +69,9 @@ A detailed description of all system components is given [here](/docs/SYSTEM.md)
 
 When attempting to set up Sunlink, it is important to decide whether you want to set up both the telemetry cluster and telemetry link or just the telemetry link.
 
-- If the telemetry cluster has **already been set up** and you would like to only set up the telemetry link to communicate with the cluster, skip to [this section](#telemetry-link-setup).
+-   If the telemetry cluster has **already been set up** and you would like to only set up the telemetry link to communicate with the cluster, skip to [this section](#telemetry-link-setup).
 
-- If the telemetry cluster has **not been set up**, continue onwards to set it up.
+-   If the telemetry cluster has **not been set up**, continue onwards to set it up.
 
 ### Automated Sunlink Telemetry Cluster Setup
 
@@ -113,15 +113,15 @@ The `run_setup.sh` script:
 
 Since the telemetry cluster consists of three Docker containers that are spun up with Docker Compose, it can easily be deployed on any (although preferably Linux) system.
 
-This means that there are two possibilities for running the telemetry cluster. You may either run it *locally* or *remotely*. Each has its advantages and disadvantages.
+This means that there are two possibilities for running the telemetry cluster. You may either run it _locally_ or _remotely_. Each has its advantages and disadvantages.
 
-| **Local cluster** | **Remote cluster** |
-| ------------- | -------------- |
-| Cluster runs on the _same_ host as the telemetry link | Cluster runs on a _different_ host as the telemetry link |
-| Total pipeline latency from data source to cluster is very small (~5ms) | Total pipeline latency from data source to cluster is higher (~200ms) |
-| Ideal for time-sensitive control board debugging | Allows for a centralized, Internet-accessible storage location for parsed data |
-| Useful for when an Internet connection is unavailable/unreliable | Access to the cluster requires an Internet connection |
-| Only supports radio as a data source | Supports both radio and cellular as a data source |
+| **Local cluster**                                                       | **Remote cluster**                                                             |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Cluster runs on the _same_ host as the telemetry link                   | Cluster runs on a _different_ host as the telemetry link                       |
+| Total pipeline latency from data source to cluster is very small (~5ms) | Total pipeline latency from data source to cluster is higher (~200ms)          |
+| Ideal for time-sensitive control board debugging                        | Allows for a centralized, Internet-accessible storage location for parsed data |
+| Useful for when an Internet connection is unavailable/unreliable        | Access to the cluster requires an Internet connection                          |
+| Only supports radio as a data source                                    | Supports both radio and cellular as a data source                              |
 
 Whether you're setting up the cluster locally or remotely, the setup instructions are exactly the same.
 
@@ -129,10 +129,22 @@ Whether you're setting up the cluster locally or remotely, the setup instruction
 
 ### Pre-requisites
 
-- Python 3.8 or above (https://www.python.org/downloads/)
-- Docker & Docker Compose (https://docs.docker.com/get-docker/)
-- Linux PCAN Driver (https://www.peak-system.com/fileadmin/media/linux/index.htm)
-- A cloned copy of this repository
+-   Python 3.8 or above (https://www.python.org/downloads/)
+-   Docker & Docker Compose (https://docs.docker.com/get-docker/)
+-   Linux PCAN Driver (https://www.peak-system.com/fileadmin/media/linux/index.htm)
+-   A cloned copy of this repository
+
+### Aside: Using Sunlink with WSL2
+> https://learn.microsoft.com/en-us/windows/wsl/connect-usb
+
+Follow these instructions to attach a USB device to a Linux distribution running on WSL 2:
+1. Follow the instructions in the link above to install the USBIPD-WIN project as support for connecting USB devices is not natively available in WSL.
+2. Follow the instructions in the same link to attach the USB device.
+
+> [!NOTE]
+> This has to be done every time WSL2 is restarted.
+
+<br>
 
 Clone the repository with:
 
@@ -153,18 +165,16 @@ Check your Docker Compose installation by running:
 ```bash
 sudo docker compose version
 ```
-
-> [!NOTE]  
+> [!NOTE]
 > If you plan to use the offline mode with the linktelemetry.py script, please see the below settings for VirtualBox and bringing up the CAN interface
-
 
 Add PCAN USB port to Ubuntu from Virtual Box settings:
 
 - Go to settings from Virtual Box.
 - Click on the green + as shown in the picture below.
-- Add the USB port the PCAN is connected to and click OK. 
+- Add the USB port the PCAN is connected to and click OK.
 
-![Battery state](/images/virtualbox_usb.png) 
+![Battery state](/images/virtualbox_usb.png)
 
 Bringing CAN interface up:
 ```bash
@@ -178,6 +188,7 @@ Check if PCAN is connected properly:
 candump -H -td -x -c can0
 ```
 This should output what is on the PCAN at the moment.
+
 ### Setting up environment variables
 
 Before spinning up the cluster, you must create a `.env` file in the project root directory (i.e., the same directory as the `docker-compose.yaml` file). I find that it is easiest to create the file from the terminal:
@@ -213,14 +224,11 @@ INFLUX_ADMIN_PASSWORD=""
 
 INFLUX_ORG="UBC Solar"
 
-# used to store random data for debugging purposes
-INFLUX_DEBUG_BUCKET="Debug"
-
-# used to store real data from the car
-INFLUX_CAN_BUCKET="CAN"
+# Needed to Initialize InfluxDB
+INFLUX_INIT_BUCKET="Init_test"
+INFLUX_DEBUG_BUCKET="CAN_test"
 
 # Parser secret key
-
 SECRET_KEY=""
 
 # Access tokens
@@ -244,11 +252,9 @@ INFLUX_ADMIN_PASSWORD="new_password"
 
 INFLUX_ORG="UBC Solar"
 
-# used to store random data for debugging purposes
-INFLUX_DEBUG_BUCKET="Debug"
-
-# used to store real data from the car
-INFLUX_CAN_BUCKET="CAN"
+# Needed to Initialize InfluxDB
+INFLUX_INIT_BUCKET="Init_test"
+INFLUX_DEBUG_BUCKET="CAN_test"
 
 # Secret key
 
@@ -266,7 +272,7 @@ For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD` fields, you may ch
 
 The `SECRET_KEY` field must be generated.
 
-> :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_DEBUG_BUCKET`, and `INFLUX_PROD_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
+> :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_INIT_BUCKET`, and `INFLU_DEBUG_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
 
 #### Generating the secret key
 
@@ -299,7 +305,7 @@ Now that you've filled in the relevant parts of the `.env` file, you can now per
 
 Ensure your current working directory is the repository root folder before running the following command:
 
-```bash 
+```bash
 sudo docker compose up
 ```
 
@@ -307,14 +313,14 @@ You should see a flurry of text as the three services come online.
 
 ### Aside: handy docker commands
 
-| **Command** | **Description** |
-| ------------- | -------------- |
-| `sudo docker ps` | Lists all running containers. |
-| `sudo docker compose stop` | Stops all running containers defined in Compose file. |
-| `sudo docker compose restart` | Restarts all running containers defined in Compose file. |
-| `sudo docker compose up -d` | Spins up all containers in detached mode (i.e., in the background). |
-| `sudo docker exec -it <CONTAINER_NAME> /bin/bash` | Starts a shell instance inside `<CONTAINER_NAME>`.|
-| `sudo docker system df` | Shows docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB volume is taking. |
+| **Command**                                       | **Description**                                                                                                                          |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `sudo docker ps`                                  | Lists all running containers.                                                                                                            |
+| `sudo docker compose stop`                        | Stops all running containers defined in Compose file.                                                                                    |
+| `sudo docker compose restart`                     | Restarts all running containers defined in Compose file.                                                                                 |
+| `sudo docker compose up -d`                       | Spins up all containers in detached mode (i.e., in the background).                                                                      |
+| `sudo docker exec -it <CONTAINER_NAME> /bin/bash` | Starts a shell instance inside `<CONTAINER_NAME>`.                                                                                       |
+| `sudo docker system df`                           | Shows docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB volume is taking. |
 
 ### Finishing environment set-up
 
@@ -324,9 +330,9 @@ This means that once the cluster is up and running, you should be able to access
 
 Now we can generate the missing API tokens we left out of our `.env` file from before:
 
-* Go to the InfluxDB URL and login to the InfluxDB web application with the admin username and password you specified in your `.env` file. Generate a new API token. This token should be used as the value for the `INFLUX_TOKEN` key in your `.env` file.
+-   Go to the InfluxDB URL and login to the InfluxDB web application with the admin username and password you specified in your `.env` file. Generate a new API token. This token should be used as the value for the `INFLUX_TOKEN` key in your `.env` file.
 
-* Go to the Grafana URL and login to the Grafana web application with the admin username and password you specified in your `.env` file. Create a new service account and create an API token under this service account. This token should be used as the value for the `GRAFANA_TOKEN` key in your `.env` file.
+-   Go to the Grafana URL and login to the Grafana web application with the admin username and password you specified in your `.env` file. Create a new service account and create an API token under this service account. This token should be used as the value for the `GRAFANA_TOKEN` key in your `.env` file.
 
 Both the [InfluxDB API docs](https://docs.influxdata.com/influxdb/v2.7/security/tokens/#Copyright) and [Grafana API docs](https://grafana.com/docs/grafana/latest/administration/service-accounts/) provide detailed guides on how to create API tokens for each platform.
 
@@ -355,18 +361,18 @@ If all your tokens are correctly set up, the parser should return the following:
 
 ```json
 {
-  "services": [
-    {
-      "name": "influxdb",
-      "status": "UP",
-      "url": "http://influxdb:8086/"
-    },
-    {
-      "name": "grafana",
-      "status": "UP",
-      "url": "http://grafana:3000/"
-    }
-  ]
+    "services": [
+        {
+            "name": "influxdb",
+            "status": "UP",
+            "url": "http://influxdb:8086/"
+        },
+        {
+            "name": "grafana",
+            "status": "UP",
+            "url": "http://grafana:3000/"
+        }
+    ]
 }
 ```
 
@@ -374,21 +380,15 @@ If all your tokens are correctly set up, the parser should return the following:
 
 - If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
 
-
-## Seting up PCAN drivers
-
- 
-
 ## Telemetry link setup
 
 The telemetry link must be set up on the host machine on which the radio receiver is connected. This links the radio module to the telemetry cluster and enables using radio as a data source.
 
 ### Pre-requisites
 
-- Python 3.8 or above (https://www.python.org/downloads/)
-- A functional and running telemetry cluster (either local or remote)
-- Linux PCAN Driver (https://www.peak-system.com/fileadmin/media/linux/index.htm)
-- A cloned copy of this repository
+-   Python 3.8 or above (https://www.python.org/downloads/)
+-   A functional and running telemetry cluster (either local or remote)
+-   A cloned copy of this repository
 
 Clone the repository with:
 
@@ -465,13 +465,13 @@ bitrate = "500000"
 
 The `parser.url` field specifies the URL where the script can find the telemetry cluster parser. If you are running the cluster locally, the url would likely be `http://localhost:5000/`.
 
-The `security.secret_key` field specifies the secret key to use in the HTTP authentication headers when making a request to the parser. 
+The `security.secret_key` field specifies the secret key to use in the HTTP authentication headers when making a request to the parser.
 
 This secret key must match with the secret key configured for the telemetry cluster parser that you are trying to communicate with.
 
-If you set up the telemetry cluster locally then you already have access to this secret key. If the telemetry cluster was set up for you, ask your software lead for the secret key. 
+If you set up the telemetry cluster locally then you already have access to this secret key. If the telemetry cluster was set up for you, ask your software lead for the secret key.
 
-The `offline.channel` and `offline.bitrate` fields specify the channel and bitrate of the PCAN.   
+The `offline.channel` and `offline.bitrate` fields specify the channel and bitrate of the PCAN.
 
 > [!IMPORTANT]
 > The [offline] fields are only required if you plan to use the offline mode with PCAN.
@@ -490,17 +490,32 @@ Make sure you've entered your virtual environment before trying to run the scrip
 
 Here are some example invocations:
 
-| **Command** | **Description** |
-| ------------- | -------------- |
-| `./link_telemetry.py --health` | Checks if the parser is available. |
-| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the CAN InfluxDB bucket. |
-| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB. | 
-| `./link_telemetry.py -r --debug` | Makes the link randomly generate message data and requests the parser to write to the debug InfluxDB bucket. |
-| `./link_telemetry.py -r -f 100 --debug` | Makes the link randomly generate message data at 100Hz and requests the parser to write to the debug InfluxDB bucket. |
-| `./link_telemetry.py -o --debug` | Makes the link to recieve data from PCAN and requests the parser to write to the debug InfluxDB bucket. |
-| `./link_telemetry.py -o --prod` | Makes the link to recieve data from PCAN and requests the parser to write to the CAN InfluxDB bucket. |
+| **Command**                                                | **Description**                                                                                                                                                                                                                    |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `./link_telemetry.py --health`                             | Checks if the parser is available.                                                                                                                                                                                                 |
+| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --prod`     | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to write to the CAN InfluxDB bucket.                                                                                                 |
+| `./link_telemetry.py -p /dev/ttyUSB0 -b 230400 --no-write` | Specifies a source port of `/dev/ttyUSB0` with a baudrate of `230400` and requests the parser to only parse and not write data to InfluxDB.                                                                                        |
+| `./link_telemetry.py -r all --debug`                       | Makes the link randomly generate message data for CAN, GPS, and IMU (all) and requests the parser to write to the debug InfluxDB bucket.                                                                                           |
+| `./link_telemetry.py -r can --debug`                       | Makes the link randomly generate message data for can) and requests the parser to write to the debug InfluxDB bucket.                                                                                                              |
+| `./link_telemetry.py -r all --live-on 0x401 1795 IMU --debug`     | Makes the link randomly generate message data for CAN, GPS, and IMU (all), requests the parser to write to the debug InfluxDB bucket, and **l**ivestreams only message ID 0x401 (hex), 1795 (decimal), and IMU messages to Grafana |
+| `./link_telemetry.py -r all --live-off --debug`            | Makes the link randomly generate message data for CAN, GPS, and IMU (all), requests the parser to write to the debug InfluxDB bucket, and **l**ivestreams nothing to Grafana.                                                      |
+| `./link_telemetry.py -r all --live-on all --debug`                | Makes the link randomly generate message data for CAN, GPS, and IMU (all), requests the parser to write to the debug InfluxDB bucket, and **l**ivestreams all data to Grafana.                                                     |
+| `./link_telemetry.py -r can -f 100 --debug`                | Makes the link randomly generate CAN message data at 100Hz and requests the parser to write to the debug InfluxDB bucket.                                                                                                          |
+| `./link_telemetry.py -o --debug`                           | Makes the link to recieve data from PCAN and requests the parser to write to the debug InfluxDB bucket.                                                                                                                            |
+| `./link_telemetry.py -o --prod`                            | Makes the link to recieve data from PCAN and requests the parser to write to the CAN InfluxDB bucket.       
+| `./link_telemetry.py -o --raw`                           | Will print out the **hexified** serial messages that will be sent to the parser in the `message` field of the payload                                                                                                                      |
+| `./link_telemetry.py -o --rawest`                            | This prints the exact `CHUNK_SIZE` of data received from serial as a **hex** string. Because of the chunking algorithm, **the chunk may have incomplete messages**                                                                           |
+                                                                                                                       |
 
 > Previously, the `--prod` option would write to the production InfluxDB bucket. This has been changed to write to the CAN InfluxDB bucket as CAN is currently the only source of data source that is supported in Sunlink. Soon, other buckets will be added along with support for other data sources including GPS, IMU, and VDS (Vehicle Dynamics Sensors) data. New buckets must be created with shell scripts, similar to in the script `scripts/create-influx_debug-bucket.sh`. The .env file must also contain the name for the bucket created on `telemetry.ubcsolar.com:8086`. The parser script must be modified to support posting data to new buckets.
+
+## Running the Offline Log Uploader
+
+To run the offline log uploader the `logfiles` folder should have a generated log file to read and request the parser to write to InfluxDB in the specified buckets (_test or _prod based on --debug or --prod options respectively). To do this use the -u (--log-upload) flag as follows:
+
+```bash
+./link_telemetry.py -u
+```
 
 ## Running the tests
 
@@ -529,4 +544,3 @@ Here are some screenshots of real data gathered from Daybreak using Sunlink:
 ![Current setpoint and vehicle velocity](/images/current_setpoint_and_vehicle_velocity.png)
 
 ![Vehicle velocity and motor velocity](/images/vehicle_velocity_and_motor_velocity.png)
-

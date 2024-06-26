@@ -1,0 +1,6280 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 9,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "New link",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "panels": [],
+      "title": "Battery State",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "dark-green",
+                  "index": 1,
+                  "text": "Off"
+                },
+                "1": {
+                  "color": "dark-red",
+                  "index": 0,
+                  "text": "On"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bool"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "BMSSelfTest {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "BMS Self Test"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ChargeOverTemp {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Charge OT"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ChargeOvercurrent {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Charge OC"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "HLIMActive {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "HLIM Status"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IsoLost {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Isolation Loss"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LLIMActive {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "LLIM Status"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OverTemp {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Over Temperature"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OverVoltage {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Over Voltage"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PackBalancingActive {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Balancing Active"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RequestRegenOff {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Request regen Off"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SlaveBoardComm {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Slave Board Communication"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "TempOutofRange {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Temperature Out of Range"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "UnderVoltage {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Under Voltage"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "VoltOutofRange {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Voltage Out of Range"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 11,
+        "x": 0,
+        "y": 1
+      },
+      "id": 1,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_Faults_ChargeOverTemp/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_BMSSelfTest/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "B"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_ChargeOvercurrent/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "C"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_HLIMActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "D"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_HighTemp/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "E"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_IsoLost/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "F"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_LLIMActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "G"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_SlaveBoardComm/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "H"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_OverTemp/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "I"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_UnderVoltage/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "J"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_OverVoltage/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "K"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_VoltOutofRange/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value",
+              "labels"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "L"
+        }
+      ],
+      "title": "Faults",
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "dark-green",
+                  "index": 1,
+                  "text": "Low"
+                },
+                "1": {
+                  "color": "dark-red",
+                  "index": 0,
+                  "text": "High"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bool"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "HighTemp {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "High Temperature"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "HighVoltage {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "High Voltage"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LowTemp {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Low Temperature"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LowVoltage {car=\"Brightside\", class=\"Faults\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Low Voltage"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "NoECUCurrentMessage"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "No ECU Status Message"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 10,
+        "x": 11,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_Faults_HighTemp/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_HighVoltage/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "B"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_LowTemp/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "C"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_LowVoltage/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "D"
+        },
+        {
+          "channel": "stream/Brightside_BMS_Faults_NoECUCurrentMessage/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "E"
+        }
+      ],
+      "title": "Warnings",
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 3,
+        "x": 21,
+        "y": 1
+      },
+      "id": 21,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_ECU_ECUStatus_ESTOP_Pressed/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "ESTOP Status",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 5,
+      "panels": [],
+      "title": "Battery Voltages and Currents",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 4.5,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "VoltageofHighest {car=\"Brightside\", class=\"VoltageSummary\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Maximum Voltage"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 9,
+        "x": 0,
+        "y": 13
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_VoltageSummary_VoltageofHighest/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Maximum Voltage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 13
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_VoltageSummary_VoltageofHighest/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Maximum Voltage",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 4.5,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "VoltageofLeast {car=\"Brightside\", class=\"VoltageSummary\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Minimum Voltage"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 9,
+        "x": 12,
+        "y": 13
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_VoltageSummary_VoltageofLeast/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Minimum Voltage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 13
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_VoltageSummary_VoltageofLeast/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Minimum Voltage",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 17
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_VoltageSummary_IndexofHighestModule/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Max Voltage Index",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 17
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_VoltageSummary_IndexofLowestModule/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Min Voltage Index",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 140,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 135
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "TotalPackVoltage {car=\"Brightside\", class=\"VoltageSummary\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Pack Voltage"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 0,
+        "y": 20
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_VoltageSummary_TotalPackVoltage/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Pack Voltage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 140
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 11,
+        "y": 20
+      },
+      "id": 23,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_VoltageSummary_TotalPackVoltage/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Pack Voltage",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 70,
+          "min": -30,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "amp"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PackCurrent {car=\"Brightside\", class=\"ECUStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Pack Current"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 20
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "channel": "stream/Brightside_ECU_ECUStatus_PackCurrent/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Pack Current",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": ""
+              }
+            ]
+          },
+          "unit": "amp"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 11,
+        "y": 24
+      },
+      "id": 24,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_ECU_ECUStatus_PackCurrent/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Pack Current",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "id": 18,
+      "panels": [],
+      "title": "Module Voltages and Temperatures",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 4.5,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "dark-yellow",
+                "value": 4
+              },
+              {
+                "color": "dark-red",
+                "value": 4.2
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage1 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage2 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V2"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage3 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V3"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage4 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V4"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage5 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage6 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V6"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage7 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V7"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage8 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V8"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage9 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V9"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage10 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage11 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage12 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage13 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage14 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage15 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage16 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V16"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage17 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V17"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage18 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V18"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage19 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V19"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage20 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V20"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage21 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V21"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage22 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V22"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage23 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V23"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage24 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V24"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage25 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V25"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage26 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V26"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage27 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V27"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage28 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V28"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage29 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V29"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage30 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V30"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage31 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V31"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage32 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V32"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 29
+      },
+      "id": 22,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage1/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage2/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "B"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage3/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "C"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage4/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "D"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage5/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "E"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage6/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "F"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage7/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "G"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage8/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "H"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage9/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "I"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage10/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "J"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage11/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "K"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage12/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "L"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage13/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "M"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage14/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "N"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage15/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "O"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage16/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "P"
+        }
+      ],
+      "title": "Module Voltages 1-16",
+      "transformations": [],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 4.5,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "dark-yellow",
+                "value": 4
+              },
+              {
+                "color": "dark-red",
+                "value": 4.2
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage1 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage2 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V2"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage3 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V3"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage4 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V4"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage5 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage6 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V6"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage7 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V7"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage8 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V8"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage9 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V9"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage10 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage11 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage12 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage13 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage14 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage15 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage16 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V16"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage17 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V17"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage18 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V18"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage19 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V19"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage20 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V20"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage21 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V21"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage22 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V22"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage23 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V23"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage24 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V24"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage25 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V25"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage26 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V26"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage27 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V27"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage28 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V28"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage29 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V29"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage30 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V30"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage31 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V31"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Voltage32 {car=\"Brightside\", class=\"ModuleVoltages\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "V32"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 26,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage17/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage18/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "B"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage19/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "C"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage20/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "D"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage21/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "E"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage22/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "F"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage23/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "G"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage24/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "H"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage25/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "I"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage26/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "J"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage27/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "K"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage28/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "L"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage29/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "M"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage30/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "N"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage31/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "O"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleVoltages_Voltage32/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "P"
+        }
+      ],
+      "title": "Module Voltages 17-32",
+      "transformations": [],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 70,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 45
+              },
+              {
+                "color": "dark-red",
+                "value": 65
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp1 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp2 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T2"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp3 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T3"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp4 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T4"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp5 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp6 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T6"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp7 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T7"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp8 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T8"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp9 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T9"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp10 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp11 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp12 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp13 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp14 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp15 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp16 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T16"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp17 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T17"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp18 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T18"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp19 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T19"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp20 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T20"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp21 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T21"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp22 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T22"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp23 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T23"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp24 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T24"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp25 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T25"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp26 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T26"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp27 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T27"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp28 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T28"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp29 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T29"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp30 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T30"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp31 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T31"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp32 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T32"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 43
+      },
+      "id": 20,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp1/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp2/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "B"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp3/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "C"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp4/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "D"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp5/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "E"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp6/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "F"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp7/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "G"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp8/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "H"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp9/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "I"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp10/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "J"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp11/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "K"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp12/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "L"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp13/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "M"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp14/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "N"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp15/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "O"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp16/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "P"
+        }
+      ],
+      "title": "Module Temperatures 1-16",
+      "transformations": [],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 70,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 45
+              },
+              {
+                "color": "dark-red",
+                "value": 65
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp1 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp2 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T2"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp3 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T3"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp4 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T4"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp5 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp6 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T6"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp7 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T7"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp8 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T8"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp9 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T9"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp10 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp11 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp12 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp13 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp14 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp15 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp16 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T16"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp17 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T17"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp18 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T18"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp19 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T19"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp20 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T20"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp21 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T21"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp22 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T22"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp23 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T23"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp24 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T24"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp25 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T25"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp26 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T26"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp27 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T27"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp28 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T28"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp29 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T29"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp30 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T30"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp31 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T31"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Temp32 {car=\"Brightside\", class=\"ModuleTemps\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "T32"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 50
+      },
+      "id": 27,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp17/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp18/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "B"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp19/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "C"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp20/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "D"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp21/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "E"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp22/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "F"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp23/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "G"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp24/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "H"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp25/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "I"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp26/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "J"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp27/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "K"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp28/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "L"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp29/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "M"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp30/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "N"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp31/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "O"
+        },
+        {
+          "channel": "stream/Brightside_BMS_ModuleTemps_Temp32/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "P"
+        }
+      ],
+      "title": "Module Temperatures 17-32",
+      "transformations": [],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "dark-yellow",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod1_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod2_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B2"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod3_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B3"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod4_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B4"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod5_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod6_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B6"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod7_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B7"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod8_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B8"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod9_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B9"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod10_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod11_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod12_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod13_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod14_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod15_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod16_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B16"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod17_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B17"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod18_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B18"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod19_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B19"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod20_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B20"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod21_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B21"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod22_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B22"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod23_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B23"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod24_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B24"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod25_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B25"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod26_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B26"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod27_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B27"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod28_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B28"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod29_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B29"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod30_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B30"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod31_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B31"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod32_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B32"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 21,
+        "x": 0,
+        "y": 57
+      },
+      "id": 19,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod1_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod2_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "B"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod3_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "C"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod4_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "D"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod5_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "E"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod6_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "F"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod7_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "G"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod8_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "H"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod9_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "I"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod10_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "J"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod11_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "K"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod12_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "L"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod13_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "M"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod14_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "N"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod15_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "O"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod16_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "P"
+        }
+      ],
+      "title": "Balancing Status 1-16",
+      "transformations": [],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 3,
+        "x": 21,
+        "y": 57
+      },
+      "id": 25,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_ECU_ECUStatus_SuppBattVoltage/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "Supplemental Battery Voltage",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "dark-yellow",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod1_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B1"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod2_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B2"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod3_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B3"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod4_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B4"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod5_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod6_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B6"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod7_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B7"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod8_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B8"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod9_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B9"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod10_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod11_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B11"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod12_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B12"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod13_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B13"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod14_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B14"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod15_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod16_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B16"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod17_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B17"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod18_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B18"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod19_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B19"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod20_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B20"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod21_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B21"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod22_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B22"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod23_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B23"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod24_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B24"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod25_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B25"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod26_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B26"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod27_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B27"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod28_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B28"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod29_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B29"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod30_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B30"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod31_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B31"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Mod32_BalActive {car=\"Brightside\", class=\"BalancingStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "B32"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 21,
+        "x": 0,
+        "y": 65
+      },
+      "id": 28,
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod17_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod18_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "B"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod19_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "C"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod20_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "D"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod21_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "E"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod22_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "F"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod23_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "G"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod24_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "H"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod25_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "I"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod26_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "J"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod27_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "K"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod28_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "L"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod29_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "M"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod30_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "N"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod31_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "O"
+        },
+        {
+          "channel": "stream/Brightside_BMS_BalancingStatus_Mod32_BalActive/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "hide": false,
+          "queryType": "measurements",
+          "refId": "P"
+        }
+      ],
+      "title": "Balancing Status 17-32",
+      "transformations": [],
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 73
+      },
+      "id": 15,
+      "panels": [],
+      "title": "Battery Metadata",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SOC {car=\"Brightside\", class=\"PackHealth\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "SOC"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 21,
+        "x": 0,
+        "y": 74
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_PackHealth_SOC/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "SOC(%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 3,
+        "x": 21,
+        "y": 74
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "channel": "stream/Brightside_BMS_PackHealth_SOC/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "SOC(%)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "amp"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "LVCurrent {car=\"Brightside\", class=\"ECUStatus\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "LV Current"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 81
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "channel": "stream/Brightside_ECU_ECUStatus_LVCurrent/test",
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "filter": {
+            "fields": [
+              "time",
+              "value"
+            ]
+          },
+          "queryType": "measurements",
+          "refId": "A"
+        }
+      ],
+      "title": "LVCurrent",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "1s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "1s",
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Live_Brightside_BMS",
+  "uid": "f25bb73d-a35e-45f4-95fc-73619ea44c77",
+  "version": 29,
+  "weekStart": ""
+}
