@@ -7,7 +7,7 @@ import struct
 LOG_FOLDER          = "/media/aarjav/disk/"
 NUM_LOGS            = 15
 MB_TO_KB            = 1024
-EPOCH_START         = datetime.datetime(1970, 1, 1)
+EPOCH_START         = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
 
 # Formatting Constants
 ANSI_GREEN          = "\033[92m"
