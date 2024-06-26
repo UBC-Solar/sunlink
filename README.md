@@ -511,10 +511,11 @@ Here are some example invocations:
 
 ## Running the Offline Log Uploader
 
-To run the offline log uploader the `logfiles` folder should have a generated log file to read and request the parser to write to InfluxDB in the specified buckets (_test or _prod based on --debug or --prod options respectively). To do this use the -u (--log-upload) flag as follows:
+The offline log uploader will use the `MemoratorUploader` script in the `tools/` folder to read the contents of the SD card on the Memorator and then upload those messages to InfluxDB. There are two options for this: `-u fast` and `-u all`. `-u fast` will only upload one Log File Container (1 .KMF file will be read). In `-u all` all 15 .KMF files on the SD card will be read and their data will be uploaded. Note: data is sent to the `_log` suffixed bucket.
 
 ```bash
-./link_telemetry.py -u
+./link_telemetry.py -u fast
+./link_telemetry.py -u all
 ```
 
 ## Running the tests
