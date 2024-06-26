@@ -1,64 +1,93 @@
 version: "3.9"
 services:
-    grafana:
-        image: grafana/grafana-oss:9.5.2
-        container_name: grafana
-        ports:
-            - 127.0.0.1:3000:3000
-        volumes:
-            - grafana:/var/lib/grafana
-            - type: bind
-              source: ./config/grafana.ini
-              target: /etc/grafana/grafana.ini
-            - type: bind
-              source: ./provisioning
-              target: /etc/grafana/provisioning
-            - type: bind
-              source: ./dashboards
-              target: /var/lib/grafana/dashboards
-        depends_on:
-            - influxdb
 
-        restart: always
-        environment:
-            - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USERNAME}
-            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
-            - INFLUX_ADMIN_USERNAME=${INFLUX_ADMIN_USERNAME}
-            - INFLUX_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD}
-            - INFLUX_TOKEN=${INFLUX_TOKEN}
-            - INFLUX_ORG=${INFLUX_ORG}
-            - INFLUX_BUCKET=${INFLUX_INIT_BUCKET}
-
-    parser:
-        build: .
-        container_name: parser
-        volumes:
-            - .:/sunlink
-        ports:
-            - 127.0.0.1:5000:5000
-        restart: always
-
-    influxdb:
-        image: influxdb:2.7.1
-        container_name: influxdb
-        ports:
-            - 127.0.0.1:8086:8086
-        volumes:
-            - influxdb-storage:/var/lib/influxdb2
-            - influxdb-config:/etc/influxdb2
-            - type: bind
-              source: ./scripts
-              target: /docker-entrypoint-initdb.d
-        environment:
-            - DOCKER_INFLUXDB_INIT_MODE=setup
-            - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_ADMIN_USERNAME}
-            - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_ADMIN_PASSWORD}
-            - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_ORG}
-            - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_INIT_BUCKET}
-            - INFLUX_DEBUG_BUCKET=${INFLUX_DEBUG_BUCKET}
-        restart: always
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+#      - ./certbot/conf:/etc/nginx/ssl/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+    restart: always
+  
+  certbot:
+    image: certbot/certbot
+    volumes: 
+      - ./certbot/conf:/etc/letsencrypt/:rw
+      - ./certbot/www:/var/www/certbot/:rw
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email software@ubcsolar.com -d telemetry.ubcsolar.com --agree-tos
+    restart: always
+  
+  grafana:
+    image: grafana/grafana-oss:9.5.2
+    container_name: grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana:/var/lib/grafana
+      - type: bind
+        source: ./config/grafana.ini
+        target: /etc/grafana/grafana.ini
+      - type: bind
+        source: ./provisioning
+        target: /etc/grafana/provisioning
+      - type: bind
+        source: ./dashboards
+        target: /var/lib/grafana/dashboards
+    depends_on:
+      - influxdb
+      - nginx
+    restart: always
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - INFLUX_ADMIN_USERNAME=${INFLUX_ADMIN_USERNAME}
+      - INFLUX_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD}
+      - INFLUX_TOKEN=${INFLUX_TOKEN}
+      - INFLUX_ORG=${INFLUX_ORG}
+      - INFLUX_BUCKET=${INFLUX_INIT_BUCKET}
+  
+  parser:
+    init: true
+    build: .
+    container_name: parser
+    volumes:
+      - .:/sunlink
+    ports:
+      - 5000:5000
+    depends_on: 
+      - nginx
+    restart: always
+  
+  influxdb:
+    image: influxdb:2.7.1
+    container_name: influxdb
+    ports:
+      - 8086:8086
+    volumes:
+      - influxdb-storage:/var/lib/influxdb2
+      - influxdb-config:/etc/influxdb2
+      - type: bind
+        source: ./scripts
+        target: /docker-entrypoint-initdb.d
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_ADMIN_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_ADMIN_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUX_INIT_BUCKET}
+      - INFLUX_DEBUG_BUCKET=${INFLUX_DEBUG_BUCKET}
+    depends_on:
+      - nginx
+    restart: always
 
 volumes:
-    grafana:
-    influxdb-storage:
-    influxdb-config:
+  grafana:
+  influxdb-storage:
+  influxdb-config:

@@ -73,6 +73,42 @@ When attempting to set up Sunlink, it is important to decide whether you want to
 
 -   If the telemetry cluster has **not been set up**, continue onwards to set it up.
 
+### Automated Sunlink Telemetry Cluster Setup
+
+This includes a bash script to automate the setup of Sunlink with Nginx as a reverse proxy to spin up Docker containers for the telemetry cluster.
+
+#### Overview
+
+The `run_setup.sh` script simplifies the process of installing dependencies and setting up Sunlink. This additionally configures Nginx and Docker to manage your telemetry cluster. It sets up Nginx as a reverse proxy, enabling seamless communication between your Docker containers.
+
+#### Script Summary
+
+The `run_setup.sh` script:
+
+- Updates the system packages.
+- Installs Docker and Docker Compose.
+- Clones the Sunlink repository.
+- Prompts the user for Grafana and InfluxDB credentials.
+- Creates necessary configuration files for nginx and docker compose.
+- Starts the Docker containers for the telemetry cluster.
+
+
+#### Usage
+
+1. **Download the Script**
+
+   Download the `run_setup.sh` script into the directory where you want to set up the telemetry cluster:
+
+   ```sh
+   curl -O https://github.com/UBC-Solar/sunlink/run_setup.sh
+
+2. **Run Script**
+
+   To run the script, simply enter the following command:
+
+   ```sh
+   ./run_setup.sh
+
 ## Telemetry cluster setup
 
 Since the telemetry cluster consists of three Docker containers that are spun up with Docker Compose, it can easily be deployed on any (although preferably Linux) system.
@@ -340,9 +376,9 @@ If all your tokens are correctly set up, the parser should return the following:
 }
 ```
 
--   If your output doesn't look like the above, double-check the tokens you entered into the `.env` file and ensure that you **restarted the docker containers** after changing the tokens. Of course, make sure your docker containers are running in the first place. For more information about the parser API health endpoint, go [here](#parser-http-api).
+- If your output doesn't look like the above, double-check the tokens you entered into the `.env` file and ensure that you **restarted the docker containers** after changing the tokens. Of course, make sure your docker containers are running in the first place. For more information about the parser API health endpoint, go [here](#parser-http-api).
 
--   If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
+- If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
 
 ## Telemetry link setup
 
