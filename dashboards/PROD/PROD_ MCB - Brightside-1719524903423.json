@@ -405,7 +405,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -549,6 +550,6 @@
   "timezone": "",
   "title": "PROD: MCB - Brightside",
   "uid": "d5250b2f-4ec6-4da1-a77e-3b121f5e77f0",
-  "version": 18,
+  "version": 21,
   "weekStart": ""
 }

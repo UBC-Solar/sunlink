@@ -455,7 +455,23 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "+"
+                },
+                "1": {
+                  "color": "light-red",
+                  "index": 1,
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -556,7 +572,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -624,7 +641,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "rotrpm"
         },
         "overrides": []
       },
@@ -680,7 +698,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "velocityms"
         },
         "overrides": []
       },
@@ -736,7 +755,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -787,7 +807,7 @@
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
-            "axisPlacement": "auto",
+            "axisPlacement": "left",
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 0,
@@ -821,7 +841,8 @@
                 "color": "green"
               }
             ]
-          }
+          },
+          "unit": "velocityms"
         },
         "overrides": []
       },
@@ -906,7 +927,8 @@
                 "color": "green"
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -991,7 +1013,8 @@
                 "color": "green"
               }
             ]
-          }
+          },
+          "unit": "rotrpm"
         },
         "overrides": []
       },
@@ -1080,7 +1103,8 @@
                 "color": "green"
               }
             ]
-          }
+          },
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -1137,6 +1161,7 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1184,7 +1209,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -1217,7 +1243,7 @@
           "refId": "A"
         }
       ],
-      "title": "MC Battery Current, ECU Pack Current, MC Accelerator Position",
+      "title": "MC Battery Current (A), ECU Pack Current (A), MC Accelerator Position (%)",
       "type": "timeseries"
     },
     {
@@ -1272,7 +1298,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -1360,7 +1387,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -3205,7 +3233,8 @@
                 "color": "green"
               }
             ]
-          }
+          },
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -3243,7 +3272,7 @@
       "type": "timeseries"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3251,292 +3280,291 @@
         "y": 110
       },
       "id": 39,
-      "panels": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [
-                {
-                  "options": {
-                    "0": {
-                      "color": "dark-red",
-                      "index": 0,
-                      "text": "NO FIX"
-                    }
-                  },
-                  "type": "value"
-                },
-                {
-                  "options": {
-                    "from": 1,
-                    "result": {
-                      "color": "green",
-                      "index": 1
-                    },
-                    "to": 32
-                  },
-                  "type": "range"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 7,
-            "x": 9,
-            "y": 90
-          },
-          "id": 40,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "9.5.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P951FEA4DE68E13C5"
-              },
-              "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"SatelliteCount\")\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
-              "refId": "A"
-            }
-          ],
-          "title": "TEL Sat Count GPS",
-          "type": "stat"
-        }
-      ],
+      "panels": [],
       "title": "GPS",
       "type": "row"
     },
     {
-      "collapsed": true,
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "dark-red",
+                  "index": 0,
+                  "text": "NO FIX"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "from": 1,
+                "result": {
+                  "color": "green",
+                  "index": 1
+                },
+                "to": 32
+              },
+              "type": "range"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "Satellites"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 7,
+        "x": 9,
+        "y": 111
+      },
+      "id": 40,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"SatelliteCount\")\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "TEL Sat Count GPS",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 111
+        "y": 117
       },
       "id": 10,
-      "panels": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "accMS2"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 8,
-            "x": 0,
-            "y": 91
-          },
-          "id": 14,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "9.5.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P951FEA4DE68E13C5"
-              },
-              "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_X\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
-              "refId": "A"
-            }
-          ],
-          "title": "IMU (AX)",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "accMS2"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 8,
-            "x": 8,
-            "y": 91
-          },
-          "id": 18,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "9.5.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P951FEA4DE68E13C5"
-              },
-              "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_Y\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
-              "refId": "A"
-            }
-          ],
-          "title": "IMU (AY)",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "accMS2"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 8,
-            "x": 16,
-            "y": 91
-          },
-          "id": 17,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "9.5.2",
-          "targets": [
-            {
-              "datasource": {
-                "type": "influxdb",
-                "uid": "P951FEA4DE68E13C5"
-              },
-              "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_Z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
-              "refId": "A"
-            }
-          ],
-          "title": "IMU (AZ)",
-          "type": "stat"
-        }
-      ],
+      "panels": [],
       "title": "IMU Data",
       "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "accMS2"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 118
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_X\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "IMU (AX)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "accMS2"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 118
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_Y\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "IMU (AY)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "accMS2"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 118
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Acceleration_Z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\r\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "IMU (AZ)",
+      "type": "stat"
     }
   ],
-  "refresh": "1s",
+  "refresh": "",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -3564,6 +3592,6 @@
   "timezone": "",
   "title": "PROD: Pit Crew - Brightside",
   "uid": "e3e801b9-6d09-48e4-9306-81b946558bfe",
-  "version": 22,
+  "version": 25,
   "weekStart": ""
 }

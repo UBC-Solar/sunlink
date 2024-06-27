@@ -455,7 +455,23 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "+"
+                },
+                "1": {
+                  "color": "light-red",
+                  "index": 1,
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -556,7 +572,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -624,7 +641,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "rotrpm"
         },
         "overrides": []
       },
@@ -680,7 +698,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "velocityms"
         },
         "overrides": []
       },
@@ -736,7 +755,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -787,7 +807,7 @@
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
-            "axisPlacement": "auto",
+            "axisPlacement": "left",
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 0,
@@ -818,11 +838,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "velocityms"
         },
         "overrides": []
       },
@@ -904,11 +924,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -990,11 +1010,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "rotrpm"
         },
         "overrides": []
       },
@@ -1080,11 +1100,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -1141,6 +1161,7 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1188,7 +1209,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -1221,7 +1243,7 @@
           "refId": "A"
         }
       ],
-      "title": "MC Battery Current, ECU Pack Current, MC Accelerator Position",
+      "title": "MC Battery Current (A), ECU Pack Current (A), MC Accelerator Position (%)",
       "type": "timeseries"
     },
     {
@@ -1276,7 +1298,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -1364,7 +1387,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -3209,7 +3233,8 @@
                 "color": "green"
               }
             ]
-          }
+          },
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -3299,7 +3324,8 @@
                 "color": "green"
               }
             ]
-          }
+          },
+          "unit": "Satellites"
         },
         "overrides": []
       },
@@ -3566,6 +3592,6 @@
   "timezone": "",
   "title": "TEST: Pit Crew - Brightside",
   "uid": "b04084a8-3f7c-4901-8f15-8df4b33bf32a",
-  "version": 10,
+  "version": 12,
   "weekStart": ""
 }

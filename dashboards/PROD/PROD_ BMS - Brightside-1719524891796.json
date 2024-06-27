@@ -102,7 +102,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -191,7 +192,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -280,7 +282,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -3302,7 +3305,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "1s",
+  "refresh": "",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -3331,6 +3334,6 @@
   "timezone": "",
   "title": "PROD: BMS - Brightside",
   "uid": "f34205dd-dee5-4c83-b728-5a758bec6a50",
-  "version": 21,
+  "version": 25,
   "weekStart": ""
 }
