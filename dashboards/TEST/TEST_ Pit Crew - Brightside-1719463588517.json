@@ -818,7 +818,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -903,7 +904,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -988,7 +990,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -1077,7 +1080,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -3560,8 +3564,8 @@
     ]
   },
   "timezone": "",
-  "title": "DEBUG: Pit Crew - Brightside",
+  "title": "TEST: Pit Crew - Brightside",
   "uid": "b04084a8-3f7c-4901-8f15-8df4b33bf32a",
-  "version": 6,
+  "version": 10,
   "weekStart": ""
 }
