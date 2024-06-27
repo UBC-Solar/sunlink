@@ -93,4 +93,7 @@ When creating a dashboard on Grafana there are no standards on what the dashboar
         * `<SIGNAL>`: This is the signal that the panel is showing. Examples: `MotorVelocity`, `BatteryCurrent`, `PackVoltage`.
         * Examples: `MCB: MotorVelocity` and `MC Battery Current, ECU Pack Current, MC Accelerator Position`
         * This convention was chosen because some messages have the same name/misleading names which may cause confusion when wanting to see data **from a specifc board**. Note that by knowing the **board** you can better understand the meaning of that message's data. As such we included the name of the board in the panel name.
-        
+
+
+![alt text](../images/grafana/grafana-17.png)
+![alt text](../images/grafana/grafana-18.png)
