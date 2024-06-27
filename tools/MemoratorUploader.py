@@ -18,7 +18,10 @@ ANSI_RESET          = "\033[0m"
 # Regex Patterns for logfile parsing
 PATTERN_DATETIME    = re.compile(r't:\s+(.*?)\s+DateTime:\s+(.*)')
 PATTERN_TRIGGER     = re.compile(r't:\s+(.*?)\s+Log Trigger Event.*')
-PATTERN_EVENT       = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:\s+(.*?) dlc:\s+(.*?) d:(.*)')
+PATTERN_EVENT       = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:(.*?) dlc:\s+(.*?) d:(.*)')
+
+# Data Constants
+ERROR_ID            = 0
 
 
 def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
@@ -28,9 +31,9 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
         if PATTERN_DATETIME.search(str_event):
             match = PATTERN_DATETIME.search(str_event)
             date_time_str = match.group(2)
-            date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
-            date_time_obj = date_time_obj.replace(tzinfo=datetime.timezone.utc)  
-            start_time = (date_time_obj - EPOCH_START).total_seconds()
+            date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S') 
+            utc_date_time_obj = date_time_obj.astimezone(datetime.timezone.utc)                 # Convert to UTC
+            start_time = (utc_date_time_obj - EPOCH_START).total_seconds()
         elif PATTERN_TRIGGER.search(str_event):
             continue
         elif PATTERN_EVENT.search(str_event):
@@ -38,7 +41,11 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             timestamp = start_time + float(match.group(1))
             timestamp_str = struct.pack('>d', timestamp).decode('latin-1')
 
-            id = int(match.group(3), 16)
+            id = int(match.group(3).strip(), 16)
+
+            if id == ERROR_ID:
+                continue
+            
             id_str = id.to_bytes(4, 'big').decode('latin-1') 
 
             dlc_str = match.group(4)
@@ -52,8 +59,10 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
+    numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS
+
     # Open each KMF file
-    for i in range(NUM_LOGS):
+    for i in range(numLogs):
         log_path = LOG_FOLDER + "LOG000{:02d}.KMF".format(i)
         kmf_file = kvmlib.openKmf(log_path.format(i))
         print(f"{ANSI_GREEN}Opening file: {log_path.format(i)}{ANSI_RESET}")  # Green stdout
@@ -88,9 +97,9 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
         # Close the KMF file
         kmf_file.close()
 
-    upload_input = input(f"{ANSI_GREEN}Do you want to upload all logs now (y/n)?: {ANSI_RESET} ")
+    upload_input = input(f"{ANSI_GREEN}Do you want to upload all logs now (y/n)?: {ANSI_RESET} \n")
     if upload_input.lower() == 'y' or upload_input.lower() == '\n':
-        for i in range(NUM_LOGS):
+        for i in range(numLogs):
             log_path = LOG_FOLDER + "LOG000{:02d}".format(i)
             kmf_file = kvmlib.openKmf(log_path.format(i))
             print(f"{ANSI_GREEN}Opening file: {log_path.format(i)}{ANSI_RESET}")  # Green stdout
@@ -103,7 +112,9 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
                 upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint)
 
             # Clear the log files
-            log.delete_all()
+            delete_input = input(f"{ANSI_GREEN}Do you want to {ANSI_RESET}{ANSI_RED}DELETE{ANSI_RESET} {ANSI_GREEN}all logs now (y/n)?: {ANSI_RESET} ")
+            if delete_input.lower() == 'y' or delete_input.lower() == '\n':
+                log.delete_all()
             
             # Close the KMF file
             kmf_file.close()

@@ -594,7 +594,7 @@ def main():
     source_group.add_argument("--live-on", nargs='+',
                               help=("Args create a list of message classes or ID's to stream to grafana. no args for all, all for all"))
     
-    source_group.add_argument("-u", "--log-upload", action="store_true",
+    source_group.add_argument("-u", "--log-upload", nargs='+',
                             help=("Will attempt to upload each line of each file in the logfiles directory "
                                 "If upload does not succeed then these lines will be stored "
                                 "in a file named `FAILED_UPLOADS.txt in the logfiles directory`"))
@@ -728,10 +728,11 @@ def main():
     
     if args.log_upload:
         upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
-        return 0
+        return
 
     while True:
         message: bytes
+
 
         if args.randomList:
             try:
