@@ -63,6 +63,8 @@ This is an example of the BusCurrent, LVCurrent, and PackCurrent overlayed:
 ![alt text](../images/grafana/grafana-15.png)
 
 ## Other Tips and Tricks
+* To change the time window of the graph, click the clock icon in the top right corner and select the time window you want to see. For example, to get the last 1 minutes of data, type the following in the absolute time range section and hit the blue `Apply Time Range` button:
+![alt text](../images/grafana/grafana-16.png)
 * If you want to just see a number instead of a graph (for example for states or for speed) it is useful to change the graph type to Stat:
 ![alt text](../images/grafana/grafana-11.png)
 * To see the dashboard refresh at a 1s rate (or any other rate) click the gear icon in the top right corner. Then scroll down until you see **Auto Refresh** and then change the options to have `1s` in it. Save the dashboard and check the auto refresh interval and select 1s from it:

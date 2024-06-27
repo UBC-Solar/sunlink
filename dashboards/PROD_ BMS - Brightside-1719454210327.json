@@ -15,10 +15,11 @@
       }
     ]
   },
+  "description": "Pulls from the Production bucket",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 8,
   "links": [
     {
       "asDropdown": false,
@@ -42,6 +43,286 @@
         "w": 24,
         "x": 0,
         "y": 0
+      },
+      "id": 27,
+      "panels": [],
+      "title": "Pack Current, Current Pulled by Motor, and Throttle",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 26,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryCurrent\" or r[\"_field\"] == \"AcceleratorPosition\" or r[\"_field\"] == \"PackCurrent\")\n  |> filter(fn: (r) => r[\"car\"] == \"Brightside\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Current Pulled by Motor + Total Pack Current + Accelerator Position",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 28,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrent\")\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "MCB Throttle - Normalized",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 29,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\" or r[\"_field\"] == \"LVCurrent\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")\n  ",
+          "refId": "A"
+        }
+      ],
+      "title": "Pack and LV Current",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 24
       },
       "id": 2,
       "panels": [],
@@ -84,8 +365,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -270,7 +550,7 @@
         "h": 7,
         "w": 11,
         "x": 0,
-        "y": 1
+        "y": 25
       },
       "id": 1,
       "options": {
@@ -294,7 +574,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SlaveBoardComm\" or r[\"_field\"] == \"BMSSelfTest\" or r[\"_field\"] == \"OverTemp\" or r[\"_field\"] == \"UnderVoltage\" or r[\"_field\"] == \"OverVoltage\" or r[\"_field\"] == \"IsoLost\" or r[\"_field\"] == \"ChargeOvercurrent\" or r[\"_field\"] == \"VoltOutofRange\" or r[\"_field\"] == \"TempOutofRange\" or r[\"_field\"] == \"PackBalancingActive\" or r[\"_field\"] == \"LLIMActive\" or r[\"_field\"] == \"HLIMActive\" or r[\"_field\"] == \"ChargeOverTemp\" or r[\"_field\"] == \"RequestRegenOff\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SlaveBoardComm\" or r[\"_field\"] == \"BMSSelfTest\" or r[\"_field\"] == \"OverTemp\" or r[\"_field\"] == \"UnderVoltage\" or r[\"_field\"] == \"OverVoltage\" or r[\"_field\"] == \"IsoLost\" or r[\"_field\"] == \"ChargeOvercurrent\" or r[\"_field\"] == \"VoltOutofRange\" or r[\"_field\"] == \"TempOutofRange\" or r[\"_field\"] == \"PackBalancingActive\" or r[\"_field\"] == \"LLIMActive\" or r[\"_field\"] == \"HLIMActive\" or r[\"_field\"] == \"ChargeOverTemp\" or r[\"_field\"] == \"RequestRegenOff\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -337,8 +617,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -415,7 +694,7 @@
         "h": 7,
         "w": 10,
         "x": 11,
-        "y": 1
+        "y": 25
       },
       "id": 3,
       "options": {
@@ -439,7 +718,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LowVoltage\" or r[\"_field\"] == \"HighVoltage\" or r[\"_field\"] == \"LowTemp\" or r[\"_field\"] == \"HighTemp\" or r[\"_field\"] == \"NoECUCurrentMessage\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LowVoltage\" or r[\"_field\"] == \"HighVoltage\" or r[\"_field\"] == \"LowTemp\" or r[\"_field\"] == \"HighTemp\" or r[\"_field\"] == \"NoECUCurrentMessage\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -462,8 +741,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -478,7 +756,7 @@
         "h": 7,
         "w": 3,
         "x": 21,
-        "y": 1
+        "y": 25
       },
       "id": 21,
       "options": {
@@ -502,7 +780,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ESTOP_Pressed\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ESTOP_Pressed\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -515,7 +793,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 32
       },
       "id": 5,
       "panels": [],
@@ -569,8 +847,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -599,7 +876,7 @@
         "h": 7,
         "w": 9,
         "x": 0,
-        "y": 9
+        "y": 33
       },
       "id": 6,
       "options": {
@@ -620,7 +897,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofHighest\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofHighest\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -642,8 +919,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -659,7 +935,7 @@
         "h": 4,
         "w": 3,
         "x": 9,
-        "y": 9
+        "y": 33
       },
       "id": 7,
       "options": {
@@ -683,7 +959,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofHighest\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofHighest\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -737,8 +1013,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -767,7 +1042,7 @@
         "h": 7,
         "w": 9,
         "x": 12,
-        "y": 9
+        "y": 33
       },
       "id": 9,
       "options": {
@@ -788,7 +1063,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofLeast\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofLeast\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -810,8 +1085,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -827,7 +1101,7 @@
         "h": 4,
         "w": 3,
         "x": 21,
-        "y": 9
+        "y": 33
       },
       "id": 10,
       "options": {
@@ -851,7 +1125,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofLeast\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofLeast\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -873,8 +1147,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -889,7 +1162,7 @@
         "h": 3,
         "w": 3,
         "x": 9,
-        "y": 13
+        "y": 37
       },
       "id": 8,
       "options": {
@@ -913,7 +1186,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"IndexofHighestModule\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"IndexofHighestModule\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -935,8 +1208,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -951,7 +1223,7 @@
         "h": 3,
         "w": 3,
         "x": 21,
-        "y": 13
+        "y": 37
       },
       "id": 11,
       "options": {
@@ -975,7 +1247,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"IndexofLowestModule\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"IndexofLowestModule\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1029,8 +1301,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1059,7 +1330,7 @@
         "h": 8,
         "w": 11,
         "x": 0,
-        "y": 16
+        "y": 40
       },
       "id": 12,
       "options": {
@@ -1080,7 +1351,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TotalPackVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TotalPackVoltage\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1102,8 +1373,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1119,7 +1389,7 @@
         "h": 4,
         "w": 3,
         "x": 11,
-        "y": 16
+        "y": 40
       },
       "id": 23,
       "options": {
@@ -1143,7 +1413,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TotalPackVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TotalPackVoltage\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1197,8 +1467,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1227,7 +1496,7 @@
         "h": 8,
         "w": 10,
         "x": 14,
-        "y": 16
+        "y": 40
       },
       "id": 13,
       "options": {
@@ -1248,7 +1517,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1270,8 +1539,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1287,7 +1555,7 @@
         "h": 4,
         "w": 3,
         "x": 11,
-        "y": 20
+        "y": 44
       },
       "id": 24,
       "options": {
@@ -1311,7 +1579,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1324,7 +1592,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 48
       },
       "id": 18,
       "panels": [],
@@ -1348,8 +1616,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "dark-yellow",
@@ -1754,7 +2021,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 25
+        "y": 49
       },
       "id": 22,
       "options": {
@@ -1779,7 +2046,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleVoltages\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Voltage1\" or r[\"_field\"] == \"Voltage2\" or r[\"_field\"] == \"Voltage3\" or r[\"_field\"] == \"Voltage4\" or r[\"_field\"] == \"Voltage5\"or r[\"_field\"] == \"Voltage6\" or r[\"_field\"] == \"Voltage7\" or r[\"_field\"] == \"Voltage8\" or r[\"_field\"] == \"Voltage9\" or r[\"_field\"] == \"Voltage10\" or r[\"_field\"] == \"Voltage11\" or r[\"_field\"] == \"Voltage12\" or r[\"_field\"] == \"Voltage13\" or r[\"_field\"] == \"Voltage14\" or r[\"_field\"] == \"Voltage15\"or r[\"_field\"] == \"Voltage16\" or r[\"_field\"] == \"Voltage17\" or r[\"_field\"] == \"Voltage18\" or r[\"_field\"] == \"Voltage19\" or r[\"_field\"] == \"Voltage20\" or r[\"_field\"] == \"Voltage21\" or r[\"_field\"] == \"Voltage22\" or r[\"_field\"] == \"Voltage23\" or r[\"_field\"] == \"Voltage24\" or r[\"_field\"] == \"Voltage25\"or r[\"_field\"] == \"Voltage26\" or r[\"_field\"] == \"Voltage27\" or r[\"_field\"] == \"Voltage28\" or r[\"_field\"] == \"Voltage29\" or r[\"_field\"] == \"Voltage30\" or r[\"_field\"] == \"Voltage31\" or r[\"_field\"] == \"Voltage32\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleVoltages\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Voltage1\" or r[\"_field\"] == \"Voltage2\" or r[\"_field\"] == \"Voltage3\" or r[\"_field\"] == \"Voltage4\" or r[\"_field\"] == \"Voltage5\"or r[\"_field\"] == \"Voltage6\" or r[\"_field\"] == \"Voltage7\" or r[\"_field\"] == \"Voltage8\" or r[\"_field\"] == \"Voltage9\" or r[\"_field\"] == \"Voltage10\" or r[\"_field\"] == \"Voltage11\" or r[\"_field\"] == \"Voltage12\" or r[\"_field\"] == \"Voltage13\" or r[\"_field\"] == \"Voltage14\" or r[\"_field\"] == \"Voltage15\"or r[\"_field\"] == \"Voltage16\" or r[\"_field\"] == \"Voltage17\" or r[\"_field\"] == \"Voltage18\" or r[\"_field\"] == \"Voltage19\" or r[\"_field\"] == \"Voltage20\" or r[\"_field\"] == \"Voltage21\" or r[\"_field\"] == \"Voltage22\" or r[\"_field\"] == \"Voltage23\" or r[\"_field\"] == \"Voltage24\" or r[\"_field\"] == \"Voltage25\"or r[\"_field\"] == \"Voltage26\" or r[\"_field\"] == \"Voltage27\" or r[\"_field\"] == \"Voltage28\" or r[\"_field\"] == \"Voltage29\" or r[\"_field\"] == \"Voltage30\" or r[\"_field\"] == \"Voltage31\" or r[\"_field\"] == \"Voltage32\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1792,6 +2059,7 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1804,8 +2072,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -2210,7 +2477,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 56
       },
       "id": 20,
       "options": {
@@ -2235,7 +2502,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleTemps\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Temp1\" or r[\"_field\"] == \"Temp2\" or r[\"_field\"] == \"Temp3\" or r[\"_field\"] == \"Temp4\" or r[\"_field\"] == \"Temp5\"or r[\"_field\"] == \"Temp6\" or r[\"_field\"] == \"Temp7\" or r[\"_field\"] == \"Temp8\" or r[\"_field\"] == \"Temp9\" or r[\"_field\"] == \"Temp10\" or r[\"_field\"] == \"Temp11\" or r[\"_field\"] == \"Temp12\" or r[\"_field\"] == \"Temp13\" or r[\"_field\"] == \"Temp14\" or r[\"_field\"] == \"Temp15\"or r[\"_field\"] == \"Temp16\" or r[\"_field\"] == \"Temp17\" or r[\"_field\"] == \"Temp18\" or r[\"_field\"] == \"Temp19\" or r[\"_field\"] == \"Temp20\" or r[\"_field\"] == \"Temp21\" or r[\"_field\"] == \"Temp22\" or r[\"_field\"] == \"Temp23\" or r[\"_field\"] == \"Temp24\" or r[\"_field\"] == \"Temp25\"or r[\"_field\"] == \"Temp26\" or r[\"_field\"] == \"Temp27\" or r[\"_field\"] == \"Temp28\" or r[\"_field\"] == \"Temp29\" or r[\"_field\"] == \"Temp30\" or r[\"_field\"] == \"Temp31\" or r[\"_field\"] == \"Temp32\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleTemps\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Temp1\" or r[\"_field\"] == \"Temp2\" or r[\"_field\"] == \"Temp3\" or r[\"_field\"] == \"Temp4\" or r[\"_field\"] == \"Temp5\"or r[\"_field\"] == \"Temp6\" or r[\"_field\"] == \"Temp7\" or r[\"_field\"] == \"Temp8\" or r[\"_field\"] == \"Temp9\" or r[\"_field\"] == \"Temp10\" or r[\"_field\"] == \"Temp11\" or r[\"_field\"] == \"Temp12\" or r[\"_field\"] == \"Temp13\" or r[\"_field\"] == \"Temp14\" or r[\"_field\"] == \"Temp15\"or r[\"_field\"] == \"Temp16\" or r[\"_field\"] == \"Temp17\" or r[\"_field\"] == \"Temp18\" or r[\"_field\"] == \"Temp19\" or r[\"_field\"] == \"Temp20\" or r[\"_field\"] == \"Temp21\" or r[\"_field\"] == \"Temp22\" or r[\"_field\"] == \"Temp23\" or r[\"_field\"] == \"Temp24\" or r[\"_field\"] == \"Temp25\"or r[\"_field\"] == \"Temp26\" or r[\"_field\"] == \"Temp27\" or r[\"_field\"] == \"Temp28\" or r[\"_field\"] == \"Temp29\" or r[\"_field\"] == \"Temp30\" or r[\"_field\"] == \"Temp31\" or r[\"_field\"] == \"Temp32\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -2260,8 +2527,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "dark-yellow",
@@ -2662,7 +2928,7 @@
         "h": 4,
         "w": 21,
         "x": 0,
-        "y": 39
+        "y": 63
       },
       "id": 19,
       "options": {
@@ -2687,7 +2953,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"BalancingStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Mod1_BalActive\" or r[\"_field\"] == \"Mod2_BalActive\" or r[\"_field\"] == \"Mod3_BalActive\" or r[\"_field\"] == \"Mod4_BalActive\" or r[\"_field\"] == \"Mod5_BalActive\"or r[\"_field\"] == \"Mod6_BalActive\" or r[\"_field\"] == \"Mod7_BalActive\" or r[\"_field\"] == \"Mod8_BalActive\" or r[\"_field\"] == \"Mod9_BalActive\" or r[\"_field\"] == \"Mod10_BalActive\" or r[\"_field\"] == \"Mod11_BalActive\" or r[\"_field\"] == \"Mod12_BalActive\" or r[\"_field\"] == \"Mod13_BalActive\" or r[\"_field\"] == \"Mod14_BalActive\" or r[\"_field\"] == \"Mod15_BalActive\"or r[\"_field\"] == \"Mod16_BalActive\" or r[\"_field\"] == \"Mod17_BalActive\" or r[\"_field\"] == \"Mod18_BalActive\" or r[\"_field\"] == \"Mod19_BalActive\" or r[\"_field\"] == \"Mod20_BalActive\" or r[\"_field\"] == \"Mod21_BalActive\" or r[\"_field\"] == \"Mod22_BalActive\" or r[\"_field\"] == \"Mod23_BalActive\" or r[\"_field\"] == \"Mod24_BalActive\" or r[\"_field\"] == \"Mod25_BalActive\"or r[\"_field\"] == \"Mod26_BalActive\" or r[\"_field\"] == \"Mod27_BalActive\" or r[\"_field\"] == \"Mod28_BalActive\" or r[\"_field\"] == \"Mod29_BalActive\" or r[\"_field\"] == \"Mod30_BalActive\" or r[\"_field\"] == \"Mod31_BalActive\" or r[\"_field\"] == \"Mod32_BalActive\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"BalancingStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Mod1_BalActive\" or r[\"_field\"] == \"Mod2_BalActive\" or r[\"_field\"] == \"Mod3_BalActive\" or r[\"_field\"] == \"Mod4_BalActive\" or r[\"_field\"] == \"Mod5_BalActive\"or r[\"_field\"] == \"Mod6_BalActive\" or r[\"_field\"] == \"Mod7_BalActive\" or r[\"_field\"] == \"Mod8_BalActive\" or r[\"_field\"] == \"Mod9_BalActive\" or r[\"_field\"] == \"Mod10_BalActive\" or r[\"_field\"] == \"Mod11_BalActive\" or r[\"_field\"] == \"Mod12_BalActive\" or r[\"_field\"] == \"Mod13_BalActive\" or r[\"_field\"] == \"Mod14_BalActive\" or r[\"_field\"] == \"Mod15_BalActive\"or r[\"_field\"] == \"Mod16_BalActive\" or r[\"_field\"] == \"Mod17_BalActive\" or r[\"_field\"] == \"Mod18_BalActive\" or r[\"_field\"] == \"Mod19_BalActive\" or r[\"_field\"] == \"Mod20_BalActive\" or r[\"_field\"] == \"Mod21_BalActive\" or r[\"_field\"] == \"Mod22_BalActive\" or r[\"_field\"] == \"Mod23_BalActive\" or r[\"_field\"] == \"Mod24_BalActive\" or r[\"_field\"] == \"Mod25_BalActive\"or r[\"_field\"] == \"Mod26_BalActive\" or r[\"_field\"] == \"Mod27_BalActive\" or r[\"_field\"] == \"Mod28_BalActive\" or r[\"_field\"] == \"Mod29_BalActive\" or r[\"_field\"] == \"Mod30_BalActive\" or r[\"_field\"] == \"Mod31_BalActive\" or r[\"_field\"] == \"Mod32_BalActive\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -2711,8 +2977,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2728,7 +2993,7 @@
         "h": 4,
         "w": 3,
         "x": 21,
-        "y": 39
+        "y": 63
       },
       "id": 25,
       "options": {
@@ -2752,7 +3017,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SuppBattVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SuppBattVoltage\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -2765,7 +3030,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 67
       },
       "id": 15,
       "panels": [],
@@ -2817,8 +3082,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -2843,7 +3107,7 @@
         "h": 7,
         "w": 21,
         "x": 0,
-        "y": 44
+        "y": 68
       },
       "id": 16,
       "options": {
@@ -2865,7 +3129,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"PackHealth\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SOC\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"PackHealth\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SOC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -2887,8 +3151,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2904,7 +3167,7 @@
         "h": 7,
         "w": 3,
         "x": 21,
-        "y": 44
+        "y": 68
       },
       "id": 17,
       "options": {
@@ -2928,7 +3191,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"PackHealth\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SOC\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"PackHealth\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SOC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -2981,8 +3244,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3011,7 +3273,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 75
       },
       "id": 14,
       "options": {
@@ -3032,7 +3294,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LVCurrent\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LVCurrent\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -3067,8 +3329,8 @@
     ]
   },
   "timezone": "",
-  "title": "Brightside's BMS",
+  "title": "PROD: BMS - Brightside",
   "uid": "f34205dd-dee5-4c83-b728-5a758bec6a50",
-  "version": 12,
+  "version": 21,
   "weekStart": ""
 }
