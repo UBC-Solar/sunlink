@@ -1,5 +1,7 @@
 # Guide To Grafana
-Whether its on the bench testing or using Grafana to see vehicle data live, it is important to know to use Grafana's capabilites to make the most out of this data visualization tool. From creating a dashboard to overlaying multiple graphs you will learn the ins and outs of Grafana's UI.
+Whether its on the bench testing or using Grafana to see vehicle data live, it is important to know to use Grafana's capabilites to make the most out of this data visualization tool. From creating a dashboard to overlaying multiple graphs you will learn the ins and outs of Grafana's UI. Additionally this guide explains the **standard** for creating Grafana dashboards and visualizations for production (at the end of this doc).
+
+**NOTE:** If new dashboards from a new PR, or pull are NOT showing up for you do `sudo docker compose build --no-cache`. This will rebuild the contianers from scratch without refering to cached data (it removes cached data).
 
 ## Setting up a Dashboard
 ### Creating the Dashboard
@@ -71,3 +73,24 @@ This is an example of the BusCurrent, LVCurrent, and PackCurrent overlayed:
 ![alt text](../images/grafana/grafana-12.png)
 * For state data, seeing an average of the past states is not good because you will end up with non-integer states which is futile to interpret. To fix this, go to the query and change where it says `fn: mean` to `fn: last` and `yield(name: "mean")` to `yield(name: "last")`.
 * To zoom in on a particular section of data as its coming in, click and drag on the graph to select the time window you want to zoom in on. This will pause the moving window and will also make the rest of the panels on that dashboard zoom in as well.
+
+## Standard for Production Dashboards
+When creating a dashboard on Grafana there are no standards on what the dashboard should look like; we can only provide insights and guides on how to make the most out of Grafana's features. **However, there are still requirements for naming and organization of your dashboards and panels. Below are the standards:
+
+### Dashboards
+* **Name**
+    * The name of the dashboard must follow the naming convention of `<BUCKET_NAME>: <TITLE> - <CAR>`. 
+        * `<BUCKET_NAME>`: This is the influx bucket(s) that this dashboard's panels will pull data from. Simply list all the buckets that the dashboard pulls from in this field. Examples: `PROD` and `PROD, LOG`.
+        * `<TITLE>`: This is the name of the dashboard. It should sufficinetly explain that type of data we will see inside it. Examples: `Pit Crew`, `BMS`, `MCB`.     
+        * `<CAR>`: This is the car that the dashboard is for. Examples: `Brightside` and `Daybreak`.
+        * Examples: `PROD: Pit Crew - Brightside` and `PROD: MC (Mitsuba) - Brightside`.
+        * This convention was chosen because it helps users quickly find their intended dashboard and it contians suffieicnt detials to find the specific panel they are looking for. By appending the bucket name first you guarantee that the panels inside should populate if you ran sunlink to go into that bucket. 
+
+### Panels
+* **Name**
+    * The name of the panel must follow the naming convention of `<BOARD/_measurement>: <SIGNAL>`
+        * `<BOARD/_measurement>`: This is the board or measurement that the signal is coming from. Examples: `MCB`, `MDI`, `BMS`.
+        * `<SIGNAL>`: This is the signal that the panel is showing. Examples: `MotorVelocity`, `BatteryCurrent`, `PackVoltage`.
+        * Examples: `MCB: MotorVelocity` and `MC Battery Current, ECU Pack Current, MC Accelerator Position`
+        * This convention was chosen because some messages have the same name/misleading names which may cause confusion when wanting to see data **from a specifc board**. Note that by knowing the **board** you can better understand the meaning of that message's data. As such we included the name of the board in the panel name.
+        
