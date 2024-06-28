@@ -484,15 +484,17 @@ Returns :
     NONE
 """
 def atDiagnosticCommand(lock, args):
-    #lock.acquire()
+    
     with serial.Serial() as ser:
         ser.baudrate = args.baudrate
         ser.port = args.port
         ser.open()
         while True:
+            lock.acquire()
             for command in parameters.command_list:
                 serial.write(command)
-                
+            
+            lock.release()
             time.sleep(parameters.AT_COMMAND_FREQUENCY)
         
 
@@ -727,14 +729,14 @@ def main():
                 ser.open()
 
                 while True:
-                    #lock.acquire()
+                    lock.acquire()
                     # read in bytes from COM port
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
                     if args.rawest:
                         print(chunk)
                     parts, buffer = process_message(chunk, buffer)
-                    #lock.release()
+                    lock.release()
 
                     for part in parts:
                         if args.raw:
