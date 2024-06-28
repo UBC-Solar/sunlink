@@ -89,7 +89,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "volt"
         },
         "overrides": []
       },
@@ -178,7 +179,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -255,7 +257,23 @@
               "mode": "off"
             }
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "+"
+                },
+                "1": {
+                  "color": "light-red",
+                  "index": 1,
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -357,7 +375,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "rotrpm"
         },
         "overrides": []
       },
@@ -446,7 +465,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -535,7 +555,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -623,7 +644,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -711,7 +733,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "degree"
         },
         "overrides": []
       },
@@ -810,7 +833,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -1098,7 +1122,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -1274,7 +1299,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -1557,6 +1583,6 @@
   "timezone": "",
   "title": "PROD: MC (Mitsuba) - Brightside",
   "uid": "f0619d63-85cf-4c75-b5e1-6c72426fe4bf",
-  "version": 12,
+  "version": 15,
   "weekStart": ""
 }

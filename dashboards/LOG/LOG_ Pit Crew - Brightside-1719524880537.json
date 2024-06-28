@@ -455,7 +455,23 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "+"
+                },
+                "1": {
+                  "color": "light-red",
+                  "index": 1,
+                  "text": "-"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -556,7 +572,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -624,7 +641,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "rotrpm"
         },
         "overrides": []
       },
@@ -680,7 +698,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "velocityms"
         },
         "overrides": []
       },
@@ -736,7 +755,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -787,7 +807,7 @@
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
-            "axisPlacement": "auto",
+            "axisPlacement": "left",
             "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 0,
@@ -818,11 +838,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "velocityms"
         },
         "overrides": []
       },
@@ -904,11 +924,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -990,11 +1010,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "rotrpm"
         },
         "overrides": []
       },
@@ -1080,11 +1100,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -1141,6 +1161,7 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1181,15 +1202,15 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -1222,7 +1243,7 @@
           "refId": "A"
         }
       ],
-      "title": "MC Battery Current, ECU Pack Current, MC Accelerator Position",
+      "title": "MC Battery Current (A), ECU Pack Current (A), MC Accelerator Position (%)",
       "type": "timeseries"
     },
     {
@@ -1270,15 +1291,15 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -1359,15 +1380,15 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
@@ -1452,8 +1473,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1527,7 +1547,7 @@
         ]
       },
       "gridPos": {
-        "h": 9,
+        "h": 7,
         "w": 10,
         "x": 0,
         "y": 65
@@ -1597,8 +1617,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1780,7 +1799,7 @@
         ]
       },
       "gridPos": {
-        "h": 9,
+        "h": 7,
         "w": 11,
         "x": 10,
         "y": 65
@@ -1830,8 +1849,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1843,7 +1861,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 7,
         "w": 3,
         "x": 21,
         "y": 65
@@ -1892,8 +1910,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1909,7 +1926,7 @@
         "h": 8,
         "w": 7,
         "x": 0,
-        "y": 74
+        "y": 72
       },
       "id": 38,
       "options": {
@@ -1987,8 +2004,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2017,7 +2033,7 @@
         "h": 8,
         "w": 17,
         "x": 7,
-        "y": 74
+        "y": 72
       },
       "id": 37,
       "options": {
@@ -2062,8 +2078,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "dark-yellow",
@@ -2468,7 +2483,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 82
+        "y": 80
       },
       "id": 51,
       "options": {
@@ -2507,7 +2522,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 91
+        "y": 89
       },
       "id": 20,
       "panels": [],
@@ -2531,8 +2546,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -2937,7 +2951,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 92
+        "y": 90
       },
       "id": 21,
       "options": {
@@ -2987,8 +3001,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -3105,7 +3118,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 99
+        "y": 97
       },
       "id": 22,
       "options": {
@@ -3217,11 +3230,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -3229,7 +3242,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 106
+        "y": 104
       },
       "id": 50,
       "options": {
@@ -3264,7 +3277,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 112
+        "y": 110
       },
       "id": 39,
       "panels": [],
@@ -3308,11 +3321,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
-          }
+          },
+          "unit": "Satellites"
         },
         "overrides": []
       },
@@ -3320,7 +3333,7 @@
         "h": 6,
         "w": 7,
         "x": 9,
-        "y": 113
+        "y": 111
       },
       "id": 40,
       "options": {
@@ -3357,7 +3370,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 117
       },
       "id": 10,
       "panels": [],
@@ -3379,8 +3392,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3396,7 +3408,7 @@
         "h": 6,
         "w": 8,
         "x": 0,
-        "y": 120
+        "y": 118
       },
       "id": 14,
       "options": {
@@ -3442,8 +3454,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3459,7 +3470,7 @@
         "h": 6,
         "w": 8,
         "x": 8,
-        "y": 120
+        "y": 118
       },
       "id": 18,
       "options": {
@@ -3505,8 +3516,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3522,7 +3532,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 120
+        "y": 118
       },
       "id": 17,
       "options": {
@@ -3554,7 +3564,7 @@
       "type": "stat"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -3562,8 +3572,8 @@
     "list": []
   },
   "time": {
-    "from": "2024-06-24T01:39:11.650Z",
-    "to": "2024-06-24T01:43:32.268Z"
+    "from": "now-2d",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -3582,6 +3592,6 @@
   "timezone": "",
   "title": "LOG: Pit Crew - Brightside",
   "uid": "e6de4676-26c7-4b22-8570-7b0c9967ffc4",
-  "version": 10,
+  "version": 12,
   "weekStart": ""
 }
