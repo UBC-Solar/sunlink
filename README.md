@@ -144,6 +144,11 @@ Follow these instructions to attach a USB device to a Linux distribution running
 > [!NOTE]
 > This has to be done every time WSL2 is restarted.
 
+The commands to attatch a USB device to WSL2 are as follows:
+1. `usbipd list`: Lists all the connected USB devices.
+2. `usbipd bind --busid <BUSID>`: Binds a specifc USB device. For the radio module's USB look for something that says **serial** in it.
+3. `usbipd attach --wsl --busid <BUSID>`: Attachs the USB device to WSL2.
+
 <br>
 
 Clone the repository with:
