@@ -2,7 +2,8 @@ import serial
 import cantools
 from pathlib import Path
 import sys  
-import time  
+import time
+import threading  
 
 #  <----- Multi-Class Functions  ----->
 """
@@ -76,12 +77,44 @@ command_list = [DB, ER, GD]
 hex_commandlist = ["4442", "4552", "4744" ] #same order as abobe
 
 
-with serial.Serial() as ser:
-    ser.baudrate = args.baudrate
-    ser.port = args.port
-    ser.open()
+lock = threading.Lock()
+
+def serial_write(write_arg):
+    print("Entering " + write_arg)
     while True:
-        for command in command_list:
-         serial.write(command)
-        #lock.release()
+        with lock:
+            with serial.Serial(port="/dev/ttyUSB0", baudrate=230400, timeout=1) as ser:
+                print("write lock acquired")
+                for command in command_list:
+                    ser.write(command)
+                    time.sleep(1)
+                print("write lock released")
         time.sleep(AT_COMMAND_FREQUENCY)
+
+def serial_read(read_arg):
+    print("Entering " + read_arg)
+    while True:
+        with lock:
+            with serial.Serial(port="/dev/ttyUSB0", baudrate=230400, timeout=1) as ser:
+                print("read lock acquired")
+                try:
+                    if ser.in_waiting > 0:
+                        at_return = ser.read(ser.in_waiting)
+                        print(f"Received: {at_return}")
+                    else:
+                        print("No data available")
+                except Exception as e:
+                    print(f"Exception in serial_read: {e}")
+                print("read lock released")
+        time.sleep(1)  # Sleep to prevent busy-waiting
+
+def main():
+    write = threading.Thread(target=serial_write, args=("write_arg",))
+    read = threading.Thread(target=serial_read, args=("read_arg",))
+    write.start()
+    read.start()
+    write.join()
+    read.join()
+
+if __name__ == "__main__":
+    main()

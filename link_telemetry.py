@@ -29,6 +29,7 @@ import warnings
 import concurrent.futures
 #from tools.MemoratorUploader import memorator_upload_script
 
+lock = threading.Lock()
 
 __PROGRAM__ = "link_telemetry"
 __VERSION__ = "0.4"
@@ -483,7 +484,7 @@ Parameters:
 Returns :
     NONE
 """
-def atDiagnosticCommand(lock, args):
+def atDiagnosticCommand(args):
     
     with serial.Serial() as ser:
         ser.baudrate = args.baudrate
@@ -503,7 +504,7 @@ def main():
     Main telemetry link entrypoint.
     """
     ##lock for access to serial stream to manage writing AT commands and reading API frames
-    lock = threading.Lock()
+
 
     # <----- Argument parsing ----->
     parser = argparse.ArgumentParser(
@@ -729,14 +730,14 @@ def main():
                 ser.open()
 
                 while True:
-                    lock.acquire()
+                    #lock.acquire()
                     # read in bytes from COM port
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
                     if args.rawest:
                         print(chunk)
                     parts, buffer = process_message(chunk, buffer)
-                    lock.release()
+                    #lock.release()
 
                     for part in parts:
                         if args.raw:
