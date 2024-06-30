@@ -20,6 +20,7 @@ from flask_httpauth import HTTPTokenAuth
 
 from parser.create_message import create_message
 from parser.parameters import CAR_DBC
+from parser.data_classes.API_Frame import *
 
 from dotenv import dotenv_values
 
@@ -221,57 +222,61 @@ def filter_stream(message, filter_list):
     return False
 
 
+def try_extract_measurements():
+    # try extracting measurements
+    try:
+        message = create_message(parse_request["message"])
+    except Exception as e:
+        app.logger.warn(
+            f"Unable to extract measurements for raw message {parse_request['message']}")
+        return {
+            "result": "PARSE_FAIL",
+            "message": str(parse_request["message"]),
+            "error": str(e),
+        }
+
 @app.post(f"{API_PREFIX}/parse")
 @auth.login_required
 def parse_request():
-    """
-    Parses incoming request and sends back the parsed result.
-    """
     parse_request = flask.request.json
-
+    
     msgs = []
     msg = parse_request['message']
-    if len(msg) == 45:
-        msgs.append(msg[:22])                  # Might need to change splitting logic
-        msgs.append(msg[23:])                  # Might need to change splitting logic
+
+    #detect api frames
+    if msg[0] == "\x7e": 
+        msgs = parse_api_packet(msg)
     else:
+        #for randomizer or pcan messages
         msgs = [msg]
 
+        
     all_response = []
     for msg in msgs:
+        
         curr_response = {}
-
-        # try extracting measurements
+         # try extracting measurements
         try:
             message = create_message(msg)
         except Exception as e:
             app.logger.warn(
                 f"Unable to extract measurements for raw message {msg}")
-            curr_response = {
+            curr_response =  {
                 "result": "PARSE_FAIL",
                 "message": str(msg),
                 "error": str(e),
             }
             all_response.append(curr_response)
             continue
-        
+   
+    
         type = message.type
-
-        app.logger.info(f"Successfully parsed {type} message placed into queue")
-
-        # try putting the extracted measurements in the queue for Grafana streaming
-        try:
-            stream_queue.put(message.data, block=False)
-        except queue.Full:
-            app.logger.warn(
-                "Stream queue full. Unable to add measurements to stream queue!"
-            )
-
-        # Check if this message should be logged into a file based on args
         log_filters = parse_request.get("log_filters", False)
-        doLogMessage = filter_stream(message, log_filters)    
+        
+        # Check if this message should be logged into a file based on args
+        doLogMessage = filter_stream(message, log_filters)
 
-        curr_response =  {
+        curr_response = {
             "result": "OK",
             "message": message.data["display_data"],
             "logMessage": doLogMessage,
@@ -280,9 +285,9 @@ def parse_request():
         all_response.append(curr_response)
 
     return {
-        "all_responses": all_response,
+        "all_responses": all_response
     }
-    
+
 
 @app.post(f"{API_PREFIX}/parse/write/debug")
 @auth.login_required
@@ -306,19 +311,23 @@ Also sends back parsed measurements back to client.
 """
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
-
+    
     msgs = []
     msg = parse_request['message']
-    if len(msg) == 45:
-        msgs.append(msg[:22])                  # Might need to change splitting logic
-        msgs.append(msg[23:])                  # Might need to change splitting logic
+
+    #detect api frames
+    if msg[0] == "\x7e": 
+        msgs = parse_api_packet(msg)
     else:
+        #for randomizer or pcan messages
         msgs = [msg]
 
+        
     all_response = []
     for msg in msgs:
+        
         curr_response = {}
-        # try extracting measurements
+         # try extracting measurements
         try:
             message = create_message(msg)
         except Exception as e:
@@ -331,7 +340,8 @@ def parse_and_write_request_bucket(bucket):
             }
             all_response.append(curr_response)
             continue
-
+   
+    
         type = message.type
         live_filters = parse_request.get("live_filters", False)
         log_filters = parse_request.get("log_filters", False)
@@ -346,6 +356,7 @@ def parse_and_write_request_bucket(bucket):
                 )
         
         # Check if this message should be logged into a file based on args
+
         doLogMessage = filter_stream(message, log_filters)
 
         # try writing the measurements extracted
@@ -391,6 +402,8 @@ def parse_and_write_request_bucket(bucket):
     return {
         "all_responses": all_response
     }
+    
+    
 
 def write_measurements():
     """
