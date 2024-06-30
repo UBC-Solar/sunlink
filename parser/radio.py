@@ -57,7 +57,7 @@ def generate_lsb(message_contents) -> str:
 """
 def generate_checksum(message_contents) -> str:
     total_bytes = bytes.fromhex(message_contents)
-    bytes_sum = int.from_bytes(total_bytes)
+    bytes_sum = int.from_bytes(total_bytes, 'big')
     checksum_int =  255 - (bytes_sum & 255)
     checksum_byte = checksum_int.to_bytes(1, 'big')
     checksum = checksum_byte.hex()
