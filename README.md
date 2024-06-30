@@ -149,6 +149,11 @@ The commands to attatch a USB device to WSL2 are as follows:
 2. `usbipd bind --busid <BUSID>`: Binds a specifc USB device. For the radio module's USB look for something that says **serial** in it.
 3. `usbipd attach --wsl --busid <BUSID>`: Attachs the USB device to WSL2.
 
+Additionally, to avoid getting `Permission Denied` errors when trying to access `/dev/ttyUSB0` run the following commands to add your WSL2 user to the `tty` and `dialout` groups:
+1. `sudo usermod -a -G tty $USER`
+2. `sudo usermod -a -G dialout $USER`
+3. Restart WSL2
+
 <br>
 
 Clone the repository with:
