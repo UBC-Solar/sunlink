@@ -10,7 +10,7 @@ AT_Command_Return message data class. <AT_Command_Return>.data[''] fields are:
 
 
 REQUIRED FILEDS
-    "Source": (list) <AT> 
+    "Source": (list) <ATR> 
     "Class": (list) <Whether the AT Command is a local or remote Command> 
     "Measurment": (list) <Specific AT Command Sent> 
     "Value": (list) <Value of associated Command> 
@@ -32,7 +32,7 @@ DISPLAY FIELDS
         }
     }
 
-self.type = "<AT>"
+self.type = "<ATR>"
 """
 class ATR:
     def __init__(self, message: str) -> None:      

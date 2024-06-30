@@ -1,6 +1,8 @@
 from parser.parameters import*
 import math
-    
+
+# Contains functions related to generating API Frames.
+
 """
     Returns a hex string of the most significant byte of an API Frame:
     

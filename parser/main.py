@@ -305,18 +305,14 @@ Also sends back parsed measurements back to client.
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
     
-    """ return {
-            
-            "message": str(parse_request["message"].encode('latin-1').hex()),
-            
-        }"""
-        
     msgs = []
     msg = parse_request['message']
 
-    if msg[0] == "\x7e": # and (msg[3] == ("\x88" or "\x97" or "\x90")):
+    #detect api frames
+    if msg[0] == "\x7e": 
         msgs = parse_api_packet(msg)
     else:
+        #for randomizer or pcan messages
         msgs = [msg]
 
         

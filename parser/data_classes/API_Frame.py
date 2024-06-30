@@ -5,18 +5,19 @@ from time import strftime, localtime
 from datetime import datetime
 
 
-
 ##Breaks API Frames into individul messages, sends messages back to create_message as individual CAN, IMU, or GPS messages
 
-FRAME_DATA_POSITION = 17 #Start of first message in API Frame
-BYTE_POSITION = 15 #where Identifier byte in API frame is located
-FRAME_TYPE = 3 #API Overhead frame type identifer (0x90 for receive frame, 0x88 for local AT return, 0x97 for remote at Return)
+FRAME_DATA_POSITION =           17          #Start of first message in API Frame
+BYTE_POSITION =                 15          #where Identifier byte in API frame is located
+FRAME_TYPE =                    3           #API Overhead frame type identifer (0x90 for receive frame, 0x88 for local AT return, 0x97 for remote at Return)
 
 ##Function used to split API packets. Starts at FRAME_DATA_POSITION, which is the first position in the API frame where we have data
 ##Loops frame until end, grabbing each individual message by looping through message_size characters.
 def split_api_packet(message, message_size, message_byte):
     return [bytes.fromhex(message_byte).decode('latin-1') + message[i: i + message_size] for i in range(FRAME_DATA_POSITION, len(message)-1, message_size)]
     
+
+#Parses api packet by breaking it down into a list of its sub messages. AT API packets are given their type byte
 def parse_api_packet(message) -> list:
     try:  
         individual_messages = []

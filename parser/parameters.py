@@ -30,9 +30,9 @@ GPS_LENGTH_MAX      = 205
 IMU_LENGTH_MIN      = 15
 IMU_LENGTH_MAX      = 17
 
-CAN_MSG_LENGTH = 24
-IMU_MSG_LENGTH = 17
-GPS_MSG_LENGTH = 200 ##Figure Out
+CAN_MSG_LENGTH      = 24
+IMU_MSG_LENGTH      = 17
+GPS_MSG_LENGTH      = 200 
 
 
 # <----- DBC Variables (Can be changed by user arguement in Link Tel) ----->
@@ -52,23 +52,22 @@ ANSI_BOLD = "\033[1m"
 
 
 # <----- Bytes used to Indicate Message Types --->
-CAN_BYTE = '00'
-IMU_BYTE = '01'
-GPS_BYTE = '02'
-LOCAL_AT_BYTE = '03'
-REMOTE_AT_BYTE = '04'
-UNKNOWN_BYTE = '05'
+CAN_BYTE            = '00'
+IMU_BYTE            = '01'
+GPS_BYTE            = '02'
+LOCAL_AT_BYTE       = '03'
+REMOTE_AT_BYTE      = '04'
+UNKNOWN_BYTE        = '05'
 
 
 
 #<----- AT Command Parameters --->
-AT_COMMAND_FREQUENCY = 1 #Time in seconds between each batch of AT Commands
-ENERGY_DETECT_TIME = '01' #Time energy detect command spends cycling through channels
+AT_COMMAND_FREQUENCY            = 1             #Time in seconds between each batch of AT Commands
 
-DB = bytes.fromhex("7E00040801444270") #RSSI
-ER = bytes.fromhex("7E0004080145525F") #Error Count
-GD = bytes.fromhex("7E0004080147446B") #Good Packets Receieved
+DB = bytes.fromhex("7E00040801444270")          #RSSI
+ER = bytes.fromhex("7E0004080145525F")          #Error Count
+GD = bytes.fromhex("7E0004080147446B")          #Good Packets Receieved
 ##ED = bytes.fromhex("7E 00 05 08 01 45 44" + ENERGY_DETECT_TIME + "3C") #Energy detect
 
 command_list = [DB, ER, GD]
-hex_commandlist = ["4442", "4552", "4744" ] #same order as abobe
+hex_commandlist = ["4442", "4552", "4744" ] 

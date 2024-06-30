@@ -294,9 +294,10 @@ class RandomMessage:
         source_address_short = 'fefe'
         recieve_options = '00'
 
-        #randomly choose 5 - 10 messages for api Frame
-        message_count =  16 #random.randint(16,16)
-        message_type = random.choice([CAN_BYTE,]) #choose message type 
+        
+        message_count =  16 
+
+        message_type = random.choice([CAN_BYTE]) #Other messages are supported, just not relevant for now. 
         messages = ""
 
        

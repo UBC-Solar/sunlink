@@ -29,8 +29,7 @@ import warnings
 import concurrent.futures
 #from tools.MemoratorUploader import memorator_upload_script
 
-lock = threading.Lock()
-lock_flag = False
+
 __PROGRAM__ = "link_telemetry"
 __VERSION__ = "0.4"
 
@@ -96,6 +95,10 @@ SIGINT_RECVD = False
 # Chunks read per iteration
 CHUNK_SIZE = 512
 
+#<--- Thread management variables --->
+
+lock = threading.Lock()
+lock_flag = False
 
 # <----- Utility functions ------>
 
@@ -353,7 +356,6 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
         return
 
     all_responeses = parse_response['all_responses']
-    print (parse_response)
     
     for response in all_responeses:
         
@@ -453,7 +455,7 @@ def sendToParser(message: str, live_filters: list, log_filters: list, display_fi
 
 
 """
-Purpose: Processes the message by splitting it into parts and returning the parts and the buffer
+Purpose: Processes API message chunk by splitting it into parts and returning the parts and the buffer
 Parameters: 
     message - The total chunk read from the serial stream
     buffer - the buffer to be added to the start of the message
@@ -461,7 +463,7 @@ Returns (tuple):
     parts - the fully complete messages of the total chunk read
     buffer - leftover chunk that is not a message
 """
-def process_message(message: str, buffer: str = "") -> list:
+def process_API_message(message: str, buffer: str = "") -> list:
     
     # Add buffer to the start of the message
     message = buffer + message
@@ -476,44 +478,76 @@ def process_message(message: str, buffer: str = "") -> list:
 
     return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
 
+"""
+Purpose: Processes serial message chunk by splitting it into parts and returning the parts and the buffer
+Parameters: 
+    message - The total chunk read from the serial stream
+    buffer - the buffer to be added to the start of the message
+Returns (tuple):
+    parts - the fully complete messages of the total chunk read
+    buffer - leftover chunk that is not a message
+"""
+def process_Serial_message(message: str, buffer: str = "") -> list:
+
+    # Remove 00 0a from the start if present
+    if message.startswith("000a"):
+        message = message[4:]
+    elif message.startswith("0a"):
+        message = message[2:]
+    
+    # Add buffer to the start of the message
+    message = buffer + message
+
+    # Split the message by 0d 0a. TEL board sends messages ending with \r\n which is 0d0a in hex. Use as delimeter
+    parts = message.split("0d0a")
+
+    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
+        buffer = parts.pop()
+
+    try:
+        parts = [part + "0d0a" for part in parts if len(part) == 30 or len(part) == 396 or len(part) == 44]
+    except ValueError as e:
+        print(f"{ANSI_RED}Failed to split message: {str([part for part in parts])}{ANSI_ESCAPE}"
+              f"    ERROR: {e}")
+        return [], buffer
+    return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
+
 
 """
 Purpose: Sends AT Commands to the local receiver to get Diagnostic Data Back
 Parameters: 
-    lock -> threading.Lock used to manage access to the serial stream
+    ser -> serial stream we are writing to and reading from
+    read_event -> an event that allows us to manage reading and writing to serial 
 Returns :
     NONE
 """
 def atDiagnosticCommand(ser, read_event):
+
     while True:
 
-        lock.acquire()
+        #Take control of serial port
+        lock.acquire() 
         lock_flag = True
-        print("write lock acquired")
+
         for command in parameters.command_list:
             ser.write(command)
-        print("write lock released and sleeping")
+
         lock.release()
 
+        #check to see if commands have been written. If they have, give control of the serial port to the reading thread.
         if lock_flag == True:
+
             read_event.set()
-            time.sleep(1)
+            time.sleep(parameters.AT_COMMAND_FREQUENCY)
             read_event.clear()
             lock_flag = False
         
-            
         
-
-            
-
         
-
 def main():
     """
     Main telemetry link entrypoint.
     """
-    ##lock for access to serial stream to manage writing AT commands and reading API frames
-
 
     # <----- Argument parsing ----->
     parser = argparse.ArgumentParser(
@@ -691,9 +725,9 @@ def main():
     FAIL_FILE_NAME = os.path.join(FAIL_DIRECTORY, LOG_FILE)
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
-    ##if args.log_upload:
-       ## upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
-        ##return 0
+    """if args.log_upload:
+        upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
+        return 0"""
 
 
     if args.randomList:
@@ -729,31 +763,43 @@ def main():
 
             data_len: str = str(can_bytes.dlc)                    # string
 
-            message = timestamp_str + "#" + id_str + data_str + data_len
+            message = bytes.fromhex(parameters.CAN_BYTE).decode('latin-1') + timestamp_str + "#" + id_str + data_str + data_len 
             sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
     else:
+        #only read from serial stream when this even is triggered
         read_event = threading.Event()
+
+        #open serial port
         with serial.Serial(args.port, args.baudrate) as ser:
+
             future = executor.submit(atDiagnosticCommand,ser, read_event)
             buffer = ""
            
             while True:
+                #waits for write thread to enable read thread
                 read_event.wait()
                 lock.acquire()
-                #print("read lock acquired")
-                # read in bytes from COM port
+
+                #ensure there is enough bytes in the serial buffer - otherwise program will get stuck here, and write thread won't happen
+                #(but only when testing AT_Commands without any other radio traffic)
                 if ser.in_waiting >= CHUNK_SIZE:
+                    
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
+
                     if args.rawest:
                             print(chunk)
-                    parts, buffer = process_message(chunk, buffer)
+
+                    parts, buffer = process_API_message(chunk, buffer)
+
                     for part in parts:
+
                         if args.raw:
-                            print()
-                        print(part.encode('latin-1').hex())
+                            print(part.encode('latin-1').hex())
+
                         sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
+
                 lock.release()
 
 if __name__ == "__main__":
