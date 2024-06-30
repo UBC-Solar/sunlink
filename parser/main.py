@@ -314,11 +314,12 @@ def parse_and_write_request_bucket(bucket):
     msgs = []
     msg = parse_request['message']
 
-    if msg[0] == "\x7e": #and (msg[3] == ("\x88" or "\x97" or "\x90")):
+    if msg[0] == "\x7e": # and (msg[3] == ("\x88" or "\x97" or "\x90")):
         msgs = parse_api_packet(msg)
     else:
         msgs = [msg]
 
+        
     all_response = []
     for msg in msgs:
         

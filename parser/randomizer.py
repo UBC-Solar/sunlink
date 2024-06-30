@@ -200,7 +200,7 @@ class RandomMessage:
             msb = generate_msb(message_contents)
             lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = LOCAL_AT_BYTE + start_delimiter + msb + lsb + frame_type + frame_id  + at_command + command_status + command_data + checksum
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id  + at_command + command_status + command_data + checksum
         
         else:
 
@@ -208,7 +208,7 @@ class RandomMessage:
             msb = generate_msb(message_contents)
             lsb = generate_lsb(message_contents)
             checksum = generate_checksum(message_contents)
-            api_frame = LOCAL_AT_BYTE + start_delimiter + msb + lsb + frame_type + frame_id + at_command + command_status + checksum
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id + at_command + command_status + checksum
         
         return bytes.fromhex(api_frame).decode('latin-1')
 
@@ -296,7 +296,7 @@ class RandomMessage:
 
         #randomly choose 5 - 10 messages for api Frame
         message_count =  16 #random.randint(16,16)
-        message_type = random.choice([CAN_BYTE, IMU_BYTE, GPS_BYTE]) #choose message type 
+        message_type = random.choice([CAN_BYTE,]) #choose message type 
         messages = ""
 
        

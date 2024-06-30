@@ -26,7 +26,7 @@ Returns:
 def create_message(message: str):
     try:
         if message[0]  == bytes.fromhex(CAN_BYTE).decode('latin-1'):
-            return CAN(message[0:])
+            return CAN(message[1:])
         elif message[0] == bytes.fromhex(GPS_BYTE).decode('latin-1'):
             return GPS(message[1:])
         elif message[0] == bytes.fromhex(IMU_BYTE).decode('latin-1'):

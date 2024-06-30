@@ -30,7 +30,7 @@ import concurrent.futures
 #from tools.MemoratorUploader import memorator_upload_script
 
 lock = threading.Lock()
-
+lock_flag = False
 __PROGRAM__ = "link_telemetry"
 __VERSION__ = "0.4"
 
@@ -484,19 +484,28 @@ Parameters:
 Returns :
     NONE
 """
-def atDiagnosticCommand(args):
-    
-    with serial.Serial() as ser:
-        ser.baudrate = args.baudrate
-        ser.port = args.port
-        ser.open()
-        while True:
-            lock.acquire()
-            for command in parameters.command_list:
-                serial.write(command)
+def atDiagnosticCommand(ser, read_event):
+    while True:
+
+        lock.acquire()
+        lock_flag = True
+        print("write lock acquired")
+        for command in parameters.command_list:
+            ser.write(command)
+        print("write lock released and sleeping")
+        lock.release()
+
+        if lock_flag == True:
+            read_event.set()
+            time.sleep(1)
+            read_event.clear()
+            lock_flag = False
+        
             
-            lock.release()
-            time.sleep(parameters.AT_COMMAND_FREQUENCY)
+        
+
+            
+
         
 
 def main():
@@ -686,21 +695,23 @@ def main():
        ## upload_logs(args, live_filters, log_filters, LOG_WRITE_ENDPOINT)
         ##return 0
 
-    future = executor.submit(atDiagnosticCommand, args)
 
-    while True:
-        message: bytes
-
-        if args.randomList:
+    if args.randomList:
+        while True:
+            message: bytes
             try:
                 message = RandomMessage().random_message_str(args.randomList)
             except Exception as e:
-                print(f"Failed to generate random message: {e}")
-                continue
-            
+                    print(f"Failed to generate random message: {e}")
+                    continue
+                    
             time.sleep(period_s)
+            print(message.encode('latin-1').hex())
+            sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
-        elif args.offline:     
+    elif args.offline:
+        while True:
+            message: bytes
             # read in bytes from CAN bus
             can_bytes = can_bus.recv()          
 
@@ -719,33 +730,31 @@ def main():
             data_len: str = str(can_bytes.dlc)                    # string
 
             message = timestamp_str + "#" + id_str + data_str + data_len
+            sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
-        else:
+    else:
+        read_event = threading.Event()
+        with serial.Serial(args.port, args.baudrate) as ser:
+            future = executor.submit(atDiagnosticCommand,ser, read_event)
             buffer = ""
-            with serial.Serial() as ser:
-               
-                # <----- Configure COM port ----->
-                ser.baudrate = args.baudrate
-                ser.port = args.port
-                ser.open()
-
-                while True:
-                    #lock.acquire()
-                    # read in bytes from COM port
+           
+            while True:
+                read_event.wait()
+                lock.acquire()
+                #print("read lock acquired")
+                # read in bytes from COM port
+                if ser.in_waiting >= CHUNK_SIZE:
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
                     if args.rawest:
-                        print(chunk)
+                            print(chunk)
                     parts, buffer = process_message(chunk, buffer)
-                    #lock.release()
-
                     for part in parts:
                         if args.raw:
-                            print(part.encode('latin-1').hex())
+                            print()
+                        print(part.encode('latin-1').hex())
                         sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
-
-        sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
-
+                lock.release()
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, sigint_handler)

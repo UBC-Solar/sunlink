@@ -73,48 +73,49 @@ ER = bytes.fromhex("7E0004080145525F") #Error Count
 GD = bytes.fromhex("7E0004080147446B") #Good Packets Receieved
 ##ED = bytes.fromhex("7E 00 05 08 01 45 44" + ENERGY_DETECT_TIME + "3C") #Energy detect
 
-command_list = [DB, ER, GD]
+command_list = [DB, GD, ER]
 hex_commandlist = ["4442", "4552", "4744" ] #same order as abobe
 
 
 lock = threading.Lock()
 
-def serial_write(write_arg):
+def serial_write(write_arg, ser):
     print("Entering " + write_arg)
     while True:
-        with lock:
-            with serial.Serial(port="/dev/ttyUSB0", baudrate=230400, timeout=1) as ser:
-                print("write lock acquired")
-                for command in command_list:
-                    ser.write(command)
-                    time.sleep(1)
-                print("write lock released")
+        lock.acquire()
+        print("write lock acquired")
+        for command in command_list:
+            ser.write(command)
+        lock.release()
+        print("write lock released")
         time.sleep(AT_COMMAND_FREQUENCY)
 
-def serial_read(read_arg):
+def serial_read(read_arg, ser):
     print("Entering " + read_arg)
     while True:
-        with lock:
-            with serial.Serial(port="/dev/ttyUSB0", baudrate=230400, timeout=1) as ser:
-                print("read lock acquired")
-                try:
-                    if ser.in_waiting > 0:
-                        at_return = ser.read(ser.in_waiting)
-                        print(f"Received: {at_return}")
-                    else:
-                        print("No data available")
-                except Exception as e:
-                    print(f"Exception in serial_read: {e}")
-                print("read lock released")
+        lock.acquire()
+        print("read lock acquired")
+        try:
+            if ser.in_waiting >= 11:
+                at_return = ser.read(11)
+                print(f"Received: {at_return}")
+            else:
+                print("No data available")
+        except Exception as e:
+            print(f"Exception in serial_read: {e}")
+        lock.release()
+        print("read lock released")
         time.sleep(1)  # Sleep to prevent busy-waiting
 
 def main():
-    write = threading.Thread(target=serial_write, args=("write_arg",))
-    read = threading.Thread(target=serial_read, args=("read_arg",))
-    write.start()
-    read.start()
-    write.join()
-    read.join()
+
+    with serial.Serial('/dev/ttyUSB0', 230400, timeout=1) as ser:
+       write = threading.Thread(target=serial_write, args=("write_arg",ser))
+       read = threading.Thread(target=serial_read, args=("read_arg",ser))
+       write.start()
+       read.start()
+       write.join()
+       read.join()
 
 if __name__ == "__main__":
     main()
