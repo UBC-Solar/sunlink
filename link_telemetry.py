@@ -24,6 +24,7 @@ import parser.parameters as parameters
 from beautifultable import BeautifulTable
 import warnings
 import threading
+import re
 
 import concurrent.futures
 from tools.MemoratorUploader import memorator_upload_script
@@ -92,6 +93,10 @@ SIGINT_RECVD = False
 
 # Chunks read per iteration
 CHUNK_SIZE = 24 * 21        # 21 CAN messages from serial at a time.
+
+#<--- Thread management variables --->
+lock = threading.Lock()
+lock_flag = False
 
 num_processed_msgs = 0
 
@@ -439,6 +444,36 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
             print(f"Unexpected response: {response['result']}")
 
 
+"""
+Purpose: Sends AT Commands to the local receiver to get Diagnostic Data Back
+Parameters: 
+    ser -> serial stream we are writing to and reading from
+    read_event -> an event that allows us to manage reading and writing to serial 
+Returns :
+    NONE
+"""
+def atDiagnosticCommand(ser, read_event):
+
+    while True:
+
+        #Take control of serial port
+        lock.acquire() 
+        lock_flag = True
+
+        for command in parameters.command_list:
+            ser.write(command)
+
+        lock.release()
+
+        #check to see if commands have been written. If they have, give control of the serial port to the reading thread.
+        if lock_flag == True:
+
+            read_event.set()
+            time.sleep(parameters.AT_COMMAND_FREQUENCY)
+            read_event.clear()
+            lock_flag = False
+        
+
 def read_lines_from_file(file_path):
     """
     Reads lines from the specified file and returns a generator.
@@ -480,7 +515,7 @@ def upload_logs(args, live_filters, log_filters, display_filters, endpoint):
 
 
 """
-Purpose: Processes the message by splitting it into parts and returning the parts and the buffer
+Purpose: Processes API message chunk by splitting it into parts and returning the parts and the buffer
 Parameters: 
     message - The total chunk read from the serial stream
     buffer - the buffer to be added to the start of the message
@@ -488,29 +523,20 @@ Returns (tuple):
     parts - the fully complete messages of the total chunk read
     buffer - leftover chunk that is not a message
 """
-def process_message(message: str, buffer: str = "") -> list:
-    # Remove 00 0a from the start if present
-    if message.startswith("000a"):
-        message = message[4:]
-    elif message.startswith("0a"):
-        message = message[2:]
+def process_API_message(message: str, buffer: str = "") -> list:
     
     # Add buffer to the start of the message
     message = buffer + message
 
-    # Split the message by 0d 0a. TEL board sends messages ending with \r\n which is 0d0a in hex. Use as delimeter
-    parts = message.split("0d0a")
+    #splits Chunk into API frames (looking for 7E followed by a 88, 97, or 90 (API frame types we receive))
+    pattern = '(?=7e....88|7e....97|7e....90)'
+    parts = re.split(pattern, message)
 
-    if len(parts[-1]) != 30 or len(parts[-1]) != 396 or len(parts[-1]) != 44:
+    #assume last api frame is incomplete, so add it to the buffer.
+    if len(parts) > 1:
         buffer = parts.pop()
 
-    try:
-        parts = [part + "0d0a" for part in parts if len(part) == 30 or len(part) == 396 or len(part) == 44]
-    except ValueError as e:
-        print(f"{ANSI_RED}Failed to split message: {str([part for part in parts])}{ANSI_ESCAPE}"
-              f"    ERROR: {e}")
-        return [], buffer
-    return [bytes.fromhex(part).decode('latin-1') for part in parts] , buffer
+    return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
 
 
 """
@@ -726,24 +752,28 @@ def main():
     FAIL_FILE_NAME = os.path.join(FAIL_DIRECTORY, LOG_FILE)
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
+    # Perform log upload if selected
     if args.log_upload:
         upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
         return
 
-    while True:
-        message: bytes
-
-
-        if args.randomList:
+    # Perform randomizer, offline mode with PCAN, or serial mode
+    if args.randomList:
+        while True:
+            message: bytes
             try:
                 message = RandomMessage().random_message_str(args.randomList)
             except Exception as e:
-                print(f"Failed to generate random message: {e}")
-                continue
-            
+                    print(f"Failed to generate random message: {e}")
+                    continue
+                    
             time.sleep(period_s)
+            print(message.encode('latin-1').hex())
+            sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
-        elif args.offline:     
+    elif args.offline:
+        while True:
+            message: bytes
             # read in bytes from CAN bus
             can_bytes = can_bus.recv()          
 
@@ -761,33 +791,45 @@ def main():
 
             data_len: str = str(can_bytes.dlc)                    # string
 
-            message = timestamp_str + "#" + id_str + data_str + data_len
+            message = bytes.fromhex(parameters.CAN_BYTE).decode('latin-1') + timestamp_str + "#" + id_str + data_str + data_len 
+            sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
-        else:
+    else:
+        #only read from serial stream when this even is triggered
+        read_event = threading.Event()
+
+        #open serial port
+        with serial.Serial(args.port, args.baudrate) as ser:
+
+            future = executor.submit(atDiagnosticCommand,ser, read_event)
             buffer = ""
-            with serial.Serial() as ser:
-                # <----- Configure COM port ----->
-                ser.baudrate = args.baudrate
-                ser.port = args.port
-                ser.open()
+           
+            while True:
+                #waits for write thread to enable read thread
+                read_event.wait()
+                lock.acquire()
 
-                while True:
-                    # read in bytes from COM port
+                # ensure there is enough bytes in the serial buffer - otherwise program be stuck doing ser.read(CHUNK_SIZE) waiting for data
+                # so write thread cant be enabled again
+                # (but only when testing AT_Commands alone without any other radio traffic)
+                if ser.in_waiting >= CHUNK_SIZE:
+                    
                     chunk = ser.read(CHUNK_SIZE)
                     chunk = chunk.hex()
 
                     if args.rawest:
-                        print(chunk)
-                        
-                    parts, buffer = process_message(chunk, buffer)
+                            print(chunk)
+
+                    parts, buffer = process_API_message(chunk, buffer)
 
                     for part in parts:
+
                         if args.raw:
                             print(part.encode('latin-1').hex())
+
                         sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
-        sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
-
+                lock.release()
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, sigint_handler)
