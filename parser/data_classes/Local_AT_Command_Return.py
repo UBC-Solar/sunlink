@@ -160,11 +160,11 @@ class ATL:
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
                 f"      {ANSI_GREEN}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"
-                f"        {ANSI_BOLD}get_value(message[8:len(message) -2]) = {self.message[8:len(self.message) -2].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_measurement(self.message[5:7]) = {self.message[5:7].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
                 f"          - gets the message value \n"
-                f"        {ANSI_BOLD}get_value(message[5:6]) = {self.message[5:7].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_status(self.message[7]) = {self.message[7].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
                 f"          - gets the specific AT Command \n"
-                f"        {ANSI_BOLD}get_value(message[7]) = {self.message[7].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_value(self.message[8:len(self.message)-1]) = {self.message[8:len(self.message)-1].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
                 f"          - gets the status of the AT command \n"
             )
         
