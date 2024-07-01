@@ -185,7 +185,7 @@
         "x": 8,
         "y": 1
       },
-      "id": 23,
+      "id": 52,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -3592,6 +3592,6 @@
   "timezone": "",
   "title": "TEST: Pit Crew - Brightside",
   "uid": "b04084a8-3f7c-4901-8f15-8df4b33bf32a",
-  "version": 12,
+  "version": 15,
   "weekStart": ""
 }
