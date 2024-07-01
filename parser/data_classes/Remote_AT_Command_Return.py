@@ -159,11 +159,11 @@ class ATR:
                 f"      {ANSI_RED}Error{ANSI_ESCAPE}: \n"
                 f"      {e} \n"
                 f"      {ANSI_GREEN}Function Call Details (self.message[] bytes -> hex numbers):{ANSI_ESCAPE} \n"
-                f"        {ANSI_BOLD}get_value(message[19:len(message) -2]) = {self.message[19:len(self.message) -2].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_measurement(message[15:17]) = {self.message[15:17].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
                 f"          - gets the message value \n"
-                f"        {ANSI_BOLD}get_value(message[16:17]) = {self.message[16:17].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_status(self.message[17]) = {self.self.message[17].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
                 f"          - gets the specific AT Command \n"
-                f"        {ANSI_BOLD}get_value(message[18]) = {self.message[18].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
+                f"        {ANSI_BOLD}get_value(self.message[18:len(self.message)-1]) = {self.message[18:len(self.message)-1].encode('latin-1').hex()} ) {ANSI_ESCAPE}, \n"
                 f"          - gets the status of the AT command \n"
             )
         
