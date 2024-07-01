@@ -21,7 +21,7 @@ REQUIRED FILEDS
 DISPLAY FIELDS
     "display_data" : {
         "ROW": {
-            "Raw Hex": (list) raw hex data of the IMU message
+            "Raw Hex": (list) raw hex data of the AT message
         },
         "COL": {
             "Type": (list) <Whether the AT Command is a local or remote Command> 
@@ -193,5 +193,4 @@ class ATR:
             }
         }
         return data
-    
     

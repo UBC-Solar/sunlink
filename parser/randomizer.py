@@ -301,7 +301,7 @@ class RandomMessage:
         messages = ""
 
        
-        if message_type == CAN_BYTE:
+        if message_type == CAN_BYTE:    
             for i in range(20):
                 messages = messages +  self.random_can_str()[1:]
         elif message_type == GPS_BYTE:

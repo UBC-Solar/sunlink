@@ -768,7 +768,6 @@ def main():
                     continue
                     
             time.sleep(period_s)
-            print(message.encode('latin-1').hex())
             sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
     elif args.offline:
