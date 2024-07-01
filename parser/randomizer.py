@@ -5,6 +5,8 @@ from datetime import timedelta
 
 # Get format specifiers
 from parser.parameters import CAR_DBC
+from parser.parameters import *
+from parser.radio import*
 
 # Constants
 SECONDS_IN_DAY = 86400
@@ -35,6 +37,12 @@ class RandomMessage:
             return self.random_gps_str()
         elif message_type == 'IMU':
             return self.random_imu_str()
+        elif message_type == 'ATL':
+            return self.random_at_local_str()
+        elif message_type == 'ATR':
+            return self.random_at_remote_str()
+        elif message_type == 'API':
+            return self.random_api_frame_str()
 
     """
     CREDIT: Mihir .N taken from link_telemetry
@@ -83,8 +91,9 @@ class RandomMessage:
         data_length = "8"
 
         # collect into single string
-        can_str = current_time_str + "#" + random_id_str + random_data_str \
-             + data_length
+        can_str = bytes.fromhex(CAN_BYTE).decode('latin1') + current_time_str + "#" + random_id_str + random_data_str \
+             + data_length + bytes.fromhex("0a0d").decode('latin-1')
+    
         return can_str
     
     """
@@ -151,7 +160,171 @@ class RandomMessage:
         value_bytes = struct.pack('>f', value)
 
         # Combine all parts into a single bytes object
-        imu_bytes = current_time_str + "@" + identifier + value_bytes.decode('latin-1')
-
+        imu_bytes = bytes.fromhex(IMU_BYTE).decode('latin-1') + current_time_str + "@" + identifier + value_bytes.decode('latin-1') + bytes.fromhex("0a0d").decode('latin-1')
         return imu_bytes
+    
+
+
+
+    """
+    Returns a random AT Local Return message in the 0x88 frame Type:
+    
+    Parameters:
+        None
+    
+    Returns:
+        string - random AT local return message in the format as a string with latin-1 decoding (each 1 byte):
+                 1. 7E - start delimiter
+                 2. LSB
+                 3. MSB
+                 4. Frame Type
+                 5. Frame Id
+                 6 - 7: AT Command
+                 8: Command Status
+                 9 -> n-1: Command Data
+                 n: Checksum
+    """
+    def random_at_local_str(self) -> str:
+
+        start_delimiter = '7E'
+        frame_type = '88'
+        frame_id = '01'
+        at_command =   random.choice(['4442','4744', '4552',])
+        command_status = random.choice(['00','01','02','03','00','00'])
+
+        #if command is unsuccesful, there will be no data field
+        if command_status == '00':
+            
+            command_data = hex(random.randint(16,255))[2:]
+            message_contents = frame_type + frame_id + at_command + command_status + command_data
+            msb = generate_msb(message_contents)
+            lsb = generate_lsb(message_contents)
+            checksum = generate_checksum(message_contents)
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id  + at_command + command_status + command_data + checksum
+        
+        else:
+
+            message_contents = frame_type + frame_id  + at_command + command_status
+            msb = generate_msb(message_contents)
+            lsb = generate_lsb(message_contents)
+            checksum = generate_checksum(message_contents)
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id + at_command + command_status + checksum
+        
+        return bytes.fromhex(api_frame).decode('latin-1')
+
+
+
+        
+
+    """
+    Returns a random AT Remote Return message in the 0x97 frame Type:
+    
+    Parameters:
+        None
+    
+    Returns:
+        string - random AT remote return message in the format as a string with latin-1 decoding (each 1 byte):
+                 1. 7E - start delimiter
+                 2. LSB
+                 3. MSB
+                 4. Frame Type
+                 5. Frame Id
+                 6 - 13: 64 bit address
+                 14-15: 16 bit address
+                 16-17: AT Command
+                 18 -> n-1: Command Data
+                 n: Checksum
+    """
+    def random_at_remote_str(self) -> str:
+
+        start_delimiter = '7E'
+        frame_type = '88'
+        frame_id = '01'
+        dest_address_long = '0000000000000000'
+        dest_address_short = 'FeFe'
+        at_command =   random.choice(hex_commandlist)
+        command_status = random.choice(['00','01','02','03','00','00'])
+
+        #if command is unsuccesful, there will be no data field
+        if command_status == '00':
+            
+            command_data = hex(random.randint(16,255))[2:]
+            message_contents = frame_type + frame_id + dest_address_long + dest_address_short + at_command + command_status + command_data
+            msb = generate_msb(message_contents)
+            lsb = generate_lsb(message_contents)
+            checksum = generate_checksum(message_contents)
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id  + dest_address_long + dest_address_short + at_command + command_status + command_data + checksum
+        
+        else:
+
+            message_contents = frame_type + frame_id + dest_address_long + dest_address_short  + at_command + command_status
+            msb = generate_msb(message_contents)
+            lsb = generate_lsb(message_contents)
+            checksum = generate_checksum(message_contents)
+            api_frame = start_delimiter + msb + lsb + frame_type + frame_id + dest_address_long + dest_address_short + at_command + command_status + checksum
+        
+        return bytes.fromhex(api_frame).decode('latin-1')
+
+
+
+    """
+    Returns a random API FRAME in the 0x90 Receive Packet Format:
+    
+    Parameters:
+        None
+    
+    Returns:
+        API FRAME with following format in bytes:
+                 1. Start Delimiter
+                 2 -3: Length (MSB, LSB)
+                 4: Frame TypE
+                 5-12:  64 Bit Source Address
+                 13-14: 16 Bit Source Address
+                 15: Receive Options
+                 16-n: RF Data
+                 N: Checksum
+
+    """
+    def random_api_frame_str(self) -> str:
+        
+        #set up constant API Overhead parameters
+        start_delimiter = '7E'
+        frame_type = '90'
+        source_address_long = '0000000000000000'
+        source_address_short = 'fefe'
+        recieve_options = '00'
+
+        
+        message_count =  16 
+
+        message_type = random.choice([CAN_BYTE]) #Other messages are supported, just not relevant for now. 
+        messages = ""
+
+       
+        if message_type == CAN_BYTE:
+            for i in range(20):
+                messages = messages +  self.random_can_str()[1:]
+        elif message_type == GPS_BYTE:
+            for i in range(1):
+                messages = messages +  self.random_gps_str()
+        elif message_type == IMU_BYTE:
+            for i in range(20):
+                messages = messages + self.random_imu_str()[1:]
+
+        #turn messages into hex
+        message = messages.encode('latin-1')
+        message_hex = message.hex()
+        
+        #collect all information between length and checksum to help calculate length and checksum
+        message_contents = source_address_long + source_address_short + recieve_options + frame_type  + message_hex + hex(message_count)[2:] + message_type
+        
+        #get checksum, lsb, and msb fields for frame
+        msb = generate_msb(message_contents)
+        lsb = generate_lsb(message_contents)
+        checksum = generate_checksum(message_contents)
+       
+        api_frame = start_delimiter + msb + lsb + frame_type + source_address_long + source_address_short + recieve_options + message_type + hex(message_count)[2:] + message_hex + checksum
+        
+
+        return bytes.fromhex(api_frame).decode('latin-1')
     

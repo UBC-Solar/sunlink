@@ -2,18 +2,20 @@
 from parser.data_classes.CAN_Msg import CAN      # CAN message
 from parser.data_classes.IMU_Msg import IMU      # IMU message
 from parser.data_classes.GPS_Msg import GPS      # GPS message
+from parser.data_classes.Local_AT_Command_Return import ATL
+from parser.data_classes.Remote_AT_Command_Return import ATR
 from parser.parameters import *     # For mins and maxes of messages
-
+from parser.data_classes.API_Frame import parse_api_packet
 
 """
 Factory method for creating a Message object based on the message type
-To add new message types simply add a new elif statement:
+To add new message types simply add a new message byte to parameters, and make sure to append this byte in the approriate locations.
 ------------------------------------------------------
-elif len(message) == <length of message>:
+elif message[0] == MessageTypeByte:
     return <Message Subclass>(message)
 ------------------------------------------------------
 
-Decision based on LENGTH of the message (see parser/parameters.py): 
+Decision based on MessageTypeByte of the message (see parser/parameters.py): 
 
 Parameters:
     message: the message to be parsed
@@ -23,23 +25,26 @@ Returns:
 """
 def create_message(message: str):
     try:
-        if CAN_LENGTH_MIN <= len(message) <= CAN_LENGTH_MAX:
-            return CAN(message)
-        elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:
-            return GPS(message)
-        elif IMU_LENGTH_MIN <= len(message) <= IMU_LENGTH_MAX:
-            return IMU(message)
+        if message[0]  == bytes.fromhex(CAN_BYTE).decode('latin-1'):
+            return CAN(message[1:])
+        elif message[0] == bytes.fromhex(GPS_BYTE).decode('latin-1'):
+            return GPS(message[1:])
+        elif message[0] == bytes.fromhex(IMU_BYTE).decode('latin-1'):
+            return IMU(message[1:])
+        elif message[0] == bytes.fromhex(LOCAL_AT_BYTE).decode('latin-1'):
+            return ATL(message[1:])
+        elif message[0] == bytes.fromhex(REMOTE_AT_BYTE).decode('latin-1'):
+            return ATR(message[1:])
         else:
             raise Exception(
-                f"Message length of {len(message)} is not a valid length for any message type\n"
-                f"      Message: {message}\n"
-                f"      Hex Message: {message.encode('latin-1').hex()}"
-            )
+            f"Message byte of {message[0]} is not a valid byte for any message type\n"
+            f"      Message: {message}\n"
+            f"      Hex Message: {message.encode('latin-1').hex()}"
+        )
         
-            raise Exception(f"Message length of {len(message)} is not a valid length for any message type")
     except Exception as e:
         raise Exception(
             f"{ANSI_BOLD}Failed in create_message{ANSI_ESCAPE}:\n"
             f"      {e}"
+            f"Message byte of {message[0]} is not a valid byte for any message type\n"
         )
-    

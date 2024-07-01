@@ -221,23 +221,12 @@ def filter_stream(message, filter_list):
 
     return False
 
-
-def try_extract_measurements():
-    # try extracting measurements
-    try:
-        message = create_message(parse_request["message"])
-    except Exception as e:
-        app.logger.warn(
-            f"Unable to extract measurements for raw message {parse_request['message']}")
-        return {
-            "result": "PARSE_FAIL",
-            "message": str(parse_request["message"]),
-            "error": str(e),
-        }
-
 @app.post(f"{API_PREFIX}/parse")
 @auth.login_required
 def parse_request():
+    """
+    Parses incoming request and sends back the parsed result.
+    """
     parse_request = flask.request.json
     
     msgs = []
@@ -261,7 +250,7 @@ def parse_request():
         except Exception as e:
             app.logger.warn(
                 f"Unable to extract measurements for raw message {msg}")
-            curr_response =  {
+            curr_response = {
                 "result": "PARSE_FAIL",
                 "message": str(msg),
                 "error": str(e),
@@ -280,17 +269,15 @@ def parse_request():
             "result": "OK",
             "message": message.data["display_data"],
             "logMessage": doLogMessage,
-            "type": type
+            "type": type,
         }
         all_response.append(curr_response)
 
     return {
-        "all_responses": all_response
+        "all_responses": all_response,
     }
     
  
-
-
 @app.post(f"{API_PREFIX}/parse/write/debug")
 @auth.login_required
 def parse_and_write_request():
