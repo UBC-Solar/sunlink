@@ -19,7 +19,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
+  "id": 4,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -154,14 +154,14 @@
                   "text": "CRUISE"
                 },
                 "3": {
-                  "color": "#ffffff",
+                  "color": "yellow",
                   "index": 3,
-                  "text": "REVERSE"
+                  "text": "PARK"
                 },
                 "4": {
-                  "color": "yellow",
+                  "color": "#ffffff",
                   "index": 4,
-                  "text": "PARK"
+                  "text": "REVERSE"
                 }
               },
               "type": "value"
@@ -1120,131 +1120,12 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [
-            {
-              "options": {
-                "from": 0,
-                "result": {
-                  "color": "light-blue",
-                  "index": 0
-                },
-                "to": 25
-              },
-              "type": "range"
-            },
-            {
-              "options": {
-                "from": 26,
-                "result": {
-                  "color": "super-light-yellow",
-                  "index": 1
-                },
-                "to": 55
-              },
-              "type": "range"
-            },
-            {
-              "options": {
-                "from": 56,
-                "result": {
-                  "color": "orange",
-                  "index": 2
-                },
-                "to": 68
-              },
-              "type": "range"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 24,
-        "x": 0,
-        "y": 38
-      },
-      "id": 50,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.5.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"SurfaceTempController\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
-          "refId": "A"
-        }
-      ],
-      "title": "MDI: Motor Surface Temp",
-      "type": "timeseries"
-    },
-    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 44
+        "y": 38
       },
       "id": 29,
       "panels": [],
@@ -1311,7 +1192,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 39
       },
       "id": 30,
       "options": {
@@ -1399,7 +1280,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 56
+        "y": 50
       },
       "id": 31,
       "options": {
@@ -1487,7 +1368,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 57
       },
       "id": 32,
       "options": {
@@ -1521,7 +1402,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 70
+        "y": 64
       },
       "id": 33,
       "panels": [],
@@ -1641,7 +1522,7 @@
         "h": 7,
         "w": 10,
         "x": 0,
-        "y": 71
+        "y": 65
       },
       "id": 35,
       "options": {
@@ -1893,7 +1774,7 @@
         "h": 7,
         "w": 11,
         "x": 10,
-        "y": 71
+        "y": 65
       },
       "id": 34,
       "options": {
@@ -1955,7 +1836,7 @@
         "h": 7,
         "w": 3,
         "x": 21,
-        "y": 71
+        "y": 65
       },
       "id": 36,
       "options": {
@@ -2017,7 +1898,7 @@
         "h": 8,
         "w": 7,
         "x": 0,
-        "y": 78
+        "y": 72
       },
       "id": 38,
       "options": {
@@ -2124,7 +2005,7 @@
         "h": 8,
         "w": 17,
         "x": 7,
-        "y": 78
+        "y": 72
       },
       "id": 37,
       "options": {
@@ -2574,7 +2455,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 86
+        "y": 80
       },
       "id": 51,
       "options": {
@@ -2606,6 +2487,19 @@
       "title": "Module Voltages",
       "transformations": [],
       "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 89
+      },
+      "id": 20,
+      "panels": [],
+      "title": "Temperatures",
+      "type": "row"
     },
     {
       "datasource": {
@@ -3029,7 +2923,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 95
+        "y": 90
       },
       "id": 21,
       "options": {
@@ -3061,19 +2955,6 @@
       "title": "Module Temperatures",
       "transformations": [],
       "type": "bargauge"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 102
-      },
-      "id": 20,
-      "panels": [],
-      "title": "Solar Array Data",
-      "type": "row"
     },
     {
       "datasource": {
@@ -3209,7 +3090,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 103
+        "y": 97
       },
       "id": 22,
       "options": {
@@ -3282,104 +3163,46 @@
               "mode": "off"
             }
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
+          "mappings": [
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "color": "light-blue",
+                  "index": 0
+                },
+                "to": 25
               },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 110
-      },
-      "id": 52,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"AMB\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltSensor1\" or r[\"_field\"] == \"VoltSensor2\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
-          "refId": "A"
-        }
-      ],
-      "title": "Voltage Sensors: AMB",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
+              "type": "range"
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
+            {
+              "options": {
+                "from": 26,
+                "result": {
+                  "color": "super-light-yellow",
+                  "index": 1
+                },
+                "to": 55
+              },
+              "type": "range"
             },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
+            {
+              "options": {
+                "from": 56,
+                "result": {
+                  "color": "orange",
+                  "index": 2
+                },
+                "to": 68
+              },
+              "type": "range"
             }
-          },
-          "mappings": [],
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -3387,12 +3210,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 6,
         "w": 24,
         "x": 0,
-        "y": 120
+        "y": 104
       },
-      "id": 53,
+      "id": 50,
       "options": {
         "legend": {
           "calcs": [],
@@ -3405,17 +3228,18 @@
           "sort": "none"
         }
       },
+      "pluginVersion": "9.5.2",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"AMB\")\n  |> filter(fn: (r) => r[\"_field\"] == \"CurrentSensor1\" or r[\"_field\"] == \"CurrentSensor2\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"SurfaceTempController\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "Current Sensors: AMB",
+      "title": "MDI: Motor Surface Temp",
       "type": "timeseries"
     },
     {
@@ -3424,7 +3248,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 129
+        "y": 110
       },
       "id": 39,
       "panels": [
@@ -3476,7 +3300,7 @@
             "h": 6,
             "w": 7,
             "x": 9,
-            "y": 114
+            "y": 90
           },
           "id": 40,
           "options": {
@@ -3517,7 +3341,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 130
+        "y": 111
       },
       "id": 10,
       "panels": [
@@ -3552,7 +3376,7 @@
             "h": 6,
             "w": 8,
             "x": 0,
-            "y": 115
+            "y": 91
           },
           "id": 14,
           "options": {
@@ -3614,7 +3438,7 @@
             "h": 6,
             "w": 8,
             "x": 8,
-            "y": 115
+            "y": 91
           },
           "id": 18,
           "options": {
@@ -3676,7 +3500,7 @@
             "h": 6,
             "w": 8,
             "x": 16,
-            "y": 115
+            "y": 91
           },
           "id": 17,
           "options": {
@@ -3720,7 +3544,7 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {
@@ -3740,6 +3564,6 @@
   "timezone": "",
   "title": "PROD: Pit Crew - Brightside",
   "uid": "e3e801b9-6d09-48e4-9306-81b946558bfe",
-  "version": 30,
+  "version": 7,
   "weekStart": ""
 }
