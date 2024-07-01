@@ -238,7 +238,7 @@ class RandomMessage:
     def random_at_remote_str(self) -> str:
 
         start_delimiter = '7E'
-        frame_type = '88'
+        frame_type = '97'
         frame_id = '01'
         dest_address_long = '0000000000000000'
         dest_address_short = 'FeFe'
