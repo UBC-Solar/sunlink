@@ -160,7 +160,7 @@ class RandomMessage:
         value_bytes = struct.pack('>f', value)
 
         # Combine all parts into a single bytes object
-        imu_bytes = bytes.fromhex(IMU_BYTE).decode('latin-1') + current_time_str + "@" + identifier + value_bytes.decode('latin-1') + bytes.fromhex("0a0d").decode('latin-1')
+        imu_bytes = bytes.fromhex(IMU_BYTE).decode('latin-1') + current_time_str + "@" + identifier + value_bytes.decode('latin-1') + bytes.fromhex("0d0a").decode('latin-1')
         return imu_bytes
     
 
