@@ -283,9 +283,14 @@ echo -e "${ANSI_YELLOW}Restarting docker containers one last time... $ANSI_RESET
 sudo docker compose down
 sudo docker compose up -d
 
+
 echo -e "\n\n"
 echo -e "${ANSI_YELLOW}<---ALMOST COMPLETED SETTING UP SUNLINK. YOU NEED TO RUN THE FOLLOWING (Ctrl+Shift+C to copy) --->$ANSI_RESET"
 echo -e "${ANSI_BOLD}    1. Run 'source environment/bin/activate' to activate the virtual environment $ANSI_RESET"
 echo -e "${ANSI_BOLD}    2. Run 'pip install -r requirements.txt' to install all dependencies in environment $ANSI_RESET"
 echo -e "${ANSI_BOLD}    3. Run 'sudo docker compose restart' to ensure up-to-date installation $ANSI_RESET"
 echo -e "\n\n"
+
+# Removing script
+echo -e "${ANSI_BOLD}Removing setup.sh script (already in sunlink/)... $ANSI_RESET"
+rm -f setup.sh
