@@ -70,6 +70,10 @@ if [ $doInstall = true ]; then
     echo -e "${ANSI_GREEN}DONE installing docker! $ANSI_RESET "
 fi
 
+# Clone Sunlink
+echo -e "${ANSI_YELLOW}\nCloning Sunlink Repository\n $ANSI_RESET"
+git clone https://github.com/UBC-Solar/sunlink.git ../sunlink
+cd ../sunlink/                                                                       # Change directory into sunlink
 
 echo -e "${ANSI_YELLOW}Setting up sunlink environment... $ANSI_RESET"                # Set up influx and grafana
 SUNLINK_DIR=$PWD
