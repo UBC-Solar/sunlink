@@ -83,31 +83,33 @@ The `run_setup.sh` script simplifies the process of installing dependencies and 
 
 #### Script Summary
 
-The `run_setup.sh` script:
+The `setup.sh` script:
 
 - Updates the system packages.
 - Installs Docker and Docker Compose.
 - Clones the Sunlink repository.
-- Prompts the user for Grafana and InfluxDB credentials.
+- Prompts the user for Grafana and InfluxDB credentials including API tokens.
 - Creates necessary configuration files for nginx and docker compose.
 - Starts the Docker containers for the telemetry cluster.
+- Installs linuxcan and kvlibsdk
+- Creates `CAN_log`, `CAN_prod`, and `CAN_test` Influxdb buckets.
 
 
 #### Usage
 
 1. **Download the Script**
 
-   Download the `run_setup.sh` script into the directory where you want to set up the telemetry cluster:
+   Download the `setup.sh` script into the directory where you want to set up the telemetry cluster:
 
    ```sh
-   curl -O https://github.com/UBC-Solar/sunlink/run_setup.sh
+   curl -O https://github.com/UBC-Solar/sunlink/setup.sh
 
 2. **Run Script**
 
    To run the script, simply enter the following command:
 
    ```sh
-   ./run_setup.sh
+   ./setup.sh
 
 ## Telemetry cluster setup
 
