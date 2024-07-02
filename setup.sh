@@ -34,7 +34,7 @@ echo -e "${ANSI_GREEN}DONE installing gnome terminal! $ANSI_RESET"
 echo -e "${ANSI_BOLD}Checking for docker installation. $ANSI_RESET"              
 doInstall=true 
 if [ -x "$(command -v docker)" ]; then                                 # Check if Docker is installed. If it is remove it. otherwise install
-    echo -e "${ANSI_YELLOW}Found Docker Installation. Do you want to REINSTALL (y/n)? $ANSI_RESET"
+    echo -ne "${ANSI_YELLOW}Found Docker Installation. Do you want to REINSTALL (y/n)?: $ANSI_RESET"
     read reinstall
     case $reinstall in
         [Yy]* ) 
@@ -293,4 +293,4 @@ echo -e "\n\n"
 
 # Removing script
 echo -e "${ANSI_BOLD}Removing setup.sh script (already in sunlink/)... $ANSI_RESET"
-rm -f setup.sh
+rm -f ../setup.sh
