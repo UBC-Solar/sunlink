@@ -96,6 +96,7 @@ The `setup.sh` script:
 
 
 #### Usage
+If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run `sudo make uninstall` in the `linuxcan/` and `kvlibsdk/` folders and then delete them afterwords. Of course, make sure to type `y` when prompted to install Kvaser drivers and SDK in the setup script.
 
 1. **Download the Script**
 
