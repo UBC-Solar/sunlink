@@ -83,32 +83,40 @@ The `run_setup.sh` script simplifies the process of installing dependencies and 
 
 #### Script Summary
 
-The `run_setup.sh` script:
+The `setup.sh` script:
 
 - Updates the system packages.
 - Installs Docker and Docker Compose.
 - Clones the Sunlink repository.
-- Prompts the user for Grafana and InfluxDB credentials.
+- Prompts the user for Grafana and InfluxDB credentials including API tokens.
 - Creates necessary configuration files for nginx and docker compose.
 - Starts the Docker containers for the telemetry cluster.
+- Installs linuxcan and kvlibsdk
+- Creates `CAN_log`, `CAN_prod`, and `CAN_test` Influxdb buckets.
 
 
 #### Usage
+If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run `sudo make uninstall` in the `linuxcan/` and `kvlibsdk/` folders and then delete them afterwords. Of course, make sure to type `y` when prompted to install Kvaser drivers and SDK in the setup script.
 
 1. **Download the Script**
 
-   Download the `run_setup.sh` script into the directory where you want to set up the telemetry cluster:
+   Download the `setup.sh` script into the directory where you want to set up the telemetry cluster:
 
    ```sh
-   curl -O https://github.com/UBC-Solar/sunlink/run_setup.sh
+   curl -O https://github.com/UBC-Solar/sunlink/setup.sh
+   ```
+
+> [!NOTE]
+> If the script does not have permission to execute then run `chmod +x setup.sh` to enable execution.
 
 2. **Run Script**
 
    To run the script, simply enter the following command:
 
    ```sh
-   ./run_setup.sh
-
+   ./setup.sh
+   ```
+   
 ## Telemetry cluster setup
 
 Since the telemetry cluster consists of three Docker containers that are spun up with Docker Compose, it can easily be deployed on any (although preferably Linux) system.
