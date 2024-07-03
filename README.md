@@ -104,6 +104,10 @@ If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run 
 
    ```sh
    curl -O https://github.com/UBC-Solar/sunlink/setup.sh
+   ```
+
+> [!NOTE]
+> If the script does not have permission to execute then run `chmod +x setup.sh` to enable execution.
 
 2. **Run Script**
 
@@ -111,7 +115,8 @@ If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run 
 
    ```sh
    ./setup.sh
-
+   ```
+   
 ## Telemetry cluster setup
 
 Since the telemetry cluster consists of three Docker containers that are spun up with Docker Compose, it can easily be deployed on any (although preferably Linux) system.
