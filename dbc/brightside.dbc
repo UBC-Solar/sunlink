@@ -402,6 +402,7 @@ BO_ 1028 MCBDiagnostics: 3 MCB
  SG_ RegenEnabled : 17|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ CruiseControlEnabled : 18|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MechBrakePressed : 19|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MDICommFault : 20|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 768 RTCTimestamp: 8 MEMORATOR
  SG_ Second : 0|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -604,6 +605,8 @@ CM_ SG_ 1028 PedalADCOutOfRange "1 if true 0 if false";
 CM_ SG_ 1028 RegenEnabled "1 if true 0 if false";
 CM_ SG_ 1028 CruiseControlEnabled "1 if true 0 if false";
 CM_ SG_ 1028 MechBrakePressed "1 if pressed 0 if not pressed";
+CM_ SG_ 1028 MDICommFault "1 if fault true, 0 otherwise
+";
 CM_ SG_ 1808 ShockTravel1 "uint16_t";
 CM_ SG_ 1808 ShockTravel2 "uint16_t";
 CM_ SG_ 1808 ShockTravel3 "uint16_t";
