@@ -249,7 +249,7 @@ def parse_request():
             message = create_message(msg)
         except Exception as e:
             app.logger.warn(
-                f"Unable to extract measurements for raw message {msg}")
+                f"Unable to extract measurements for raw message {msg.encode('latin-1').hex()}. Error: {e}")
             curr_response = {
                 "result": "PARSE_FAIL",
                 "message": str(msg),
@@ -305,13 +305,12 @@ def parse_and_write_request_bucket(bucket):
     msg = parse_request['message']
 
     #detect api frames
-    if msg[0] == "\x7e": 
+    if msg[0].encode('latin-1').hex() == "7e": 
         msgs = parse_api_packet(msg)
     else:
         #for randomizer or pcan messages
         msgs = [msg]
 
-        
     all_response = []
     for msg in msgs:
         
@@ -321,7 +320,7 @@ def parse_and_write_request_bucket(bucket):
             message = create_message(msg)
         except Exception as e:
             app.logger.warn(
-                f"Unable to extract measurements for raw message {msg}")
+                f"Unable to extract measurements for raw message {msg.encode('latin-1').hex()}. Error: {e}")
             curr_response =  {
                 "result": "PARSE_FAIL",
                 "message": str(msg),

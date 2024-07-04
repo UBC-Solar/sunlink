@@ -536,7 +536,7 @@ def process_API_message(message: str, buffer: str = "") -> list:
     if len(parts) > 1:
         buffer = parts.pop()
 
-    return [bytes.fromhex(part).decode('latin-1') for part in parts], buffer
+    return [bytes.fromhex(part).decode('latin-1') for part in parts[1:]], buffer
 
 
 """
@@ -820,7 +820,6 @@ def main():
                             print(chunk)
 
                     parts, buffer = process_API_message(chunk, buffer)
-
                     for part in parts:
 
                         if args.raw:
