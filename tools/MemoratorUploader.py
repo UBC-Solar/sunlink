@@ -2,26 +2,30 @@ import canlib.kvmlib as kvmlib
 import re
 import datetime
 import struct
+import time
 
 # Script Constants
-LOG_FOLDER          = "/media/electrical/disk/"
-NUM_LOGS            = 15
-MB_TO_KB            = 1024
-EPOCH_START         = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
+LOG_FOLDER              = "/media/electrical/disk/"
+NUM_LOGS                = 15
+MB_TO_KB                = 1024
+EPOCH_START             = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
 
 # Formatting Constants
-ANSI_GREEN          = "\033[92m"
-ANSI_BOLD           = "\033[1m"
-ANSI_RED            = "\033[91m"
-ANSI_RESET          = "\033[0m"
+ANSI_GREEN              = "\033[92m"
+ANSI_BOLD               = "\033[1m"
+ANSI_RED                = "\033[91m"
+ANSI_RESET              = "\033[0m"
 
 # Regex Patterns for logfile parsing
-PATTERN_DATETIME    = re.compile(r't:\s+(.*?)\s+DateTime:\s+(.*)')
-PATTERN_TRIGGER     = re.compile(r't:\s+(.*?)\s+Log Trigger Event.*')
-PATTERN_EVENT       = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:(.*?) dlc:\s+(.*?) d:(.*)')
+PATTERN_DATETIME        = re.compile(r't:\s+(.*?)\s+DateTime:\s+(.*)')
+PATTERN_TRIGGER         = re.compile(r't:\s+(.*?)\s+Log Trigger Event.*')
+PATTERN_EVENT           = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:(.*?) dlc:\s+(.*?) d:(.*)')
 
 # Data Constants
-ERROR_ID            = 0
+ERROR_ID                = 0
+
+# Delay Constants
+SEND_TO_PARSER_DELAY    = 0.006
 
 
 def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
@@ -56,6 +60,7 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             can_str = timestamp_str + "#" + id_str + data_str + dlc_str
 
             parserCallFunc(can_str, live_filters, log_filters, display_filters, args, endpoint)
+            time.sleep(SEND_TO_PARSER_DELAY)
             
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
