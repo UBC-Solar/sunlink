@@ -402,6 +402,7 @@ BO_ 1028 MCBDiagnostics: 3 MCB
  SG_ RegenEnabled : 17|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ CruiseControlEnabled : 18|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MechBrakePressed : 19|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MDICommFault : 20|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 768 RTCTimestamp: 8 MEMORATOR
  SG_ Second : 0|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -464,6 +465,12 @@ BO_ 1809 BrakePressureSteeringAngle: 8 VDS
 BO_ 1810 VDSDiagnostics: 1 VDS
  SG_ DMAStatus : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IWDGStatus : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1295 MDIDiagnostics: 8 MDI
+ SG_ MCBDriveCmdTimeout : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DirectionSentToMC : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DriveModeToMC : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RegenSentToMC : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
 
 
@@ -598,6 +605,8 @@ CM_ SG_ 1028 PedalADCOutOfRange "1 if true 0 if false";
 CM_ SG_ 1028 RegenEnabled "1 if true 0 if false";
 CM_ SG_ 1028 CruiseControlEnabled "1 if true 0 if false";
 CM_ SG_ 1028 MechBrakePressed "1 if pressed 0 if not pressed";
+CM_ SG_ 1028 MDICommFault "1 if fault true, 0 otherwise
+";
 CM_ SG_ 1808 ShockTravel1 "uint16_t";
 CM_ SG_ 1808 ShockTravel2 "uint16_t";
 CM_ SG_ 1808 ShockTravel3 "uint16_t";
@@ -607,6 +616,10 @@ CM_ SG_ 1809 BrakePressure2 "uint16_t, PSI";
 CM_ SG_ 1809 BrakePressure3 "uint16_t, PSI";
 CM_ SG_ 1809 SteeringAngle "uint16_t, Angle in Degrees";
 CM_ SG_ 1810 DMAStatus "Determine if 1 bit or 1 for each channel";
+CM_ SG_ 1295 MCBDriveCmdTimeout "0 = no timeout, 1 = timeout";
+CM_ SG_ 1295 DirectionSentToMC "0 = reverse, 1 = forward";
+CM_ SG_ 1295 DriveModeToMC "0 = ECO mode, 1 = POWER mode";
+CM_ SG_ 1295 RegenSentToMC "0 = no regen requested, 1 = regen ON";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
