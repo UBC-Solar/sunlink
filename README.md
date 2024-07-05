@@ -79,7 +79,7 @@ This includes a bash script to automate the setup of Sunlink with Nginx as a rev
 
 #### Overview
 
-The `run_setup.sh` script simplifies the process of installing dependencies and setting up Sunlink. This additionally configures Nginx and Docker to manage your telemetry cluster. It sets up Nginx as a reverse proxy, enabling seamless communication between your Docker containers.
+The `setup.sh` script simplifies the process of installing dependencies and setting up Sunlink. This additionally configures Nginx and Docker to manage your telemetry cluster. It sets up Nginx as a reverse proxy, enabling seamless communication between your Docker containers.
 
 #### Script Summary
 
@@ -103,7 +103,7 @@ If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run 
    Download the `setup.sh` script into the directory where you want to set up the telemetry cluster:
 
    ```sh
-   curl -O https://github.com/UBC-Solar/sunlink/setup.sh
+   curl -O https://raw.githubusercontent.com/UBC-Solar/sunlink/main/setup.sh
    ```
 
 > [!NOTE]
