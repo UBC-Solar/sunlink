@@ -107,7 +107,10 @@ If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run 
    ```
 
 > [!NOTE]
-> Before running the command below if you are on WSL2 the enter **n** (No) to the prompt asking to install Kvaser's kvlibsdk and linuxcan drivers. This is because we currently cannot install these drivers on WSL2 but we are able to on a machine with a Linux boot. **If you enter No for any reason it will comment out a line which requires the kvaser drivers to be installed. This is to eliminate an error that says the driver is uninstalled**.
+> Before running the command below if you are on WSL2 the enter **n** (No) to the prompt asking to install Kvaser's kvlibsdk and linuxcan drivers. This is because we currently cannot install these drivers on WSL2 but we are able to on a machine with a Linux boot. 
+
+> [!IMPORTANT]
+> **If you enter No to the Kvaser Driver Download it will comment out a line which requires the kvaser drivers to be installed. This is to eliminate an error that says the driver is uninstalled. Note that if you have the driver ALREADY installed and click No it will still comment out this line**.
 
 2. **Run Script**
 
