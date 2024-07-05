@@ -107,7 +107,7 @@ If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run 
    ```
 
 > [!NOTE]
-> If the script does not have permission to execute then run `chmod +x setup.sh` to enable execution.
+> Before running the command below if you are on WSL2 the enter **n** (No) to the prompt asking to install Kvaser's kvlibsdk and linuxcan drivers. This is because we currently cannot install these drivers on WSL2 but we are able to on a machine with a Linux boot.
 
 2. **Run Script**
 
@@ -116,6 +116,9 @@ If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run 
    ```sh
    ./setup.sh
    ```
+
+> [!NOTE]
+> If the script does not have permission to execute then run `chmod +x setup.sh` to enable execution.
    
 ## Telemetry cluster setup
 

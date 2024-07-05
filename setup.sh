@@ -256,6 +256,8 @@ case $installKvaserLibs in
         ;;
     [Nn]* ) 
         echo -e "${ANSI_YELLOW}Skipping Kvaser linuxcan and kvlibsdk drivers installation... $ANSI_RESET"
+        echo -e "${ANSI_YELLOW}Commenting out line that imports memorator upload script in link_telemetry.py$ANSI_RESET"
+        sed -i "s/^from tools.MemoratorUploader import memorator_upload_script/# from tools.MemoratorUploader import memorator_upload_script/g" link_telemetry.py
         ;;
     * ) echo -e "${ANSI_YELLOW}Please enter (y/n). ${ANSI_RESET}";;
 esac
