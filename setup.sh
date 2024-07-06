@@ -278,6 +278,16 @@ echo -e "${ANSI_GREEN}BUCEKT: 'CAN_prod' created$ANSI_RESET"
 sudo docker exec -it influxdb influx bucket create --name "CAN_log" --org "${DOCKER_INFLUXDB_INIT_ORG}"
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_log' created$ANSI_RESET"
 
+sudo docker exec -it influxdb influx bucket create --name "ATR_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+echo -e "${ANSI_GREEN}BUCEKT: 'ATR_test' created$ANSI_RESET"
+sudo docker exec -it influxdb influx bucket create --name "ATR_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+echo -e "${ANSI_GREEN}BUCEKT: 'ATR_prod' created$ANSI_RESET"
+
+sudo docker exec -it influxdb influx bucket create --name "ATL_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+echo -e "${ANSI_GREEN}BUCEKT: 'ATL_test' created$ANSI_RESET"
+sudo docker exec -it influxdb influx bucket create --name "ATL_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+echo -e "${ANSI_GREEN}BUCEKT: 'ATL_prod' created$ANSI_RESET"
+
 # Restarting docker
 echo -e "${ANSI_YELLOW}Restarting docker containers one last time... $ANSI_RESET"
 sudo docker compose down
