@@ -79,7 +79,7 @@ This includes a bash script to automate the setup of Sunlink with Nginx as a rev
 
 #### Overview
 
-The `run_setup.sh` script simplifies the process of installing dependencies and setting up Sunlink. This additionally configures Nginx and Docker to manage your telemetry cluster. It sets up Nginx as a reverse proxy, enabling seamless communication between your Docker containers.
+The `setup.sh` script simplifies the process of installing dependencies and setting up Sunlink. This additionally configures Nginx and Docker to manage your telemetry cluster. It sets up Nginx as a reverse proxy, enabling seamless communication between your Docker containers.
 
 #### Script Summary
 
@@ -103,11 +103,14 @@ If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run 
    Download the `setup.sh` script into the directory where you want to set up the telemetry cluster:
 
    ```sh
-   curl -O https://github.com/UBC-Solar/sunlink/setup.sh
+   curl -O https://raw.githubusercontent.com/UBC-Solar/sunlink/main/setup.sh
    ```
 
 > [!NOTE]
-> If the script does not have permission to execute then run `chmod +x setup.sh` to enable execution.
+> Before running the command below if you are on WSL2 the enter **n** (No) to the prompt asking to install Kvaser's kvlibsdk and linuxcan drivers. This is because we currently cannot install these drivers on WSL2 but we are able to on a machine with a Linux boot. 
+
+> [!IMPORTANT]
+> **If you enter No to the Kvaser Driver Download it will comment out a line which requires the kvaser drivers to be installed. This is to eliminate an error that says the driver is uninstalled. Note that if you have the driver ALREADY installed and click No it will still comment out this line**.
 
 2. **Run Script**
 
@@ -116,6 +119,9 @@ If you would like a fresh copy of the Kvaser drivers and SDK for Linux then run 
    ```sh
    ./setup.sh
    ```
+
+> [!NOTE]
+> If the script does not have permission to execute then run `chmod +x setup.sh` to enable execution.
    
 ## Telemetry cluster setup
 
