@@ -155,12 +155,12 @@
                 },
                 "3": {
                   "color": "#ffffff",
-                  "index": 3,
+                  "index": 4,
                   "text": "REVERSE"
                 },
                 "4": {
                   "color": "yellow",
-                  "index": 4,
+                  "index": 3,
                   "text": "PARK"
                 }
               },
@@ -228,14 +228,14 @@
             {
               "options": {
                 "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "PWR  MODE"
-                },
-                "1": {
                   "color": "green",
                   "index": 1,
                   "text": "ECO MODE"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "PWR  MODE"
                 }
               },
               "type": "value"
@@ -1845,7 +1845,7 @@
     "list": []
   },
   "time": {
-    "from": "now-2d",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -1863,8 +1863,8 @@
     ]
   },
   "timezone": "",
-  "title": "LOG: Pit Crew - Brightside",
-  "uid": "e6de4676-26c7-4b22-8570-7b0c9967ffc4",
-  "version": 6,
+  "title": "PROD: Pit Crew - Brightside",
+  "uid": "e3e801b9-6d09-48e4-9306-81b946558bfe",
+  "version": 14,
   "weekStart": ""
 }

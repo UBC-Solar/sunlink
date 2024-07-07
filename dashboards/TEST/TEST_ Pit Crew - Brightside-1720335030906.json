@@ -19,7 +19,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 16,
+  "id": 9,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -154,14 +154,14 @@
                   "text": "CRUISE"
                 },
                 "3": {
-                  "color": "yellow",
-                  "index": 3,
-                  "text": "PARK"
-                },
-                "4": {
                   "color": "#ffffff",
                   "index": 4,
                   "text": "REVERSE"
+                },
+                "4": {
+                  "color": "yellow",
+                  "index": 3,
+                  "text": "PARK"
                 }
               },
               "type": "value"
@@ -207,7 +207,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveState\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MCB\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveState\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -228,14 +228,14 @@
             {
               "options": {
                 "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "PWR  MODE"
-                },
-                "1": {
                   "color": "green",
                   "index": 1,
                   "text": "ECO MODE"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "PWR  MODE"
                 }
               },
               "type": "value"
@@ -3562,6 +3562,6 @@
   "timezone": "",
   "title": "TEST: Pit Crew - Brightside",
   "uid": "b04084a8-3f7c-4901-8f15-8df4b33bf32a",
-  "version": 2,
+  "version": 9,
   "weekStart": ""
 }
