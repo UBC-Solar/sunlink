@@ -228,14 +228,14 @@
             {
               "options": {
                 "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "PWR  MODE"
-                },
-                "1": {
                   "color": "green",
                   "index": 1,
                   "text": "ECO MODE"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "PWR  MODE"
                 }
               },
               "type": "value"
@@ -3562,6 +3562,6 @@
   "timezone": "",
   "title": "TEST: Pit Crew - Brightside",
   "uid": "b04084a8-3f7c-4901-8f15-8df4b33bf32a",
-  "version": 5,
+  "version": 9,
   "weekStart": ""
 }

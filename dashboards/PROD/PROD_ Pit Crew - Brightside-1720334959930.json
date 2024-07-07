@@ -154,14 +154,14 @@
                   "text": "CRUISE"
                 },
                 "3": {
-                  "color": "yellow",
-                  "index": 3,
-                  "text": "PARK"
-                },
-                "4": {
                   "color": "#ffffff",
                   "index": 4,
                   "text": "REVERSE"
+                },
+                "4": {
+                  "color": "yellow",
+                  "index": 3,
+                  "text": "PARK"
                 }
               },
               "type": "value"
@@ -228,14 +228,14 @@
             {
               "options": {
                 "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "PWR  MODE"
-                },
-                "1": {
                   "color": "green",
                   "index": 1,
                   "text": "ECO MODE"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "PWR  MODE"
                 }
               },
               "type": "value"
@@ -1865,6 +1865,6 @@
   "timezone": "",
   "title": "PROD: Pit Crew - Brightside",
   "uid": "e3e801b9-6d09-48e4-9306-81b946558bfe",
-  "version": 9,
+  "version": 14,
   "weekStart": ""
 }
