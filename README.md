@@ -69,6 +69,7 @@ A detailed description of all system components is given [here](/docs/SYSTEM.md)
 
 When attempting to set up Sunlink, it is important to decide whether you want to set up both the telemetry cluster and telemetry link or just the telemetry link.
 
+-   If you only want to view our data on InfluxDB or Grafana then you will need to be added to our Tailscale network. [Click here for the instructions to do so](docs/TAILSCALE_SETUP.md).
 -   If the telemetry cluster has **already been set up** and you would like to only set up the telemetry link to communicate with the cluster, skip to [this section](#telemetry-link-setup).
 
 -   If the telemetry cluster has **not been set up**, continue onwards to set it up.
