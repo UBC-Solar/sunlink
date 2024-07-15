@@ -75,7 +75,7 @@ When attempting to set up Sunlink, it is important to decide whether you want to
 
 ### Automated Sunlink Telemetry Cluster Setup
 
-This includes a bash script to automate the setup of Sunlink with Nginx as a reverse proxy to spin up Docker containers for the telemetry cluster.
+This includes a bash script to automate the setup of Sunlink with Nginx as a reverse proxy to spin up Docker containers for the telemetry cluster. **The `setup.sh` script and the few manual steps within it will result sunlink completely setup for the user. This means that the script will provide all the instructions necessary.**.
 
 #### Overview
 
@@ -170,11 +170,7 @@ Additionally, to avoid getting `Permission Denied` errors when trying to access 
 
 <br>
 
-Clone the repository with:
-
-```bash
-git clone https://github.com/UBC-Solar/sunlink.git
-```
+The setup script should have already setup sunlink for you. As such we will just confirm our Python version and Docker compose version:
 
 Check your Python installation by running:
 
@@ -192,7 +188,7 @@ sudo docker compose version
 > [!NOTE]
 > If you plan to use the offline mode with the linktelemetry.py script, please see the below settings for VirtualBox and bringing up the CAN interface
 
-Add PCAN USB port to Ubuntu from Virtual Box settings:
+### Add PCAN USB port to Ubuntu from Virtual Box settings:
 
 - Go to settings from Virtual Box.
 - Click on the green + as shown in the picture below.
@@ -213,27 +209,9 @@ candump -H -td -x -c can0
 ```
 This should output what is on the PCAN at the moment.
 
-### Setting up environment variables
+### Setup Script Explanation: How our environment variables are set up: 
 
-Before spinning up the cluster, you must create a `.env` file in the project root directory (i.e., the same directory as the `docker-compose.yaml` file). I find that it is easiest to create the file from the terminal:
-
-For Linux/macOS:
-
-```bash
-cd sunlink/
-touch .env
-```
-
-For Windows:
-
-```powershell
-cd sunlink\
-New-Item -Path . -Name ".env"
-```
-
-Then, you may use any code editor to edit the file.
-
-A template `.env` file is given in the `templates/` folder. Copy the contents of this file into your new `.env` file. Your `.env` file should look like the following:
+The `./setup.sh` script already created a `.env` file for you in the same directory are as the `docker-compose.yaml` file). When you open the `.env` file it follows this template:
 
 ```env
 # Grafana environment variables
@@ -261,7 +239,7 @@ INFLUX_TOKEN=""
 GRAFANA_TOKEN=""
 ```
 
-The fields with empty values all need to be filled _except for the access tokens_. These fields should be manually filled once the cluster is spun up. An example of what a valid `.env` file will look like **before** spinning up the cluster is given below:
+The setup script will then fill in the fields based on your inputs (like API tokens and credentials) so that the final `.env` looks like the following:
 
 ```env
 # Grafana environment variables
@@ -290,50 +268,33 @@ INFLUX_TOKEN=""
 GRAFANA_TOKEN=""
 ```
 
-Note that the `INFLUX_TOKEN` and `GRAFANA_TOKEN` keys are left without values (for now).
-
-For the `GRAFANA_ADMIN_USERNAME` and `GRAFANA_ADMIN_PASSWORD` fields, you may choose any values. The same goes for the `INFLUX_ADMIN_USERNAME` and `INFLUX_ADMIN_PASSWORD` fields. **For the passwords, however, ensure they are long enough otherwise Grafana and InfluxDB will reject them.**
+**For the passwordsm ensure they are long enough when you input them in the setup script otherwise Grafana and InfluxDB will reject them.**
 
 The `SECRET_KEY` field must be generated.
 
 > :warning: **WARNING: Make sure not to change the `INFLUX_ORG`, `INFLUX_INIT_BUCKET`, and `INFLU_DEBUG_BUCKET` variables from their defaults since that might break the provisioned Grafana dashboards.**
 
-#### Generating the secret key
+#### Setup Script Explanation: How our secret key was set up
 
 The `SECRET_KEY` variable defines the key that the parser will look for in the authentication headers for any HTTP request sent to it. Because the parser API is exposed over the internet, the secret key authentication is a simple form of access control.
 
-The easiest way to generate the value for the `SECRET_KEY` variable is to use the Python `secrets` package.
-
-First, fire up your Python interpreter:
+The way we generated the value for the `SECRET_KEY` variable in the script is by using Python's `secrets` package and then executing the following:
 
 ```
-$ python
-Python 3.10.6 (main, May 29 2023, 11:10:38) [GCC 11.3.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>>
+import secrets
+secrets.token_urlsafe()
 ```
 
-Then, execute the following:
+When you run this code it will output `'dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4'` which is your generated secret key
 
-```
->>> import secrets
->>> secrets.token_urlsafe()
-'dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4'
-```
 
-Use the generated key as your secret key.
+### Setup Script Explanation: Starting the telemetry cluster
 
-### Starting the telemetry cluster
-
-Now that you've filled in the relevant parts of the `.env` file, you can now perform the initial telemetry cluster start up.
-
-Ensure your current working directory is the repository root folder before running the following command:
+Once the script fills your `.env` file it will start up the telemetry cluster by running:
 
 ```bash
 sudo docker compose up
 ```
-
-You should see a flurry of text as the three services come online.
 
 ### Aside: handy docker commands
 
@@ -346,23 +307,24 @@ You should see a flurry of text as the three services come online.
 | `sudo docker exec -it <CONTAINER_NAME> /bin/bash` | Starts a shell instance inside `<CONTAINER_NAME>`.                                                                                       |
 | `sudo docker system df`                           | Shows docker disk usage (includes containers, images, volumes, etc.). Useful when checking how much space the InfluxDB volume is taking. |
 
-### Finishing environment set-up
 
-On startup, the InfluxDB container binds to port 8086, the Grafana container binds to port 3000, and the parser container binds to port 5000.
+### Setup Script Explanation: API tokens
 
-This means that once the cluster is up and running, you should be able to access InfluxDB, Grafana, and the parser at `http://localhost:8086`, `http://localhost:3000`, and `http://localhost:5000` respectively.
+The script will run the docker contianers which results in the InfluxDB container binding to port 8086, the Grafana container binding to port 3000, and the parser container binding to port 5000.
 
-Now we can generate the missing API tokens we left out of our `.env` file from before:
+As such you should be able to access InfluxDB, Grafana, and the parser at `http://localhost:8086`, `http://localhost:3000`, and `http://localhost:5000` respectively.
 
--   Go to the InfluxDB URL and login to the InfluxDB web application with the admin username and password you specified in your `.env` file. Generate a new API token. This token should be used as the value for the `INFLUX_TOKEN` key in your `.env` file.
+The script will also prompt you to enter in the API tokens for Grafana and InfluxDB by asking you to:
 
--   Go to the Grafana URL and login to the Grafana web application with the admin username and password you specified in your `.env` file. Create a new service account and create an API token under this service account. This token should be used as the value for the `GRAFANA_TOKEN` key in your `.env` file.
+-   Go to the Grafana URL and login to the Grafana web application with the admin username and password you specified in the script. Create a new service account and create an API token under this service account. This token, upon inputting it to the script, will be used the value for the `GRAFANA_TOKEN` key in your `.env` file.
+
+-   Go to the InfluxDB URL and login to the InfluxDB web application with the admin username and password you specified in the script. Generate a new API token. This token, upon inputting it to the script, will be used as the value for the `INFLUX_TOKEN` key in your `.env` file.
 
 Both the [InfluxDB API docs](https://docs.influxdata.com/influxdb/v2.7/security/tokens/#Copyright) and [Grafana API docs](https://grafana.com/docs/grafana/latest/administration/service-accounts/) provide detailed guides on how to create API tokens for each platform.
 
 > **NOTE:** both the InfluxDB and Grafana token need to be given write access since the telemetry link uses them to write data to the InfluxDB bucket and the Grafana Live endpoint. **Ensure that the Grafana token has admin access since live-streaming data will not work otherwise**.
 
-Once you've filled in all the fields in your `.env` file, you can restart the cluster with:
+Once you enter these values into the script it will run the following to restart the telemetry cluster:
 
 ```bash
 sudo docker compose stop
@@ -373,7 +335,7 @@ sudo docker compose up
 
 ### Checking your setup
 
-Now that you've finished setting up the cluster, you need to check that everything is up and running. The quickest way to do this would be to use cURL to query the health endpoint that the parser exposes. This does require HTTP authentication so make sure you have access to the `SECRET_KEY` variable in your `.env` file.
+Now that you've finished setting up the cluster, you need to check that everything is up and running. The quickest way to do this would be to use cURL to query the health endpoint that the parser exposes. This does require HTTP authentication so make sure you have access to the `SECRET_KEY` variable in your `.env` file by opening it and copying the key.
 
 Assuming the value of my `SECRET_KEY` was `dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4` and the parser was available on `localhost:5000/`, my cURL command would look like:
 
@@ -400,7 +362,7 @@ If all your tokens are correctly set up, the parser should return the following:
 }
 ```
 
-- If your output doesn't look like the above, double-check the tokens you entered into the `.env` file and ensure that you **restarted the docker containers** after changing the tokens. Of course, make sure your docker containers are running in the first place. For more information about the parser API health endpoint, go [here](#parser-http-api).
+- If your output doesn't look like the above, **try restarting the docker containers or using `sudo docker compose build --no-cache**. For more information about the parser API health endpoint, go [here](#parser-http-api).
 
 - If your output looks like the above, then congratulations! You've finished setting up the telemetry cluster! :heavy_check_mark:
 
@@ -414,7 +376,8 @@ The telemetry link must be set up on the host machine on which the radio receive
 -   A functional and running telemetry cluster (either local or remote)
 -   A cloned copy of this repository
 
-Clone the repository with:
+
+If you ran the setup script then you will not need to clone the repository as it does the cloning and full Telemetry Link setup for you. Otherwise you need to run the following:
 
 ```bash
 git clone https://github.com/UBC-Solar/sunlink.git
@@ -428,40 +391,32 @@ python --version
 
 > NOTE: In some cases, your python interpreter might be called `python3`.
 
-### Creating a Python virtual environment
+### Setup Script Explanation: How we create a Python virtual environment
 
-It is highly recommended that you create a Python virtual environment to avoid breaking your system-installed version of Python.
-
-You may choose to create your virtual environment folder anywhere but I like to create it in its own `environment` subdirectory in the project root directory:
+The script will create a Python virtual environment to avoid breaking your system-installed version of Python. It will name your virtual environment folder as `envirobment` and makes use of the following commands to initilaize the environment:
 
 ```bash
 cd sunlink/
 python -m venv environment
 ```
 
-Execute the following to enter your virtual environment on Linux:
+The next step would be to activate the environment, however, since the script runs in a separate shell (terminal) from the one you ran it in, doing `source environment/bin/activate` within the script won't work. This is why at the very end of the setup script, one of the instructions it asks you to manually perfomr is running `source environment/bin/activate` so you activiate the environment in the temrinal you are in. Note if you are on windows the command looks like: `.\environment\Scripts\Activate.ps1`, however, the script will not default to this if you use windows (we require dual booted Linux or at least WSL).
 
-```bash
-source environment/bin/activate
-```
-
-Or on Windows:
-
-```bash
-.\environment\Scripts\Activate.ps1
-```
-
-To exit your virtual environment:
+**Aside from the script if you wnat to exit your virtual environment run:**
 
 ```bash
 deactivate
 ```
 
-### Installing Python package requirements
+#### Installing Python package requirements
 
-Before continuing, enter the Python virtual environment you just created.
+After creaitng the virtual environment, the script **directs** you to to install the package requirements for `link_telemetry.py`, go to the root directory, and execute:
 
-To install the package requirements for `link_telemetry.py`, go to the root directory, and execute:
+```bash
+pip install -r requirements.txt
+```
+If that does not work try 
+
 
 ```bash
 python -m pip install -r requirements.txt
@@ -469,9 +424,10 @@ python -m pip install -r requirements.txt
 
 All the required packages for `link_telemetry.py` should now be installed.
 
-### Telemetry link configuration
 
-The `telemetry_link.py` script expects a `telemetry.toml` file in the same directory as it. A template for this TOML file can be found in the `/templates` folder. Copy this template file into the project root directory and rename it to `telemetry.toml`.
+### Setup Script Explanation: Telemetry link configuration
+
+The `link_telemetry.py` script expects a `telemetry.toml` file in the same directory as it. This is where the `setup.sh` script comes in and creates that for you. The template it follows can be found in the `/templates` folder. If you want to do it manually copy this template file into the project root directory and rename it to `telemetry.toml`.
 
 An example `telemetry.toml` would look like:
 
@@ -487,22 +443,21 @@ channel = "can0"
 bitrate = "500000"
 ```
 
-The `parser.url` field specifies the URL where the script can find the telemetry cluster parser. If you are running the cluster locally, the url would likely be `http://localhost:5000/`.
+The `parser.url` field specifies the URL where the script can find the telemetry cluster parser. Note that the `./setup.sh` script will set up the toml with the parser running on localhost port 5000 so the url is `http://localhost:5000/`.
 
 The `security.secret_key` field specifies the secret key to use in the HTTP authentication headers when making a request to the parser.
 
-This secret key must match with the secret key configured for the telemetry cluster parser that you are trying to communicate with.
+This secret key must match with the secret key configured for the telemetry cluster parser that you are trying to communicate with. The script will take care of this.
 
 If you set up the telemetry cluster locally then you already have access to this secret key. If the telemetry cluster was set up for you, ask your software lead for the secret key.
 
-The `offline.channel` and `offline.bitrate` fields specify the channel and bitrate of the PCAN.
+The `offline.channel` and `offline.bitrate` fields specify the channel and bitrate of the PCAN. The script will also fill in these.
 
 > [!IMPORTANT]
 > The [offline] fields are only required if you plan to use the offline mode with PCAN.
 
-Once all the fields are filled, the `link_telemetry.py` script is ready for use.
 
-## Running the link
+## Running Link Telemetry
 
 Make sure you've entered your virtual environment before trying to run the script.
 
