@@ -68,7 +68,7 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
     numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS
     
     # Get the log folder path as input
-    LOG_FOLDER = input(f"{ANSI_GREEN}Enter the FULL ABSOLUTE path to the log folder contianing .KMF files: {ANSI_RESET} ")  
+    LOG_FOLDER = input(f"{ANSI_GREEN}Enter the FULL ABSOLUTE path to the folder with .KMF files (include '/' at the end like ..../downloads/ and no '~'): {ANSI_RESET} ")  
 
     # Open each KMF file
     for i in range(numLogs):
