@@ -5,7 +5,8 @@ import struct
 import time
 
 # Script Constants
-LOG_FOLDER              = "/media/electrical/disk/"
+global LOG_FOLDER
+# LOG_FOLDER              = "/media/electrical/disk/"
 NUM_LOGS                = 15
 MB_TO_KB                = 1024
 EPOCH_START             = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone.utc)
@@ -65,6 +66,9 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS
+    
+    # Get the log folder path as input
+    LOG_FOLDER = input(f"{ANSI_GREEN}Enter the FULL ABSOLUTE path to the log folder contianing .KMF files: {ANSI_RESET} ")  
 
     # Open each KMF file
     for i in range(numLogs):
