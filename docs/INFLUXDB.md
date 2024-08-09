@@ -20,7 +20,7 @@ In the `scripts/` folder there is a script called `CSV_Download_script.sh`. To r
 1. `chmod +x CSV_Download_script.sh`
 2. Then run `./scripts/CSV_Download_script.sh`
 3. Then follow the instructions
-[Video Tutorial](../videos/CSV_download_script_tutorial.mp4)
+[2 minute Video Tutorial](../videos/CSV_download_script_tutorial.mp4)
 
 ### Manually Downloading CSV Data onto Bay Computer
 #### General Steps
