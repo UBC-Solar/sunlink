@@ -295,6 +295,23 @@ echo -e "${ANSI_YELLOW}Restarting docker containers one last time... $ANSI_RESET
 sudo docker compose down
 sudo docker compose up -d
 
+# Setting up Tailscale
+echo -ne "${ANSI_YELLOW}Would you like to Set Up Tailscale (y/n)?: $ANSI_RESET"
+read setupTailscale
+echo -ne "${ANSI_YELLOW}ENTER your Tailscale authkey here (you may need to ask your lead for this): $ANSI_RESET"
+read tailscaleAuthKey
+if [ $setupTailscale = "y" ]; then
+    echo -e "${ANSI_BOLD}Setting up Tailscale... $ANSI_RESET"
+    sudo apt-get install -y curl
+    curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+    curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
+    sudo apt-get update
+    sudo apt-get install tailscale
+    sudo tailscale up --auth-key $tailscaleAuthKey
+    echo -e "${ANSI_GREEN}DONE setting up Tailscale! $ANSI_RESET"
+else
+    echo -e "${ANSI_BOLD}Skipping Tailscale setup... $ANSI_RESET"
+fi
 
 echo -e "\n\n"
 echo -e "${ANSI_YELLOW}<---ALMOST COMPLETED SETTING UP SUNLINK. YOU NEED TO RUN THE FOLLOWING (Ctrl+Shift+C to copy) --->$ANSI_RESET"
