@@ -149,6 +149,18 @@ Whether you're setting up the cluster locally or remotely, the setup instruction
 -   Linux PCAN Driver (https://www.peak-system.com/fileadmin/media/linux/index.htm)
 -   A cloned copy of this repository
 
+
+#### How to Install Linux PCAN Drivers 
+This assumes you are using Ubuntu 22.04 desktop. The purpose of this section is to fix issues where can0 (or just canX in general) is not being detected/initialized by the system. A common reason for this issue is the bay computer shutting down, and, upon start up the CAN drivers suddenly stop working. 
+1. Go to [Linux PCAN Driver](https://www.peak-system.com/fileadmin/media/linux/index.htm) and scroll down until you see the **When to Use the Package** section. There, download the Driver Package and open the documentation on the side. *Note: Their documentation contains all commands explained below so you can follow that as well. However, their guide contains many other commands and options which may be confusing so continue reading for Solar's driver installation guide.* 
+2. With the zipped driver packages downloaded, we will now **extract** them. To do this, run `tar -xzf peak-linux-driver-X.Y.Z.tar.gz` where `X.Y.Z` is the version number of the driver package.
+3. Now change directories to the extracted folder by running `cd peak-linux-driver-X.Y.Z`.
+4. Run `make clean` to get rid of any pre-built binaries that could be outdated.
+5. Now run `make netdev` to build the driver package.
+6. Next we will install the built binaries into our system. To do this, run `sudo make install`.
+7. Finally run `sudo modprobe pcan` to load the driver into the kernel.
+
+
 ### Aside: Using Sunlink with WSL2
 > https://learn.microsoft.com/en-us/windows/wsl/connect-usb
 
