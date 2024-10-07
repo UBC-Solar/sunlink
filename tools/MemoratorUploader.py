@@ -31,9 +31,13 @@ SEND_TO_PARSER_DELAY    = 0.006
 
 def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     start_time = None
+    got_start_time = False
+
     for event in log_file:
         str_event = str(event)
-        if PATTERN_DATETIME.search(str_event):
+        if not got_start_time and PATTERN_DATETIME.search(str_event):
+            got_start_time = True
+            
             match = PATTERN_DATETIME.search(str_event)
             date_time_str = match.group(2)
             date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S') 
