@@ -15,12 +15,11 @@ INFLUX_CONTAINER="influxdb"
 OUTPUT_FILE="DATA.csv"
 OUTPUT_FILE_ZIP="DATA.csv.gz"
 COMPRESSED_FILE="$OUTPUT_FILE.gz"
-INFLUX_TOKEN="lnxskTFjJ9gKofI-swJwR32jRvETg-aW-V-6cLe76i4nKwe7sYrljh4R2ctErwBMvo-6nMkseQWmbPzUQU_39Q=="
 SSH_PASSWORD="elec2024"
 
 
 # Prompt for Influx Query
-echo -e "${ANSI_GREEN}NOTE: $REMOTE_USER@$REMOTE_HOST's password is $SSH_PASSWORD.${ANSI_RESET}"
+echo -e "${ANSI_GREEN}NOTE: $REMOTE_USER@$REMOTE_HOST's password is "$SSH_PASSWORD".${ANSI_RESET}"
 echo -e "${ANSI_YELLOW}Paste the Influx Query and hit enter TWICE after:${ANSI_RESET}"
 
 # Handle multiline Query
@@ -38,7 +37,8 @@ done
 ESCAPED_INFLUX_QUERY=$(echo "$INFLUX_QUERY" | sed 's/"/\\"/g')
 
 # Step 1: Enter the bay computer shell and execute commands
-echo -e "${ANSI_YELLOW}Connecting to the Elec Bay Computer and Getting Influx Data...${ANSI_RESET}"
+echo -e "${ANSI_YELLOW}Enter the InfluxDB token for the bay computer:${ANSI_RESET}"
+read INFLUX_TOKEN
 sshpass -p "$SSH_PASSWORD" ssh -q $REMOTE_USER@$REMOTE_HOST << EOF > /dev/null
 
 cd $REMOTE_DIR
