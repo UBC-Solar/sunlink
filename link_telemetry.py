@@ -739,7 +739,7 @@ def main():
     if args.log_upload:
         global csv_file
         timestamp = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-        csv_file = open(CSV_NAME + timestamp, "w")
+        csv_file = open(CSV_NAME + timestamp + ".csv", "w")
         csv_file.write(INFLUX_CSV_HEADING + '\n')
         upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
         return
