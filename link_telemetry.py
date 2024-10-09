@@ -26,7 +26,8 @@ import warnings
 import threading
 
 import concurrent.futures
-from tools.MemoratorUploader import memorator_upload_script
+from tools.MemoratorUploader import memorator_upload_script, processed_dict_to_str
+from LINK_CONSTANTS import *
 
 
 __PROGRAM__ = "link_telemetry"
@@ -379,9 +380,17 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
         print(f"Response content: {response.content}")
         return
 
-    all_responeses = parse_response['all_responses']
+    all_responeses = parse_response['all_responses']    
+
     for response in all_responeses:
         if response["result"] == "OK":
+
+            if args.log_upload:                                     # Write data to csv to upload later
+                str_data_list = response['message']
+                for str_data in str_data_list:
+                    print(str_data + '\n', file=csv_file, end='')
+                continue
+
             table = None
             do_display_table = filter_stream(response, display_filters)
             if args.log is not None or do_display_table:
@@ -437,6 +446,7 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
             write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, "dbg", convert_to_hex=False)
         else:
             print(f"Unexpected response: {response['result']}")
+
 
 
 def read_lines_from_file(file_path):
@@ -727,6 +737,10 @@ def main():
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
     if args.log_upload:
+        global csv_file
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
+        csv_file = open(CSV_NAME + timestamp, "w")
+        csv_file.write(INFLUX_CSV_HEADING + '\n')
         upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
         return
 
