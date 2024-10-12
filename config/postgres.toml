@@ -1,0 +1,8 @@
+[config]
+# Only these targets are uploaded from the memorator to Postgres!
+targets = [
+    "BatteryCurrent",
+    "BatteryVoltage",
+    "VoltageofLeast",
+    "BatteryCurrentDirection"
+]
