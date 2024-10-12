@@ -80,7 +80,7 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
                             time.sleep(SEND_TO_PARSER_DELAY)
 
 
-def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
+def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, skip_delay: bool = False):
     numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS
     
     # Get the log folder path as input
@@ -134,7 +134,7 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
             
             # Iterate over all log files
             for j, log_file in enumerate(log):
-                upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint)
+                upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint, skip_delay)
 
             # Clear the log files
             delete_input = input(f"{ANSI_GREEN}Do you want to {ANSI_RESET}{ANSI_RED}DELETE{ANSI_RESET} {ANSI_GREEN}all logs now (y/n)?: {ANSI_RESET} ")
