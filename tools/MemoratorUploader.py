@@ -3,6 +3,9 @@ import re
 import datetime
 import struct
 import time
+import tqdm
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 
 # Script Constants
 global LOG_FOLDER
@@ -29,40 +32,53 @@ ERROR_ID                = 0
 SEND_TO_PARSER_DELAY    = 0.006
 
 
-def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
-    start_time = None
-    for event in log_file:
-        str_event = str(event)
-        if PATTERN_DATETIME.search(str_event):
-            match = PATTERN_DATETIME.search(str_event)
-            date_time_str = match.group(2)
-            date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S') 
-            utc_date_time_obj = date_time_obj.astimezone(datetime.timezone.utc)                 # Convert to UTC
-            start_time = (utc_date_time_obj - EPOCH_START).total_seconds()
-        elif PATTERN_TRIGGER.search(str_event):
-            continue
-        elif PATTERN_EVENT.search(str_event):
-            match = PATTERN_EVENT.search(str_event)
-            timestamp = start_time + float(match.group(1))
-            timestamp_str = struct.pack('>d', timestamp).decode('latin-1')
+def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, idx: int, skip_delay: bool = True):
+        start_time = None
+        got_start_time = False
 
-            id = int(match.group(3).strip(), 16)
+        with tqdm.tqdm(total=log_file.event_count_estimation(), desc=f"Uploading logfile {idx}") as pbar:
+            with ThreadPoolExecutor(max_workers=64) as executor:
 
-            if id == ERROR_ID:
-                continue
-            
-            id_str = id.to_bytes(4, 'big').decode('latin-1') 
+                for event in log_file:
+                    str_event = str(event)
+                    if not got_start_time and PATTERN_DATETIME.search(str_event):
+                        got_start_time = True
+                        match = PATTERN_DATETIME.search(str_event)
+                        date_time_str = match.group(2)
+                        try:
+                            date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
+                            utc_date_time_obj = date_time_obj.astimezone(datetime.timezone.utc)  # Convert to UTC
+                            start_time = (utc_date_time_obj - EPOCH_START).total_seconds()
+                        except ValueError as e:
+                            print(f"Error parsing date: {e}")
+                            continue
+                    elif PATTERN_TRIGGER.search(str_event):
+                        continue
+                    elif PATTERN_EVENT.search(str_event):
+                        match = PATTERN_EVENT.search(str_event)
+                        timestamp = start_time + float(match.group(1))
+                        timestamp_str = struct.pack('>d', timestamp).decode('latin-1')
 
-            dlc_str = match.group(4)
+                        id = int(match.group(3).strip(), 16)
 
-            data = bytes.fromhex(match.group(5).replace(' ', ''))
-            data_str = data.ljust(8, b'\0').decode('latin-1')
-            
-            can_str = timestamp_str + "#" + id_str + data_str + dlc_str
+                        if id == ERROR_ID:
+                            continue
+                        
+                        id_str = id.to_bytes(4, 'big').decode('latin-1') 
 
-            parserCallFunc(can_str, live_filters, log_filters, display_filters, args, endpoint)
-            time.sleep(SEND_TO_PARSER_DELAY)
-            
+                        dlc_str = match.group(4)
+
+                        data = bytes.fromhex(match.group(5).replace(' ', ''))
+                        data_str = data.ljust(8, b'\0').decode('latin-1')
+                        
+                        can_str = timestamp_str + "#" + id_str + data_str + dlc_str
+
+                        executor.submit(parserCallFunc, can_str, live_filters, log_filters, display_filters, args, endpoint)
+                        pbar.update(1)
+
+                        if not skip_delay:
+                            time.sleep(SEND_TO_PARSER_DELAY)
+
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
     numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS

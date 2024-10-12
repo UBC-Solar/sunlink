@@ -14,6 +14,7 @@ import os
 import glob
 import struct
 
+from tools.PostgresUploader import parse_message
 from datetime import datetime 
 from toml.decoder import TomlDecodeError
 from pathlib import Path
@@ -142,6 +143,8 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     Ensures that certain argument invariants have been adhered to.
     """
+    if not args.log_upload and args.postgres:
+        parser.error("--postgres cannot be used without -u or --upload_logs")
     if args.live_on and args.live_off:
         parser.error("--live-on and --live-off cannot be used together")
     if (args.log_upload and args.debug) or (args.log_upload and args.prod) or (args.log_upload and args.no_write) or (args.offline and args.log_upload):
@@ -474,9 +477,15 @@ def sendToParser(message: str, live_filters: list, log_filters: list, display_fi
         future.add_done_callback(lambda future: process_response(future, args, display_filters))
 
 
-def upload_logs(args, live_filters, log_filters, display_filters, endpoint):
+def upload_to_postgres(can_str, live_filters, log_filters, display_filters, args, endpoint):
+    parse_message(can_str)
+
+
+def upload_logs(args, live_filters, log_filters, display_filters, endpoint, postgres):
     # Call the memorator log uploader function
-    memorator_upload_script(sendToParser, live_filters, log_filters, display_filters, args, endpoint) 
+    upload_func = sendToParser if not postgres else upload_to_postgres
+
+    memorator_upload_script(upload_func, live_filters, log_filters, display_filters, args, endpoint, skip_delay=postgres)
 
 
 """
@@ -598,6 +607,9 @@ def main():
                             help=("Will attempt to upload each line of each file in the logfiles directory "
                                 "If upload does not succeed then these lines will be stored "
                                 "in a file named `FAILED_UPLOADS.txt in the logfiles directory`"))
+
+    source_group.add_argument("--postgres", action="store_true",
+                              help=("Upload to the PostgreSQL database instead of InfluxDB. Must be used with -u or --log-upload."))
 
     source_group.add_argument("-o", "--offline", action="store_true",
                               help=("Allows using the telemetry link with "
@@ -725,9 +737,9 @@ def main():
     LOG_FILE_NAME = os.path.join(LOG_DIRECTORY, LOG_FILE)
     FAIL_FILE_NAME = os.path.join(FAIL_DIRECTORY, LOG_FILE)
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
-    
+
     if args.log_upload:
-        upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
+        upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT, args.postgres)
         return
 
     while True:
