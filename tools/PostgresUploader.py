@@ -17,7 +17,7 @@ postgres_client = PostgresClient("can_log_prod")
 thread_local_storage = threading.local()    # Per-thread local storage
 
 
-with open(str(pathlib.Path(__file__.parent.parent / "config" / "postgres.toml")), "rb") as f:
+with open(str(pathlib.Path(__file__).parent.parent / "config" / "postgres.toml"), "rb") as f:
     postgres_targets = tomllib.load(f)
     targets = postgres_targets["config"]["target"]
 
