@@ -1,0 +1,1548 @@
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd19f1bc9230000050d7bcfbeff73cce05038 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1293 with data = bytearray(b'{\xcf\xbe\xffs\xcc\xe0P'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd19f1bc9 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050d )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 7bcfbeff73cce050 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1293, databytes = bytearray(b'{\xcf\xbe\xffs\xcc\xe0P') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1293 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd1df9b502300000504c5acab7e1d6bb53438 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1284 with data = bytearray(b'\xc5\xac\xab~\x1dk\xb54'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd1df9b50 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000504 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = c5acab7e1d6bb534 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1284, databytes = bytearray(b'\xc5\xac\xab~\x1dk\xb54') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1284 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd20cb5a3230000050da823c95c6f09dedb38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1293 with data = bytearray(b'\xa8#\xc9\\o\t\xde\xdb'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd20cb5a3 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050d )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = a823c95c6f09dedb )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1293, databytes = bytearray(b'\xa8#\xc9\\o\t\xde\xdb') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1293 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd22ce9b5230000050acee0994eadcb36ad38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1290 with data = bytearray(b'\xce\xe0\x99N\xad\xcb6\xad'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd22ce9b5 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050a )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = cee0994eadcb36ad )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1290, databytes = bytearray(b'\xce\xe0\x99N\xad\xcb6\xad') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1290 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd239c671230000050711dec7055aa9c4f438 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1287 with data = bytearray(b'\x11\xde\xc7\x05Z\xa9\xc4\xf4'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd239c671 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000507 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 11dec7055aa9c4f4 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1287, databytes = bytearray(b'\x11\xde\xc7\x05Z\xa9\xc4\xf4') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1287 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd259e8ce2300000509e462d52d14ae2d0f38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1289 with data = bytearray(b'\xe4b\xd5-\x14\xae-\x0f'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd259e8ce )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000509 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = e462d52d14ae2d0f )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1289, databytes = bytearray(b'\xe4b\xd5-\x14\xae-\x0f') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1289 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd2739e58230000050cafe9981887a51cf238 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'\xaf\xe9\x98\x18\x87\xa5\x1c\xf2'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd2739e58 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = afe9981887a51cf2 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'\xaf\xe9\x98\x18\x87\xa5\x1c\xf2') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd27a0bf523000005086d6258aeeb179e1238 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b'mbX\xae\xeb\x17\x9e\x12'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd27a0bf5 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 6d6258aeeb179e12 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b'mbX\xae\xeb\x17\x9e\x12') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd2b3f2c2230000050e8719f4bd38384e8138 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1294 with data = bytearray(b'\x87\x19\xf4\xbd88N\x81'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd2b3f2c2 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050e )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 8719f4bd38384e81 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1294, databytes = bytearray(b'\x87\x19\xf4\xbd88N\x81') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1294 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd2d4200c23000005094d195b7caa05c3d338 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1289 with data = bytearray(b'M\x19[|\xaa\x05\xc3\xd3'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd2d4200c )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000509 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 4d195b7caa05c3d3 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1289, databytes = bytearray(b'M\x19[|\xaa\x05\xc3\xd3') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1289 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd2edfe8c230000050acda627c7db6ff0c938 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1290 with data = bytearray(b"\xcd\xa6\'\xc7\xdbo\xf0\xc9"), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd2edfe8c )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050a )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = cda627c7db6ff0c9 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1290, databytes = bytearray(b"\xcd\xa6\'\xc7\xdbo\xf0\xc9") )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1290 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd2f474d5230000050478f36de947b38d0838 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1284 with data = bytearray(b'x\xf3m\xe9G\xb3\x8d\x08'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd2f474d5 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000504 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 78f36de947b38d08 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1284, databytes = bytearray(b'x\xf3m\xe9G\xb3\x8d\x08') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1284 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd314a7bd230000050884fe93702099e82b38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b'\x84\xfe\x93p \x99\xe8+'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd314a7bd )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 84fe93702099e82b )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b'\x84\xfe\x93p \x99\xe8+') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd3487005230000050683bc9fff968499f638 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1286 with data = bytearray(b'\x83\xbc\x9f\xff\x96\x84\x99\xf6'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd3487005 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000506 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 83bc9fff968499f6 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1286, databytes = bytearray(b'\x83\xbc\x9f\xff\x96\x84\x99\xf6') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1286 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd3b5dfe62300000508e422226cc506b9b538 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b'\xe4""l\xc5\x06\xb9\xb5'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd3b5dfe6 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = e422226cc506b9b5 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b'\xe4""l\xc5\x06\xb9\xb5') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd3e2f71a2300000506db911840d84cffb738 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1286 with data = bytearray(b'\xdb\x91\x18@\xd8L\xff\xb7'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd3e2f71a )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000506 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = db911840d84cffb7 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1286, databytes = bytearray(b'\xdb\x91\x18@\xd8L\xff\xb7') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1286 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd4099a7e230000050cc0105613492cd2f338 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'\xc0\x10V\x13I,\xd2\xf3'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd4099a7e )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = c0105613492cd2f3 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'\xc0\x10V\x13I,\xd2\xf3') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd46a44bc230000050da40cb06480905b5738 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1293 with data = bytearray(b'\xa4\x0c\xb0d\x80\x90[W'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd46a44bc )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050d )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = a40cb06480905b57 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1293, databytes = bytearray(b'\xa4\x0c\xb0d\x80\x90[W') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1293 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd497585b230000050c9a6cc73f71a5497c38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'\x9al\xc7?q\xa5I|'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd497585b )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 9a6cc73f71a5497c )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'\x9al\xc7?q\xa5I|') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd4a43823230000050a5b3fcc19155a68ee38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1290 with data = bytearray(b'[?\xcc\x19\x15Zh\xee'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd4a43823 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050a )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 5b3fcc19155a68ee )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1290, databytes = bytearray(b'[?\xcc\x19\x15Zh\xee') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1290 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd4eafc28230000050ab9eb3279a4a21f7938 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1290 with data = bytearray(b'\xb9\xeb2y\xa4\xa2\x1fy'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd4eafc28 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050a )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = b9eb3279a4a21f79 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1290, databytes = bytearray(b'\xb9\xeb2y\xa4\xa2\x1fy') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1290 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd4f16f4c230000050863ff7f0dd2a2482a38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b'c\xff\x7f\r\xd2\xa2H*'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd4f16f4c )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 63ff7f0dd2a2482a )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b'c\xff\x7f\r\xd2\xa2H*') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd4f7e177230000050e7b4c4d4e6d71669f38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1294 with data = bytearray(b'{LMNmqf\x9f'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd4f7e177 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050e )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 7b4c4d4e6d71669f )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1294, databytes = bytearray(b'{LMNmqf\x9f') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1294 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd50b329d230000050e7bbcd3aeea4e6e6638 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1294 with data = bytearray(b'{\xbc\xd3\xae\xeaNnf'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd50b329d )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050e )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 7bbcd3aeea4e6e66 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1294, databytes = bytearray(b'{\xbc\xd3\xae\xeaNnf') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1294 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd511a42b230000050ce53c3679ddf1cfb938 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'\xe5<6y\xdd\xf1\xcf\xb9'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd511a42b )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = e53c3679ddf1cfb9 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'\xe5<6y\xdd\xf1\xcf\xb9') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd5452d112300000508ad060d5f08febdc638 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b'\xad\x06\r_\x08\xfe\xbd\xc6'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd5452d11 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = ad060d5f08febdc6 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b'\xad\x06\r_\x08\xfe\xbd\xc6') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd5b29231230000050e14fc5ae2879fbcb038 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1294 with data = bytearray(b'\x14\xfcZ\xe2\x87\x9f\xbc\xb0'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd5b29231 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050e )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 14fc5ae2879fbcb0 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1294, databytes = bytearray(b'\x14\xfcZ\xe2\x87\x9f\xbc\xb0') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1294 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd5c5e233230000050aea843a7e50ab0f1938 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1290 with data = bytearray(b'\xea\x84:~P\xab\x0f\x19'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd5c5e233 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050a )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = ea843a7e50ab0f19 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1290, databytes = bytearray(b'\xea\x84:~P\xab\x0f\x19') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1290 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd5dfaeab230000050c3565a45143e3a8be38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'5e\xa4QC\xe3\xa8\xbe'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd5dfaeab )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 3565a45143e3a8be )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'5e\xa4QC\xe3\xa8\xbe') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd5f969f523000005040b29bca082ea6e7838 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1284 with data = bytearray(b'\x0b)\xbc\xa0\x82\xeanx'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd5f969f5 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000504 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 0b29bca082ea6e78 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1284, databytes = bytearray(b'\x0b)\xbc\xa0\x82\xeanx') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1284 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd60cb2dc230000050e8aa5cadd0df50dba38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1294 with data = bytearray(b'\x8a\xa5\xca\xdd\r\xf5\r\xba'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd60cb2dc )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050e )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 8aa5cadd0df50dba )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1294, databytes = bytearray(b'\x8a\xa5\xca\xdd\r\xf5\r\xba') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1294 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd659fad5230000050cf344cfd4278d958d38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b"\xf3D\xcf\xd4\'\x8d\x95\x8d"), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd659fad5 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = f344cfd4278d958d )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b"\xf3D\xcf\xd4\'\x8d\x95\x8d") )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd66d6183230000050c741890fe2403f89438 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b't\x18\x90\xfe$\x03\xf8\x94'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd66d6183 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 741890fe2403f894 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b't\x18\x90\xfe$\x03\xf8\x94') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd69a6d4a2300000508d353a255942c57fc38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b'\xd3S\xa2U\x94,W\xfc'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd69a6d4a )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = d353a255942c57fc )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b'\xd3S\xa2U\x94,W\xfc') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd6a0e63d230000050663cdf10b4a555d2638 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1286 with data = bytearray(b'c\xcd\xf1\x0bJU]&'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd6a0e63d )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000506 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 63cdf10b4a555d26 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1286, databytes = bytearray(b'c\xcd\xf1\x0bJU]&') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1286 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd6adcc792300000509aab42e6a287deb1338 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1289 with data = bytearray(b'\xaa\xb4.j(}\xeb\x13'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd6adcc79 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000509 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = aab42e6a287deb13 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1289, databytes = bytearray(b'\xaa\xb4.j(}\xeb\x13') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1289 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd6b43f58230000050820b9763e99623c6b38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b' \xb9v>\x99b<k'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd6b43f58 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 20b9763e99623c6b )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b' \xb9v>\x99b<k') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd6d48d982300000509673af622c1f642ac38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1289 with data = bytearray(b'g:\xf6"\xc1\xf6B\xac'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd6d48d98 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000509 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 673af622c1f642ac )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1289, databytes = bytearray(b'g:\xf6"\xc1\xf6B\xac') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1289 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd7082dbe230000050de0ec97033191274238 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1293 with data = bytearray(b"\xe0\xec\x97\x031\x91\'B"), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd7082dbe )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050d )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = e0ec970331912742 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1293, databytes = bytearray(b"\xe0\xec\x97\x031\x91\'B") )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1293 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd7151f04230000050c49f13891f1cfa58138 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'I\xf18\x91\xf1\xcf\xa5\x81'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd7151f04 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 49f13891f1cfa581 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'I\xf18\x91\xf1\xcf\xa5\x81') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd72ef054230000050c2fad3d2fe0ba1c2138 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'/\xad=/\xe0\xba\x1c!'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd72ef054 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 2fad3d2fe0ba1c21 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'/\xad=/\xe0\xba\x1c!') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd73560db2300000508d108c8c1720916d738 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b'\xd1\x08\xc8\xc1r\t\x16\xd7'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd73560db )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = d108c8c1720916d7 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b'\xd1\x08\xc8\xc1r\t\x16\xd7') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd742505a230000050d56432590295b881138 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1293 with data = bytearray(b'VC%\x90)[\x88\x11'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd742505a )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050d )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 56432590295b8811 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1293, databytes = bytearray(b'VC%\x90)[\x88\x11') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1293 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd769295023000005093010eaf41bb2e94338 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1289 with data = bytearray(b'0\x10\xea\xf4\x1b\xb2\xe9C'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd7692950 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000509 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 3010eaf41bb2e943 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1289, databytes = bytearray(b'0\x10\xea\xf4\x1b\xb2\xe9C') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1289 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd77c97d3230000050cc660003b503a2c8138 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'\xc6`\x00;P:,\x81'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd77c97d3 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = c660003b503a2c81 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'\xc6`\x00;P:,\x81') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd78ffef82300000509b1f22add5d7ee9b138 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1289 with data = bytearray(b'\xb1\xf2*\xdd]~\xe9\xb1'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd78ffef8 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000509 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = b1f22add5d7ee9b1 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1289, databytes = bytearray(b'\xb1\xf2*\xdd]~\xe9\xb1') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1289 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd79ce743230000050a1e5389b7b7ee107e38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1290 with data = bytearray(b'\x1eS\x89\xb7\xb7\xee\x10~'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd79ce743 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050a )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 1e5389b7b7ee107e )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1290, databytes = bytearray(b'\x1eS\x89\xb7\xb7\xee\x10~') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1290 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd7f1080423000005084d878d97ab17ac9938 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b'M\x87\x8d\x97\xab\x17\xac\x99'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd7f10804 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 4d878d97ab17ac99 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b'M\x87\x8d\x97\xab\x17\xac\x99') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd7f78b162300000506245eeeac9957195038 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1286 with data = bytearray(b'$^\xee\xac\x99W\x19P'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd7f78b16 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000506 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 245eeeac99571950 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1286, databytes = bytearray(b'$^\xee\xac\x99W\x19P') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1286 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd8319b82230000050c097a470f4b6fb86d38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'\tzG\x0fKo\xb8m'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd8319b82 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 097a470f4b6fb86d )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'\tzG\x0fKo\xb8m') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd8654913230000050a7825490324bb72ec38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1290 with data = bytearray(b'x%I\x03$\xbbr\xec'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd8654913 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050a )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 7825490324bb72ec )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1290, databytes = bytearray(b'x%I\x03$\xbbr\xec') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1290 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd8a5c71623000005040b7091c156b6efd138 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1284 with data = bytearray(b'\x0bp\x91\xc1V\xb6\xef\xd1'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd8a5c716 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000504 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 0b7091c156b6efd1 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1284, databytes = bytearray(b'\x0bp\x91\xc1V\xb6\xef\xd1') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1284 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd8b936a9230000050694452fbf8d3f28d338 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1286 with data = bytearray(b'\x94E/\xbf\x8d?(\xd3'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd8b936a9 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000506 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 94452fbf8d3f28d3 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1286, databytes = bytearray(b'\x94E/\xbf\x8d?(\xd3') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1286 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd8d96806230000050dfd08a8e00c1d719b38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1293 with data = bytearray(b'\xfd\x08\xa8\xe0\x0c\x1dq\x9b'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd8d96806 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050d )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = fd08a8e00c1d719b )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1293, databytes = bytearray(b'\xfd\x08\xa8\xe0\x0c\x1dq\x9b') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1293 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd8dfd8442300000508e42e9ab503f9d7a238 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1288 with data = bytearray(b'\xe4.\x9a\xb5\x03\xf9\xd7\xa2'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd8dfd844 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000508 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = e42e9ab503f9d7a2 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1288, databytes = bytearray(b'\xe4.\x9a\xb5\x03\xf9\xd7\xa2') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1288 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd8e64ad823000005077c24296b98dc26a838 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1287 with data = bytearray(b'|$)k\x98\xdc&\xa8'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd8e64ad8 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000507 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 7c24296b98dc26a8 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1287, databytes = bytearray(b'|$)k\x98\xdc&\xa8') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1287 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd8f32968230000050c006f1c128488064a38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'\x00o\x1c\x12\x84\x88\x06J'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd8f32968 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 006f1c128488064a )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'\x00o\x1c\x12\x84\x88\x06J') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd9269fcb230000050c2a6d65aa50f979ca38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'*me\xaaP\xf9y\xca'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd9269fcb )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 2a6d65aa50f979ca )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'*me\xaaP\xf9y\xca') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd94d4298230000050648b057269d1d5abb38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1286 with data = bytearray(b'H\xb0W&\x9d\x1dZ\xbb'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd94d4298 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000506 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 48b057269d1d5abb )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1286, databytes = bytearray(b'H\xb0W&\x9d\x1dZ\xbb') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1286 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd9874222230000050cc770c9f57b19ebfa38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1292 with data = bytearray(b'\xc7p\xc9\xf5{\x19\xeb\xfa'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd9874222 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050c )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = c770c9f57b19ebfa )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1292, databytes = bytearray(b'\xc7p\xc9\xf5{\x19\xeb\xfa') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1292 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd98db1cc2300000505392e0a1b68791fe338 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1285 with data = bytearray(b'9.\n\x1bhy\x1f\xe3'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd98db1cc )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000505 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 392e0a1b68791fe3 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1285, databytes = bytearray(b'9.\n\x1bhy\x1f\xe3') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1285 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd9a0fcaf230000050a281ccfc1f369500438 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1290 with data = bytearray(b'(\x1c\xcf\xc1\xf3iP\x04'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd9a0fcaf )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050a )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 281ccfc1f3695004 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1290, databytes = bytearray(b'(\x1c\xcf\xc1\xf3iP\x04') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1290 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dd9ce3f4b23000005077b21ca3e54e6fb7938 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1287 with data = bytearray(b'{!\xca>T\xe6\xfby'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dd9ce3f4b )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000507 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 7b21ca3e54e6fb79 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1287, databytes = bytearray(b'{!\xca>T\xe6\xfby') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1287 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dda01d2bc23000005094e4539229b4607d638 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1289 with data = bytearray(b'NE9"\x9bF\x07\xd6'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dda01d2bc )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000509 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 4e4539229b4607d6 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1289, databytes = bytearray(b'NE9"\x9bF\x07\xd6') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1289 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dda2f19a623000005041effcb6e3df561ed38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1284 with data = bytearray(b'\x1e\xff\xcbn=\xf5a\xed'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dda2f19a6 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000504 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 1effcb6e3df561ed )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1284, databytes = bytearray(b'\x1e\xff\xcbn=\xf5a\xed') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1284 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dda4f4c122300000504105f3693da91c0b038 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1284 with data = bytearray(b'\x10_6\x93\xda\x91\xc0\xb0'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dda4f4c12 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 00000504 )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 105f3693da91c0b0 )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1284, databytes = bytearray(b'\x10_6\x93\xda\x91\xc0\xb0') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1284 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'invalid', 'Date': 'Sat, 28 Sep 2024 21:38:49 GMT', 'Content-Length': '257'})
+HTTP response body: {"code":"invalid","message":"unable to parse 'MCB,car=Brightside,class=MCBGithash ShortGithash=11055835160880717711i 1727559529440215552': unable to parse integer 11055835160880717711: strconv.ParseInt: parsing \"11055835160880717711\": value out of range"}
+
+
+[1;31mPARSE_FAIL[0m: 
+[1mFailed in create_message[0m:
+      Could not extract [1mCAN[0m message with properties: 
+      Message Length = 22 
+      Message Hex Data = 41d9be1dda6f7c79230000050d854db640c350661e38 
+
+      [1;31mError[0m: 
+      [1m/sunlink/parser/data_classes/CAN_Msg.py -> Failed at Line: 113 in get_measurements()[0m: 
+      Caught Exception = Could not decode_message on ID = 1293 with data = bytearray(b'\x85M\xb6@\xc3Pf\x1e'), 
+ 
+      [1;32mFunction Call Details (self.message[] bytes -> hex numbers):[0m 
+        [1mget_timestamp( message[:8] = 41d9be1dda6f7c79 )[0m, 
+          - Converts latin-1 arg to a 64 bit double 
+        [1mget_hex_id( message[9:13] = 0000050d )[0m, 
+          - Converts latin-1 arg to int then to hex 
+        [1mget_data_bytes( message[13:21] = 854db640c350661e )[0m, 
+          - Converts latin-1 arg to a bytearray 
+        [1mget_measurements( int(hex_id, 16) = 1293, databytes = bytearray(b'\x85M\xb6@\xc3Pf\x1e') )[0m, 
+          - Performs decode_message using databytes and int ID and DBC_FILE=dbc/brightside.dbc
+        [1mget_message( int(hex_id, 16) = 1293 )[0m 
+          - Gets CAN message object from DBC_FILE=dbc/brightside.dbc 
+
+

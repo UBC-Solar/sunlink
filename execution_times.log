@@ -1,0 +1,167 @@
+2024-10-10 11:17:17,796 - Parsed CAN Message ID: 0x757
+2024-10-10 11:17:17,817 - Function parse_and_write_request_bucket took 21.4834 milliseconds
+2024-10-10 11:17:17,819 - 172.18.0.1 - - [10/Oct/2024 11:17:17] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:17,899 - Parsed CAN Message ID: 0x404
+2024-10-10 11:17:17,962 - Function parse_and_write_request_bucket took 63.0607 milliseconds
+2024-10-10 11:17:17,962 - 172.18.0.1 - - [10/Oct/2024 11:17:17] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:17,996 - Parsed CAN Message ID: 0x752
+2024-10-10 11:17:18,013 - Function parse_and_write_request_bucket took 17.0420 milliseconds
+2024-10-10 11:17:18,014 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:18,098 - Parsed CAN Message ID: 0x624
+2024-10-10 11:17:18,129 - Function parse_and_write_request_bucket took 31.7980 milliseconds
+2024-10-10 11:17:18,130 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:18,198 - Parsed CAN Message ID: 0x50F
+2024-10-10 11:17:18,230 - Function parse_and_write_request_bucket took 32.4050 milliseconds
+2024-10-10 11:17:18,231 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:18,299 - Parsed CAN Message ID: 0x8850225
+2024-10-10 11:17:18,359 - Function parse_and_write_request_bucket took 60.6155 milliseconds
+2024-10-10 11:17:18,359 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:18,398 - Parsed CAN Message ID: 0x758
+2024-10-10 11:17:18,428 - Function parse_and_write_request_bucket took 30.2450 milliseconds
+2024-10-10 11:17:18,429 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:18,500 - Parsed CAN Message ID: 0x629
+2024-10-10 11:17:18,607 - Parsed CAN Message ID: 0x500
+2024-10-10 11:17:18,642 - Function parse_and_write_request_bucket took 36.2091 milliseconds
+2024-10-10 11:17:18,643 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:18,716 - Parsed CAN Message ID: 0x50F
+2024-10-10 11:17:18,785 - Function parse_and_write_request_bucket took 69.6646 milliseconds
+2024-10-10 11:17:18,786 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:18,805 - Parsed CAN Message ID: 0x502
+2024-10-10 11:17:18,820 - Function parse_and_write_request_bucket took 15.0787 milliseconds
+2024-10-10 11:17:18,821 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:18,897 - Function parse_and_write_request_bucket took 397.8700 milliseconds
+2024-10-10 11:17:18,898 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:18,909 - Parsed CAN Message ID: 0x1806E5F4
+2024-10-10 11:17:18,945 - Function parse_and_write_request_bucket took 35.7753 milliseconds
+2024-10-10 11:17:18,946 - 172.18.0.1 - - [10/Oct/2024 11:17:18] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,010 - Parsed CAN Message ID: 0x627
+2024-10-10 11:17:19,063 - Function parse_and_write_request_bucket took 53.3781 milliseconds
+2024-10-10 11:17:19,064 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,113 - Parsed CAN Message ID: 0x501
+2024-10-10 11:17:19,212 - Parsed CAN Message ID: 0x622
+2024-10-10 11:17:19,308 - Function parse_and_write_request_bucket took 195.3312 milliseconds
+2024-10-10 11:17:19,309 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,318 - Parsed CAN Message ID: 0x18FF50E5
+2024-10-10 11:17:19,423 - Parsed CAN Message ID: 0x402
+2024-10-10 11:17:19,451 - Function parse_and_write_request_bucket took 239.3535 milliseconds
+2024-10-10 11:17:19,457 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,483 - Function parse_and_write_request_bucket took 60.1010 milliseconds
+2024-10-10 11:17:19,485 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,523 - Parsed CAN Message ID: 0x755
+2024-10-10 11:17:19,536 - Function parse_and_write_request_bucket took 14.8709 milliseconds
+2024-10-10 11:17:19,537 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,563 - Function parse_and_write_request_bucket took 245.3956 milliseconds
+2024-10-10 11:17:19,563 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,620 - Parsed CAN Message ID: 0x755
+2024-10-10 11:17:19,630 - Function parse_and_write_request_bucket took 10.9235 milliseconds
+2024-10-10 11:17:19,630 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,721 - Parsed CAN Message ID: 0x300
+2024-10-10 11:17:19,818 - Function parse_and_write_request_bucket took 97.0799 milliseconds
+2024-10-10 11:17:19,820 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,835 - Parsed CAN Message ID: 0x624
+2024-10-10 11:17:19,912 - Function parse_and_write_request_bucket took 78.4195 milliseconds
+2024-10-10 11:17:19,913 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:19,925 - Parsed CAN Message ID: 0x623
+2024-10-10 11:17:19,980 - Function parse_and_write_request_bucket took 56.0774 milliseconds
+2024-10-10 11:17:19,981 - 172.18.0.1 - - [10/Oct/2024 11:17:19] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,021 - Parsed CAN Message ID: 0x403
+2024-10-10 11:17:20,029 - Function parse_and_write_request_bucket took 8.4656 milliseconds
+2024-10-10 11:17:20,030 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,126 - Parsed CAN Message ID: 0x627
+2024-10-10 11:17:20,189 - Function parse_and_write_request_bucket took 63.7888 milliseconds
+2024-10-10 11:17:20,190 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,224 - Parsed CAN Message ID: 0x752
+2024-10-10 11:17:20,248 - Function parse_and_write_request_bucket took 25.0506 milliseconds
+2024-10-10 11:17:20,250 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,327 - Parsed CAN Message ID: 0x501
+2024-10-10 11:17:20,432 - Parsed CAN Message ID: 0x18FF50E5
+2024-10-10 11:17:20,530 - Parsed CAN Message ID: 0x1806E5F4
+2024-10-10 11:17:20,601 - Function parse_and_write_request_bucket took 273.8730 milliseconds
+2024-10-10 11:17:20,602 - Function parse_and_write_request_bucket took 72.6970 milliseconds
+2024-10-10 11:17:20,604 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,606 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,631 - Parsed CAN Message ID: 0x623
+2024-10-10 11:17:20,692 - Function parse_and_write_request_bucket took 62.4073 milliseconds
+2024-10-10 11:17:20,693 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,716 - Function parse_and_write_request_bucket took 285.2402 milliseconds
+2024-10-10 11:17:20,718 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,729 - Parsed CAN Message ID: 0x703
+2024-10-10 11:17:20,818 - Function parse_and_write_request_bucket took 88.7823 milliseconds
+2024-10-10 11:17:20,819 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,830 - Parsed CAN Message ID: 0x711
+2024-10-10 11:17:20,869 - Function parse_and_write_request_bucket took 39.2997 milliseconds
+2024-10-10 11:17:20,870 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:20,929 - Parsed CAN Message ID: 0x626
+2024-10-10 11:17:20,993 - Function parse_and_write_request_bucket took 64.4190 milliseconds
+2024-10-10 11:17:20,995 - 172.18.0.1 - - [10/Oct/2024 11:17:20] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:21,031 - Parsed CAN Message ID: 0x755
+2024-10-10 11:17:21,044 - Function parse_and_write_request_bucket took 13.7255 milliseconds
+2024-10-10 11:17:21,045 - 172.18.0.1 - - [10/Oct/2024 11:17:21] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:21,134 - Parsed CAN Message ID: 0x754
+2024-10-10 11:17:21,163 - Function parse_and_write_request_bucket took 28.7705 milliseconds
+2024-10-10 11:17:21,164 - 172.18.0.1 - - [10/Oct/2024 11:17:21] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:21,234 - Parsed CAN Message ID: 0x50F
+2024-10-10 11:17:21,276 - Function parse_and_write_request_bucket took 42.9574 milliseconds
+2024-10-10 11:17:21,277 - 172.18.0.1 - - [10/Oct/2024 11:17:21] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:21,334 - Parsed CAN Message ID: 0x757
+2024-10-10 11:17:21,355 - Function parse_and_write_request_bucket took 21.0657 milliseconds
+2024-10-10 11:17:21,356 - 172.18.0.1 - - [10/Oct/2024 11:17:21] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:21,437 - Parsed CAN Message ID: 0x758
+2024-10-10 11:17:21,478 - Function parse_and_write_request_bucket took 41.6401 milliseconds
+2024-10-10 11:17:21,479 - 172.18.0.1 - - [10/Oct/2024 11:17:21] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:21,541 - Parsed CAN Message ID: 0x701
+2024-10-10 11:17:21,562 - Function parse_and_write_request_bucket took 20.8104 milliseconds
+2024-10-10 11:17:21,563 - 172.18.0.1 - - [10/Oct/2024 11:17:21] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:21,638 - Parsed CAN Message ID: 0x753
+2024-10-10 11:17:21,668 - Function parse_and_write_request_bucket took 30.1609 milliseconds
+2024-10-10 11:17:21,670 - 172.18.0.1 - - [10/Oct/2024 11:17:21] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:21,737 - Parsed CAN Message ID: 0x8950225
+2024-10-10 11:17:21,845 - Parsed CAN Message ID: 0x501
+2024-10-10 11:17:21,871 - Function parse_and_write_request_bucket took 135.4063 milliseconds
+2024-10-10 11:17:21,872 - 172.18.0.1 - - [10/Oct/2024 11:17:21] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:21,944 - Parsed CAN Message ID: 0x400
+2024-10-10 11:17:21,976 - Function parse_and_write_request_bucket took 32.5015 milliseconds
+2024-10-10 11:17:21,977 - 172.18.0.1 - - [10/Oct/2024 11:17:21] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,045 - Parsed CAN Message ID: 0x450
+2024-10-10 11:17:22,081 - Function parse_and_write_request_bucket took 236.1659 milliseconds
+2024-10-10 11:17:22,082 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,146 - Parsed CAN Message ID: 0x403
+2024-10-10 11:17:22,160 - Function parse_and_write_request_bucket took 14.5322 milliseconds
+2024-10-10 11:17:22,161 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,178 - Function parse_and_write_request_bucket took 134.0141 milliseconds
+2024-10-10 11:17:22,179 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,245 - Parsed CAN Message ID: 0x450
+2024-10-10 11:17:22,346 - Parsed CAN Message ID: 0x701
+2024-10-10 11:17:22,370 - Function parse_and_write_request_bucket took 126.1863 milliseconds
+2024-10-10 11:17:22,372 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,376 - Function parse_and_write_request_bucket took 31.1109 milliseconds
+2024-10-10 11:17:22,377 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,442 - Parsed CAN Message ID: 0x624
+2024-10-10 11:17:22,500 - Function parse_and_write_request_bucket took 58.1885 milliseconds
+2024-10-10 11:17:22,501 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,547 - Parsed CAN Message ID: 0x629
+2024-10-10 11:17:22,645 - Parsed CAN Message ID: 0x624
+2024-10-10 11:17:22,699 - Function parse_and_write_request_bucket took 54.1336 milliseconds
+2024-10-10 11:17:22,700 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,750 - Parsed CAN Message ID: 0x404
+2024-10-10 11:17:22,823 - Function parse_and_write_request_bucket took 73.2156 milliseconds
+2024-10-10 11:17:22,824 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,843 - Parsed CAN Message ID: 0x502
+2024-10-10 11:17:22,860 - Function parse_and_write_request_bucket took 16.5505 milliseconds
+2024-10-10 11:17:22,860 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,867 - Function parse_and_write_request_bucket took 320.9492 milliseconds
+2024-10-10 11:17:22,868 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:22,944 - Parsed CAN Message ID: 0x624
+2024-10-10 11:17:22,973 - Function parse_and_write_request_bucket took 28.7095 milliseconds
+2024-10-10 11:17:22,973 - 172.18.0.1 - - [10/Oct/2024 11:17:22] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:23,046 - Parsed CAN Message ID: 0x702
+2024-10-10 11:17:23,072 - Function parse_and_write_request_bucket took 26.1557 milliseconds
+2024-10-10 11:17:23,074 - 172.18.0.1 - - [10/Oct/2024 11:17:23] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-10 11:17:23,155 - Parsed CAN Message ID: 0x50B
+2024-10-10 11:17:23,193 - Function parse_and_write_request_bucket took 39.3483 milliseconds
+2024-10-10 11:17:23,196 - 172.18.0.1 - - [10/Oct/2024 11:17:23] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 01:35:39,824 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.4:5000
+2024-10-11 01:35:39,825 - [33mPress CTRL+C to quit[0m

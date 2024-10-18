@@ -1,0 +1,14 @@
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'invalid', 'Date': 'Fri, 11 Oct 2024 03:58:40 GMT', 'Content-Length': '254'})
+HTTP response body: {"code":"invalid","message":"unable to parse 'MCB,car=Brightside,class=MCBGithash ShortGithash=9632062173074959937i 1728619120005815040': unable to parse integer 9632062173074959937: strconv.ParseInt: parsing \"9632062173074959937\": value out of range"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'invalid', 'Date': 'Fri, 11 Oct 2024 03:58:42 GMT', 'Content-Length': '254'})
+HTTP response body: {"code":"invalid","message":"unable to parse 'MCB,car=Brightside,class=MCBGithash ShortGithash=9442674449509942913i 1728619122823102464': unable to parse integer 9442674449509942913: strconv.ParseInt: parsing \"9442674449509942913\": value out of range"}
+
+

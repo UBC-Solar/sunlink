@@ -1,0 +1,7 @@
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'invalid', 'Date': 'Fri, 11 Oct 2024 04:33:51 GMT', 'Content-Length': '257'})
+HTTP response body: {"code":"invalid","message":"unable to parse 'MCB,car=Brightside,class=MCBGithash ShortGithash=13930128385334550163i 1728621231206146048': unable to parse integer 13930128385334550163: strconv.ParseInt: parsing \"13930128385334550163\": value out of range"}
+
+

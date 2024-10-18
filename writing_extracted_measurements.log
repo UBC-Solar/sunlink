@@ -1,0 +1,335 @@
+2024-10-11 04:18:44,344 - Function wrapped_writing_extracted_measurements took 59.5294 milliseconds
+2024-10-11 04:18:44,344 - 172.18.0.1 - - [11/Oct/2024 04:18:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:44,370 - Function wrapped_writing_extracted_measurements took 183.2188 milliseconds
+2024-10-11 04:18:44,371 - 172.18.0.1 - - [11/Oct/2024 04:18:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:44,406 - Function wrapped_writing_extracted_measurements took 20.5379 milliseconds
+2024-10-11 04:18:44,407 - 172.18.0.1 - - [11/Oct/2024 04:18:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:44,505 - Function wrapped_writing_extracted_measurements took 19.5752 milliseconds
+2024-10-11 04:18:44,506 - 172.18.0.1 - - [11/Oct/2024 04:18:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:44,601 - Function wrapped_writing_extracted_measurements took 14.4412 milliseconds
+2024-10-11 04:18:44,602 - 172.18.0.1 - - [11/Oct/2024 04:18:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:44,735 - Function wrapped_writing_extracted_measurements took 47.3030 milliseconds
+2024-10-11 04:18:44,735 - 172.18.0.1 - - [11/Oct/2024 04:18:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:44,815 - Function wrapped_writing_extracted_measurements took 25.3664 milliseconds
+2024-10-11 04:18:44,816 - 172.18.0.1 - - [11/Oct/2024 04:18:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:44,906 - Function wrapped_writing_extracted_measurements took 15.9771 milliseconds
+2024-10-11 04:18:44,906 - 172.18.0.1 - - [11/Oct/2024 04:18:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,122 - Function wrapped_writing_extracted_measurements took 32.7777 milliseconds
+2024-10-11 04:18:45,125 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,208 - Function wrapped_writing_extracted_measurements took 218.5375 milliseconds
+2024-10-11 04:18:45,209 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,413 - Function wrapped_writing_extracted_measurements took 19.2121 milliseconds
+2024-10-11 04:18:45,414 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,416 - Function wrapped_writing_extracted_measurements took 125.3040 milliseconds
+2024-10-11 04:18:45,418 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,444 - Function wrapped_writing_extracted_measurements took 253.5125 milliseconds
+2024-10-11 04:18:45,446 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,513 - Function wrapped_writing_extracted_measurements took 17.2287 milliseconds
+2024-10-11 04:18:45,514 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,670 - Function wrapped_writing_extracted_measurements took 72.8885 milliseconds
+2024-10-11 04:18:45,670 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,708 - Function wrapped_writing_extracted_measurements took 12.6092 milliseconds
+2024-10-11 04:18:45,709 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,818 - Function wrapped_writing_extracted_measurements took 20.3375 milliseconds
+2024-10-11 04:18:45,819 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:45,953 - Function wrapped_writing_extracted_measurements took 55.4543 milliseconds
+2024-10-11 04:18:45,954 - 172.18.0.1 - - [11/Oct/2024 04:18:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,055 - Function wrapped_writing_extracted_measurements took 55.3501 milliseconds
+2024-10-11 04:18:46,055 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,106 - Function wrapped_writing_extracted_measurements took 7.8344 milliseconds
+2024-10-11 04:18:46,107 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,226 - Function wrapped_writing_extracted_measurements took 27.3610 milliseconds
+2024-10-11 04:18:46,226 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,311 - Function wrapped_writing_extracted_measurements took 9.8513 milliseconds
+2024-10-11 04:18:46,312 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,421 - Function wrapped_writing_extracted_measurements took 19.2033 milliseconds
+2024-10-11 04:18:46,422 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,520 - Function wrapped_writing_extracted_measurements took 17.8956 milliseconds
+2024-10-11 04:18:46,521 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,628 - Function wrapped_writing_extracted_measurements took 26.9788 milliseconds
+2024-10-11 04:18:46,629 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,716 - Function wrapped_writing_extracted_measurements took 13.7085 milliseconds
+2024-10-11 04:18:46,716 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,822 - Function wrapped_writing_extracted_measurements took 16.3648 milliseconds
+2024-10-11 04:18:46,823 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:46,931 - Function wrapped_writing_extracted_measurements took 24.5289 milliseconds
+2024-10-11 04:18:46,932 - 172.18.0.1 - - [11/Oct/2024 04:18:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,129 - Function wrapped_writing_extracted_measurements took 23.1637 milliseconds
+2024-10-11 04:18:47,130 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,221 - Function wrapped_writing_extracted_measurements took 12.3110 milliseconds
+2024-10-11 04:18:47,222 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,350 - Function wrapped_writing_extracted_measurements took 342.3710 milliseconds
+2024-10-11 04:18:47,352 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,388 - Function wrapped_writing_extracted_measurements took 67.8468 milliseconds
+2024-10-11 04:18:47,388 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,425 - Function wrapped_writing_extracted_measurements took 16.5581 milliseconds
+2024-10-11 04:18:47,426 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,643 - Function wrapped_writing_extracted_measurements took 24.8267 milliseconds
+2024-10-11 04:18:47,643 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,748 - Function wrapped_writing_extracted_measurements took 30.9214 milliseconds
+2024-10-11 04:18:47,751 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,808 - Function wrapped_writing_extracted_measurements took 298.9625 milliseconds
+2024-10-11 04:18:47,810 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,835 - Function wrapped_writing_extracted_measurements took 13.1301 milliseconds
+2024-10-11 04:18:47,836 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:47,965 - Function wrapped_writing_extracted_measurements took 51.6097 milliseconds
+2024-10-11 04:18:47,966 - 172.18.0.1 - - [11/Oct/2024 04:18:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,042 - Function wrapped_writing_extracted_measurements took 27.0929 milliseconds
+2024-10-11 04:18:48,042 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,227 - Function wrapped_writing_extracted_measurements took 13.8850 milliseconds
+2024-10-11 04:18:48,228 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,323 - Function wrapped_writing_extracted_measurements took 8.0234 milliseconds
+2024-10-11 04:18:48,324 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,333 - Function wrapped_writing_extracted_measurements took 219.0258 milliseconds
+2024-10-11 04:18:48,334 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,487 - Function wrapped_writing_extracted_measurements took 70.4271 milliseconds
+2024-10-11 04:18:48,487 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,548 - Function wrapped_writing_extracted_measurements took 32.1939 milliseconds
+2024-10-11 04:18:48,549 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,657 - Function wrapped_writing_extracted_measurements took 38.5719 milliseconds
+2024-10-11 04:18:48,658 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,748 - Function wrapped_writing_extracted_measurements took 32.4878 milliseconds
+2024-10-11 04:18:48,749 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,867 - Function wrapped_writing_extracted_measurements took 50.1155 milliseconds
+2024-10-11 04:18:48,868 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:48,930 - Function wrapped_writing_extracted_measurements took 13.5979 milliseconds
+2024-10-11 04:18:48,931 - 172.18.0.1 - - [11/Oct/2024 04:18:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,069 - Function wrapped_writing_extracted_measurements took 52.0494 milliseconds
+2024-10-11 04:18:49,070 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,135 - Function wrapped_writing_extracted_measurements took 15.9080 milliseconds
+2024-10-11 04:18:49,135 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,266 - Function wrapped_writing_extracted_measurements took 45.7901 milliseconds
+2024-10-11 04:18:49,267 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,339 - Function wrapped_writing_extracted_measurements took 18.0400 milliseconds
+2024-10-11 04:18:49,340 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,432 - Function wrapped_writing_extracted_measurements took 10.4461 milliseconds
+2024-10-11 04:18:49,433 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,548 - Function wrapped_writing_extracted_measurements took 25.1133 milliseconds
+2024-10-11 04:18:49,549 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,627 - Unable to write measurement to InfluxDB!
+2024-10-11 04:18:49,628 - Function wrapped_writing_extracted_measurements took 5.0112 milliseconds
+2024-10-11 04:18:49,629 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,747 - Function wrapped_writing_extracted_measurements took 22.8706 milliseconds
+2024-10-11 04:18:49,748 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,865 - Function wrapped_writing_extracted_measurements took 42.6999 milliseconds
+2024-10-11 04:18:49,866 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:49,943 - Function wrapped_writing_extracted_measurements took 18.4284 milliseconds
+2024-10-11 04:18:49,944 - 172.18.0.1 - - [11/Oct/2024 04:18:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,041 - Function wrapped_writing_extracted_measurements took 17.3126 milliseconds
+2024-10-11 04:18:50,042 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,141 - Function wrapped_writing_extracted_measurements took 16.5753 milliseconds
+2024-10-11 04:18:50,142 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,241 - Function wrapped_writing_extracted_measurements took 15.0024 milliseconds
+2024-10-11 04:18:50,241 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,462 - Function wrapped_writing_extracted_measurements took 135.4329 milliseconds
+2024-10-11 04:18:50,462 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,485 - Function wrapped_writing_extracted_measurements took 56.2565 milliseconds
+2024-10-11 04:18:50,486 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,554 - Function wrapped_writing_extracted_measurements took 28.1997 milliseconds
+2024-10-11 04:18:50,555 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,668 - Function wrapped_writing_extracted_measurements took 39.2746 milliseconds
+2024-10-11 04:18:50,669 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,740 - Function wrapped_writing_extracted_measurements took 9.5355 milliseconds
+2024-10-11 04:18:50,741 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,852 - Function wrapped_writing_extracted_measurements took 20.7918 milliseconds
+2024-10-11 04:18:50,853 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:50,970 - Function wrapped_writing_extracted_measurements took 37.6345 milliseconds
+2024-10-11 04:18:50,971 - 172.18.0.1 - - [11/Oct/2024 04:18:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,050 - Function wrapped_writing_extracted_measurements took 18.1496 milliseconds
+2024-10-11 04:18:51,050 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,152 - Function wrapped_writing_extracted_measurements took 19.9605 milliseconds
+2024-10-11 04:18:51,153 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,256 - Function wrapped_writing_extracted_measurements took 21.1161 milliseconds
+2024-10-11 04:18:51,257 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,367 - Function wrapped_writing_extracted_measurements took 33.7737 milliseconds
+2024-10-11 04:18:51,368 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,498 - Function wrapped_writing_extracted_measurements took 62.1317 milliseconds
+2024-10-11 04:18:51,499 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,556 - Function wrapped_writing_extracted_measurements took 21.1537 milliseconds
+2024-10-11 04:18:51,556 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,659 - Function wrapped_writing_extracted_measurements took 21.4255 milliseconds
+2024-10-11 04:18:51,660 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,900 - Function wrapped_writing_extracted_measurements took 63.8586 milliseconds
+2024-10-11 04:18:51,901 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,904 - Function wrapped_writing_extracted_measurements took 166.1706 milliseconds
+2024-10-11 04:18:51,905 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:51,946 - Function wrapped_writing_extracted_measurements took 11.0994 milliseconds
+2024-10-11 04:18:51,947 - 172.18.0.1 - - [11/Oct/2024 04:18:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,157 - Function wrapped_writing_extracted_measurements took 17.8867 milliseconds
+2024-10-11 04:18:52,158 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,278 - Function wrapped_writing_extracted_measurements took 38.9865 milliseconds
+2024-10-11 04:18:52,280 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,310 - Function wrapped_writing_extracted_measurements took 270.2867 milliseconds
+2024-10-11 04:18:52,311 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,354 - Function wrapped_writing_extracted_measurements took 15.8684 milliseconds
+2024-10-11 04:18:52,355 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,490 - Function wrapped_writing_extracted_measurements took 48.9221 milliseconds
+2024-10-11 04:18:52,491 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,603 - Function wrapped_writing_extracted_measurements took 63.3982 milliseconds
+2024-10-11 04:18:52,604 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,650 - Function wrapped_writing_extracted_measurements took 8.8678 milliseconds
+2024-10-11 04:18:52,651 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,753 - Function wrapped_writing_extracted_measurements took 10.8205 milliseconds
+2024-10-11 04:18:52,754 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,864 - Function wrapped_writing_extracted_measurements took 20.3798 milliseconds
+2024-10-11 04:18:52,865 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:52,955 - Function wrapped_writing_extracted_measurements took 10.0770 milliseconds
+2024-10-11 04:18:52,956 - 172.18.0.1 - - [11/Oct/2024 04:18:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,187 - Function wrapped_writing_extracted_measurements took 142.2773 milliseconds
+2024-10-11 04:18:53,188 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,291 - Function wrapped_writing_extracted_measurements took 46.9340 milliseconds
+2024-10-11 04:18:53,292 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,360 - Function wrapped_writing_extracted_measurements took 16.9009 milliseconds
+2024-10-11 04:18:53,361 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,373 - Function wrapped_writing_extracted_measurements took 227.1496 milliseconds
+2024-10-11 04:18:53,373 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,465 - Function wrapped_writing_extracted_measurements took 20.2934 milliseconds
+2024-10-11 04:18:53,466 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,743 - Function wrapped_writing_extracted_measurements took 196.1526 milliseconds
+2024-10-11 04:18:53,744 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,760 - Function wrapped_writing_extracted_measurements took 13.0490 milliseconds
+2024-10-11 04:18:53,760 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,781 - Function wrapped_writing_extracted_measurements took 133.8722 milliseconds
+2024-10-11 04:18:53,781 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,859 - Function wrapped_writing_extracted_measurements took 10.8430 milliseconds
+2024-10-11 04:18:53,860 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:53,975 - Function wrapped_writing_extracted_measurements took 26.9711 milliseconds
+2024-10-11 04:18:53,976 - 172.18.0.1 - - [11/Oct/2024 04:18:53] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:54,110 - Function wrapped_writing_extracted_measurements took 61.2803 milliseconds
+2024-10-11 04:18:54,111 - 172.18.0.1 - - [11/Oct/2024 04:18:54] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:54,210 - Function wrapped_writing_extracted_measurements took 59.9755 milliseconds
+2024-10-11 04:18:54,210 - 172.18.0.1 - - [11/Oct/2024 04:18:54] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:54,318 - Function wrapped_writing_extracted_measurements took 66.5405 milliseconds
+2024-10-11 04:18:54,319 - 172.18.0.1 - - [11/Oct/2024 04:18:54] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:54,364 - Function wrapped_writing_extracted_measurements took 13.4539 milliseconds
+2024-10-11 04:18:54,365 - 172.18.0.1 - - [11/Oct/2024 04:18:54] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:54,488 - Function wrapped_writing_extracted_measurements took 35.5585 milliseconds
+2024-10-11 04:18:54,489 - 172.18.0.1 - - [11/Oct/2024 04:18:54] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:54,587 - Function wrapped_writing_extracted_measurements took 34.8167 milliseconds
+2024-10-11 04:18:54,588 - 172.18.0.1 - - [11/Oct/2024 04:18:54] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:54,673 - Function wrapped_writing_extracted_measurements took 20.0431 milliseconds
+2024-10-11 04:18:54,673 - 172.18.0.1 - - [11/Oct/2024 04:18:54] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:54,763 - Function wrapped_writing_extracted_measurements took 10.6832 milliseconds
+2024-10-11 04:18:54,764 - 172.18.0.1 - - [11/Oct/2024 04:18:54] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:54,864 - Function wrapped_writing_extracted_measurements took 9.6324 milliseconds
+2024-10-11 04:18:54,865 - 172.18.0.1 - - [11/Oct/2024 04:18:54] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,066 - Function wrapped_writing_extracted_measurements took 12.1110 milliseconds
+2024-10-11 04:18:55,066 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,075 - Function wrapped_writing_extracted_measurements took 120.3526 milliseconds
+2024-10-11 04:18:55,076 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,219 - Function wrapped_writing_extracted_measurements took 63.8795 milliseconds
+2024-10-11 04:18:55,220 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,295 - Function wrapped_writing_extracted_measurements took 39.4932 milliseconds
+2024-10-11 04:18:55,296 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,393 - Function wrapped_writing_extracted_measurements took 35.3263 milliseconds
+2024-10-11 04:18:55,394 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,476 - Function wrapped_writing_extracted_measurements took 18.6614 milliseconds
+2024-10-11 04:18:55,477 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,604 - Function wrapped_writing_extracted_measurements took 44.4006 milliseconds
+2024-10-11 04:18:55,604 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,695 - Function wrapped_writing_extracted_measurements took 35.6827 milliseconds
+2024-10-11 04:18:55,696 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,774 - Function wrapped_writing_extracted_measurements took 15.2750 milliseconds
+2024-10-11 04:18:55,775 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:55,901 - Function wrapped_writing_extracted_measurements took 41.1828 milliseconds
+2024-10-11 04:18:55,901 - 172.18.0.1 - - [11/Oct/2024 04:18:55] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,021 - Function wrapped_writing_extracted_measurements took 60.6134 milliseconds
+2024-10-11 04:18:56,021 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,077 - Function wrapped_writing_extracted_measurements took 16.9032 milliseconds
+2024-10-11 04:18:56,078 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,283 - Function wrapped_writing_extracted_measurements took 20.9406 milliseconds
+2024-10-11 04:18:56,284 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,374 - Function wrapped_writing_extracted_measurements took 12.7910 milliseconds
+2024-10-11 04:18:56,374 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,396 - Function wrapped_writing_extracted_measurements took 234.3265 milliseconds
+2024-10-11 04:18:56,398 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,577 - Function wrapped_writing_extracted_measurements took 13.2212 milliseconds
+2024-10-11 04:18:56,578 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,593 - Function wrapped_writing_extracted_measurements took 128.9532 milliseconds
+2024-10-11 04:18:56,594 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,726 - Function wrapped_writing_extracted_measurements took 61.5278 milliseconds
+2024-10-11 04:18:56,727 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,804 - Function wrapped_writing_extracted_measurements took 39.8578 milliseconds
+2024-10-11 04:18:56,804 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:56,988 - Function wrapped_writing_extracted_measurements took 23.8028 milliseconds
+2024-10-11 04:18:56,988 - 172.18.0.1 - - [11/Oct/2024 04:18:56] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,036 - Function wrapped_writing_extracted_measurements took 169.3336 milliseconds
+2024-10-11 04:18:57,037 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,116 - Function wrapped_writing_extracted_measurements took 50.8601 milliseconds
+2024-10-11 04:18:57,117 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,209 - Function wrapped_writing_extracted_measurements took 41.4378 milliseconds
+2024-10-11 04:18:57,210 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,284 - Function wrapped_writing_extracted_measurements took 16.8732 milliseconds
+2024-10-11 04:18:57,285 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,410 - Function wrapped_writing_extracted_measurements took 41.4035 milliseconds
+2024-10-11 04:18:57,411 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,511 - Function wrapped_writing_extracted_measurements took 41.5421 milliseconds
+2024-10-11 04:18:57,512 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,590 - Function wrapped_writing_extracted_measurements took 20.7655 milliseconds
+2024-10-11 04:18:57,591 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,791 - Function wrapped_writing_extracted_measurements took 120.7608 milliseconds
+2024-10-11 04:18:57,792 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,902 - Function wrapped_writing_extracted_measurements took 32.7880 milliseconds
+2024-10-11 04:18:57,902 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:57,959 - Function wrapped_writing_extracted_measurements took 189.1904 milliseconds
+2024-10-11 04:18:57,959 - 172.18.0.1 - - [11/Oct/2024 04:18:57] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,019 - Function wrapped_writing_extracted_measurements took 49.0174 milliseconds
+2024-10-11 04:18:58,020 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,102 - Function wrapped_writing_extracted_measurements took 29.7542 milliseconds
+2024-10-11 04:18:58,103 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,270 - Function wrapped_writing_extracted_measurements took 96.8013 milliseconds
+2024-10-11 04:18:58,271 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,303 - Function wrapped_writing_extracted_measurements took 29.2379 milliseconds
+2024-10-11 04:18:58,303 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,385 - Function wrapped_writing_extracted_measurements took 11.0879 milliseconds
+2024-10-11 04:18:58,386 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,537 - Function wrapped_writing_extracted_measurements took 63.0620 milliseconds
+2024-10-11 04:18:58,538 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,635 - Function wrapped_writing_extracted_measurements took 60.7347 milliseconds
+2024-10-11 04:18:58,636 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,721 - Function wrapped_writing_extracted_measurements took 44.2791 milliseconds
+2024-10-11 04:18:58,721 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,807 - Function wrapped_writing_extracted_measurements took 28.4271 milliseconds
+2024-10-11 04:18:58,807 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:58,914 - Function wrapped_writing_extracted_measurements took 38.5019 milliseconds
+2024-10-11 04:18:58,914 - 172.18.0.1 - - [11/Oct/2024 04:18:58] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,009 - Function wrapped_writing_extracted_measurements took 31.8606 milliseconds
+2024-10-11 04:18:59,009 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,094 - Function wrapped_writing_extracted_measurements took 16.3410 milliseconds
+2024-10-11 04:18:59,095 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,235 - Function wrapped_writing_extracted_measurements took 57.0807 milliseconds
+2024-10-11 04:18:59,236 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,294 - Function wrapped_writing_extracted_measurements took 14.4207 milliseconds
+2024-10-11 04:18:59,295 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,395 - Function wrapped_writing_extracted_measurements took 15.3347 milliseconds
+2024-10-11 04:18:59,395 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,530 - Function wrapped_writing_extracted_measurements took 48.7111 milliseconds
+2024-10-11 04:18:59,531 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,590 - Function wrapped_writing_extracted_measurements took 7.9582 milliseconds
+2024-10-11 04:18:59,591 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,710 - Function wrapped_writing_extracted_measurements took 28.1724 milliseconds
+2024-10-11 04:18:59,711 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,799 - Function wrapped_writing_extracted_measurements took 14.6608 milliseconds
+2024-10-11 04:18:59,799 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:18:59,943 - Function wrapped_writing_extracted_measurements took 60.2733 milliseconds
+2024-10-11 04:18:59,943 - 172.18.0.1 - - [11/Oct/2024 04:18:59] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,026 - Function wrapped_writing_extracted_measurements took 41.4863 milliseconds
+2024-10-11 04:19:00,027 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,090 - Function wrapped_writing_extracted_measurements took 6.9569 milliseconds
+2024-10-11 04:19:00,091 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,249 - Function wrapped_writing_extracted_measurements took 63.5308 milliseconds
+2024-10-11 04:19:00,250 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,311 - Function wrapped_writing_extracted_measurements took 24.2645 milliseconds
+2024-10-11 04:19:00,312 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,414 - Function wrapped_writing_extracted_measurements took 27.5777 milliseconds
+2024-10-11 04:19:00,414 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,521 - Function wrapped_writing_extracted_measurements took 34.5620 milliseconds
+2024-10-11 04:19:00,522 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,630 - Function wrapped_writing_extracted_measurements took 42.0303 milliseconds
+2024-10-11 04:19:00,631 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,732 - Function wrapped_writing_extracted_measurements took 44.0506 milliseconds
+2024-10-11 04:19:00,733 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,808 - Function wrapped_writing_extracted_measurements took 19.1845 milliseconds
+2024-10-11 04:19:00,809 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:19:00,924 - Function wrapped_writing_extracted_measurements took 33.8955 milliseconds
+2024-10-11 04:19:00,925 - 172.18.0.1 - - [11/Oct/2024 04:19:00] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -

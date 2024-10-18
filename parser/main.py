@@ -304,7 +304,16 @@ def parse_request():
     return {
         "all_responses": all_response,
     }
-    
+
+# Function to write data to InfluxDB in batches
+def write_to_influxdb(write_api, points, bucket, org):
+    try:
+        write_api.write(bucket=bucket, org=org, record=points)
+    except Exception as e:
+        app.logger.warning("Unable to write measurement to InfluxDB!")
+        return {"result": "INFLUX_WRITE_FAIL", "error": str(e)}
+    return {"result": "OK"}
+
 
 @app.post(f"{API_PREFIX}/parse/write/debug")
 @auth.login_required
@@ -322,14 +331,6 @@ def parse_and_write_request_to_log():
     return parse_and_write_request_bucket("_log")
 
 
-# Function to write data to InfluxDB in batches
-def write_to_influxdb(write_api, points, bucket, org):
-    try:
-        write_api.write(bucket=bucket, org=org, record=points)
-    except Exception as e:
-        app.logger.warning("Unable to write measurement to InfluxDB!")
-        return {"result": "INFLUX_WRITE_FAIL", "error": str(e)}
-    return {"result": "OK"}
 """
 Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production)
 that is specifc to the message type (CAN, GPS, IMU, for example).
@@ -402,7 +403,7 @@ def parse_and_write_request_bucket(bucket):
 
             # Check if we've reached the batch size
             if len(points) >= BATCH_SIZE:
-                write_result = write_to_influxdb(write_api, points, message.type + bucket, INFLUX_ORG)
+                write_result =  (write_api, points, message.type + bucket, INFLUX_ORG)
                 if write_result["result"] != "OK":
                     curr_response.update(write_result)
                     curr_response["message"] = str(msg)
@@ -436,6 +437,110 @@ def parse_and_write_request_bucket(bucket):
                 all_response.append(curr_response)
 
         return {"all_responses": all_response}
+
+#Memorator upload batch write 
+def parse_and_batchwrite_request_bucket(bucket, batch_size):
+    parse_request = flask.request.json
+
+    msgs = []
+    msg = parse_request['message']
+    if len(msg) == 45:
+        msgs.append(msg[:22])                  # Might need to change splitting logic
+        msgs.append(msg[23:])                  # Might need to change splitting logic
+    else:
+        msgs = [msg]
+
+    all_response = []
+    points = []
+
+    for msg in msgs:
+        curr_response = {}
+        # try extracting measurements
+        try:
+            message = create_message(msg)
+        except Exception as e:
+            app.logger.warning(
+                f"Unable to extract measurements for raw message {msg}")
+            curr_response =  {
+                "result": "PARSE_FAIL",
+                "message": str(msg),
+                "error": str(e),
+            }
+            all_response.append(curr_response)
+            continue
+
+        type = message.type
+        live_filters = parse_request.get("live_filters", False)
+        log_filters = parse_request.get("log_filters", False)
+
+        # try putting the extracted measurements in the queue for Grafana streaming
+        if (filter_stream(message, live_filters)):
+            try:
+                stream_queue.put(message.data, block=False)
+            except queue.Full:
+                app.logger.warning(
+                    "Stream queue full. Unable to add measurements to stream queue!"
+                )
+        
+        # Check if this message should be logged into a file based on args
+        doLogMessage = filter_stream(message, log_filters)
+
+        # try writing the measurements extracted
+        for i in range(len(message.data[list(message.data.keys())[0]])):
+            # REQUIRED FIELDS
+            name = message.data["Measurement"][i]
+            source = message.data["Source"][i]
+            m_class = message.data["Class"][i]
+            value = message.data["Value"][i]
+            
+            timestamp = message.data.get("Timestamp", ["NA"])[i]
+
+            point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+                "class", m_class).field(name, value)
+            
+            if timestamp != "NA":
+                point.time(int(timestamp * 1e9))
+
+            points.append(point)
+
+            # Check if we've reached the batch size
+            if len(points) >= BATCH_SIZE:
+                write_result =  (write_api, points, message.type + bucket, INFLUX_ORG)
+                if write_result["result"] != "OK":
+                    curr_response.update(write_result)
+                    curr_response["message"] = str(msg)
+                    all_response.append(curr_response)
+                    continue
+                points = []  # Reset points list after writing
+
+            curr_response.update({
+                "result": "OK",
+                "message": message.data["display_data"],
+                "logMessage": doLogMessage,
+                "type": type,
+            })
+            all_response.append(curr_response)
+
+        # Write any remaining points that didn't fill a batch
+        if points:
+            try:
+                write_result = write_to_influxdb(write_api, points, message.type + bucket, INFLUX_ORG)
+                if write_result["result"] != "OK":
+                    curr_response.update(write_result)
+                    curr_response["message"] = str(msg)
+                    all_response.append(curr_response)
+            except Exception as e:
+                app.logger.warning("Unable to write remaining measurements to InfluxDB!")
+                curr_response = {
+                    "result": "INFLUX_WRITE_FAIL",
+                    "message": str(msg),
+                    "error": str(e)
+                }
+                all_response.append(curr_response)
+
+        return {"all_responses": all_response}
+    
+
 
 def write_measurements():
     """
