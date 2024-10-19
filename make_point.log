@@ -1,0 +1,724 @@
+2024-10-11 04:33:43,569 - Function make_point took 0.0163 milliseconds
+2024-10-11 04:33:43,593 - Function make_point took 0.0090 milliseconds
+2024-10-11 04:33:43,599 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:43,607 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:43,613 - Function make_point took 0.0103 milliseconds
+2024-10-11 04:33:43,620 - Function make_point took 0.0150 milliseconds
+2024-10-11 04:33:43,625 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:43,631 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:43,638 - Function make_point took 0.0131 milliseconds
+2024-10-11 04:33:43,644 - Function make_point took 0.0076 milliseconds
+2024-10-11 04:33:43,650 - 172.18.0.1 - - [11/Oct/2024 04:33:43] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:43,667 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:43,683 - Function make_point took 0.0124 milliseconds
+2024-10-11 04:33:43,704 - Function make_point took 0.0232 milliseconds
+2024-10-11 04:33:43,722 - Function make_point took 0.0093 milliseconds
+2024-10-11 04:33:43,730 - 172.18.0.1 - - [11/Oct/2024 04:33:43] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:43,768 - Function make_point took 0.0133 milliseconds
+2024-10-11 04:33:43,776 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:43,782 - 172.18.0.1 - - [11/Oct/2024 04:33:43] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:43,870 - Function make_point took 0.0127 milliseconds
+2024-10-11 04:33:43,881 - Function make_point took 0.0189 milliseconds
+2024-10-11 04:33:43,894 - 172.18.0.1 - - [11/Oct/2024 04:33:43] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:43,971 - Function make_point took 0.0132 milliseconds
+2024-10-11 04:33:43,983 - Function make_point took 0.0165 milliseconds
+2024-10-11 04:33:43,993 - Function make_point took 0.0137 milliseconds
+2024-10-11 04:33:44,001 - Function make_point took 0.0139 milliseconds
+2024-10-11 04:33:44,010 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:44,017 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,071 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:44,078 - Function make_point took 0.0183 milliseconds
+2024-10-11 04:33:44,086 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,172 - Function make_point took 0.0146 milliseconds
+2024-10-11 04:33:44,180 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:44,187 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:44,195 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:44,204 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:44,210 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,272 - Function make_point took 0.0131 milliseconds
+2024-10-11 04:33:44,282 - Function make_point took 0.0136 milliseconds
+2024-10-11 04:33:44,292 - Function make_point took 0.0137 milliseconds
+2024-10-11 04:33:44,301 - Function make_point took 0.0147 milliseconds
+2024-10-11 04:33:44,309 - Function make_point took 0.0127 milliseconds
+2024-10-11 04:33:44,316 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,372 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:44,380 - Function make_point took 0.0132 milliseconds
+2024-10-11 04:33:44,388 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:44,394 - Function make_point took 0.0103 milliseconds
+2024-10-11 04:33:44,401 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,476 - Function make_point took 0.0124 milliseconds
+2024-10-11 04:33:44,486 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,572 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:44,580 - Function make_point took 0.0373 milliseconds
+2024-10-11 04:33:44,588 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:44,594 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,674 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:44,683 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:44,690 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:44,696 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:44,703 - Function make_point took 0.0085 milliseconds
+2024-10-11 04:33:44,708 - Function make_point took 0.0064 milliseconds
+2024-10-11 04:33:44,714 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:44,720 - Function make_point took 0.0085 milliseconds
+2024-10-11 04:33:44,726 - Function make_point took 0.0090 milliseconds
+2024-10-11 04:33:44,732 - Function make_point took 0.0099 milliseconds
+2024-10-11 04:33:44,739 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:44,744 - Function make_point took 0.0116 milliseconds
+2024-10-11 04:33:44,749 - Function make_point took 0.0079 milliseconds
+2024-10-11 04:33:44,755 - Function make_point took 0.0128 milliseconds
+2024-10-11 04:33:44,761 - Function make_point took 0.0079 milliseconds
+2024-10-11 04:33:44,766 - Function make_point took 0.0122 milliseconds
+2024-10-11 04:33:44,774 - Function make_point took 0.0113 milliseconds
+2024-10-11 04:33:44,775 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:44,781 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:44,784 - Function make_point took 0.0150 milliseconds
+2024-10-11 04:33:44,789 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,792 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,878 - Function make_point took 0.0157 milliseconds
+2024-10-11 04:33:44,889 - Function make_point took 0.0162 milliseconds
+2024-10-11 04:33:44,897 - Function make_point took 0.0135 milliseconds
+2024-10-11 04:33:44,906 - 172.18.0.1 - - [11/Oct/2024 04:33:44] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:44,976 - Function make_point took 0.0082 milliseconds
+2024-10-11 04:33:44,982 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:44,989 - Function make_point took 0.0103 milliseconds
+2024-10-11 04:33:44,995 - Function make_point took 0.0070 milliseconds
+2024-10-11 04:33:44,999 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:45,007 - Function make_point took 0.0116 milliseconds
+2024-10-11 04:33:45,013 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:45,020 - Function make_point took 0.0100 milliseconds
+2024-10-11 04:33:45,026 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:45,031 - Function make_point took 0.0077 milliseconds
+2024-10-11 04:33:45,040 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:45,046 - Function make_point took 0.0112 milliseconds
+2024-10-11 04:33:45,053 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:45,060 - Function make_point took 0.0081 milliseconds
+2024-10-11 04:33:45,064 - Function make_point took 0.0073 milliseconds
+2024-10-11 04:33:45,071 - Function make_point took 0.0112 milliseconds
+2024-10-11 04:33:45,076 - Function make_point took 0.0100 milliseconds
+2024-10-11 04:33:45,078 - Function make_point took 0.0080 milliseconds
+2024-10-11 04:33:45,083 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:45,089 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:45,092 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:45,094 - Function make_point took 0.0076 milliseconds
+2024-10-11 04:33:45,096 - Function make_point took 0.0069 milliseconds
+2024-10-11 04:33:45,099 - Function make_point took 0.0078 milliseconds
+2024-10-11 04:33:45,105 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:45,108 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:45,111 - Function make_point took 0.0060 milliseconds
+2024-10-11 04:33:45,113 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:45,115 - Function make_point took 0.0070 milliseconds
+2024-10-11 04:33:45,121 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:45,123 - Function make_point took 0.0096 milliseconds
+2024-10-11 04:33:45,127 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:45,129 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:45,133 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:45,138 - Function make_point took 0.0079 milliseconds
+2024-10-11 04:33:45,140 - Function make_point took 0.0077 milliseconds
+2024-10-11 04:33:45,142 - Function make_point took 0.0057 milliseconds
+2024-10-11 04:33:45,145 - Function make_point took 0.0072 milliseconds
+2024-10-11 04:33:45,147 - Function make_point took 0.0070 milliseconds
+2024-10-11 04:33:45,149 - Function make_point took 0.0078 milliseconds
+2024-10-11 04:33:45,154 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:45,156 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:45,161 - Function make_point took 0.0099 milliseconds
+2024-10-11 04:33:45,163 - Function make_point took 0.0067 milliseconds
+2024-10-11 04:33:45,165 - Function make_point took 0.0070 milliseconds
+2024-10-11 04:33:45,171 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:45,173 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:45,177 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:45,178 - Function make_point took 0.0075 milliseconds
+2024-10-11 04:33:45,182 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:45,189 - Function make_point took 0.0093 milliseconds
+2024-10-11 04:33:45,192 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,193 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:45,195 - Function make_point took 0.0077 milliseconds
+2024-10-11 04:33:45,198 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,201 - Function make_point took 0.0121 milliseconds
+2024-10-11 04:33:45,209 - Function make_point took 0.0081 milliseconds
+2024-10-11 04:33:45,214 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:45,219 - Function make_point took 0.0082 milliseconds
+2024-10-11 04:33:45,225 - Function make_point took 0.0103 milliseconds
+2024-10-11 04:33:45,230 - Function make_point took 0.0077 milliseconds
+2024-10-11 04:33:45,235 - Function make_point took 0.0113 milliseconds
+2024-10-11 04:33:45,241 - Function make_point took 0.0079 milliseconds
+2024-10-11 04:33:45,246 - Function make_point took 0.0083 milliseconds
+2024-10-11 04:33:45,251 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:45,256 - Function make_point took 0.0122 milliseconds
+2024-10-11 04:33:45,261 - Function make_point took 0.0076 milliseconds
+2024-10-11 04:33:45,266 - Function make_point took 0.0080 milliseconds
+2024-10-11 04:33:45,272 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:45,277 - Function make_point took 0.0079 milliseconds
+2024-10-11 04:33:45,278 - Function make_point took 0.0074 milliseconds
+2024-10-11 04:33:45,283 - Function make_point took 0.0109 milliseconds
+2024-10-11 04:33:45,289 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,292 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:45,297 - Function make_point took 0.0075 milliseconds
+2024-10-11 04:33:45,312 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:45,319 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:45,324 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,380 - Function make_point took 0.0108 milliseconds
+2024-10-11 04:33:45,391 - Function make_point took 0.0126 milliseconds
+2024-10-11 04:33:45,399 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,480 - Function make_point took 0.0136 milliseconds
+2024-10-11 04:33:45,489 - Function make_point took 0.0122 milliseconds
+2024-10-11 04:33:45,497 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:45,506 - Function make_point took 0.0099 milliseconds
+2024-10-11 04:33:45,513 - Function make_point took 0.0083 milliseconds
+2024-10-11 04:33:45,519 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:45,525 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,581 - Function make_point took 0.0117 milliseconds
+2024-10-11 04:33:45,592 - Function make_point took 0.0162 milliseconds
+2024-10-11 04:33:45,599 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,682 - Function make_point took 0.0146 milliseconds
+2024-10-11 04:33:45,696 - Function make_point took 0.0132 milliseconds
+2024-10-11 04:33:45,706 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,781 - Function make_point took 0.0138 milliseconds
+2024-10-11 04:33:45,792 - Function make_point took 0.0120 milliseconds
+2024-10-11 04:33:45,799 - Function make_point took 0.0152 milliseconds
+2024-10-11 04:33:45,809 - Function make_point took 0.0127 milliseconds
+2024-10-11 04:33:45,815 - Function make_point took 0.0142 milliseconds
+2024-10-11 04:33:45,823 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:45,829 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,882 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:45,893 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:45,899 - Function make_point took 0.0120 milliseconds
+2024-10-11 04:33:45,911 - 172.18.0.1 - - [11/Oct/2024 04:33:45] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:45,983 - Function make_point took 0.0136 milliseconds
+2024-10-11 04:33:45,998 - Function make_point took 0.0123 milliseconds
+2024-10-11 04:33:46,006 - Function make_point took 0.0128 milliseconds
+2024-10-11 04:33:46,012 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:46,018 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:46,025 - Function make_point took 0.0133 milliseconds
+2024-10-11 04:33:46,032 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:46,041 - Function make_point took 0.0132 milliseconds
+2024-10-11 04:33:46,047 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:46,055 - Function make_point took 0.0116 milliseconds
+2024-10-11 04:33:46,062 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,082 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:46,090 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,185 - Function make_point took 0.0164 milliseconds
+2024-10-11 04:33:46,207 - Function make_point took 0.0166 milliseconds
+2024-10-11 04:33:46,217 - Function make_point took 0.0148 milliseconds
+2024-10-11 04:33:46,225 - Function make_point took 0.0151 milliseconds
+2024-10-11 04:33:46,233 - Function make_point took 0.0126 milliseconds
+2024-10-11 04:33:46,241 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:46,246 - Function make_point took 0.0130 milliseconds
+2024-10-11 04:33:46,252 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:46,257 - Function make_point took 0.0080 milliseconds
+2024-10-11 04:33:46,263 - Function make_point took 0.0080 milliseconds
+2024-10-11 04:33:46,268 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:46,274 - Function make_point took 0.0080 milliseconds
+2024-10-11 04:33:46,279 - Function make_point took 0.0064 milliseconds
+2024-10-11 04:33:46,283 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:46,287 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:46,291 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:46,294 - Function make_point took 0.0100 milliseconds
+2024-10-11 04:33:46,297 - Function make_point took 0.0080 milliseconds
+2024-10-11 04:33:46,300 - Function make_point took 0.0103 milliseconds
+2024-10-11 04:33:46,307 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:46,310 - Function make_point took 0.0100 milliseconds
+2024-10-11 04:33:46,314 - Function make_point took 0.0083 milliseconds
+2024-10-11 04:33:46,317 - Function make_point took 0.0202 milliseconds
+2024-10-11 04:33:46,322 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:46,325 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:46,327 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:46,331 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:46,336 - Function make_point took 0.0090 milliseconds
+2024-10-11 04:33:46,339 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:46,343 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:46,345 - Function make_point took 0.0064 milliseconds
+2024-10-11 04:33:46,348 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:46,354 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:46,357 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:46,359 - Function make_point took 0.0076 milliseconds
+2024-10-11 04:33:46,362 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:46,365 - Function make_point took 0.0067 milliseconds
+2024-10-11 04:33:46,369 - Function make_point took 0.0112 milliseconds
+2024-10-11 04:33:46,372 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:46,375 - Function make_point took 0.0085 milliseconds
+2024-10-11 04:33:46,378 - Function make_point took 0.0062 milliseconds
+2024-10-11 04:33:46,381 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:46,384 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:46,389 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:46,391 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:46,393 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,395 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:46,398 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:46,402 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:46,407 - Function make_point took 0.0100 milliseconds
+2024-10-11 04:33:46,410 - Function make_point took 0.0109 milliseconds
+2024-10-11 04:33:46,412 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:46,416 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:46,420 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,424 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,485 - Function make_point took 0.0137 milliseconds
+2024-10-11 04:33:46,494 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:46,501 - Function make_point took 0.0138 milliseconds
+2024-10-11 04:33:46,508 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:46,514 - Function make_point took 0.0079 milliseconds
+2024-10-11 04:33:46,522 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,585 - Function make_point took 0.0152 milliseconds
+2024-10-11 04:33:46,596 - Function make_point took 0.0125 milliseconds
+2024-10-11 04:33:46,605 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,686 - Function make_point took 0.0123 milliseconds
+2024-10-11 04:33:46,695 - Function make_point took 0.0116 milliseconds
+2024-10-11 04:33:46,702 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,787 - Function make_point took 0.0143 milliseconds
+2024-10-11 04:33:46,796 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:46,803 - Function make_point took 0.0138 milliseconds
+2024-10-11 04:33:46,810 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,890 - Function make_point took 0.0180 milliseconds
+2024-10-11 04:33:46,902 - Function make_point took 0.0163 milliseconds
+2024-10-11 04:33:46,910 - Function make_point took 0.0128 milliseconds
+2024-10-11 04:33:46,918 - Function make_point took 0.0201 milliseconds
+2024-10-11 04:33:46,926 - Function make_point took 0.0166 milliseconds
+2024-10-11 04:33:46,932 - Function make_point took 0.0122 milliseconds
+2024-10-11 04:33:46,940 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:46,947 - Function make_point took 0.0113 milliseconds
+2024-10-11 04:33:46,954 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:46,959 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:46,965 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:46,971 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:46,978 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:46,983 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:46,986 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:46,991 - Function make_point took 0.0085 milliseconds
+2024-10-11 04:33:46,995 - 172.18.0.1 - - [11/Oct/2024 04:33:46] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:46,997 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:47,004 - Function make_point took 0.0090 milliseconds
+2024-10-11 04:33:47,028 - Function make_point took 0.0116 milliseconds
+2024-10-11 04:33:47,048 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:47,077 - Function make_point took 0.0128 milliseconds
+2024-10-11 04:33:47,095 - Function make_point took 0.0080 milliseconds
+2024-10-11 04:33:47,097 - Function make_point took 0.0071 milliseconds
+2024-10-11 04:33:47,102 - Function make_point took 0.0113 milliseconds
+2024-10-11 04:33:47,106 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:47,123 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,126 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:47,132 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:47,139 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:47,143 - Function make_point took 0.0074 milliseconds
+2024-10-11 04:33:47,149 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,190 - Function make_point took 0.0126 milliseconds
+2024-10-11 04:33:47,199 - Function make_point took 0.0108 milliseconds
+2024-10-11 04:33:47,209 - Function make_point took 0.0137 milliseconds
+2024-10-11 04:33:47,217 - Function make_point took 0.0192 milliseconds
+2024-10-11 04:33:47,226 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:47,233 - Function make_point took 0.0125 milliseconds
+2024-10-11 04:33:47,243 - Function make_point took 0.0121 milliseconds
+2024-10-11 04:33:47,249 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:47,255 - Function make_point took 0.0096 milliseconds
+2024-10-11 04:33:47,261 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:47,267 - Function make_point took 0.0123 milliseconds
+2024-10-11 04:33:47,273 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:47,278 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:47,284 - Function make_point took 0.0214 milliseconds
+2024-10-11 04:33:47,288 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:47,290 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:47,294 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:47,296 - Function make_point took 0.0096 milliseconds
+2024-10-11 04:33:47,301 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,304 - Function make_point took 0.0090 milliseconds
+2024-10-11 04:33:47,309 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:47,315 - Function make_point took 0.0099 milliseconds
+2024-10-11 04:33:47,322 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,390 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:47,406 - Function make_point took 0.0184 milliseconds
+2024-10-11 04:33:47,412 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:47,421 - Function make_point took 0.0709 milliseconds
+2024-10-11 04:33:47,428 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:47,435 - Function make_point took 0.0206 milliseconds
+2024-10-11 04:33:47,445 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:47,453 - Function make_point took 0.0230 milliseconds
+2024-10-11 04:33:47,466 - Function make_point took 0.0207 milliseconds
+2024-10-11 04:33:47,480 - Function make_point took 0.0179 milliseconds
+2024-10-11 04:33:47,493 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,496 - Function make_point took 0.0082 milliseconds
+2024-10-11 04:33:47,508 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:47,518 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,594 - Function make_point took 0.0170 milliseconds
+2024-10-11 04:33:47,606 - Function make_point took 0.0166 milliseconds
+2024-10-11 04:33:47,618 - Function make_point took 0.0165 milliseconds
+2024-10-11 04:33:47,631 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,699 - Function make_point took 0.0169 milliseconds
+2024-10-11 04:33:47,717 - Function make_point took 0.0188 milliseconds
+2024-10-11 04:33:47,732 - Function make_point took 0.0241 milliseconds
+2024-10-11 04:33:47,749 - Function make_point took 0.0231 milliseconds
+2024-10-11 04:33:47,764 - Function make_point took 0.0269 milliseconds
+2024-10-11 04:33:47,780 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,795 - Function make_point took 0.0188 milliseconds
+2024-10-11 04:33:47,808 - Function make_point took 0.0170 milliseconds
+2024-10-11 04:33:47,822 - Function make_point took 0.0155 milliseconds
+2024-10-11 04:33:47,832 - Function make_point took 0.0212 milliseconds
+2024-10-11 04:33:47,844 - Function make_point took 0.0138 milliseconds
+2024-10-11 04:33:47,853 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,893 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:47,899 - Function make_point took 0.0129 milliseconds
+2024-10-11 04:33:47,906 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:47,913 - Function make_point took 0.0096 milliseconds
+2024-10-11 04:33:47,920 - Function make_point took 0.0143 milliseconds
+2024-10-11 04:33:47,925 - Function make_point took 0.0099 milliseconds
+2024-10-11 04:33:47,932 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:47,940 - Function make_point took 0.0150 milliseconds
+2024-10-11 04:33:47,946 - 172.18.0.1 - - [11/Oct/2024 04:33:47] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:47,993 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:47,999 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:48,007 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,095 - Function make_point took 0.0096 milliseconds
+2024-10-11 04:33:48,106 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:48,113 - Function make_point took 0.0146 milliseconds
+2024-10-11 04:33:48,120 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:48,126 - Function make_point took 0.0090 milliseconds
+2024-10-11 04:33:48,137 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,194 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:48,203 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:48,211 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,295 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:48,304 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:48,311 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:48,317 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:48,325 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:48,330 - Function make_point took 0.0093 milliseconds
+2024-10-11 04:33:48,338 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,396 - Function make_point took 0.0117 milliseconds
+2024-10-11 04:33:48,409 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,496 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:48,509 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:48,516 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:48,523 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:48,530 - Function make_point took 0.0090 milliseconds
+2024-10-11 04:33:48,537 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,597 - Function make_point took 0.0140 milliseconds
+2024-10-11 04:33:48,609 - Function make_point took 0.0131 milliseconds
+2024-10-11 04:33:48,616 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,698 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:48,714 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:48,722 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,798 - Function make_point took 0.0151 milliseconds
+2024-10-11 04:33:48,807 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:48,813 - Function make_point took 0.0096 milliseconds
+2024-10-11 04:33:48,822 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:48,827 - Function make_point took 0.0461 milliseconds
+2024-10-11 04:33:48,833 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,897 - Function make_point took 0.0116 milliseconds
+2024-10-11 04:33:48,907 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:48,912 - Function make_point took 0.0081 milliseconds
+2024-10-11 04:33:48,918 - Function make_point took 0.0121 milliseconds
+2024-10-11 04:33:48,923 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:48,928 - 172.18.0.1 - - [11/Oct/2024 04:33:48] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:48,997 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:49,007 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:49,014 - Function make_point took 0.0112 milliseconds
+2024-10-11 04:33:49,024 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:49,099 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:49,110 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:49,118 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:49,125 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:49,132 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:49,200 - Function make_point took 0.0156 milliseconds
+2024-10-11 04:33:49,208 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:49,299 - Function make_point took 0.0121 milliseconds
+2024-10-11 04:33:49,307 - Function make_point took 0.0085 milliseconds
+2024-10-11 04:33:49,313 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:49,320 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:49,400 - Function make_point took 0.0126 milliseconds
+2024-10-11 04:33:49,413 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:49,502 - Function make_point took 0.0153 milliseconds
+2024-10-11 04:33:49,513 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:49,603 - Function make_point took 0.0214 milliseconds
+2024-10-11 04:33:49,614 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:49,622 - Function make_point took 0.0108 milliseconds
+2024-10-11 04:33:49,630 - Function make_point took 0.0103 milliseconds
+2024-10-11 04:33:49,638 - Function make_point took 0.0103 milliseconds
+2024-10-11 04:33:49,645 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:49,705 - Function make_point took 0.0153 milliseconds
+2024-10-11 04:33:49,715 - Function make_point took 0.0112 milliseconds
+2024-10-11 04:33:49,725 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:49,803 - Function make_point took 0.0139 milliseconds
+2024-10-11 04:33:49,811 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:49,821 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:49,827 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:49,834 - Function make_point took 0.0123 milliseconds
+2024-10-11 04:33:49,842 - Function make_point took 0.0123 milliseconds
+2024-10-11 04:33:49,849 - Function make_point took 0.0128 milliseconds
+2024-10-11 04:33:49,857 - Function make_point took 0.0124 milliseconds
+2024-10-11 04:33:49,863 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:49,870 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:49,877 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:49,885 - Function make_point took 0.0128 milliseconds
+2024-10-11 04:33:49,892 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:49,898 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:49,903 - Function make_point took 0.0201 milliseconds
+2024-10-11 04:33:49,908 - Function make_point took 0.0119 milliseconds
+2024-10-11 04:33:49,912 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:49,916 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:49,920 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:49,924 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:49,927 - Function make_point took 0.0116 milliseconds
+2024-10-11 04:33:49,930 - Function make_point took 0.0124 milliseconds
+2024-10-11 04:33:49,934 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:49,938 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:49,941 - Function make_point took 0.0093 milliseconds
+2024-10-11 04:33:49,947 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:49,954 - Function make_point took 0.0127 milliseconds
+2024-10-11 04:33:49,960 - Function make_point took 0.0082 milliseconds
+2024-10-11 04:33:49,965 - Function make_point took 0.0236 milliseconds
+2024-10-11 04:33:49,972 - 172.18.0.1 - - [11/Oct/2024 04:33:49] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,005 - Function make_point took 0.0150 milliseconds
+2024-10-11 04:33:50,012 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:50,019 - Function make_point took 0.0149 milliseconds
+2024-10-11 04:33:50,026 - Function make_point took 0.0125 milliseconds
+2024-10-11 04:33:50,032 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,104 - Function make_point took 0.0103 milliseconds
+2024-10-11 04:33:50,113 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:50,121 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,204 - Function make_point took 0.0121 milliseconds
+2024-10-11 04:33:50,213 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,308 - Function make_point took 0.0165 milliseconds
+2024-10-11 04:33:50,318 - Function make_point took 0.0186 milliseconds
+2024-10-11 04:33:50,325 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:50,332 - Function make_point took 0.0119 milliseconds
+2024-10-11 04:33:50,339 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:50,346 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:50,352 - Function make_point took 0.0157 milliseconds
+2024-10-11 04:33:50,358 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:50,364 - Function make_point took 0.0085 milliseconds
+2024-10-11 04:33:50,370 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:50,376 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:50,381 - Function make_point took 0.0074 milliseconds
+2024-10-11 04:33:50,387 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:50,393 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:50,397 - Function make_point took 0.0078 milliseconds
+2024-10-11 04:33:50,404 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:50,407 - Function make_point took 0.0083 milliseconds
+2024-10-11 04:33:50,412 - Function make_point took 0.0072 milliseconds
+2024-10-11 04:33:50,415 - Function make_point took 0.0068 milliseconds
+2024-10-11 04:33:50,419 - Function make_point took 0.0116 milliseconds
+2024-10-11 04:33:50,422 - Function make_point took 0.0070 milliseconds
+2024-10-11 04:33:50,425 - Function make_point took 0.0067 milliseconds
+2024-10-11 04:33:50,427 - Function make_point took 0.0063 milliseconds
+2024-10-11 04:33:50,431 - Function make_point took 0.0072 milliseconds
+2024-10-11 04:33:50,434 - Function make_point took 0.0108 milliseconds
+2024-10-11 04:33:50,438 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,440 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,508 - Function make_point took 0.0125 milliseconds
+2024-10-11 04:33:50,518 - Function make_point took 0.0127 milliseconds
+2024-10-11 04:33:50,527 - Function make_point took 0.0109 milliseconds
+2024-10-11 04:33:50,534 - Function make_point took 0.0127 milliseconds
+2024-10-11 04:33:50,541 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:50,548 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:50,556 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:50,562 - Function make_point took 0.0133 milliseconds
+2024-10-11 04:33:50,569 - Function make_point took 0.0176 milliseconds
+2024-10-11 04:33:50,576 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:50,582 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:50,590 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:50,597 - Function make_point took 0.0129 milliseconds
+2024-10-11 04:33:50,604 - Function make_point took 0.0119 milliseconds
+2024-10-11 04:33:50,608 - Function make_point took 0.0083 milliseconds
+2024-10-11 04:33:50,613 - Function make_point took 0.0125 milliseconds
+2024-10-11 04:33:50,616 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:50,622 - Function make_point took 0.0131 milliseconds
+2024-10-11 04:33:50,626 - Function make_point took 0.0109 milliseconds
+2024-10-11 04:33:50,629 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:50,633 - Function make_point took 0.0113 milliseconds
+2024-10-11 04:33:50,638 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:50,640 - Function make_point took 0.0081 milliseconds
+2024-10-11 04:33:50,645 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,648 - Function make_point took 0.0156 milliseconds
+2024-10-11 04:33:50,654 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:50,660 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:50,666 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,707 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:50,713 - Function make_point took 0.0129 milliseconds
+2024-10-11 04:33:50,722 - Function make_point took 0.0666 milliseconds
+2024-10-11 04:33:50,730 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:50,738 - Function make_point took 0.0192 milliseconds
+2024-10-11 04:33:50,743 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:50,749 - Function make_point took 0.0122 milliseconds
+2024-10-11 04:33:50,757 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:50,762 - Function make_point took 0.0079 milliseconds
+2024-10-11 04:33:50,767 - Function make_point took 0.0096 milliseconds
+2024-10-11 04:33:50,772 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:50,777 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:50,782 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:50,789 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:50,794 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:50,799 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:50,805 - Function make_point took 0.0108 milliseconds
+2024-10-11 04:33:50,808 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:50,811 - Function make_point took 0.0143 milliseconds
+2024-10-11 04:33:50,816 - Function make_point took 0.0152 milliseconds
+2024-10-11 04:33:50,822 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:50,824 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:50,830 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:50,832 - Function make_point took 0.0075 milliseconds
+2024-10-11 04:33:50,838 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:50,842 - Function make_point took 0.0164 milliseconds
+2024-10-11 04:33:50,846 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:50,849 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:50,852 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:50,856 - Function make_point took 0.0106 milliseconds
+2024-10-11 04:33:50,859 - Function make_point took 0.0077 milliseconds
+2024-10-11 04:33:50,862 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:50,865 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:50,870 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,874 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:50,879 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:50,886 - Function make_point took 0.0112 milliseconds
+2024-10-11 04:33:50,893 - Function make_point took 0.0083 milliseconds
+2024-10-11 04:33:50,899 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:50,906 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:50,909 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:50,914 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:50,917 - Function make_point took 0.0101 milliseconds
+2024-10-11 04:33:50,924 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:50,926 - 172.18.0.1 - - [11/Oct/2024 04:33:50] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,010 - Function make_point took 0.0100 milliseconds
+2024-10-11 04:33:51,019 - Function make_point took 0.0146 milliseconds
+2024-10-11 04:33:51,027 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,111 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:51,195 - Function make_point took 0.0108 milliseconds
+2024-10-11 04:33:51,202 - Function make_point took 0.0136 milliseconds
+2024-10-11 04:33:51,210 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:51,212 - Function make_point took 0.0124 milliseconds
+2024-10-11 04:33:51,228 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:51,233 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:51,236 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:51,240 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,243 - Function make_point took 0.0107 milliseconds
+2024-10-11 04:33:51,249 - Function make_point took 0.0122 milliseconds
+2024-10-11 04:33:51,258 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:51,267 - Function make_point took 0.0386 milliseconds
+2024-10-11 04:33:51,281 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:51,290 - Function make_point took 0.0122 milliseconds
+2024-10-11 04:33:51,297 - Function make_point took 0.0092 milliseconds
+2024-10-11 04:33:51,305 - Function make_point took 0.0167 milliseconds
+2024-10-11 04:33:51,314 - Function make_point took 0.0194 milliseconds
+2024-10-11 04:33:51,320 - Function make_point took 0.0205 milliseconds
+2024-10-11 04:33:51,321 - Unable to write measurement to InfluxDB!
+2024-10-11 04:33:51,326 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,332 - Function make_point took 0.0144 milliseconds
+2024-10-11 04:33:51,340 - Function make_point took 0.0085 milliseconds
+2024-10-11 04:33:51,345 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:51,351 - Function make_point took 0.0126 milliseconds
+2024-10-11 04:33:51,361 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:51,366 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:51,372 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,413 - Function make_point took 0.0127 milliseconds
+2024-10-11 04:33:51,422 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:51,429 - Function make_point took 0.0123 milliseconds
+2024-10-11 04:33:51,439 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:51,446 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:51,453 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,515 - Function make_point took 0.0181 milliseconds
+2024-10-11 04:33:51,526 - Function make_point took 0.0121 milliseconds
+2024-10-11 04:33:51,542 - Function make_point took 0.0117 milliseconds
+2024-10-11 04:33:51,549 - Function make_point took 0.0095 milliseconds
+2024-10-11 04:33:51,556 - Function make_point took 0.0093 milliseconds
+2024-10-11 04:33:51,561 - Function make_point took 0.0097 milliseconds
+2024-10-11 04:33:51,567 - Function make_point took 0.0126 milliseconds
+2024-10-11 04:33:51,573 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:51,578 - Function make_point took 0.0081 milliseconds
+2024-10-11 04:33:51,584 - Function make_point took 0.0141 milliseconds
+2024-10-11 04:33:51,590 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,613 - Function make_point took 0.0085 milliseconds
+2024-10-11 04:33:51,619 - Function make_point took 0.0129 milliseconds
+2024-10-11 04:33:51,625 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:51,631 - Function make_point took 0.0071 milliseconds
+2024-10-11 04:33:51,638 - Function make_point took 0.0123 milliseconds
+2024-10-11 04:33:51,644 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,715 - Function make_point took 0.0128 milliseconds
+2024-10-11 04:33:51,726 - Function make_point took 0.0123 milliseconds
+2024-10-11 04:33:51,733 - Function make_point took 0.0135 milliseconds
+2024-10-11 04:33:51,741 - Function make_point took 0.0108 milliseconds
+2024-10-11 04:33:51,748 - Function make_point took 0.0096 milliseconds
+2024-10-11 04:33:51,755 - Function make_point took 0.0096 milliseconds
+2024-10-11 04:33:51,761 - Function make_point took 0.0075 milliseconds
+2024-10-11 04:33:51,768 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:51,774 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:51,780 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:51,787 - Function make_point took 0.0157 milliseconds
+2024-10-11 04:33:51,794 - Function make_point took 0.0083 milliseconds
+2024-10-11 04:33:51,800 - Function make_point took 0.0091 milliseconds
+2024-10-11 04:33:51,806 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:51,812 - Function make_point took 0.0120 milliseconds
+2024-10-11 04:33:51,814 - Function make_point took 0.0060 milliseconds
+2024-10-11 04:33:51,827 - Function make_point took 0.0125 milliseconds
+2024-10-11 04:33:51,830 - Function make_point took 0.0138 milliseconds
+2024-10-11 04:33:51,835 - Function make_point took 0.0151 milliseconds
+2024-10-11 04:33:51,839 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:51,842 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:51,845 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,848 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:51,915 - Function make_point took 0.0115 milliseconds
+2024-10-11 04:33:51,927 - Function make_point took 0.0136 milliseconds
+2024-10-11 04:33:51,938 - 172.18.0.1 - - [11/Oct/2024 04:33:51] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:52,017 - Function make_point took 0.0166 milliseconds
+2024-10-11 04:33:52,026 - Function make_point took 0.0145 milliseconds
+2024-10-11 04:33:52,034 - Function make_point took 0.0124 milliseconds
+2024-10-11 04:33:52,042 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:52,047 - Function make_point took 0.0103 milliseconds
+2024-10-11 04:33:52,055 - Function make_point took 0.0089 milliseconds
+2024-10-11 04:33:52,060 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:52,065 - Function make_point took 0.0113 milliseconds
+2024-10-11 04:33:52,072 - Function make_point took 0.0094 milliseconds
+2024-10-11 04:33:52,078 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:52,084 - Function make_point took 0.0112 milliseconds
+2024-10-11 04:33:52,090 - Function make_point took 0.0110 milliseconds
+2024-10-11 04:33:52,097 - Function make_point took 0.0083 milliseconds
+2024-10-11 04:33:52,103 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:52,109 - Function make_point took 0.0109 milliseconds
+2024-10-11 04:33:52,115 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:52,117 - Function make_point took 0.0098 milliseconds
+2024-10-11 04:33:52,123 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:52,126 - Function make_point took 0.0109 milliseconds
+2024-10-11 04:33:52,131 - Function make_point took 0.0102 milliseconds
+2024-10-11 04:33:52,139 - Function make_point took 0.0088 milliseconds
+2024-10-11 04:33:52,143 - Function make_point took 0.0104 milliseconds
+2024-10-11 04:33:52,146 - Function make_point took 0.0122 milliseconds
+2024-10-11 04:33:52,150 - Function make_point took 0.0109 milliseconds
+2024-10-11 04:33:52,155 - Function make_point took 0.0105 milliseconds
+2024-10-11 04:33:52,159 - 172.18.0.1 - - [11/Oct/2024 04:33:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:52,162 - 172.18.0.1 - - [11/Oct/2024 04:33:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:52,215 - Function make_point took 0.0117 milliseconds
+2024-10-11 04:33:52,222 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:52,227 - Function make_point took 0.0081 milliseconds
+2024-10-11 04:33:52,232 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:52,238 - Function make_point took 0.0100 milliseconds
+2024-10-11 04:33:52,243 - Function make_point took 0.0079 milliseconds
+2024-10-11 04:33:52,248 - Function make_point took 0.0066 milliseconds
+2024-10-11 04:33:52,255 - Function make_point took 0.0114 milliseconds
+2024-10-11 04:33:52,260 - 172.18.0.1 - - [11/Oct/2024 04:33:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:52,316 - Function make_point took 0.0130 milliseconds
+2024-10-11 04:33:52,323 - Function make_point took 0.0132 milliseconds
+2024-10-11 04:33:52,329 - Function make_point took 0.0084 milliseconds
+2024-10-11 04:33:52,337 - Function make_point took 0.0151 milliseconds
+2024-10-11 04:33:52,344 - Function make_point took 0.0086 milliseconds
+2024-10-11 04:33:52,351 - 172.18.0.1 - - [11/Oct/2024 04:33:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:52,417 - Function make_point took 0.0138 milliseconds
+2024-10-11 04:33:52,429 - Function make_point took 0.0118 milliseconds
+2024-10-11 04:33:52,437 - 172.18.0.1 - - [11/Oct/2024 04:33:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:52,518 - Function make_point took 0.0155 milliseconds
+2024-10-11 04:33:52,528 - 172.18.0.1 - - [11/Oct/2024 04:33:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:52,619 - Function make_point took 0.0166 milliseconds
+2024-10-11 04:33:52,627 - Function make_point took 0.0111 milliseconds
+2024-10-11 04:33:52,635 - 172.18.0.1 - - [11/Oct/2024 04:33:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:52,721 - Function make_point took 0.0138 milliseconds
+2024-10-11 04:33:52,736 - Function make_point took 0.0119 milliseconds
+2024-10-11 04:33:52,744 - Function make_point took 0.0139 milliseconds
+2024-10-11 04:33:52,751 - 172.18.0.1 - - [11/Oct/2024 04:33:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 04:33:52,820 - Function make_point took 0.0131 milliseconds
+2024-10-11 04:33:52,830 - Function make_point took 0.0116 milliseconds
+2024-10-11 04:33:52,839 - Function make_point took 0.0126 milliseconds
+2024-10-11 04:33:52,846 - Function make_point took 0.0100 milliseconds
+2024-10-11 04:33:52,854 - Function make_point took 0.0113 milliseconds
+2024-10-11 04:33:52,859 - Function make_point took 0.0087 milliseconds
+2024-10-11 04:33:52,866 - Function make_point took 0.0108 milliseconds
+2024-10-11 04:33:52,872 - Function make_point took 0.0090 milliseconds
+2024-10-11 04:33:52,878 - 172.18.0.1 - - [11/Oct/2024 04:33:52] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-12 17:33:06,736 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.4:5000
+2024-10-12 17:33:06,736 - [33mPress CTRL+C to quit[0m

@@ -3,7 +3,7 @@ from parser.data_classes.CAN_Msg import CAN      # CAN message
 from parser.data_classes.IMU_Msg import IMU      # IMU message
 from parser.data_classes.GPS_Msg import GPS      # GPS message
 from parser.parameters import *     # For mins and maxes of messages
-
+import logging
 
 """
 Factory method for creating a Message object based on the message type

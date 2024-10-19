@@ -1,0 +1,435 @@
+2024-10-11 03:58:36,815 - Function wrapped_write_to_influx took 22.7273 milliseconds
+2024-10-11 03:58:36,825 - Function wrapped_write_to_influx took 9.4903 milliseconds
+2024-10-11 03:58:36,832 - Function wrapped_write_to_influx took 5.9219 milliseconds
+2024-10-11 03:58:36,838 - Function wrapped_write_to_influx took 6.1953 milliseconds
+2024-10-11 03:58:36,844 - Function wrapped_write_to_influx took 6.0659 milliseconds
+2024-10-11 03:58:36,851 - Function wrapped_write_to_influx took 5.9448 milliseconds
+2024-10-11 03:58:36,858 - Function wrapped_write_to_influx took 7.5233 milliseconds
+2024-10-11 03:58:36,865 - Function wrapped_write_to_influx took 5.9603 milliseconds
+2024-10-11 03:58:36,865 - 172.18.0.1 - - [11/Oct/2024 03:58:36] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:36,902 - Function wrapped_write_to_influx took 8.2599 milliseconds
+2024-10-11 03:58:36,911 - Function wrapped_write_to_influx took 9.0343 milliseconds
+2024-10-11 03:58:36,912 - 172.18.0.1 - - [11/Oct/2024 03:58:36] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,003 - Function wrapped_write_to_influx took 8.7376 milliseconds
+2024-10-11 03:58:37,011 - Function wrapped_write_to_influx took 7.9554 milliseconds
+2024-10-11 03:58:37,012 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,100 - Function wrapped_write_to_influx took 7.5023 milliseconds
+2024-10-11 03:58:37,106 - Function wrapped_write_to_influx took 6.0780 milliseconds
+2024-10-11 03:58:37,112 - Function wrapped_write_to_influx took 4.9087 milliseconds
+2024-10-11 03:58:37,116 - Function wrapped_write_to_influx took 4.6518 milliseconds
+2024-10-11 03:58:37,123 - Function wrapped_write_to_influx took 6.1832 milliseconds
+2024-10-11 03:58:37,123 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,206 - Function wrapped_write_to_influx took 11.8498 milliseconds
+2024-10-11 03:58:37,214 - Function wrapped_write_to_influx took 7.7915 milliseconds
+2024-10-11 03:58:37,222 - Function wrapped_write_to_influx took 7.1525 milliseconds
+2024-10-11 03:58:37,228 - Function wrapped_write_to_influx took 6.1264 milliseconds
+2024-10-11 03:58:37,234 - Function wrapped_write_to_influx took 4.8133 milliseconds
+2024-10-11 03:58:37,241 - Function wrapped_write_to_influx took 7.4859 milliseconds
+2024-10-11 03:58:37,247 - Function wrapped_write_to_influx took 5.7645 milliseconds
+2024-10-11 03:58:37,254 - Function wrapped_write_to_influx took 6.1465 milliseconds
+2024-10-11 03:58:37,260 - Function wrapped_write_to_influx took 6.1767 milliseconds
+2024-10-11 03:58:37,265 - Function wrapped_write_to_influx took 4.7792 milliseconds
+2024-10-11 03:58:37,275 - Function wrapped_write_to_influx took 9.7397 milliseconds
+2024-10-11 03:58:37,282 - Function wrapped_write_to_influx took 6.8463 milliseconds
+2024-10-11 03:58:37,289 - Function wrapped_write_to_influx took 6.3813 milliseconds
+2024-10-11 03:58:37,297 - Function wrapped_write_to_influx took 7.7529 milliseconds
+2024-10-11 03:58:37,301 - Function wrapped_write_to_influx took 6.0601 milliseconds
+2024-10-11 03:58:37,303 - Function wrapped_write_to_influx took 5.5603 milliseconds
+2024-10-11 03:58:37,307 - Function wrapped_write_to_influx took 6.2197 milliseconds
+2024-10-11 03:58:37,308 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,309 - Function wrapped_write_to_influx took 5.9607 milliseconds
+2024-10-11 03:58:37,316 - Function wrapped_write_to_influx took 6.0443 milliseconds
+2024-10-11 03:58:37,322 - Function wrapped_write_to_influx took 6.3628 milliseconds
+2024-10-11 03:58:37,331 - Function wrapped_write_to_influx took 8.6751 milliseconds
+2024-10-11 03:58:37,337 - Function wrapped_write_to_influx took 5.6270 milliseconds
+2024-10-11 03:58:37,338 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,411 - Function wrapped_write_to_influx took 13.1559 milliseconds
+2024-10-11 03:58:37,421 - Function wrapped_write_to_influx took 9.3398 milliseconds
+2024-10-11 03:58:37,422 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,507 - Function wrapped_write_to_influx took 8.6454 milliseconds
+2024-10-11 03:58:37,513 - Function wrapped_write_to_influx took 5.6766 milliseconds
+2024-10-11 03:58:37,519 - Function wrapped_write_to_influx took 6.1030 milliseconds
+2024-10-11 03:58:37,526 - Function wrapped_write_to_influx took 6.6675 milliseconds
+2024-10-11 03:58:37,532 - Function wrapped_write_to_influx took 5.1698 milliseconds
+2024-10-11 03:58:37,538 - Function wrapped_write_to_influx took 5.9348 milliseconds
+2024-10-11 03:58:37,544 - Function wrapped_write_to_influx took 5.5752 milliseconds
+2024-10-11 03:58:37,554 - Function wrapped_write_to_influx took 9.4337 milliseconds
+2024-10-11 03:58:37,554 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,605 - Function wrapped_write_to_influx took 6.9000 milliseconds
+2024-10-11 03:58:37,613 - Function wrapped_write_to_influx took 6.7598 milliseconds
+2024-10-11 03:58:37,618 - Function wrapped_write_to_influx took 4.9668 milliseconds
+2024-10-11 03:58:37,625 - Function wrapped_write_to_influx took 7.3318 milliseconds
+2024-10-11 03:58:37,632 - Function wrapped_write_to_influx took 5.6912 milliseconds
+2024-10-11 03:58:37,632 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,711 - Function wrapped_write_to_influx took 11.3039 milliseconds
+2024-10-11 03:58:37,719 - Function wrapped_write_to_influx took 7.8809 milliseconds
+2024-10-11 03:58:37,726 - Function wrapped_write_to_influx took 6.4979 milliseconds
+2024-10-11 03:58:37,726 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,807 - Function wrapped_write_to_influx took 8.0571 milliseconds
+2024-10-11 03:58:37,813 - Function wrapped_write_to_influx took 5.6483 milliseconds
+2024-10-11 03:58:37,819 - Function wrapped_write_to_influx took 5.9461 milliseconds
+2024-10-11 03:58:37,826 - Function wrapped_write_to_influx took 6.3947 milliseconds
+2024-10-11 03:58:37,831 - Function wrapped_write_to_influx took 5.0861 milliseconds
+2024-10-11 03:58:37,832 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:37,908 - Function wrapped_write_to_influx took 8.7669 milliseconds
+2024-10-11 03:58:37,915 - Function wrapped_write_to_influx took 5.8443 milliseconds
+2024-10-11 03:58:37,921 - Function wrapped_write_to_influx took 6.3070 milliseconds
+2024-10-11 03:58:37,928 - Function wrapped_write_to_influx took 6.2283 milliseconds
+2024-10-11 03:58:37,934 - Function wrapped_write_to_influx took 5.7342 milliseconds
+2024-10-11 03:58:37,935 - 172.18.0.1 - - [11/Oct/2024 03:58:37] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,006 - Function wrapped_write_to_influx took 7.3795 milliseconds
+2024-10-11 03:58:38,012 - Function wrapped_write_to_influx took 5.0947 milliseconds
+2024-10-11 03:58:38,017 - Function wrapped_write_to_influx took 5.0193 milliseconds
+2024-10-11 03:58:38,046 - Function wrapped_write_to_influx took 28.8032 milliseconds
+2024-10-11 03:58:38,059 - Function wrapped_write_to_influx took 12.9189 milliseconds
+2024-10-11 03:58:38,060 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,109 - Function wrapped_write_to_influx took 8.3604 milliseconds
+2024-10-11 03:58:38,115 - Function wrapped_write_to_influx took 6.0459 milliseconds
+2024-10-11 03:58:38,122 - Function wrapped_write_to_influx took 7.3313 milliseconds
+2024-10-11 03:58:38,128 - Function wrapped_write_to_influx took 4.9398 milliseconds
+2024-10-11 03:58:38,128 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,212 - Function wrapped_write_to_influx took 10.0273 milliseconds
+2024-10-11 03:58:38,212 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,311 - Function wrapped_write_to_influx took 9.6624 milliseconds
+2024-10-11 03:58:38,317 - Function wrapped_write_to_influx took 5.4965 milliseconds
+2024-10-11 03:58:38,317 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,409 - Function wrapped_write_to_influx took 7.6521 milliseconds
+2024-10-11 03:58:38,409 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,509 - Function wrapped_write_to_influx took 7.0729 milliseconds
+2024-10-11 03:58:38,514 - Function wrapped_write_to_influx took 4.8484 milliseconds
+2024-10-11 03:58:38,519 - Function wrapped_write_to_influx took 4.6786 milliseconds
+2024-10-11 03:58:38,525 - Function wrapped_write_to_influx took 6.1365 milliseconds
+2024-10-11 03:58:38,530 - Function wrapped_write_to_influx took 4.2723 milliseconds
+2024-10-11 03:58:38,535 - Function wrapped_write_to_influx took 4.8194 milliseconds
+2024-10-11 03:58:38,542 - Function wrapped_write_to_influx took 6.6787 milliseconds
+2024-10-11 03:58:38,547 - Function wrapped_write_to_influx took 5.5488 milliseconds
+2024-10-11 03:58:38,548 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,610 - Function wrapped_write_to_influx took 7.2817 milliseconds
+2024-10-11 03:58:38,610 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,714 - Function wrapped_write_to_influx took 9.4326 milliseconds
+2024-10-11 03:58:38,725 - Function wrapped_write_to_influx took 10.3040 milliseconds
+2024-10-11 03:58:38,725 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,813 - Function wrapped_write_to_influx took 9.0792 milliseconds
+2024-10-11 03:58:38,821 - Function wrapped_write_to_influx took 7.6625 milliseconds
+2024-10-11 03:58:38,829 - Function wrapped_write_to_influx took 7.4556 milliseconds
+2024-10-11 03:58:38,836 - Function wrapped_write_to_influx took 6.4836 milliseconds
+2024-10-11 03:58:38,843 - Function wrapped_write_to_influx took 6.1609 milliseconds
+2024-10-11 03:58:38,848 - Function wrapped_write_to_influx took 4.7726 milliseconds
+2024-10-11 03:58:38,848 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:38,945 - Function wrapped_write_to_influx took 42.0439 milliseconds
+2024-10-11 03:58:38,970 - Function wrapped_write_to_influx took 24.1679 milliseconds
+2024-10-11 03:58:38,970 - 172.18.0.1 - - [11/Oct/2024 03:58:38] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,007 - Function wrapped_write_to_influx took 2.3467 milliseconds
+2024-10-11 03:58:39,013 - Function wrapped_write_to_influx took 6.1446 milliseconds
+2024-10-11 03:58:39,014 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,118 - Function wrapped_write_to_influx took 10.7573 milliseconds
+2024-10-11 03:58:39,128 - Function wrapped_write_to_influx took 9.2080 milliseconds
+2024-10-11 03:58:39,129 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,216 - Function wrapped_write_to_influx took 9.4177 milliseconds
+2024-10-11 03:58:39,224 - Function wrapped_write_to_influx took 7.7747 milliseconds
+2024-10-11 03:58:39,225 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,316 - Function wrapped_write_to_influx took 8.4740 milliseconds
+2024-10-11 03:58:39,324 - Function wrapped_write_to_influx took 8.2494 milliseconds
+2024-10-11 03:58:39,325 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,420 - Function wrapped_write_to_influx took 9.3855 milliseconds
+2024-10-11 03:58:39,429 - Function wrapped_write_to_influx took 8.4194 milliseconds
+2024-10-11 03:58:39,430 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,516 - Function wrapped_write_to_influx took 8.3312 milliseconds
+2024-10-11 03:58:39,526 - Function wrapped_write_to_influx took 8.7651 milliseconds
+2024-10-11 03:58:39,532 - Function wrapped_write_to_influx took 5.7410 milliseconds
+2024-10-11 03:58:39,540 - Function wrapped_write_to_influx took 8.1787 milliseconds
+2024-10-11 03:58:39,547 - Function wrapped_write_to_influx took 6.2077 milliseconds
+2024-10-11 03:58:39,553 - Function wrapped_write_to_influx took 5.6203 milliseconds
+2024-10-11 03:58:39,560 - Function wrapped_write_to_influx took 7.2164 milliseconds
+2024-10-11 03:58:39,566 - Function wrapped_write_to_influx took 5.5787 milliseconds
+2024-10-11 03:58:39,567 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,615 - Function wrapped_write_to_influx took 6.0982 milliseconds
+2024-10-11 03:58:39,622 - Function wrapped_write_to_influx took 6.9793 milliseconds
+2024-10-11 03:58:39,628 - Function wrapped_write_to_influx took 6.1659 milliseconds
+2024-10-11 03:58:39,634 - Function wrapped_write_to_influx took 5.2775 milliseconds
+2024-10-11 03:58:39,641 - Function wrapped_write_to_influx took 6.8392 milliseconds
+2024-10-11 03:58:39,647 - Function wrapped_write_to_influx took 5.8586 milliseconds
+2024-10-11 03:58:39,648 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,722 - Function wrapped_write_to_influx took 11.4345 milliseconds
+2024-10-11 03:58:39,731 - Function wrapped_write_to_influx took 8.5209 milliseconds
+2024-10-11 03:58:39,742 - Function wrapped_write_to_influx took 10.7107 milliseconds
+2024-10-11 03:58:39,749 - Function wrapped_write_to_influx took 6.8452 milliseconds
+2024-10-11 03:58:39,751 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,822 - Function wrapped_write_to_influx took 11.9795 milliseconds
+2024-10-11 03:58:39,829 - Function wrapped_write_to_influx took 7.0135 milliseconds
+2024-10-11 03:58:39,830 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:39,948 - Function wrapped_write_to_influx took 17.7192 milliseconds
+2024-10-11 03:58:39,948 - 172.18.0.1 - - [11/Oct/2024 03:58:39] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,017 - Function wrapped_write_to_influx took 7.2449 milliseconds
+2024-10-11 03:58:40,025 - Function wrapped_write_to_influx took 7.2494 milliseconds
+2024-10-11 03:58:40,032 - Function wrapped_write_to_influx took 6.3247 milliseconds
+2024-10-11 03:58:40,039 - Function wrapped_write_to_influx took 7.4259 milliseconds
+2024-10-11 03:58:40,045 - Function wrapped_write_to_influx took 5.0953 milliseconds
+2024-10-11 03:58:40,050 - Function wrapped_write_to_influx took 5.3362 milliseconds
+2024-10-11 03:58:40,058 - Function wrapped_write_to_influx took 7.6456 milliseconds
+2024-10-11 03:58:40,065 - Function wrapped_write_to_influx took 6.6272 milliseconds
+2024-10-11 03:58:40,072 - Function wrapped_write_to_influx took 6.9422 milliseconds
+2024-10-11 03:58:40,079 - Function wrapped_write_to_influx took 7.0363 milliseconds
+2024-10-11 03:58:40,085 - Function wrapped_write_to_influx took 5.6991 milliseconds
+2024-10-11 03:58:40,092 - Function wrapped_write_to_influx took 6.4948 milliseconds
+2024-10-11 03:58:40,099 - Function wrapped_write_to_influx took 6.6373 milliseconds
+2024-10-11 03:58:40,107 - Function wrapped_write_to_influx took 6.5989 milliseconds
+2024-10-11 03:58:40,112 - Unable to write measurement to InfluxDB!
+2024-10-11 03:58:40,113 - Function wrapped_write_to_influx took 2.9167 milliseconds
+2024-10-11 03:58:40,113 - 172.18.0.1 - - [11/Oct/2024 03:58:40] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,114 - Function wrapped_write_to_influx took 6.7109 milliseconds
+2024-10-11 03:58:40,122 - Function wrapped_write_to_influx took 7.3858 milliseconds
+2024-10-11 03:58:40,129 - Function wrapped_write_to_influx took 6.8647 milliseconds
+2024-10-11 03:58:40,136 - Function wrapped_write_to_influx took 6.6402 milliseconds
+2024-10-11 03:58:40,137 - 172.18.0.1 - - [11/Oct/2024 03:58:40] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,221 - Function wrapped_write_to_influx took 8.8498 milliseconds
+2024-10-11 03:58:40,229 - Function wrapped_write_to_influx took 6.8759 milliseconds
+2024-10-11 03:58:40,229 - 172.18.0.1 - - [11/Oct/2024 03:58:40] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,319 - Function wrapped_write_to_influx took 7.8563 milliseconds
+2024-10-11 03:58:40,329 - Function wrapped_write_to_influx took 9.3907 milliseconds
+2024-10-11 03:58:40,338 - Function wrapped_write_to_influx took 8.2821 milliseconds
+2024-10-11 03:58:40,345 - Function wrapped_write_to_influx took 7.3250 milliseconds
+2024-10-11 03:58:40,352 - Function wrapped_write_to_influx took 6.0849 milliseconds
+2024-10-11 03:58:40,359 - Function wrapped_write_to_influx took 7.1985 milliseconds
+2024-10-11 03:58:40,360 - 172.18.0.1 - - [11/Oct/2024 03:58:40] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,419 - Function wrapped_write_to_influx took 6.9763 milliseconds
+2024-10-11 03:58:40,427 - Function wrapped_write_to_influx took 7.4941 milliseconds
+2024-10-11 03:58:40,427 - 172.18.0.1 - - [11/Oct/2024 03:58:40] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,524 - Function wrapped_write_to_influx took 11.6788 milliseconds
+2024-10-11 03:58:40,532 - Function wrapped_write_to_influx took 8.0314 milliseconds
+2024-10-11 03:58:40,533 - 172.18.0.1 - - [11/Oct/2024 03:58:40] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,624 - Function wrapped_write_to_influx took 10.3559 milliseconds
+2024-10-11 03:58:40,631 - Function wrapped_write_to_influx took 6.2276 milliseconds
+2024-10-11 03:58:40,641 - Function wrapped_write_to_influx took 9.5127 milliseconds
+2024-10-11 03:58:40,647 - Function wrapped_write_to_influx took 6.4952 milliseconds
+2024-10-11 03:58:40,654 - Function wrapped_write_to_influx took 6.7859 milliseconds
+2024-10-11 03:58:40,655 - 172.18.0.1 - - [11/Oct/2024 03:58:40] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,720 - Function wrapped_write_to_influx took 7.2257 milliseconds
+2024-10-11 03:58:40,727 - Function wrapped_write_to_influx took 6.2327 milliseconds
+2024-10-11 03:58:40,732 - Function wrapped_write_to_influx took 5.0514 milliseconds
+2024-10-11 03:58:40,739 - Function wrapped_write_to_influx took 6.8121 milliseconds
+2024-10-11 03:58:40,746 - Function wrapped_write_to_influx took 5.9973 milliseconds
+2024-10-11 03:58:40,752 - Function wrapped_write_to_influx took 5.4927 milliseconds
+2024-10-11 03:58:40,759 - Function wrapped_write_to_influx took 7.2586 milliseconds
+2024-10-11 03:58:40,764 - Function wrapped_write_to_influx took 5.0381 milliseconds
+2024-10-11 03:58:40,771 - Function wrapped_write_to_influx took 6.2361 milliseconds
+2024-10-11 03:58:40,777 - Function wrapped_write_to_influx took 5.8435 milliseconds
+2024-10-11 03:58:40,784 - Function wrapped_write_to_influx took 6.3168 milliseconds
+2024-10-11 03:58:40,791 - Function wrapped_write_to_influx took 6.8221 milliseconds
+2024-10-11 03:58:40,797 - Function wrapped_write_to_influx took 6.2395 milliseconds
+2024-10-11 03:58:40,808 - Function wrapped_write_to_influx took 10.8444 milliseconds
+2024-10-11 03:58:40,818 - Function wrapped_write_to_influx took 9.0364 milliseconds
+2024-10-11 03:58:40,824 - Function wrapped_write_to_influx took 7.6816 milliseconds
+2024-10-11 03:58:40,827 - Function wrapped_write_to_influx took 8.5266 milliseconds
+2024-10-11 03:58:40,831 - Function wrapped_write_to_influx took 7.4461 milliseconds
+2024-10-11 03:58:40,834 - Function wrapped_write_to_influx took 7.0941 milliseconds
+2024-10-11 03:58:40,840 - Function wrapped_write_to_influx took 8.5187 milliseconds
+2024-10-11 03:58:40,843 - Function wrapped_write_to_influx took 8.9272 milliseconds
+2024-10-11 03:58:40,847 - Function wrapped_write_to_influx took 6.0325 milliseconds
+2024-10-11 03:58:40,849 - Function wrapped_write_to_influx took 5.4420 milliseconds
+2024-10-11 03:58:40,855 - Function wrapped_write_to_influx took 8.3111 milliseconds
+2024-10-11 03:58:40,856 - 172.18.0.1 - - [11/Oct/2024 03:58:40] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,859 - Function wrapped_write_to_influx took 9.1650 milliseconds
+2024-10-11 03:58:40,865 - Function wrapped_write_to_influx took 5.4586 milliseconds
+2024-10-11 03:58:40,871 - Function wrapped_write_to_influx took 5.7133 milliseconds
+2024-10-11 03:58:40,877 - Function wrapped_write_to_influx took 5.2864 milliseconds
+2024-10-11 03:58:40,881 - Function wrapped_write_to_influx took 4.6035 milliseconds
+2024-10-11 03:58:40,888 - Function wrapped_write_to_influx took 6.0159 milliseconds
+2024-10-11 03:58:40,894 - Function wrapped_write_to_influx took 6.5474 milliseconds
+2024-10-11 03:58:40,900 - Function wrapped_write_to_influx took 5.4306 milliseconds
+2024-10-11 03:58:40,908 - Function wrapped_write_to_influx took 7.3079 milliseconds
+2024-10-11 03:58:40,915 - Function wrapped_write_to_influx took 7.2000 milliseconds
+2024-10-11 03:58:40,921 - Function wrapped_write_to_influx took 7.9044 milliseconds
+2024-10-11 03:58:40,925 - Function wrapped_write_to_influx took 9.3401 milliseconds
+2024-10-11 03:58:40,928 - Function wrapped_write_to_influx took 6.9703 milliseconds
+2024-10-11 03:58:40,932 - Function wrapped_write_to_influx took 7.3675 milliseconds
+2024-10-11 03:58:40,936 - Function wrapped_write_to_influx took 7.4452 milliseconds
+2024-10-11 03:58:40,943 - Function wrapped_write_to_influx took 10.1281 milliseconds
+2024-10-11 03:58:40,944 - 172.18.0.1 - - [11/Oct/2024 03:58:40] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:40,944 - Function wrapped_write_to_influx took 7.9693 milliseconds
+2024-10-11 03:58:40,950 - Function wrapped_write_to_influx took 5.5758 milliseconds
+2024-10-11 03:58:40,956 - Function wrapped_write_to_influx took 5.9923 milliseconds
+2024-10-11 03:58:40,962 - Function wrapped_write_to_influx took 4.9101 milliseconds
+2024-10-11 03:58:40,967 - Function wrapped_write_to_influx took 5.1135 milliseconds
+2024-10-11 03:58:40,974 - Function wrapped_write_to_influx took 7.1043 milliseconds
+2024-10-11 03:58:40,980 - Function wrapped_write_to_influx took 5.4386 milliseconds
+2024-10-11 03:58:40,986 - Function wrapped_write_to_influx took 5.8916 milliseconds
+2024-10-11 03:58:40,992 - Function wrapped_write_to_influx took 5.6206 milliseconds
+2024-10-11 03:58:40,998 - Function wrapped_write_to_influx took 5.1331 milliseconds
+2024-10-11 03:58:41,005 - Function wrapped_write_to_influx took 7.3523 milliseconds
+2024-10-11 03:58:41,010 - Function wrapped_write_to_influx took 4.7849 milliseconds
+2024-10-11 03:58:41,016 - Function wrapped_write_to_influx took 5.4823 milliseconds
+2024-10-11 03:58:41,022 - Function wrapped_write_to_influx took 7.2911 milliseconds
+2024-10-11 03:58:41,025 - Function wrapped_write_to_influx took 8.6915 milliseconds
+2024-10-11 03:58:41,028 - Function wrapped_write_to_influx took 5.9625 milliseconds
+2024-10-11 03:58:41,029 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,032 - Function wrapped_write_to_influx took 6.9276 milliseconds
+2024-10-11 03:58:41,039 - Function wrapped_write_to_influx took 6.2724 milliseconds
+2024-10-11 03:58:41,045 - Function wrapped_write_to_influx took 5.4722 milliseconds
+2024-10-11 03:58:41,051 - Function wrapped_write_to_influx took 6.1594 milliseconds
+2024-10-11 03:58:41,059 - Function wrapped_write_to_influx took 7.6955 milliseconds
+2024-10-11 03:58:41,064 - Function wrapped_write_to_influx took 4.9745 milliseconds
+2024-10-11 03:58:41,071 - Function wrapped_write_to_influx took 6.7545 milliseconds
+2024-10-11 03:58:41,077 - Function wrapped_write_to_influx took 5.3049 milliseconds
+2024-10-11 03:58:41,082 - Function wrapped_write_to_influx took 5.0730 milliseconds
+2024-10-11 03:58:41,088 - Function wrapped_write_to_influx took 5.3786 milliseconds
+2024-10-11 03:58:41,093 - Function wrapped_write_to_influx took 4.9394 milliseconds
+2024-10-11 03:58:41,098 - Function wrapped_write_to_influx took 4.9661 milliseconds
+2024-10-11 03:58:41,104 - Function wrapped_write_to_influx took 5.6968 milliseconds
+2024-10-11 03:58:41,110 - Function wrapped_write_to_influx took 5.2548 milliseconds
+2024-10-11 03:58:41,115 - Function wrapped_write_to_influx took 5.4245 milliseconds
+2024-10-11 03:58:41,116 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,121 - Function wrapped_write_to_influx took 6.9995 milliseconds
+2024-10-11 03:58:41,127 - Function wrapped_write_to_influx took 5.1128 milliseconds
+2024-10-11 03:58:41,127 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,229 - Function wrapped_write_to_influx took 11.4640 milliseconds
+2024-10-11 03:58:41,237 - Function wrapped_write_to_influx took 7.7482 milliseconds
+2024-10-11 03:58:41,244 - Function wrapped_write_to_influx took 6.3707 milliseconds
+2024-10-11 03:58:41,249 - Function wrapped_write_to_influx took 5.3627 milliseconds
+2024-10-11 03:58:41,257 - Function wrapped_write_to_influx took 7.7384 milliseconds
+2024-10-11 03:58:41,265 - Function wrapped_write_to_influx took 6.8424 milliseconds
+2024-10-11 03:58:41,275 - Function wrapped_write_to_influx took 10.2896 milliseconds
+2024-10-11 03:58:41,283 - Function wrapped_write_to_influx took 7.7930 milliseconds
+2024-10-11 03:58:41,291 - Function wrapped_write_to_influx took 7.4598 milliseconds
+2024-10-11 03:58:41,300 - Function wrapped_write_to_influx took 8.4470 milliseconds
+2024-10-11 03:58:41,310 - Function wrapped_write_to_influx took 9.6732 milliseconds
+2024-10-11 03:58:41,319 - Function wrapped_write_to_influx took 9.4550 milliseconds
+2024-10-11 03:58:41,327 - Function wrapped_write_to_influx took 11.8777 milliseconds
+2024-10-11 03:58:41,330 - Function wrapped_write_to_influx took 10.3535 milliseconds
+2024-10-11 03:58:41,336 - Function wrapped_write_to_influx took 7.8561 milliseconds
+2024-10-11 03:58:41,336 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,341 - Function wrapped_write_to_influx took 10.8531 milliseconds
+2024-10-11 03:58:41,348 - Function wrapped_write_to_influx took 6.4546 milliseconds
+2024-10-11 03:58:41,355 - Function wrapped_write_to_influx took 6.4577 milliseconds
+2024-10-11 03:58:41,361 - Function wrapped_write_to_influx took 6.3612 milliseconds
+2024-10-11 03:58:41,368 - Function wrapped_write_to_influx took 6.2116 milliseconds
+2024-10-11 03:58:41,368 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,451 - Function wrapped_write_to_influx took 35.2888 milliseconds
+2024-10-11 03:58:41,461 - Function wrapped_write_to_influx took 9.2991 milliseconds
+2024-10-11 03:58:41,462 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,529 - Function wrapped_write_to_influx took 9.9398 milliseconds
+2024-10-11 03:58:41,537 - Function wrapped_write_to_influx took 7.5212 milliseconds
+2024-10-11 03:58:41,544 - Function wrapped_write_to_influx took 6.9174 milliseconds
+2024-10-11 03:58:41,544 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,629 - Function wrapped_write_to_influx took 9.9409 milliseconds
+2024-10-11 03:58:41,638 - Function wrapped_write_to_influx took 9.1339 milliseconds
+2024-10-11 03:58:41,639 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,731 - Function wrapped_write_to_influx took 11.4398 milliseconds
+2024-10-11 03:58:41,731 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,831 - Function wrapped_write_to_influx took 8.9182 milliseconds
+2024-10-11 03:58:41,839 - Function wrapped_write_to_influx took 8.2989 milliseconds
+2024-10-11 03:58:41,847 - Function wrapped_write_to_influx took 7.5704 milliseconds
+2024-10-11 03:58:41,854 - Function wrapped_write_to_influx took 6.7030 milliseconds
+2024-10-11 03:58:41,861 - Function wrapped_write_to_influx took 6.5500 milliseconds
+2024-10-11 03:58:41,869 - Function wrapped_write_to_influx took 7.2452 milliseconds
+2024-10-11 03:58:41,876 - Function wrapped_write_to_influx took 7.0905 milliseconds
+2024-10-11 03:58:41,884 - Function wrapped_write_to_influx took 7.5213 milliseconds
+2024-10-11 03:58:41,891 - Function wrapped_write_to_influx took 6.8312 milliseconds
+2024-10-11 03:58:41,898 - Function wrapped_write_to_influx took 6.9218 milliseconds
+2024-10-11 03:58:41,905 - Function wrapped_write_to_influx took 6.7063 milliseconds
+2024-10-11 03:58:41,911 - Function wrapped_write_to_influx took 5.8692 milliseconds
+2024-10-11 03:58:41,920 - Function wrapped_write_to_influx took 8.2490 milliseconds
+2024-10-11 03:58:41,926 - Function wrapped_write_to_influx took 8.1884 milliseconds
+2024-10-11 03:58:41,930 - Function wrapped_write_to_influx took 9.2157 milliseconds
+2024-10-11 03:58:41,933 - Function wrapped_write_to_influx took 6.7653 milliseconds
+2024-10-11 03:58:41,937 - Function wrapped_write_to_influx took 7.4655 milliseconds
+2024-10-11 03:58:41,942 - Function wrapped_write_to_influx took 8.6822 milliseconds
+2024-10-11 03:58:41,945 - Function wrapped_write_to_influx took 7.0927 milliseconds
+2024-10-11 03:58:41,948 - Function wrapped_write_to_influx took 5.7138 milliseconds
+2024-10-11 03:58:41,949 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:41,952 - Function wrapped_write_to_influx took 7.1132 milliseconds
+2024-10-11 03:58:41,959 - Function wrapped_write_to_influx took 7.0291 milliseconds
+2024-10-11 03:58:41,966 - Function wrapped_write_to_influx took 6.4076 milliseconds
+2024-10-11 03:58:41,974 - Function wrapped_write_to_influx took 7.4153 milliseconds
+2024-10-11 03:58:41,974 - 172.18.0.1 - - [11/Oct/2024 03:58:41] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,033 - Function wrapped_write_to_influx took 9.9629 milliseconds
+2024-10-11 03:58:42,045 - Function wrapped_write_to_influx took 11.8172 milliseconds
+2024-10-11 03:58:42,054 - Function wrapped_write_to_influx took 8.4530 milliseconds
+2024-10-11 03:58:42,063 - Function wrapped_write_to_influx took 8.4890 milliseconds
+2024-10-11 03:58:42,072 - Function wrapped_write_to_influx took 8.3675 milliseconds
+2024-10-11 03:58:42,073 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,127 - Function wrapped_write_to_influx took 7.0311 milliseconds
+2024-10-11 03:58:42,135 - Function wrapped_write_to_influx took 6.6432 milliseconds
+2024-10-11 03:58:42,135 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,240 - Function wrapped_write_to_influx took 14.8845 milliseconds
+2024-10-11 03:58:42,250 - Function wrapped_write_to_influx took 9.3023 milliseconds
+2024-10-11 03:58:42,258 - Function wrapped_write_to_influx took 8.1017 milliseconds
+2024-10-11 03:58:42,267 - Function wrapped_write_to_influx took 8.6480 milliseconds
+2024-10-11 03:58:42,276 - Function wrapped_write_to_influx took 8.9913 milliseconds
+2024-10-11 03:58:42,284 - Function wrapped_write_to_influx took 7.2368 milliseconds
+2024-10-11 03:58:42,292 - Function wrapped_write_to_influx took 7.6155 milliseconds
+2024-10-11 03:58:42,298 - Function wrapped_write_to_influx took 6.2382 milliseconds
+2024-10-11 03:58:42,307 - Function wrapped_write_to_influx took 7.8590 milliseconds
+2024-10-11 03:58:42,314 - Function wrapped_write_to_influx took 7.5114 milliseconds
+2024-10-11 03:58:42,326 - Function wrapped_write_to_influx took 11.3114 milliseconds
+2024-10-11 03:58:42,332 - Function wrapped_write_to_influx took 8.7564 milliseconds
+2024-10-11 03:58:42,336 - Function wrapped_write_to_influx took 9.2093 milliseconds
+2024-10-11 03:58:42,340 - Function wrapped_write_to_influx took 7.2385 milliseconds
+2024-10-11 03:58:42,343 - Function wrapped_write_to_influx took 6.8976 milliseconds
+2024-10-11 03:58:42,347 - Function wrapped_write_to_influx took 6.7136 milliseconds
+2024-10-11 03:58:42,351 - Function wrapped_write_to_influx took 7.1344 milliseconds
+2024-10-11 03:58:42,355 - Function wrapped_write_to_influx took 7.5868 milliseconds
+2024-10-11 03:58:42,358 - Function wrapped_write_to_influx took 7.1282 milliseconds
+2024-10-11 03:58:42,361 - Function wrapped_write_to_influx took 5.9222 milliseconds
+2024-10-11 03:58:42,364 - Function wrapped_write_to_influx took 5.6429 milliseconds
+2024-10-11 03:58:42,368 - Function wrapped_write_to_influx took 6.8387 milliseconds
+2024-10-11 03:58:42,372 - Function wrapped_write_to_influx took 7.3188 milliseconds
+2024-10-11 03:58:42,376 - Function wrapped_write_to_influx took 7.2040 milliseconds
+2024-10-11 03:58:42,378 - Function wrapped_write_to_influx took 6.2537 milliseconds
+2024-10-11 03:58:42,382 - Function wrapped_write_to_influx took 6.3798 milliseconds
+2024-10-11 03:58:42,386 - Function wrapped_write_to_influx took 6.8264 milliseconds
+2024-10-11 03:58:42,389 - Function wrapped_write_to_influx took 6.8831 milliseconds
+2024-10-11 03:58:42,393 - Function wrapped_write_to_influx took 6.8987 milliseconds
+2024-10-11 03:58:42,396 - Function wrapped_write_to_influx took 6.5452 milliseconds
+2024-10-11 03:58:42,400 - Function wrapped_write_to_influx took 6.6892 milliseconds
+2024-10-11 03:58:42,404 - Function wrapped_write_to_influx took 6.8969 milliseconds
+2024-10-11 03:58:42,408 - Function wrapped_write_to_influx took 7.4955 milliseconds
+2024-10-11 03:58:42,411 - Function wrapped_write_to_influx took 7.1766 milliseconds
+2024-10-11 03:58:42,414 - Function wrapped_write_to_influx took 5.9283 milliseconds
+2024-10-11 03:58:42,417 - Function wrapped_write_to_influx took 5.6442 milliseconds
+2024-10-11 03:58:42,422 - Function wrapped_write_to_influx took 7.6473 milliseconds
+2024-10-11 03:58:42,428 - Function wrapped_write_to_influx took 9.6802 milliseconds
+2024-10-11 03:58:42,431 - Function wrapped_write_to_influx took 8.3781 milliseconds
+2024-10-11 03:58:42,435 - Function wrapped_write_to_influx took 8.9486 milliseconds
+2024-10-11 03:58:42,436 - Function wrapped_write_to_influx took 7.3266 milliseconds
+2024-10-11 03:58:42,440 - Function wrapped_write_to_influx took 8.0678 milliseconds
+2024-10-11 03:58:42,444 - Function wrapped_write_to_influx took 8.4011 milliseconds
+2024-10-11 03:58:42,445 - Function wrapped_write_to_influx took 7.4062 milliseconds
+2024-10-11 03:58:42,445 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,448 - Function wrapped_write_to_influx took 7.9965 milliseconds
+2024-10-11 03:58:42,451 - Function wrapped_write_to_influx took 5.4710 milliseconds
+2024-10-11 03:58:42,456 - Function wrapped_write_to_influx took 8.1024 milliseconds
+2024-10-11 03:58:42,459 - Function wrapped_write_to_influx took 7.8306 milliseconds
+2024-10-11 03:58:42,463 - Function wrapped_write_to_influx took 6.1383 milliseconds
+2024-10-11 03:58:42,466 - Function wrapped_write_to_influx took 6.0158 milliseconds
+2024-10-11 03:58:42,470 - Function wrapped_write_to_influx took 6.7763 milliseconds
+2024-10-11 03:58:42,473 - Function wrapped_write_to_influx took 7.0434 milliseconds
+2024-10-11 03:58:42,477 - Function wrapped_write_to_influx took 7.0171 milliseconds
+2024-10-11 03:58:42,480 - Function wrapped_write_to_influx took 6.6123 milliseconds
+2024-10-11 03:58:42,483 - Function wrapped_write_to_influx took 6.0095 milliseconds
+2024-10-11 03:58:42,484 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,487 - Function wrapped_write_to_influx took 6.6059 milliseconds
+2024-10-11 03:58:42,494 - Function wrapped_write_to_influx took 6.5284 milliseconds
+2024-10-11 03:58:42,500 - Function wrapped_write_to_influx took 5.4301 milliseconds
+2024-10-11 03:58:42,506 - Function wrapped_write_to_influx took 6.3415 milliseconds
+2024-10-11 03:58:42,513 - Function wrapped_write_to_influx took 5.9408 milliseconds
+2024-10-11 03:58:42,513 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,531 - Function wrapped_write_to_influx took 6.2674 milliseconds
+2024-10-11 03:58:42,538 - Function wrapped_write_to_influx took 6.6136 milliseconds
+2024-10-11 03:58:42,538 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,640 - Function wrapped_write_to_influx took 11.4963 milliseconds
+2024-10-11 03:58:42,641 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,733 - Function wrapped_write_to_influx took 7.1247 milliseconds
+2024-10-11 03:58:42,734 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,838 - Function wrapped_write_to_influx took 9.1049 milliseconds
+2024-10-11 03:58:42,846 - Function wrapped_write_to_influx took 7.4929 milliseconds
+2024-10-11 03:58:42,853 - Function wrapped_write_to_influx took 7.1991 milliseconds
+2024-10-11 03:58:42,861 - Function wrapped_write_to_influx took 7.6877 milliseconds
+2024-10-11 03:58:42,872 - Function wrapped_write_to_influx took 9.9464 milliseconds
+2024-10-11 03:58:42,873 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:42,936 - Unable to write measurement to InfluxDB!
+2024-10-11 03:58:42,937 - Function wrapped_write_to_influx took 5.1895 milliseconds
+2024-10-11 03:58:42,938 - 172.18.0.1 - - [11/Oct/2024 03:58:42] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -
+2024-10-11 03:58:43,051 - Function wrapped_write_to_influx took 21.2145 milliseconds
+2024-10-11 03:58:43,060 - Function wrapped_write_to_influx took 8.0540 milliseconds
+2024-10-11 03:58:43,060 - 172.18.0.1 - - [11/Oct/2024 03:58:43] "POST /api/v1/parse/write/debug HTTP/1.1" 200 -

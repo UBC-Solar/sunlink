@@ -1,0 +1,98 @@
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:30 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:30 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:30 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:30 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
+[1;31mINFLUX_WRITE_FAIL[0m: 
+(404)
+Reason: Not Found
+HTTP response headers: HTTPHeaderDict({'Content-Type': 'application/json; charset=utf-8', 'X-Influxdb-Build': 'OSS', 'X-Influxdb-Version': 'v2.7.1', 'X-Platform-Error-Code': 'not found', 'Date': 'Wed, 18 Sep 2024 01:45:31 GMT', 'Content-Length': '62'})
+HTTP response body: {"code":"not found","message":"bucket \"IMU_test\" not found"}
+
+
