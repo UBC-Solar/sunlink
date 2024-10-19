@@ -38,6 +38,7 @@ def create_message(message: str):
         
             raise Exception(f"Message length of {len(message)} is not a valid length for any message type")
     except Exception as e:
+        return "NOPE"
         raise Exception(
             f"{ANSI_BOLD}Failed in create_message{ANSI_ESCAPE}:\n"
             f"      {e}"

@@ -29,11 +29,16 @@ ERROR_ID                = 0
 SEND_TO_PARSER_DELAY    = 0.006
 
 
-def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
+def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, csv_file_f):
     start_time = None
+    got_start_time = False
+
     for event in log_file:
         str_event = str(event)
-        if PATTERN_DATETIME.search(str_event):
+
+        if not got_start_time and PATTERN_DATETIME.search(str_event):
+            got_start_time = True
+
             match = PATTERN_DATETIME.search(str_event)
             date_time_str = match.group(2)
             date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S') 
@@ -60,11 +65,26 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             
             can_str = timestamp_str + "#" + id_str + data_str + dlc_str
 
-            parserCallFunc(can_str, live_filters, log_filters, display_filters, args, endpoint)
-            time.sleep(SEND_TO_PARSER_DELAY)
+            can_msg = parserCallFunc(can_str)
+
+            if can_msg != "NOPE" and can_msg is not None:
+                dict_data = can_msg.data['display_data']['COL']
+                class_name = dict_data['Class'][0]
+                for i in range(len(dict_data['Timestamp'])):
+                    csv_string = ",,0,,,"
+                    csv_string += "T".join(dict_data['Timestamp'][i].split(" ")) + "Z"    # Timestamp
+                    csv_string += "," + str(dict_data['Value'][i])                            # Value
+                    csv_string += "," + dict_data['Measurement'][i]                      # Signal Name
+                    csv_string += "," + dict_data['Source'][i]                           # Board Name
+                    csv_string += "," + "Brightside"                                # Car Name
+                    csv_string += "," + class_name                                  # Message Name
+
+                    print(csv_string + '\n', file=csv_file_f, end='')
+                
+            continue
             
 
-def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str):
+def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, csv_file_f):
     numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS
     
     # Get the log folder path as input
@@ -118,7 +138,7 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
             
             # Iterate over all log files
             for j, log_file in enumerate(log):
-                upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint)
+                upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint, csv_file_f)
 
             # Clear the log files
             delete_input = input(f"{ANSI_GREEN}Do you want to {ANSI_RESET}{ANSI_RED}DELETE{ANSI_RESET} {ANSI_GREEN}all logs now (y/n)?: {ANSI_RESET} ")

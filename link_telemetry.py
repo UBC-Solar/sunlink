@@ -27,6 +27,7 @@ import threading
 
 import concurrent.futures
 from tools.MemoratorUploader import memorator_upload_script, processed_dict_to_str
+from parser.create_message import create_message
 from LINK_CONSTANTS import *
 
 
@@ -484,9 +485,9 @@ def sendToParser(message: str, live_filters: list, log_filters: list, display_fi
         future.add_done_callback(lambda future: process_response(future, args, display_filters))
 
 
-def upload_logs(args, live_filters, log_filters, display_filters, endpoint):
+def upload_logs(args, live_filters, log_filters, display_filters, endpoint, csv_file_f):
     # Call the memorator log uploader function
-    memorator_upload_script(sendToParser, live_filters, log_filters, display_filters, args, endpoint) 
+    memorator_upload_script(create_message, live_filters, log_filters, display_filters, args, endpoint, csv_file_f) 
 
 
 """
@@ -739,9 +740,11 @@ def main():
     if args.log_upload:
         global csv_file
         timestamp = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-        csv_file = open(CSV_NAME + timestamp + ".csv", "w")
+        global csv_file_name 
+        csv_file_name = CSV_NAME + timestamp + ".csv"
+        csv_file = open(csv_file_name, "w")
         csv_file.write(INFLUX_CSV_HEADING + '\n')
-        upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
+        upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT, csv_file)
         return
 
     while True:
