@@ -717,7 +717,7 @@ def main():
 
 
     # Start Sunlink Runtime counter display
-    if args.track or (not args.table_on and not args.log):
+    if args.track or (not args.table_on and not args.log and not args.log_upload):
         time_thread = threading.Thread(target=displaySunlinkTracking, daemon=True)
         time_thread.start()
 

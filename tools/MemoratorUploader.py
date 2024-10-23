@@ -3,6 +3,7 @@ import re
 import datetime
 import struct
 import time
+import sys
 
 # Script Constants
 global LOG_FOLDER
@@ -15,7 +16,10 @@ EPOCH_START             = datetime.datetime(1970, 1, 1, tzinfo=datetime.timezone
 ANSI_GREEN              = "\033[92m"
 ANSI_BOLD               = "\033[1m"
 ANSI_RED                = "\033[91m"
+ANSI_YELLOW             = "\033[93m"
 ANSI_RESET              = "\033[0m"
+ANSI_SAVE_CURSOR        = "\0337"
+ANSI_RESTORE_CURSOR     = "\0338"
 
 # Regex Patterns for logfile parsing
 PATTERN_DATETIME        = re.compile(r't:\s+(.*?)\s+DateTime:\s+(.*)')
@@ -25,13 +29,14 @@ PATTERN_EVENT           = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:(.*?) dlc
 # Data Constants
 ERROR_ID                = 0
 
-# Delay Constants
-SEND_TO_PARSER_DELAY    = 0.006
+# Data Count Updater
+MSGS_TO_UPDATE          = 1000
 
 
 def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, csv_file_f):
     start_time = None
     got_start_time = False
+    global num_msgs_processed
 
     for event in log_file:
         str_event = str(event)
@@ -67,6 +72,14 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
 
             can_msg = parserCallFunc(can_str)
 
+            num_msgs_processed += 1
+
+            if num_msgs_processed % MSGS_TO_UPDATE == 0:
+                sys.stdout.write(ANSI_SAVE_CURSOR)  # Save cursor position
+                sys.stdout.write(f"{ANSI_YELLOW}Processed {num_msgs_processed} Messages in {(time.time() - start_time_log):.2f} Seconds!{ANSI_RESET}")  # Yellow text
+                sys.stdout.write(ANSI_RESTORE_CURSOR)  # Restore cursor position
+                sys.stdout.flush()
+
             if not isinstance(can_msg, Exception) and can_msg is not None:
                 dict_data = can_msg.data['display_data']['COL']
                 class_name = dict_data['Class'][0]
@@ -85,6 +98,11 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             
 
 def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, csv_file_f):
+    global num_msgs_processed
+    global start_time_log 
+    start_time_log = time.time()
+    num_msgs_processed = 0
+
     numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS
     
     # Get the log folder path as input
