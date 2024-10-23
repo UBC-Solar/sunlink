@@ -67,7 +67,7 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
 
             can_msg = parserCallFunc(can_str)
 
-            if can_msg != "NOPE" and can_msg is not None:
+            if not isinstance(can_msg, Exception) and can_msg is not None:
                 dict_data = can_msg.data['display_data']['COL']
                 class_name = dict_data['Class'][0]
                 for i in range(len(dict_data['Timestamp'])):
@@ -147,26 +147,6 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
             
             # Close the KMF file
             kmf_file.close()
-
-
-
-def processed_dict_to_str(processed_msg: dict) -> list:
-    data = processed_msg['message']['COL']
-    class_name = data['Class'][0]
-    strs = []
-    for i in range(len(data['Timestamp'])):
-        csv_string = ",,0,,,"
-        csv_string += "T".join(data['Timestamp'][i].split(" ")) + "Z"    # Timestamp
-        csv_string += "," + str(data['Value'][i])                            # Value
-        csv_string += "," + data['Measurement'][i]                      # Signal Name
-        csv_string += "," + data['Source'][i]                           # Board Name
-        csv_string += "," + "Brightside"                                # Car Name
-        csv_string += "," + class_name                                  # Message Name
-
-        strs.append(csv_string)
-
-    return strs
-
 
 # TESTING PURPOSES
 def main():
