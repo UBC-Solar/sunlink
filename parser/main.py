@@ -378,7 +378,7 @@ def parse_and_write_request_bucket(bucket):
                 point.time(int(timestamp * 1e9))
             
             # write to InfluxDB
-            if len(parse_and_write_request_bucket.points) >= BATCH_SIZE:
+            if len(parse_and_write_request_bucket.points) >= BATCH_SIZE:    # CREDIT: Mridul Singh for Batch Writing Optimization!
                 try:
                     write_api.write(bucket=message.type + bucket, org=INFLUX_ORG, record=parse_and_write_request_bucket.points)
                     write_api.close()
