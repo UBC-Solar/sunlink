@@ -299,11 +299,22 @@ def parse_and_write_request_to_prod():
 def parse_and_write_request_to_log():
     return parse_and_write_request_bucket("_log")
 
+
+def static_vars(**kwargs):
+    def decorate(func):
+        for k in kwargs:
+            setattr(func, k, kwargs[k])
+        return func
+    return decorate
+
+BATCH_SIZE          = 1000
+
 """
 Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production)
 that is specifc to the message type (CAN, GPS, IMU, for example).
 Also sends back parsed measurements back to client.
 """
+@static_vars(points=[])
 def parse_and_write_request_bucket(bucket):
     parse_request = flask.request.json
 
@@ -361,23 +372,27 @@ def parse_and_write_request_bucket(bucket):
             point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                 "class", m_class).field(name, value)
             
+            parse_and_write_request_bucket.points.append(point)
+            
             if timestamp != "NA":
                 point.time(int(timestamp * 1e9))
             
             # write to InfluxDB
-            try:
-                write_api.write(bucket=message.type + bucket, org=INFLUX_ORG, record=point)
-                write_api.close()
-            except Exception as e:
-                app.logger.warning("Unable to write measurement to InfluxDB!")
-                curr_response =  {
-                    "result": "INFLUX_WRITE_FAIL",
-                    "message": str(msg),
-                    "error": str(e),
-                    "type": type 
-                }
-                all_response.append(curr_response)
-                continue
+            if len(parse_and_write_request_bucket.points) >= BATCH_SIZE:
+                try:
+                    write_api.write(bucket=message.type + bucket, org=INFLUX_ORG, record=parse_and_write_request_bucket.points)
+                    write_api.close()
+                    parse_and_write_request_bucket.points = []
+                except Exception as e:
+                    app.logger.warning("Unable to write measurement to InfluxDB!")
+                    curr_response =  {
+                        "result": "INFLUX_WRITE_FAIL",
+                        "message": str(msg),
+                        "error": str(e),
+                        "type": type 
+                    }
+                    all_response.append(curr_response)
+                    continue
                 
 
         curr_response = {
