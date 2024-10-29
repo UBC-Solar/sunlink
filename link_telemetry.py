@@ -13,6 +13,7 @@ import json
 import os
 import glob
 import struct
+import subprocess
 
 from datetime import datetime 
 from toml.decoder import TomlDecodeError
@@ -743,6 +744,12 @@ def main():
         csv_file = open(CSV_NAME + timestamp + ".csv", "w")
         csv_file.write(INFLUX_CSV_HEADING + '\n')
         upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT, csv_file)
+
+        #Calling the bash script
+        csv_file.close()
+        subprocess.run(["chmod", "+x", "./csv_upload.sh"])
+        subprocess.run(["bash", "./csv_upload.sh"])
+
         return
 
     while True:
