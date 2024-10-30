@@ -18,7 +18,7 @@ SSH_PASSWORD="elec2024"
 REMOTE_USER="electrical"
 REMOTE_HOST="elec-bay"
 INFLUX_CONTAINER="influxdb"
-LOG_BUCKET="CAN_test"
+LOG_BUCKET="CAN_log"
 
 
 echo -e "${BOLD}Starting Influx CSV Upload${NC}"
