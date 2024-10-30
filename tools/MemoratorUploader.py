@@ -22,9 +22,9 @@ ANSI_SAVE_CURSOR        = "\0337"
 ANSI_RESTORE_CURSOR     = "\0338"
 
 # Regex Patterns for logfile parsing
-PATTERN_DATETIME        = re.compile(r't:\s+(.*?)\s+DateTime:\s+(.*)')
-PATTERN_TRIGGER         = re.compile(r't:\s+(.*?)\s+Log Trigger Event.*')
-PATTERN_EVENT           = re.compile(r't:\s+(.*?)\s+ch:0 f:\s+(.*?) id:(.*?) dlc:\s+(.*?) d:(.*)')
+PATTERN_DATETIME        = re.compile(r't:\s*(.*?)\s*DateTime:\s*(.*)')
+PATTERN_TRIGGER         = re.compile(r't:\s*(.*?)\s*Log Trigger Event.*')
+PATTERN_EVENT           = re.compile(r't:\s*(.*?)\s*ch:0\s*f:\s*(.*?)\s*id:(.*?)\s*dlc:\s*(.*?)\s*d:(.*)')
 
 # Data Constants
 ERROR_ID                = 0
@@ -33,14 +33,14 @@ ERROR_ID                = 0
 MSGS_TO_UPDATE          = 1000
 
 
-def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, csv_file_f):
+def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, csv_file_f, j):
     start_time = None
     got_start_time = False
     global num_msgs_processed
 
     for event in log_file:
         str_event = str(event)
-
+        
         if not got_start_time and PATTERN_DATETIME.search(str_event):
             got_start_time = True
 
@@ -70,7 +70,12 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             
             can_str = timestamp_str + "#" + id_str + data_str + dlc_str
 
-            can_msg = parserCallFunc(can_str)
+
+            try:
+                can_msg = parserCallFunc(can_str)
+            except Exception as e:
+                continue
+            # print(can_msg.data['display_data']['COL']['Timestamp'][0], str_event, file=file1)
 
             num_msgs_processed += 1
 
@@ -156,12 +161,8 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
             
             # Iterate over all log files
             for j, log_file in enumerate(log):
-                upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint, csv_file_f)
+                upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint, csv_file_f, j)
 
-            # Clear the log files
-            delete_input = input(f"{ANSI_GREEN}Do you want to {ANSI_RESET}{ANSI_RED}DELETE{ANSI_RESET} {ANSI_GREEN}all logs now (y/n)?: {ANSI_RESET} ")
-            if delete_input.lower() == 'y' or delete_input.lower() == '\n':
-                log.delete_all()
             
             # Close the KMF file
             kmf_file.close()
