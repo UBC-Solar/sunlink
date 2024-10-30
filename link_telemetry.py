@@ -71,7 +71,6 @@ AUTH_HEADER = {"Authorization": f"Bearer {SECRET_KEY}"}
 # API endpoints
 DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
 PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
-LOG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/log"
 NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
@@ -386,13 +385,6 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
 
     for response in all_responeses:
         if response["result"] == "OK":
-
-            if args.log_upload:                                     # Write data to csv to upload later
-                str_data_list = response['message']
-                for str_data in str_data_list:
-                    print(str_data + '\n', file=csv_file, end='')
-                continue
-
             table = None
             do_display_table = filter_stream(response, display_filters)
             if args.log is not None or do_display_table:
@@ -486,9 +478,9 @@ def sendToParser(message: str, live_filters: list, log_filters: list, display_fi
         future.add_done_callback(lambda future: process_response(future, args, display_filters))
 
 
-def upload_logs(args, live_filters, log_filters, display_filters, endpoint, csv_file_f):
+def upload_logs(args, live_filters, log_filters, display_filters, csv_file_f):
     # Call the memorator log uploader function
-    memorator_upload_script(create_message, live_filters, log_filters, display_filters, args, endpoint, csv_file_f) 
+    memorator_upload_script(create_message, live_filters, log_filters, display_filters, args, csv_file_f) 
 
 
 """
@@ -744,7 +736,7 @@ def main():
         csv_file_name = CSV_NAME + timestamp + ".csv"
         csv_file = open(csv_file_name, "w")
         csv_file.write(INFLUX_CSV_HEADING + '\n')
-        upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT, csv_file)
+        upload_logs(args, live_filters, log_filters, display_filters, csv_file)
 
         #Calling the bash script
         csv_file.close()

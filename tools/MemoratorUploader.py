@@ -33,7 +33,7 @@ ERROR_ID                = 0
 MSGS_TO_UPDATE          = 1000
 
 
-def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, csv_file_f, j):
+def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, csv_file_f):
     start_time = None
     got_start_time = False
     global num_msgs_processed
@@ -102,7 +102,7 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
             continue
             
 
-def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, endpoint: str, csv_file_f):
+def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_filters: list, display_filters: list, args: list, csv_file_f):
     global num_msgs_processed
     global start_time_log 
     start_time_log = time.time()
@@ -161,7 +161,7 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
             
             # Iterate over all log files
             for j, log_file in enumerate(log):
-                upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, endpoint, csv_file_f, j)
+                upload(log[j], parserCallFunc, live_filters, log_filters, display_filters, args, csv_file_f)
 
             
             # Close the KMF file
