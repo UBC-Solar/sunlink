@@ -13,6 +13,7 @@ import json
 import os
 import glob
 import struct
+import subprocess
 
 from datetime import datetime 
 from toml.decoder import TomlDecodeError
@@ -27,6 +28,8 @@ import threading
 
 import concurrent.futures
 from tools.MemoratorUploader import memorator_upload_script
+from parser.create_message import create_message
+from LINK_CONSTANTS import *
 
 
 __PROGRAM__ = "link_telemetry"
@@ -68,7 +71,6 @@ AUTH_HEADER = {"Authorization": f"Bearer {SECRET_KEY}"}
 # API endpoints
 DEBUG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/debug"
 PROD_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/production"
-LOG_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse/write/log"
 NO_WRITE_ENDPOINT = f"{PARSER_URL}/api/v1/parse"
 HEALTH_ENDPOINT = f"{PARSER_URL}/api/v1/health"
 
@@ -379,7 +381,8 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
         print(f"Response content: {response.content}")
         return
 
-    all_responeses = parse_response['all_responses']
+    all_responeses = parse_response['all_responses']    
+
     for response in all_responeses:
         if response["result"] == "OK":
             table = None
@@ -439,6 +442,7 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
             print(f"Unexpected response: {response['result']}")
 
 
+
 def read_lines_from_file(file_path):
     """
     Reads lines from the specified file and returns a generator.
@@ -474,9 +478,9 @@ def sendToParser(message: str, live_filters: list, log_filters: list, display_fi
         future.add_done_callback(lambda future: process_response(future, args, display_filters))
 
 
-def upload_logs(args, live_filters, log_filters, display_filters, endpoint):
+def upload_logs(args, live_filters, log_filters, display_filters, csv_file_f):
     # Call the memorator log uploader function
-    memorator_upload_script(sendToParser, live_filters, log_filters, display_filters, args, endpoint) 
+    memorator_upload_script(create_message, live_filters, log_filters, display_filters, args, csv_file_f) 
 
 
 """
@@ -706,7 +710,7 @@ def main():
 
 
     # Start Sunlink Runtime counter display
-    if args.track or (not args.table_on and not args.log):
+    if args.track or (not args.table_on and not args.log and not args.log_upload):
         time_thread = threading.Thread(target=displaySunlinkTracking, daemon=True)
         time_thread.start()
 
@@ -727,7 +731,18 @@ def main():
     DEBUG_FILE_NAME = os.path.join(DEBUG_DIRECTORY, LOG_FILE)
     
     if args.log_upload:
-        upload_logs(args, live_filters, log_filters, display_filters, LOG_WRITE_ENDPOINT)
+        global csv_file
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        csv_file_name = CSV_NAME + timestamp + ".csv"
+        csv_file = open(csv_file_name, "w")
+        csv_file.write(INFLUX_CSV_HEADING + '\n')
+        upload_logs(args, live_filters, log_filters, display_filters, csv_file)
+
+        #Calling the bash script
+        csv_file.close()
+        subprocess.run(["chmod", "+x", "./scripts/csv_upload.sh"])
+        subprocess.run(["bash", "./scripts/csv_upload.sh", csv_file_name])
+
         return
 
     while True:
