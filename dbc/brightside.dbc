@@ -311,24 +311,6 @@ BO_ 2566869221 OBCStatus: 8 OBC
  SG_ S2SwitchControlStatus : 55|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Temperaturre : 56|8@1+ (1,-40) [0|0] "C" Vector__XXX
 
-BO_ 1284 PhaseCurrentMeasurement: 8 MDI
-
-BO_ 1285 MotorVoltageVectorMeasurment: 8 MDI
-
-BO_ 1286 MotorCurrentVectorMeasurment: 8 MDI
-
-BO_ 1287 MotorBackEMFMeasurement: 8 MDI
-
-BO_ 1288 VoltageRailMeasurement_FifteenV: 8 MDI
-
-BO_ 1289 VoltageRailMeasurement_TwoFiveV: 8 MDI
-
-BO_ 1290 FanSpeedMeasurement: 8 MDI
-
-BO_ 1292 AirInCPUTemperatureMeasurement: 8 MDI
-
-BO_ 1294 OdometerBusAmpHoursMeasurement: 8 MDI
-
 BO_ 2297992512 MitsubaDataRequest: 1 MC
  SG_ RequestForFrames : 0|1@1+ (2,0) [0|0] "" Vector__XXX
 
