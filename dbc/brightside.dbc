@@ -202,6 +202,7 @@ BO_ 1281 StatusInfo: 8 MDI
  SG_ ActiveMotor : 32|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Reserved3 : 48|16@1+ (1,0) [0|0] "" Vector__XXX
 
+
 BO_ 1282 BusMeasurement: 8 MDI
  SG_ BusVoltage : 0|32@1+ (1,0) [0|0] "V" Vector__XXX
  SG_ BusCurrent : 32|32@1+ (1,0) [0|0] "A" Vector__XXX
@@ -454,6 +455,9 @@ BO_ 1295 MDIDiagnostics: 8 MDI
  SG_ DriveModeToMC : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RegenSentToMC : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 1881 CPULOADTEL: 1 Vector__XXX
+ SG_ CPULOADTEL : 0|8@1+ (0,0) [0|0] "%" Vector__XXX
+
 
 
 CM_ SG_ 1572 b0x00 "Unused";
@@ -604,6 +608,7 @@ CM_ SG_ 1295 DriveModeToMC "0 = ECO mode, 1 = POWER mode";
 CM_ SG_ 1295 RegenSentToMC "0 = no regen requested, 1 = regen ON";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
+
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
 SIG_VALTYPE_ 1793 VoltSensor2 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
@@ -622,4 +627,3 @@ SIG_VALTYPE_ 1877 Latitude : 2;
 SIG_VALTYPE_ 1878 Longitude : 2;
 SIG_VALTYPE_ 1879 Altitude : 1;
 SIG_VALTYPE_ 1879 Hdop : 1;
-
