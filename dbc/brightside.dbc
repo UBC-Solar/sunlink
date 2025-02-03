@@ -454,6 +454,12 @@ BO_ 1295 MDIDiagnostics: 8 MDI
  SG_ DriveModeToMC : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RegenSentToMC : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 1891 CANBusLoad: 1 Vector__XXX
+ SG_ BusLoad : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1892 CPULoad: 4 Vector__XXX
+ SG_ CPULoad : 0|32@1- (1,0) [0|0] "" Vector__XXX
+
 
 
 CM_ SG_ 1572 b0x00 "Unused";
@@ -622,4 +628,4 @@ SIG_VALTYPE_ 1877 Latitude : 2;
 SIG_VALTYPE_ 1878 Longitude : 2;
 SIG_VALTYPE_ 1879 Altitude : 1;
 SIG_VALTYPE_ 1879 Hdop : 1;
-
+SIG_VALTYPE_ 1892 CPULoad : 1;
