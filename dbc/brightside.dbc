@@ -417,7 +417,7 @@ BO_ 1878 GPSPosition: 8 TEL
  SG_ GPSLongitude : 32|32@1+ (1,0) [0|0] "Degrees" Vector__XXX
 
 BO_ 1879 GPSPrecision: 8 TEL
- SG_ Hdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSHdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSVdop : 32|32@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1880 GPSTimeSide: 8 TEL
