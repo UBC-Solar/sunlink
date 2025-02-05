@@ -418,7 +418,7 @@ BO_ 1878 GPSPosition: 8 TEL
 
 BO_ 1879 GPSPrecision: 8 TEL
  SG_ Hdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSVdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSVdop : 32|32@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1880 GPSTimeSide: 8 TEL
  SG_ GPSDay : 0|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -643,6 +643,7 @@ SIG_VALTYPE_ 1877 Latitude : 2;
 SIG_VALTYPE_ 1878 Longitude : 2;
 SIG_VALTYPE_ 1879 Altitude : 1;
 SIG_VALTYPE_ 1879 Hdop : 1;
+
 
 
 
