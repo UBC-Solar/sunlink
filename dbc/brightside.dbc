@@ -430,22 +430,22 @@ BO_ 1880 GPSTimeSide: 8 TEL
  SG_ GPSLatSide : 48|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSLonSide : 56|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1881 GPSSpeedPrec: 8 Vector__XXX
+BO_ 1881 GPSSpeedPrec: 8 TEL
  SG_ GPSPdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSSpeedkmh : 32|32@1+ (1,0) [0|0] "Km/h" Vector__XXX
 
-BO_ 1888 GPSAltitudeGeod: 8 Vector__XXX
+BO_ 1888 GPSAltitudeGeod: 8 TEL
  SG_ GPSAltitude : 0|32@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSGeodHeight : 32|32@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1889 GPSHeading: 8 Vector__XXX
+BO_ 1889 GPSHeading: 8 TEL
  SG_ GPSTrueHeading : 0|32@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSMagneticHeading : 32|32@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1891 CANBusLoad: 1 Vector__XXX
+BO_ 1891 CANBusLoad: 1 TEL
  SG_ BusLoad : 0|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1892 CPULoad: 4 Vector__XXX
+BO_ 1892 CPULoad: 4 TEL
  SG_ CPULoad : 0|32@1- (1,0) [0|0] "" Vector__XXX
  
  BO_ 1872 TELDiagnostics: 1 TEL
