@@ -430,25 +430,7 @@ BO_ 1880 GPSTimeSide: 8 TEL
  SG_ GPSLatSide : 48|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSLonSide : 56|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1881 GPSSpeedPrec: 8 TEL
- SG_ GPSPdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSpeedkmh : 32|32@1+ (1,0) [0|0] "Km/h" Vector__XXX
-
-BO_ 1888 GPSAltitudeGeod: 8 TEL
- SG_ GPSAltitude : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSGeodHeight : 32|32@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1889 GPSHeading: 8 TEL
- SG_ GPSTrueHeading : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSMagneticHeading : 32|32@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1891 CANBusLoad: 1 TEL
- SG_ BusLoad : 0|8@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1892 CPULoad: 4 TEL
- SG_ CPULoad : 0|32@1- (1,0) [0|0] "" Vector__XXX
- 
- BO_ 1872 TELDiagnostics: 1 TEL
+BO_ 1872 TELDiagnostics: 1 TEL
  SG_ RTCReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSFix : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -480,6 +462,23 @@ BO_ 1295 MDIDiagnostics: 8 MDI
  SG_ DirectionSentToMC : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ DriveModeToMC : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RegenSentToMC : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1881 GPSSpeedPrec: 8 Vector__XXX
+ SG_ GPSPdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSSpeedkmh : 32|32@1+ (1,0) [0|0] "Km/h" Vector__XXX
+
+BO_ 1888 GPSAltitudeGeod: 8 Vector__XXX
+ SG_ GPSAltitude : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSGeodHeight : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1889 GPSHeading: 8 Vector__XXX
+ SG_ GPSTrueHeading : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSMagneticHeading : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1408 STRTurnSignal: 1 Vector__XXX
+ SG_ STRTurnSignal : 0|4@1+ (1,0) [0|0] "" Vector__XXX
+
+
 
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
@@ -643,14 +642,13 @@ SIG_VALTYPE_ 1875 Acceleration_Y : 1;
 SIG_VALTYPE_ 1875 Gyroscope_Y : 1;
 SIG_VALTYPE_ 1876 Acceleration_Z : 1;
 SIG_VALTYPE_ 1876 Gyroscope_Z : 1;
-SIG_VALTYPE_ 1878 GPSLatitude : 1;
-SIG_VALTYPE_ 1878 GPSLongitude : 1;
-SIG_VALTYPE_ 1879 GPSHdop : 1;
-SIG_VALTYPE_ 1879 GPSVdop : 1;
-SIG_VALTYPE_ 1881 GPSPdop : 1;
-SIG_VALTYPE_ 1881 GPSSpeedkmh : 1;
-SIG_VALTYPE_ 1888 GPSAltitude : 1;
-SIG_VALTYPE_ 1888 GPSGeodHeight : 1;
-SIG_VALTYPE_ 1889 GPSTrueHeading : 1;
-SIG_VALTYPE_ 1889 GPSMagneticHeading : 1;
-SIG_VALTYPE_ 1892 CPULoad : 1;
+SIG_VALTYPE_ 1877 Latitude : 2;
+SIG_VALTYPE_ 1878 Longitude : 2;
+SIG_VALTYPE_ 1879 Altitude : 1;
+SIG_VALTYPE_ 1879 Hdop : 1;
+
+
+
+
+
+
