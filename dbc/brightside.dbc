@@ -481,6 +481,10 @@ BO_ 1295 MDIDiagnostics: 8 MDI
  SG_ DriveModeToMC : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RegenSentToMC : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 1408 STRTurnSignal: 1 Vector__XXX
+ SG_ RTSSIGNAL : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ LTSSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
 CM_ SG_ 1573 AverageTemp "Twos Complement";
@@ -654,3 +658,5 @@ SIG_VALTYPE_ 1888 GPSGeodHeight : 1;
 SIG_VALTYPE_ 1889 GPSTrueHeading : 1;
 SIG_VALTYPE_ 1889 GPSMagneticHeading : 1;
 SIG_VALTYPE_ 1892 CPULoad : 1;
+
+
