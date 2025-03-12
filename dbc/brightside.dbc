@@ -33,7 +33,7 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MCB TEL OBC MEMORATOR MDI MC VDS STR
+BU_: AMB BMS DID ECU MCB TEL OBC MEMORATOR MDI MC VDS
 
 
 BO_ 1793 VoltageSensorsData: 8 AMB
@@ -482,8 +482,7 @@ BO_ 1295 MDIDiagnostics: 8 MDI
  SG_ RegenSentToMC : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1408 STRTurnModeSignal: 1 Vector__XXX
- SG_ POWERSIGNAL : 0|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ ECOSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DRIVEMODE : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RTSSIGNAL : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ LTSSIGNAL : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
