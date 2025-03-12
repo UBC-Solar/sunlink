@@ -481,8 +481,8 @@ BO_ 1295 MDIDiagnostics: 8 MDI
 
 BO_ 1408 STRTurnModeSignal: 1 STR
  SG_ DRIVEMODE : 0|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ RTSSIGNAL : 2|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ LTSSIGNAL : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RTSSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ LTSSIGNAL : 2|1@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
