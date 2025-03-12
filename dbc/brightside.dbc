@@ -486,8 +486,6 @@ BO_ 1408 STRTurnModeSignal: 1 Vector__XXX
  SG_ ECOSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RTSSIGNAL : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ LTSSIGNAL : 3|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ RTSSIGNAL : 2|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ LTSSIGNAL : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
