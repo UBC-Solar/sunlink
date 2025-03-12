@@ -33,7 +33,7 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS DID ECU MCB TEL OBC MEMORATOR MDI MC VDS
+BU_: AMB BMS DID ECU MCB TEL OBC MEMORATOR MDI MC VDS STR
 
 
 BO_ 1793 VoltageSensorsData: 8 AMB
@@ -457,7 +457,6 @@ BO_ 1892 CPULoad: 4 TEL
 BO_ 1029 MCBGithash: 8 MCB
  SG_ ShortGithash : 0|64@1+ (1,0) [0|0] "" Vector__XXX
 
-
 BO_ 1808 ShockTravel: 8 VDS
  SG_ ShockTravel1 : 0|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ ShockTravel2 : 16|16@1+ (1,0) [0|0] "" Vector__XXX
@@ -480,9 +479,10 @@ BO_ 1295 MDIDiagnostics: 8 MDI
  SG_ DriveModeToMC : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RegenSentToMC : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1408 STRTurnSignal: 1 STR
- SG_ RTSSIGNAL : 0|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ LTSSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+BO_ 1408 STRTurnModeSignal: 1 STR
+ SG_ DRIVEMODE : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RTSSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ LTSSIGNAL : 2|1@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
@@ -657,5 +657,6 @@ SIG_VALTYPE_ 1888 GPSGeodHeight : 1;
 SIG_VALTYPE_ 1889 GPSTrueHeading : 1;
 SIG_VALTYPE_ 1889 GPSMagneticHeading : 1;
 SIG_VALTYPE_ 1892 CPULoad : 1;
+
 
 
