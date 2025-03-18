@@ -480,9 +480,9 @@ BO_ 1295 MDIDiagnostics: 8 MDI
  SG_ RegenSentToMC : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1408 STRTurnModeSignal: 1 STR
- SG_ DRIVEMODE : 0|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ RTSSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ LTSSIGNAL : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RTSSIGNAL : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ LTSSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DRIVEMODE : 2|1@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
