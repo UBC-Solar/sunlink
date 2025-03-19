@@ -400,7 +400,7 @@ BO_ 1408 STRTurnModeSignal: 1 STR
  SG_ LTSSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ DRIVEMODE : 2|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1025 MotorData: 5 DRD
+BO_ 1025 MotorCommand: 5 DRD
  SG_ ThrottleDAC : 0|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RegenDAC : 16|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ BrakePressed : 32|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -577,6 +577,3 @@ SIG_VALTYPE_ 1888 GPSGeodHeight : 1;
 SIG_VALTYPE_ 1889 GPSTrueHeading : 1;
 SIG_VALTYPE_ 1889 GPSMagneticHeading : 1;
 SIG_VALTYPE_ 1892 CPULoad : 1;
-
-
-
