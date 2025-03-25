@@ -133,7 +133,7 @@ sudo docker compose ps # Show all containers
 
 # Get API Token for Grafana
 echo -e "\n\n"
-echo -e "${ANSI_YELLOW}<--- INSTRUCTIONS FOR GETTING API TOKEN:${ANSI_GREEN} Grafana$ANSI_RESET --->$ANSI_RESET"
+echo -e "${ANSI_YELLOW}<--- READ THESE INSTRUCTIONS CAREFULLY FOR ${ANSI_GREEN} Grafana$ANSI_RESET TOKEN --->$ANSI_RESET"
 echo -e "${ANSI_BOLD}    1. Open a browser and go to 'http://localhost:3000' $ANSI_RESET"
 echo -e "${ANSI_BOLD}    2. Log in with the credentials: Username: '$GRAFANA_ADMIN_USERNAME' and Password: '$GRAFANA_ADMIN_PASSWORD' $ANSI_RESET"
 echo -e "${ANSI_BOLD}    3. Click on the 3 horizontal bar icon on the top left of the screen. $ANSI_RESET"
@@ -147,7 +147,7 @@ read GRAFANA_TOKEN
 
 # Get API Token for InfluxDB
 echo -e "\n\n"
-echo -e "${ANSI_YELLOW}<--- INSTRUCTIONS FOR GETTING API TOKEN:${ANSI_GREEN} InfluxDB$ANSI_RESET --->$ANSI_RESET"
+echo -e "${ANSI_YELLOW}<--- READ THESE INSTRUCTIONS CAREFULLY FOR ${ANSI_GREEN} InfluxDB$ANSI_RESET TOKEN --->$ANSI_RESET"
 echo -e "${ANSI_BOLD}    1. Open a browser and go to 'http://localhost:8086' $ANSI_RESET"
 echo -e "${ANSI_BOLD}    2. Click 'GET STARTED' $ANSI_RESET"
 echo -e "${ANSI_BOLD}    2. Make account with the credentials:\n        Username: '$INFLUX_ADMIN_USERNAME'\n        Password: '$INFLUX_ADMIN_PASSWORD'\n        Initial Organization name is UBC Solar\n        Initial Bucket Name is Init${ANSI_RESET}"
