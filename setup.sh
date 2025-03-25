@@ -168,11 +168,11 @@ sudo docker compose down
 sudo docker compose up -d
 
 # Installing Kvaser linuxcan and kvlibsdk drivers
-echo -ne "${ANSI_YELLOW}Are you using WSL (y/n)?: $ANSI_RESET"
+echo -ne "${ANSI_YELLOW}Are you using a Linux (Ubuntu) computer (y/n)? Say 'n' for Windows or MacOS: $ANSI_RESET"
 read installKvaserLibs
 
 case $installKvaserLibs in
-    [Nn]* ) 
+    [Yy]* ) 
         echo -e "${ANSI_YELLOW}Installing Kvaser linuxcan and kvlibsdk drivers in ~/ directory... $ANSI_RESET"
 
         echo -e "${ANSI_bold}Installing LINUXCAN... $ANSI_RESET"
@@ -205,7 +205,7 @@ case $installKvaserLibs in
         echo -e "${ANSI_GREEN}DONE installing KVLIBSDK and LINUXCAN! $ANSI_RESET"
         echo -e "${ANSI_YELLOW}To uninstall. run 'sudo make uninstall' in both directories $ANSI_RESET"
         ;;
-    [Yy]* ) 
+    [Nn]* ) 
         echo -e "${ANSI_YELLOW}Skipping Kvaser linuxcan and kvlibsdk drivers installation... $ANSI_RESET"
         echo -e "${ANSI_YELLOW}Commenting out line that imports memorator upload script in link_telemetry.py$ANSI_RESET"
         sed -i "s/^from tools.MemoratorUploader import memorator_upload_script/# from tools.MemoratorUploader import memorator_upload_script/g" link_telemetry.py
