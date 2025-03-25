@@ -21,7 +21,7 @@ echo -e "${ANSI_GREEN}DONE installing gnome terminal! $ANSI_RESET"
 echo -e "${ANSI_BOLD}Checking for docker installation. $ANSI_RESET"              
 doInstall=true 
 if [ -x "$(command -v docker)" ]; then                                 # Check if Docker is installed. If it is remove it. otherwise install
-    echo -ne "${ANSI_YELLOW}Found Docker Installation. Do you want to REINSTALL (y/n)?: $ANSI_RESET"
+    echo -ne "${ANSI_YELLOW}Found Docker Installation. Do you want to REINSTALL. Your containers will be DELETED FORVER (y/n)?: $ANSI_RESET"
     read reinstall
     case $reinstall in
         [Yy]* ) 
@@ -149,8 +149,10 @@ read GRAFANA_TOKEN
 echo -e "\n\n"
 echo -e "${ANSI_YELLOW}<--- INSTRUCTIONS FOR GETTING API TOKEN:${ANSI_GREEN} InfluxDB$ANSI_RESET --->$ANSI_RESET"
 echo -e "${ANSI_BOLD}    1. Open a browser and go to 'http://localhost:8086' $ANSI_RESET"
-echo -e "${ANSI_BOLD}    2. Make account with the credentials: Username: '$INFLUX_ADMIN_USERNAME' and Password: '$INFLUX_ADMIN_PASSWORD' $ANSI_RESET"
-echo -e "${ANSI_BOLD}    3. Copy the token and ENTER THE INFLUXDB API TOKEN HERE (Ctrl+Shift+V): $ANSI_RESET"
+echo -e "${ANSI_BOLD}    2. Click 'GET STARTED' $ANSI_RESET"
+echo -e "${ANSI_BOLD}    2. Make account with the credentials:\n        Username: '$INFLUX_ADMIN_USERNAME'\n        Password: '$INFLUX_ADMIN_PASSWORD'\n        Initial Organization name is UBC Solar\n        Initial Bucket Name is Init${ANSI_RESET}"
+echo -e "${ANSI_BOLD}    3. Copy the INFLUXDB API TOKEN at the top. $ANSI_RESET"
+echo -e "${ANSI_BOLD}    3. In the bottom left, click 'QUICK START. Now paste your token here (Ctrl+Shift+V): $ANSI_RESET"
 read INFLUX_TOKEN
 
 # Enter API tokens into .env file
@@ -166,11 +168,11 @@ sudo docker compose down
 sudo docker compose up -d
 
 # Installing Kvaser linuxcan and kvlibsdk drivers
-echo -ne "${ANSI_YELLOW}Do you want to install linuxcan and kvlibsdk (y/n)?: $ANSI_RESET"
+echo -ne "${ANSI_YELLOW}Are you using WSL (y/n)?: $ANSI_RESET"
 read installKvaserLibs
 
 case $installKvaserLibs in
-    [Yy]* ) 
+    [Nn]* ) 
         echo -e "${ANSI_YELLOW}Installing Kvaser linuxcan and kvlibsdk drivers in ~/ directory... $ANSI_RESET"
 
         echo -e "${ANSI_bold}Installing LINUXCAN... $ANSI_RESET"
@@ -203,7 +205,7 @@ case $installKvaserLibs in
         echo -e "${ANSI_GREEN}DONE installing KVLIBSDK and LINUXCAN! $ANSI_RESET"
         echo -e "${ANSI_YELLOW}To uninstall. run 'sudo make uninstall' in both directories $ANSI_RESET"
         ;;
-    [Nn]* ) 
+    [Yy]* ) 
         echo -e "${ANSI_YELLOW}Skipping Kvaser linuxcan and kvlibsdk drivers installation... $ANSI_RESET"
         echo -e "${ANSI_YELLOW}Commenting out line that imports memorator upload script in link_telemetry.py$ANSI_RESET"
         sed -i "s/^from tools.MemoratorUploader import memorator_upload_script/# from tools.MemoratorUploader import memorator_upload_script/g" link_telemetry.py
@@ -222,11 +224,11 @@ sudo chmod -R a+rwx environment
 echo -e "${ANSI_GREEN}DONE creating virtual environment! $ANSI_RESET"
 
 echo -e "$ANSI_YELLOW Creating Influx Buckets... ${ANSI_RESET}"
-sudo docker exec -it influxdb influx bucket create --name "CAN_test" --org "${DOCKER_INFLUXDB_INIT_ORG}" --token "${INFLUX_TOKEN}"
+sudo docker exec -it influxdb influx bucket create --name "CAN_test" --org "UBC Solar" --token "${INFLUX_TOKEN}"
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_test' created$ANSI_RESET"
-sudo docker exec -it influxdb influx bucket create --name "CAN_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}" --token "${INFLUX_TOKEN}"
+sudo docker exec -it influxdb influx bucket create --name "CAN_prod" --org "UBC Solar" --token "${INFLUX_TOKEN}"
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_prod' created$ANSI_RESET"
-sudo docker exec -it influxdb influx bucket create --name "CAN_log" --org "${DOCKER_INFLUXDB_INIT_ORG}" --token "${INFLUX_TOKEN}"
+sudo docker exec -it influxdb influx bucket create --name "CAN_log" --org "UBC Solar" --token "${INFLUX_TOKEN}"
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_log' created$ANSI_RESET"
 
 # REMOVED UNTIL API MODE EXISTS
@@ -248,9 +250,9 @@ sudo docker compose up -d
 # Setting up Tailscale
 echo -ne "${ANSI_YELLOW}Would you like to Set Up Tailscale (y/n)?: $ANSI_RESET"
 read setupTailscale
-echo -ne "${ANSI_YELLOW}ENTER your Tailscale authkey here (you may need to ask your lead for this): $ANSI_RESET"
-read tailscaleAuthKey
 if [ $setupTailscale = "y" ]; then
+    echo -ne "${ANSI_YELLOW}ENTER your Tailscale authkey here (you may need to ask your lead for this): $ANSI_RESET"
+    read tailscaleAuthKey
     echo -e "${ANSI_BOLD}Setting up Tailscale... $ANSI_RESET"
     sudo apt-get install -y curl
     curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
