@@ -283,7 +283,7 @@ INFLUX_TOKEN=""
 GRAFANA_TOKEN=""
 ```
 
-**For the passwordsm ensure they are long enough when you input them in the setup script otherwise Grafana and InfluxDB will reject them.**
+**For the passwords make ensure they are long enough when you input them in the setup script otherwise Grafana and InfluxDB will reject them.**
 
 The `SECRET_KEY` field must be generated.
 
