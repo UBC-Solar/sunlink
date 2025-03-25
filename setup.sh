@@ -9,19 +9,6 @@ ANSI_BOLD="\033[1m"
 ANSI_RESET="\033[0m"
 
 
-while true; do
-    # Prompt the user without -e (to avoid issues)
-    echo -ne "${ANSI_BOLD}Confirm Setup Sunlink: (y/n): ${ANSI_RESET}"
-    read confirmation
-
-    case $confirmation in
-        [Yy]* ) break;;
-        [Nn]* ) exit;;
-        * ) echo -e "${ANSI_YELLOW}Please enter (y/n). ${ANSI_RESET}";;
-    esac
-done
-
-
 echo -e "${ANSI_BOLD}Updating apt... $ANSI_RESET"                 # Update apt
 sudo apt update
 sudo apt-get update
@@ -77,45 +64,10 @@ cd sunlink                                                                      
 
 echo -e "${ANSI_YELLOW}Setting up sunlink environment... $ANSI_RESET"                # Set up influx and grafana
 SUNLINK_DIR=$PWD
-# Get user input for GRAFANA_ADMIN_USERNAME
-echo -ne "${ANSI_BOLD}Enter GRAFANA_ADMIN_USERNAME (empty for default): $ANSI_RESET" 
-read GRAFANA_ADMIN_USERNAME
-GRAFANA_ADMIN_USERNAME=${GRAFANA_ADMIN_USERNAME:-admin}
-echo -e "${ANSI_GREEN}GRAFANA_ADMIN_USERNAME set: $GRAFANA_ADMIN_USERNAME $ANSI_RESET\n"
-# Get user input for GRAFANA_ADMIN_PASSWORD
-while true; do
-    echo -ne "${ANSI_BOLD}Enter GRAFANA_ADMIN_PASSWORD (minimum 8 characters) (empty for default): $ANSI_RESET"
-    read GRAFANA_ADMIN_PASSWORD
-    GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-new_password}
-    length=${#GRAFANA_ADMIN_PASSWORD}
-    if [[ $length -lt 8 ]]
-    then
-        echo -e "${ANSI_YELLOW}Enter a password with minimum 8 characters $ANSI_RESET"
-    else
-        echo -e "${ANSI_GREEN}GRAFANA_ADMIN_PASSWORD set: $GRAFANA_ADMIN_PASSWORD\n $ANSI_RESET"
-        break;
-    fi
-done
-
-# Get user input for INFLUX_ADMIN_USERNAME
-echo -ne "${ANSI_BOLD}Enter INFLUX_ADMIN_USERNAME (empty for default): $ANSI_RESET" 
-read INFLUX_ADMIN_USERNAME
-INFLUX_ADMIN_USERNAME=${INFLUX_ADMIN_USERNAME:-admin}
-echo -e "${ANSI_GREEN}INFLUX_ADMIN_USERNAME set: $INFLUX_ADMIN_USERNAME\n $ANSI_RESET"
-# Get user input for INFLUX_ADMIN_PASSWORD
-while true; do
-    echo -ne "${ANSI_BOLD}Enter INFLUX_ADMIN_PASSWORD (minimum 8 characters) (empty for default): $ANSI_RESET" 
-    read INFLUX_ADMIN_PASSWORD
-    INFLUX_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD:-new_password}
-    length=${#INFLUX_ADMIN_PASSWORD}
-    if [[ $length -lt 8 ]]
-    then
-        echo -e "${ANSI_YELLOW}Enter a password with minimum 8 characters $ANSI_RESET"
-    else
-        echo -e "${ANSI_GREEN}INFLUX_ADMIN_PASSWORD set: $INFLUX_ADMIN_PASSWORD\n $ANSI_RESET"
-        break;
-    fi
-done
+GRAFANA_ADMIN_USERNAME=admin
+GRAFANA_ADMIN_PASSWORD=new_password
+INFLUX_ADMIN_USERNAME=admin
+INFLUX_ADMIN_PASSWORD=new_password
 
 # Secret key
 SECRET_KEY="dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
@@ -197,11 +149,8 @@ read GRAFANA_TOKEN
 echo -e "\n\n"
 echo -e "${ANSI_YELLOW}<--- INSTRUCTIONS FOR GETTING API TOKEN:${ANSI_GREEN} InfluxDB$ANSI_RESET --->$ANSI_RESET"
 echo -e "${ANSI_BOLD}    1. Open a browser and go to 'http://localhost:8086' $ANSI_RESET"
-echo -e "${ANSI_BOLD}    2. Log in with the credentials: Username: '$INFLUX_ADMIN_USERNAME' and Password: '$INFLUX_ADMIN_PASSWORD' $ANSI_RESET"
-echo -e "${ANSI_BOLD}    3. Click on the up-arrow icon (under the 'U' icon) on the left side bar and select 'API Tokens'. $ANSI_RESET"
-echo -e "${ANSI_BOLD}    4. Click on 'GENERATE API TOKEN' and select 'All Access API Token'. $ANSI_RESET"
-echo -e "${ANSI_BOLD}    5. Enter a description and click 'Save'. $ANSI_RESET"
-echo -ne "${ANSI_BOLD}    6. Copy the token and ENTER THE INFLUXDB API TOKEN HERE (Ctrl+Shift+V): $ANSI_RESET"
+echo -e "${ANSI_BOLD}    2. Make account with the credentials: Username: '$INFLUX_ADMIN_USERNAME' and Password: '$INFLUX_ADMIN_PASSWORD' $ANSI_RESET"
+echo -e "${ANSI_BOLD}    3. Copy the token and ENTER THE INFLUXDB API TOKEN HERE (Ctrl+Shift+V): $ANSI_RESET"
 read INFLUX_TOKEN
 
 # Enter API tokens into .env file
@@ -273,22 +222,23 @@ sudo chmod -R a+rwx environment
 echo -e "${ANSI_GREEN}DONE creating virtual environment! $ANSI_RESET"
 
 echo -e "$ANSI_YELLOW Creating Influx Buckets... ${ANSI_RESET}"
-sudo docker exec -it influxdb influx bucket create --name "CAN_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+sudo docker exec -it influxdb influx bucket create --name "CAN_test" --org "${DOCKER_INFLUXDB_INIT_ORG}" --token "${INFLUX_TOKEN}"
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_test' created$ANSI_RESET"
-sudo docker exec -it influxdb influx bucket create --name "CAN_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+sudo docker exec -it influxdb influx bucket create --name "CAN_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}" --token "${INFLUX_TOKEN}"
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_prod' created$ANSI_RESET"
-sudo docker exec -it influxdb influx bucket create --name "CAN_log" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+sudo docker exec -it influxdb influx bucket create --name "CAN_log" --org "${DOCKER_INFLUXDB_INIT_ORG}" --token "${INFLUX_TOKEN}"
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_log' created$ANSI_RESET"
 
-sudo docker exec -it influxdb influx bucket create --name "ATR_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-echo -e "${ANSI_GREEN}BUCEKT: 'ATR_test' created$ANSI_RESET"
-sudo docker exec -it influxdb influx bucket create --name "ATR_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-echo -e "${ANSI_GREEN}BUCEKT: 'ATR_prod' created$ANSI_RESET"
+# REMOVED UNTIL API MODE EXISTS
+# sudo docker exec -it influxdb influx bucket create --name "ATR_test" --org "${DOCKER_INFLUXDB_INIT_ORG}" 
+# echo -e "${ANSI_GREEN}BUCEKT: 'ATR_test' created$ANSI_RESET"
+# sudo docker exec -it influxdb influx bucket create --name "ATR_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# echo -e "${ANSI_GREEN}BUCEKT: 'ATR_prod' created$ANSI_RESET"
 
-sudo docker exec -it influxdb influx bucket create --name "ATL_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-echo -e "${ANSI_GREEN}BUCEKT: 'ATL_test' created$ANSI_RESET"
-sudo docker exec -it influxdb influx bucket create --name "ATL_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-echo -e "${ANSI_GREEN}BUCEKT: 'ATL_prod' created$ANSI_RESET"
+# sudo docker exec -it influxdb influx bucket create --name "ATL_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# echo -e "${ANSI_GREEN}BUCEKT: 'ATL_test' created$ANSI_RESET"
+# sudo docker exec -it influxdb influx bucket create --name "ATL_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
+# echo -e "${ANSI_GREEN}BUCEKT: 'ATL_prod' created$ANSI_RESET"
 
 # Restarting docker
 echo -e "${ANSI_YELLOW}Restarting docker containers one last time... $ANSI_RESET"
@@ -316,7 +266,6 @@ fi
 # Make everything in the scripts directory executable
 echo -e "${ANSI_YELLOW}Making all scripts executable... $ANSI_RESET"
 chmod +x scripts/CSV_Download_script.sh 
-
 
 echo -e "\n\n"
 echo -e "${ANSI_YELLOW}<---ALMOST COMPLETED SETTING UP SUNLINK. YOU NEED TO RUN THE FOLLOWING (Ctrl+Shift+C to copy) --->$ANSI_RESET"

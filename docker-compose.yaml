@@ -67,7 +67,6 @@ services:
         source: ./scripts
         target: /docker-entrypoint-initdb.d
     environment:
-      - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUX_ADMIN_USERNAME}
       - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_ADMIN_PASSWORD}
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUX_ORG}
