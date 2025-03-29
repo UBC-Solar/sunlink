@@ -50,7 +50,7 @@ services:
     volumes:
       - .:/sunlink
     ports:
-      - 5000:5000
+      - 5001:5000
     depends_on: 
       - nginx
     restart: always

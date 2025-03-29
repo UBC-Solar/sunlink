@@ -303,7 +303,7 @@ def static_vars(**kwargs):
         return func
     return decorate
 
-BATCH_SIZE          = 3000
+BATCH_SIZE          = 1
 
 """
 Parses incoming request, writes the parsed measurements to InfluxDB bucket (debug or production)

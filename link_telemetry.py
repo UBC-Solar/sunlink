@@ -27,7 +27,7 @@ import warnings
 import threading
 
 import concurrent.futures
-from tools.MemoratorUploader import memorator_upload_script
+# from tools.MemoratorUploader import memorator_upload_script
 from parser.create_message import create_message
 from LINK_CONSTANTS import *
 

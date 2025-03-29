@@ -8,60 +8,6 @@ ANSI_YELLOW="\033[1;33m"
 ANSI_BOLD="\033[1m"
 ANSI_RESET="\033[0m"
 
-
-echo -e "${ANSI_BOLD}Updating apt... $ANSI_RESET"                 # Update apt
-sudo apt update
-sudo apt-get update
-echo -e "${ANSI_GREEN}DONE updating apt! $ANSI_RESET"                          
-
-echo -e "${ANSI_BOLD}Installing gnome terminal... $ANSI_RESET"                
-sudo apt install gnome-terminal                                        # install gnome terminal
-echo -e "${ANSI_GREEN}DONE installing gnome terminal! $ANSI_RESET"                          
-
-echo -e "${ANSI_BOLD}Checking for docker installation. $ANSI_RESET"              
-doInstall=true 
-if [ -x "$(command -v docker)" ]; then                                 # Check if Docker is installed. If it is remove it. otherwise install
-    echo -ne "${ANSI_YELLOW}Found Docker Installation. Do you want to REINSTALL. Your containers will be DELETED FORVER (y/n)?: $ANSI_RESET"
-    read reinstall
-    case $reinstall in
-        [Yy]* ) 
-            echo -e "${ANSI_YELLOW}Removing Docker Installation $ANSI_RESET"
-            sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
-            sudo rm -rf /var/lib/docker
-            sudo rm -rf /var/lib/containerd
-            echo -e "${ANSI_YELLOW}DONE removing docker. Installing... $ANSI_RESET"
-            ;;
-        [Nn]* ) 
-            doInstall=false
-            ;;
-        * ) echo -e "${ANSI_YELLOW}Please enter (y/n). ${ANSI_RESET}";;
-    esac
-else
-    echo -e "${ANSI_YELLOW}Docker not installed. Installing now... $ANSI_RESET"
-fi
-
-if [ $doInstall = true ]; then
-    # install docker
-    sudo apt-get install ca-certificates curl
-    sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-    sudo chmod a+r /etc/apt/keyrings/docker.asc
-    # Add the repository to Apt sources:
-    echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt-get update
-    ## install latest version of docker
-    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    echo -e "${ANSI_GREEN}DONE installing docker! $ANSI_RESET "
-fi
-
-# Clone Sunlink
-echo -e "${ANSI_YELLOW}\nCloning Sunlink Repository\n $ANSI_RESET"
-git clone https://github.com/UBC-Solar/sunlink.git sunlink
-cd sunlink                                                                           # Change directory into sunlink
-
 echo -e "${ANSI_YELLOW}Setting up sunlink environment... $ANSI_RESET"                # Set up influx and grafana
 SUNLINK_DIR=$PWD
 GRAFANA_ADMIN_USERNAME=admin
@@ -101,7 +47,7 @@ echo -e "${ANSI_YELLOW}Creating new telemetry.toml file... $ANSI_RESET"
 touch telemetry.toml
 sudo rm -f telemetry.toml
 echo -e "[parser]" >> telemetry.toml
-echo -e "url = \"http://localhost:5000/\"\n" >> telemetry.toml
+echo -e "url = \"http://localhost:5001/\"\n" >> telemetry.toml
 echo -e "[security]" >> telemetry.toml
 echo -e "secret_key = \"$SECRET_KEY\"\n" >> telemetry.toml
 echo -e "[offline]" >> telemetry.toml
@@ -167,58 +113,9 @@ echo -e "${ANSI_YELLOW}Restarting docker containers... $ANSI_RESET"
 sudo docker compose down
 sudo docker compose up -d
 
-# Installing Kvaser linuxcan and kvlibsdk drivers
-echo -ne "${ANSI_YELLOW}Are you using a Linux (Ubuntu) computer (y/n)? Say 'n' for Windows or MacOS: $ANSI_RESET"
-read installKvaserLibs
-
-case $installKvaserLibs in
-    [Yy]* ) 
-        echo -e "${ANSI_YELLOW}Installing Kvaser linuxcan and kvlibsdk drivers in ~/ directory... $ANSI_RESET"
-
-        echo -e "${ANSI_bold}Installing LINUXCAN... $ANSI_RESET"
-        sudo apt-get install pkg-config                                                         # Linuxcan first
-        sudo apt-get install linux-headers-`uname -r` 
-        sudo apt-get install build-essential 
-        sudo wget -P ~ --content-disposition "https://www.kvaser.com/download/?utm_source=software&utm_ean=7330130980754&utm_status=latest"
-        sudo tar -xzvf ~/linuxcan_*.tar.gz -C ~                                                  # not version dependent
-        sudo rm -rfd ~/linuxcan_*.tar.gz
-        echo -e "${ANSI_YELLOW}Changing directory to ~/linuxcan... $ANSI_RESET"
-        cd ~/linuxcan
-        sudo apt install --reinstall gcc-12
-        sudo apt-get install zlib1g
-        sudo apt-get install zlib1g-dev
-        sudo apt-get install libxml2
-        sudo apt-get install libxml2-dev
-        make
-        sudo make uninstall
-        sudo make install  
-        echo -e "${ANSI_GREEN}DONE installing  LINUXCAN! $ANSI_RESET"
-
-        echo -e "${ANSI_BOLD}Installing KVLIBSDK... $ANSI_RESET"                                 # KVLIBSDK
-        sudo wget -P ~ --content-disposition "https://resources.kvaser.com/PreProductionAssets/Product_Resources/kvlibsdk_5_45_724.tar.gz"
-        sudo tar -xzvf ~/kvlibsdk_*.tar.gz -C ~                                                  # not version dependent
-        sudo rm -rfd ~/kvlibsdk_*.tar.gz
-        echo -e "${ANSI_YELLOW}Changing directory to ~/kvlibsdk... $ANSI_RESET"
-        cd ~/kvlibsdk
-        make
-        sudo make install  
-        echo -e "${ANSI_GREEN}DONE installing KVLIBSDK and LINUXCAN! $ANSI_RESET"
-        echo -e "${ANSI_YELLOW}To uninstall. run 'sudo make uninstall' in both directories $ANSI_RESET"
-        ;;
-    [Nn]* ) 
-        echo -e "${ANSI_YELLOW}Skipping Kvaser linuxcan and kvlibsdk drivers installation... $ANSI_RESET"
-        echo -e "${ANSI_YELLOW}Commenting out line that imports memorator upload script in link_telemetry.py$ANSI_RESET"
-        sed -i "s/^from tools.MemoratorUploader import memorator_upload_script/# from tools.MemoratorUploader import memorator_upload_script/g" link_telemetry.py
-        ;;
-    * ) echo -e "${ANSI_YELLOW}Please enter (y/n). ${ANSI_RESET}";;
-esac
-
-# Creating a python virtual environment. First check if venv is installed
-echo -e "${ANSI_YELLOW}Changing directory to $SUNLINK_DIR $ANSI_RESET"
 cd $SUNLINK_DIR
 
 echo -e "${ANSI_YELLOW}Setting up virtual environment... $ANSI_RESET"
-sudo apt-get install python3-venv
 sudo python3 -m venv environment
 sudo chmod -R a+rwx environment
 echo -e "${ANSI_GREEN}DONE creating virtual environment! $ANSI_RESET"
@@ -247,25 +144,6 @@ echo -e "${ANSI_YELLOW}Restarting docker containers one last time... $ANSI_RESET
 sudo docker compose down
 sudo docker compose up -d
 
-# Setting up Tailscale
-echo -ne "${ANSI_YELLOW}Would you like to Set Up Tailscale (y/n)?: $ANSI_RESET"
-read setupTailscale
-if [ $setupTailscale = "y" ]; then
-    echo -ne "${ANSI_YELLOW}ENTER your Tailscale authkey here (you may need to ask your lead for this): $ANSI_RESET"
-    read tailscaleAuthKey
-    echo -e "${ANSI_BOLD}Setting up Tailscale... $ANSI_RESET"
-    sudo apt-get install -y curl
-    curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
-    curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
-    sudo apt-get update
-    sudo apt-get install tailscale
-    sudo tailscale up --auth-key $tailscaleAuthKey
-    echo -e "${ANSI_GREEN}DONE setting up Tailscale! $ANSI_RESET"
-else
-    echo -e "${ANSI_BOLD}Skipping Tailscale setup... $ANSI_RESET"
-fi
-
-# Make everything in the scripts directory executable
 echo -e "${ANSI_YELLOW}Making all scripts executable... $ANSI_RESET"
 chmod +x scripts/CSV_Download_script.sh 
 
