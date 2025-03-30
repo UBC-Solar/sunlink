@@ -406,7 +406,7 @@ BO_ 1872 TELTimeSinceBootup: 4 TEL
 BO_ 1873 TELDiagnostics: 1 TEL
  SG_ TELWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUReadFail : 1|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ IMUWriteFail : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ IMUWriteFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1408 STRTurnModeSignal: 1 STR
  SG_ RTSSIGNAL : 0|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -429,7 +429,7 @@ BO_ 1027 DRDDiagnostics: 5 DRD
  SG_ DRDWatchdogReset : 36|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCommFault : 37|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1028 DRDTimeSinceBootup: 3 DRD
+BO_ 1028 DRDTimeSinceBootup: 4 DRD
  SG_ DRDTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ SG_ 1572 b0x00 "Unused";
