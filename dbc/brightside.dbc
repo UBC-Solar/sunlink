@@ -296,7 +296,7 @@ BO_ 2290418213 Mitsuba_Frame0: 8 MC
  SG_ BatteryCurrentDirection : 19|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCurrentPeakAverage : 20|10@1+ (1,0) [0|0] "A" Vector__XXX
  SG_ FETTemperature : 30|5@1+ (5,0) [0|0] "C" Vector__XXX
- SG_ MotorRotatingSpeed : 35|12@1+ (1,0) [0|0] "RPM" Vector__XXX
+ SG_ MotorRotatingSpeed : 35|12@1+ (0.02963569069,0) [0|0] "RPM" Vector__XXX
  SG_ PWMDuty : 47|10@1+ (0.5,0) [0|0] "%" Vector__XXX
  SG_ LeadAngle : 57|7@1+ (0.5,0) [0|0] "C" Vector__XXX
 
