@@ -24,7 +24,7 @@ ANSI_RESTORE_CURSOR     = "\0338"
 # Regex Patterns for logfile parsing
 PATTERN_DATETIME        = re.compile(r't:\s*(.*?)\s*DateTime:\s*(.*)')
 PATTERN_TRIGGER         = re.compile(r't:\s*(.*?)\s*Log Trigger Event.*')
-PATTERN_EVENT           = re.compile(r't:\s*(.*?)\s*ch:0\s*f:\s*(.*?)\s*id:(.*?)\s*dlc:\s*(.*?)\s*d:(.*)')
+PATTERN_EVENT           = re.compile(r't:\s*(.*?)\s*ch:1\s*f:\s*(.*?)\s*id:(.*?)\s*dlc:\s*(.*?)\s*d:(.*)')
 
 # Data Constants
 ERROR_ID                = 0
