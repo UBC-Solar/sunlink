@@ -33,7 +33,7 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD
+BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD MPPT
 
 
 BO_ 1793 VoltageSensorsData: 8 AMB
@@ -296,7 +296,7 @@ BO_ 2290418213 Mitsuba_Frame0: 8 MC
  SG_ BatteryCurrentDirection : 19|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCurrentPeakAverage : 20|10@1+ (1,0) [0|0] "A" Vector__XXX
  SG_ FETTemperature : 30|5@1+ (5,0) [0|0] "C" Vector__XXX
- SG_ MotorRotatingSpeed : 35|12@1+ (0.02963569069,0) [0|0] "RPM" Vector__XXX
+ SG_ MotorRotatingSpeed : 35|12@1+ (0.10668848651,0) [0|0] "km/h" Vector__XXX
  SG_ PWMDuty : 47|10@1+ (0.5,0) [0|0] "%" Vector__XXX
  SG_ LeadAngle : 57|7@1+ (0.5,0) [0|0] "C" Vector__XXX
 
@@ -419,7 +419,7 @@ BO_ 1025 MotorCommand: 5 DRD
  SG_ Direction : 32|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ EcoModeOn : 33|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1027 DRDDiagnostics: 5 DRD
+BO_ 1027 DRDDiagnostics: 6 DRD
  SG_ RawADC1 : 0|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RawADC2 : 16|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ BrakePressed : 32|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -428,6 +428,7 @@ BO_ 1027 DRDDiagnostics: 5 DRD
  SG_ ADCMismatch : 35|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ DRDWatchdogReset : 36|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCommFault : 37|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DriveState : 38|3@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1028 DRDTimeSinceBootup: 4 DRD
  SG_ DRDTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "" Vector__XXX
@@ -530,7 +531,7 @@ CM_ SG_ 2290418213 BatteryCurrent "1A/LSB";
 CM_ SG_ 2290418213 BatteryCurrentDirection "0:positive current. 1:negative ";
 CM_ SG_ 2290418213 MotorCurrentPeakAverage "1A/LSB";
 CM_ SG_ 2290418213 FETTemperature "5deg (C)/LSB";
-CM_ SG_ 2290418213 MotorRotatingSpeed "1rpm/LSB";
+CM_ SG_ 2290418213 MotorRotatingSpeed "1kmh/LSB";
 CM_ SG_ 2290418213 PWMDuty "0.5%/LSB (only in PWM control mode)";
 CM_ SG_ 2290418213 LeadAngle "0.5deg/LSB (electric lead angle)";
 CM_ SG_ 2291466789 PowerMode "0: Eco Mode. 1: Power Mode";
