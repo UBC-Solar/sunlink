@@ -8,7 +8,7 @@ datasources:
   - name: InfluxDB
     type: influxdb
     access: proxy
-    uid: ${DS_INFLUXDB}
+    uid: P951FEA4DE68E13C5
     url: http://influxdb:8086
     basicAuth: true
     isDefault: true
