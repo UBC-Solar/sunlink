@@ -8,6 +8,59 @@ ANSI_YELLOW="\033[1;33m"
 ANSI_BOLD="\033[1m"
 ANSI_RESET="\033[0m"
 
+#echo -e "${ANSI_BOLD}Updating apt... $ANSI_RESET"                 # Update apt
+#sudo apt update
+#sudo apt-get update
+#echo -e "${ANSI_GREEN}DONE updating apt! $ANSI_RESET"
+#
+#echo -e "${ANSI_BOLD}Installing gnome terminal... $ANSI_RESET"
+#sudo apt install gnome-terminal                                        # install gnome terminal
+#echo -e "${ANSI_GREEN}DONE installing gnome terminal! $ANSI_RESET"
+
+#echo -e "${ANSI_BOLD}Checking for docker installation. $ANSI_RESET"
+#doInstall=true
+#if [ -x "$(command -v docker)" ]; then                                 # Check if Docker is installed. If it is remove it. otherwise install
+#    echo -ne "${ANSI_YELLOW}Found Docker Installation. Do you want to REINSTALL. Your containers will be DELETED FORVER (y/n)?: $ANSI_RESET"
+#    read reinstall
+#    case $reinstall in
+#        [Yy]* )
+#            echo -e "${ANSI_YELLOW}Removing Docker Installation $ANSI_RESET"
+#            sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+#            sudo rm -rf /var/lib/docker
+#            sudo rm -rf /var/lib/containerd
+#            echo -e "${ANSI_YELLOW}DONE removing docker. Installing... $ANSI_RESET"
+#            ;;
+#        [Nn]* )
+#            doInstall=false
+#            ;;
+#        * ) echo -e "${ANSI_YELLOW}Please enter (y/n). ${ANSI_RESET}";;
+#    esac
+#else
+#    echo -e "${ANSI_YELLOW}Docker not installed. Installing now... $ANSI_RESET"
+#fi
+
+#if [ $doInstall = true ]; then
+#    # install docker
+#    sudo apt-get install ca-certificates curl
+#    sudo install -m 0755 -d /etc/apt/keyrings
+#    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+#    sudo chmod a+r /etc/apt/keyrings/docker.asc
+#    # Add the repository to Apt sources:
+#    echo \
+#    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+#    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+#    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#    sudo apt-get update
+#    ## install latest version of docker
+#    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+#    echo -e "${ANSI_GREEN}DONE installing docker! $ANSI_RESET "
+#fi
+
+# Clone Sunlink
+echo -e "${ANSI_YELLOW}\nCloning Sunlink Repository\n $ANSI_RESET"
+git clone https://github.com/UBC-Solar/sunlink.git sunlink
+cd sunlink                                                                           # Change directory into sunlink
+
 echo -e "${ANSI_YELLOW}Setting up sunlink environment... $ANSI_RESET"                # Set up influx and grafana
 SUNLINK_DIR=$PWD
 GRAFANA_ADMIN_USERNAME=admin
