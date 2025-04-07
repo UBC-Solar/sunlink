@@ -56,6 +56,21 @@ ANSI_RESET="\033[0m"
 #    echo -e "${ANSI_GREEN}DONE installing docker! $ANSI_RESET "
 #fi
 
+echo -e "${ANSI_YELLOW}For this setup script to succeed, you require an existing installation of Docker; if you do not have Docker installed, please \ninstall from https://docs.docker.com/desktop/setup/install/mac-install/."
+echo -e "You must be on the UBC Solar Tailnet, talk to your Lead if you don't know what that means. You can install Tailscale on the App Store, and talk to your Lead about \ngetting an authorization key and how to authenticate."
+echo -ne "Do you have a working installation of Docker and are on the Tailnet? (y/n)?: $ANSI_RESET"
+read dependencies_confirmed
+case $dependencies_confirmed in
+    [Yy]* )
+        echo -e "${ANSI_YELLOW}Continuing with setup... $ANSI_RESET"
+        ;;
+    [Nn]* )
+        echo -e "${ANSI_YELLOW}Aborting. ${ANSI_RESET}"
+        exit 0
+        ;;
+    * ) echo -e "${ANSI_YELLOW}Please enter (y/n). ${ANSI_RESET}";;
+esac
+
 # Clone Sunlink
 echo -e "${ANSI_YELLOW}\nCloning Sunlink Repository\n $ANSI_RESET"
 git clone https://github.com/UBC-Solar/sunlink.git sunlink
