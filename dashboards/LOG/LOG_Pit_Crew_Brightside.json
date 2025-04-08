@@ -1,59 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_INFLUXDB",
-      "label": "InfluxDB",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "influxdb",
-      "pluginName": "InfluxDB"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "bargauge",
-      "name": "Bar gauge",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "9.5.2"
-    },
-    {
-      "type": "datasource",
-      "id": "influxdb",
-      "name": "InfluxDB",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "state-timeline",
-      "name": "State timeline",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -74,7 +19,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -1500,7 +1445,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1577,7 +1523,7 @@
             "h": 7,
             "w": 10,
             "x": 0,
-            "y": 95
+            "y": 63
           },
           "id": 35,
           "options": {
@@ -1644,7 +1590,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1829,7 +1776,7 @@
             "h": 7,
             "w": 11,
             "x": 10,
-            "y": 95
+            "y": 63
           },
           "id": 34,
           "options": {
@@ -1876,7 +1823,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1891,7 +1839,7 @@
             "h": 7,
             "w": 3,
             "x": 21,
-            "y": 95
+            "y": 63
           },
           "id": 36,
           "options": {
@@ -1937,7 +1885,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1953,7 +1902,7 @@
             "h": 8,
             "w": 7,
             "x": 0,
-            "y": 102
+            "y": 70
           },
           "id": 38,
           "options": {
@@ -2031,7 +1980,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2060,7 +2010,7 @@
             "h": 8,
             "w": 17,
             "x": 7,
-            "y": 102
+            "y": 70
           },
           "id": 37,
           "options": {
@@ -2105,7 +2055,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "dark-yellow",
@@ -2510,7 +2461,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 110
+            "y": 78
           },
           "id": 51,
           "options": {
@@ -2574,7 +2525,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "#EAB839",
@@ -2979,7 +2931,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 120
+            "y": 64
           },
           "id": 21,
           "options": {
@@ -3029,7 +2981,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "#EAB839",
@@ -3146,7 +3099,7 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 127
+            "y": 71
           },
           "id": 22,
           "options": {
@@ -3258,7 +3211,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               }
@@ -3269,7 +3223,7 @@
             "h": 6,
             "w": 24,
             "x": 0,
-            "y": 134
+            "y": 78
           },
           "id": 50,
           "options": {
@@ -3291,7 +3245,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"SurfaceTempController\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"SurfaceTempController\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3872,7 +3826,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-1m",
     "to": "now"
   },
   "timepicker": {
@@ -3892,6 +3846,6 @@
   "timezone": "",
   "title": "LOG: Pit Crew - Brightside",
   "uid": "e6de4676-26c7-4b22-8570-7b0c9967ffc5",
-  "version": 6,
+  "version": 29,
   "weekStart": ""
 }
