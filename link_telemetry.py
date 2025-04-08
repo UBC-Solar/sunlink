@@ -30,6 +30,10 @@ import concurrent.futures
 from tools.MemoratorUploader import memorator_upload_script
 from parser.create_message import create_message
 from LINK_CONSTANTS import *
+from dotenv import dotenv_values
+from websockets.sync.client import connect
+import influxdb_client
+from influxdb_client.client.write_api import SYNCHRONOUS
 
 
 __PROGRAM__ = "link_telemetry"
@@ -37,6 +41,22 @@ __VERSION__ = "0.4"
 
 # <----- Supress Beatiful Table Warnings ----->
 warnings.simplefilter(action='ignore', category=FutureWarning)
+
+# paths are relative to project root
+ENV_FILE = Path(".env")
+if not ENV_FILE.is_file():
+    sys.exit(1)
+ENV_CONFIG = dotenv_values(ENV_FILE)
+GRAFANA_URL = "http://grafana:3000/"
+GRAFANA_TOKEN = ENV_CONFIG["GRAFANA_TOKEN"]
+GRAFANA_URL_NAME = Path(GRAFANA_URL).name
+
+# <----- InfluxDB constants ----->
+
+INFLUX_URL = "http://localhost:8086/"
+INFLUX_TOKEN = ENV_CONFIG["INFLUX_TOKEN"]
+
+INFLUX_ORG = ENV_CONFIG["INFLUX_ORG"]
 
 
 # <----- Constants ----->
@@ -96,6 +116,11 @@ SIGINT_RECVD = False
 CHUNK_SIZE = 24 * 21        # 21 CAN messages from serial at a time.
 
 num_processed_msgs = 0
+
+batch_to_write = []
+client = influxdb_client.InfluxDBClient(
+    url=INFLUX_URL, org=INFLUX_ORG, token=INFLUX_TOKEN)
+write_api = client.write_api(write_options=SYNCHRONOUS)
 
 # <----- Utility functions ------>
 
@@ -254,9 +279,12 @@ def sigint_handler(sig, frame):
     sys.exit(0)
 
 
+    
 def filter_stream(parse_response, filter_list):  
     data_dict = parse_response['message']
-    type = parse_response['type']
+    return _filter_stream(data_dict, filter_list)
+
+def _filter_stream(data_dict, filter_list, type="CAN"):
     if "ALL" in filter_list:
         return True
     elif "NONE" in filter_list:
@@ -351,9 +379,6 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
     """
     formatted_time = current_log_time.strftime('%Y-%m-%d_%H:%M:%S')
 
-    global num_processed_msgs
-    num_processed_msgs += 1                             # A call back is received so our request was processed
-    
     # get the response from the future
     response = future.result()
 
@@ -385,44 +410,11 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
 
     for response in all_responeses:
         if response["result"] == "OK":
-            table = None
-            do_display_table = filter_stream(response, display_filters)
-            if args.log is not None or do_display_table:
-                # Create a table
-                table = BeautifulTable()
+            table = handle_message_from_response(response["message"], display_filters, args)
 
-                # Set the table title
-                table.set_style(BeautifulTable.STYLE_RST)
-                table.column_widths = [110]
-                table.width_exceed_policy = BeautifulTable.WEP_WRAP
-
-                # Title
-                table.rows.append([f"{ANSI_GREEN}{response['type']}{ANSI_ESCAPE}"])
-                display_data = response['message']
-
-                # Add columns as subtable
-                subtable = BeautifulTable()
-                subtable.set_style(BeautifulTable.STYLE_GRID)
-
-                cols = display_data["COL"]
-                subtable.rows.append(cols.keys())
-                for i in range(len(list(cols.values())[0])):
-                    subtable.rows.append([val[i] for val in cols.values()]) 
-
-                table.rows.append([subtable])
-
-                # Add rows
-                rows = display_data["ROW"]
-                for row_head, row_data in rows.items():
-                    table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
-                    table.rows.append(row_data)
-                
-            if do_display_table:
-                print(table)
-
-            if response["logMessage"]:
+            if response["logMessage"] and table is not None:
                 write_to_log_file(table, LOG_FILE_NAME, "log", convert_to_hex=False)
-            
+    
         elif response["result"] == "PARSE_FAIL":
             fail_msg = f"{ANSI_RED}PARSE_FAIL{ANSI_ESCAPE}: \n" + f"{response['error']}"
             print(fail_msg)
@@ -440,6 +432,48 @@ def process_response(future: concurrent.futures.Future, args, display_filters: l
             write_to_log_file(fail_msg + '\n', os.path.join(DEBUG_DIRECTORY, "FAILED_UPLOADS_{}.txt".format(formatted_time)) if args.log_upload else DEBUG_FILE_NAME, "dbg", convert_to_hex=False)
         else:
             print(f"Unexpected response: {response['result']}")
+
+def handle_message_from_response(display_dict, display_filters, args):
+    global num_processed_msgs
+    num_processed_msgs += 1                             # A call back is received so our request was processed
+    
+    table = None
+    do_display_table = _filter_stream(display_dict, display_filters)
+    if args.log is not None or do_display_table:
+        # Create a table
+        table = BeautifulTable()
+
+        # Set the table title
+        table.set_style(BeautifulTable.STYLE_RST)
+        table.column_widths = [110]
+        table.width_exceed_policy = BeautifulTable.WEP_WRAP
+
+        # Title
+        table.rows.append([f"{ANSI_GREEN}CAN{ANSI_ESCAPE}"])
+
+        # Add columns as subtable
+        subtable = BeautifulTable()
+        subtable.set_style(BeautifulTable.STYLE_GRID)
+
+        cols = display_dict["COL"]
+        subtable.rows.append(cols.keys())
+        for i in range(len(list(cols.values())[0])):
+            subtable.rows.append([val[i] for val in cols.values()]) 
+
+        table.rows.append([subtable])
+
+        # Add rows
+        rows = display_dict["ROW"]
+        for row_head, row_data in rows.items():
+            table.rows.append([f"{ANSI_BOLD}{row_head}{ANSI_ESCAPE}"])
+            table.rows.append(row_data)
+        
+    if do_display_table:
+        print(table)
+        return table
+    else:
+        return None
+
 
 
 
@@ -536,6 +570,8 @@ def displaySunlinkTracking():
         time.sleep(parameters.DISPLAY_RATE)
     
 
+BATCH_SIZE = 1
+
 def main():
     """
     Main telemetry link entrypoint.
@@ -621,6 +657,13 @@ def main():
                               help=((f"Specifies the frequency (in Hz) for random message generation. \
                                     Default value is {DEFAULT_RANDOM_FREQUENCY_HZ}Hz. Values above 1kHz \
                                     are discouraged.")))
+    
+    source_group.add_argument("--batch-size", action="store", default=BATCH_SIZE, type=int,
+                              help=((f"The number of parsed messages to send to InfluxDB at a time (Chunking). \
+                                    Default value is {BATCH_SIZE}. Improves performance to chunk high data rates")))
+    
+    source_group.add_argument("--local", action="store_true",
+                              help=((f"Will parse messages without using the parser docker container. Generally faster and useful for high data rates")))
 
     args = parser.parse_args()
 
@@ -759,6 +802,7 @@ def main():
             time.sleep(period_s)
 
         elif args.offline:     
+            
             # read in bytes from CAN bus
             can_bytes = can_bus.recv()          
 
@@ -799,9 +843,66 @@ def main():
                     for part in parts:
                         if args.raw:
                             print(part.encode('latin-1').hex())
-                        sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
-        sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
+                        if (args.local):
+                            handle_raw_message(message, display_filters, args)
+                        else:
+                            sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
+
+
+        if (args.local):
+            handle_raw_message(message, display_filters, args)
+        else:
+            sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
+
+
+
+
+def handle_raw_message(raw_message, display_filters, args):
+    parsed_message = safe_create_message(raw_message)
+    if (parsed_message is not None):
+        handle_message_from_response(parsed_message.data["display_data"], display_filters, args)
+        write_to_influx(parsed_message, "_test" if args.debug else "_prod", args.batch_size)
+
+def write_to_influx(parsed_message, bucket, batch_size):
+    for i in range(len(parsed_message.data[list(parsed_message.data.keys())[0]])):
+        # REQUIRED FIELDS
+        name = parsed_message.data["Measurement"][i]
+        source = parsed_message.data["Source"][i]
+        m_class = parsed_message.data["Class"][i]
+        value = parsed_message.data["Value"][i]
+        
+        timestamp = parsed_message.data.get("Timestamp", ["NA"])[i]
+
+        point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
+            "class", m_class).field(name, value)
+        
+        
+        if timestamp != "NA":
+            point.time(int(timestamp * 1e9))
+        
+        global batch_to_write
+        batch_to_write.append(point)
+
+        # write to InfluxDB
+        if len(batch_to_write) >= batch_size:    # CREDIT: Mridul Singh for Batch Writing Optimization!
+            try:
+                write_api.write(bucket=parsed_message.type + bucket, org=INFLUX_ORG, record=batch_to_write)
+                write_api.close()
+                batch_to_write = []
+            except Exception as e:
+                print("INFLUX_WRITE_ERROR", e)
+                continue
+            
+
+def safe_create_message(msg):
+    try:
+        message = create_message(msg)
+    except Exception as e:
+        return None
+        print(e)
+    
+    return message
 
 
 if __name__ == "__main__":
