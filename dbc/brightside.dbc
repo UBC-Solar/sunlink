@@ -430,18 +430,6 @@ BO_ 1027 DRDDiagnostics: 6 DRD
 BO_ 1028 DRDTimeSinceBootup: 4 DRD
  SG_ DRDTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 2147483648 : 0 Vector__XXX
- SG_  : 0|0@1+ (0,0) [0|0] "" Vector__XXX
-
-BO_ 2147483648 : 0 Vector__XXX
- SG_  : 0|0@1+ (0,0) [0|0] "" Vector__XXX
-
-BO_ 2147483648 : 0 Vector__XXX
- SG_  : 0|0@1+ (0,0) [0|0] "" Vector__XXX
-
-BO_ 2147483648 : 0 Vector__XXX
- SG_  : 0|0@1+ (0,0) [0|0] "" Vector__XXX
-
 BO_ 1410 STRDiagnostic: 1 Vector__XXX
  SG_ STRWatchdogReset : 0|7@1+ (1,0) [0|0] "" Vector__XXX
 
