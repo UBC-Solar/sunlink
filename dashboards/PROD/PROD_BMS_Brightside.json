@@ -19,7 +19,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 8,
+  "id": 6,
   "links": [
     {
       "asDropdown": false,
@@ -2337,7 +2337,7 @@
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 24,
         "x": 0,
         "y": 32
@@ -2792,7 +2792,7 @@
         "h": 6,
         "w": 18,
         "x": 0,
-        "y": 39
+        "y": 40
       },
       "id": 19,
       "options": {
@@ -2824,6 +2824,64 @@
       "title": "Balancing Status",
       "transformations": [],
       "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 40
+      },
+      "id": 29,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"_field\"] == \"IndexofHighestTemp\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Max Temp Index",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -2885,10 +2943,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 11,
+        "h": 6,
         "w": 6,
         "x": 18,
-        "y": 39
+        "y": 45
       },
       "id": 25,
       "options": {
@@ -3012,7 +3070,7 @@
         "h": 5,
         "w": 18,
         "x": 0,
-        "y": 45
+        "y": 46
       },
       "id": 27,
       "options": {
@@ -3047,7 +3105,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 50
+        "y": 51
       },
       "id": 15,
       "panels": [],
@@ -3130,7 +3188,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 52
       },
       "id": 14,
       "options": {

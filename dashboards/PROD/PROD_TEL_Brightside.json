@@ -1115,8 +1115,8 @@
     "list": []
   },
   "time": {
-    "from": "2025-04-02T02:20:17.497Z",
-    "to": "2025-04-02T02:20:22.824Z"
+    "from": "now-1m",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
