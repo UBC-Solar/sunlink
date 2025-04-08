@@ -184,11 +184,8 @@ BO_ 1280 MDITimeSinceBootup: 4 MDI
 BO_ 1281 MDIDiagnostics: 1 MDI
  SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1409 STRTimeSinceBootup: 4 STR
- SG_ STRTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
 
 BO_ 1410 STRDiagnostics : 1 STR
- SG_ STRWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1576 ModuleStatuses: 5 BMS
  SG_ MultiplexingBits M : 0|3@1+ (1,0) [0|0] "" Vector__XXX
@@ -433,6 +430,24 @@ BO_ 1027 DRDDiagnostics: 6 DRD
 BO_ 1028 DRDTimeSinceBootup: 4 DRD
  SG_ DRDTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 2147483648 : 0 Vector__XXX
+ SG_  : 0|0@1+ (0,0) [0|0] "" Vector__XXX
+
+BO_ 2147483648 : 0 Vector__XXX
+ SG_  : 0|0@1+ (0,0) [0|0] "" Vector__XXX
+
+BO_ 2147483648 : 0 Vector__XXX
+ SG_  : 0|0@1+ (0,0) [0|0] "" Vector__XXX
+
+BO_ 2147483648 : 0 Vector__XXX
+ SG_  : 0|0@1+ (0,0) [0|0] "" Vector__XXX
+
+BO_ 1410 STRDiagnostic: 1 Vector__XXX
+ SG_ STRWatchdogReset : 0|7@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1409 STRTimeSinceBootup: 4 Vector__XXX
+ SG_ STRTimeSinceBootup : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
 CM_ SG_ 1573 AverageTemp "Twos Complement";
@@ -588,3 +603,4 @@ SIG_VALTYPE_ 1888 GPSGeodHeight : 1;
 SIG_VALTYPE_ 1889 GPSTrueHeading : 1;
 SIG_VALTYPE_ 1889 GPSMagneticHeading : 1;
 SIG_VALTYPE_ 1892 CPULoad : 1;
+
