@@ -407,6 +407,7 @@ BO_ 1873 TELDiagnostics: 1 TEL
  SG_ TELWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUReadFail : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUWriteFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSReadFail : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1408 STRTurnModeSignal: 1 STR
  SG_ RTSSIGNAL : 0|1@1+ (1,0) [0|0] "" Vector__XXX
