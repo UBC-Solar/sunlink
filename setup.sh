@@ -71,10 +71,10 @@ case $dependencies_confirmed in
     * ) echo -e "${ANSI_YELLOW}Please enter (y/n). ${ANSI_RESET}";;
 esac
 
-# Clone Sunlink
-echo -e "${ANSI_YELLOW}\nCloning Sunlink Repository\n $ANSI_RESET"
-git clone https://github.com/UBC-Solar/sunlink.git sunlink
-cd sunlink                                                                           # Change directory into sunlink
+## Clone Sunlink
+#echo -e "${ANSI_YELLOW}\nCloning Sunlink Repository\n $ANSI_RESET"
+#git clone https://github.com/UBC-Solar/sunlink.git sunlink
+#cd sunlink                                                                           # Change directory into sunlink
 
 echo -e "${ANSI_YELLOW}Setting up sunlink environment... $ANSI_RESET"                # Set up influx and grafana
 SUNLINK_DIR=$PWD
