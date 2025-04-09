@@ -791,7 +791,6 @@ def main():
     while True:
         message: bytes
 
-
         if args.randomList:
             try:
                 message = RandomMessage().random_message_str(args.randomList)
@@ -845,9 +844,9 @@ def main():
                             print(part.encode('latin-1').hex())
 
                         if (args.local):
-                            handle_raw_message(message, display_filters, args)
+                            handle_raw_message(part, display_filters, args)
                         else:
-                            sendToParser(message, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
+                            sendToParser(part, live_filters, log_filters, display_filters, args, PARSER_ENDPOINT)
 
 
         if (args.local):
@@ -899,8 +898,8 @@ def safe_create_message(msg):
     try:
         message = create_message(msg)
     except Exception as e:
-        return None
         print(e)
+        return None
     
     return message
 
