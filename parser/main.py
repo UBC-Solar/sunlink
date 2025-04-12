@@ -368,11 +368,11 @@ def parse_and_write_request_bucket(bucket):
             point = influxdb_client.Point(source).tag("car", CAR_NAME).tag(
                 "class", m_class).field(name, value)
             
-            parse_and_write_request_bucket.points.append(point)
-            
             if timestamp != "NA":
                 point.time(int(timestamp * 1e9))
             
+            parse_and_write_request_bucket.points.append(point)
+
             # write to InfluxDB
             if len(parse_and_write_request_bucket.points) >= BATCH_SIZE:    # CREDIT: Mridul Singh for Batch Writing Optimization!
                 try:

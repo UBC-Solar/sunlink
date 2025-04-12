@@ -25,18 +25,12 @@ def create_message(message: str):
     try:
         if CAN_LENGTH_MIN <= len(message) <= CAN_LENGTH_MAX:
             return CAN(message)
-        elif GPS_LENGTH_MIN <= len(message) <= GPS_LENGTH_MAX:
-            return GPS(message)
-        elif IMU_LENGTH_MIN <= len(message) <= IMU_LENGTH_MAX:
-            return IMU(message)
         else:
             raise ValueError(
                 f"Message length of {len(message)} is not a valid length for any message type. "
                 f"Message: {message}\n"
                 f"Hex Message: {message.encode('latin-1').hex()}"
             )
-        
-            raise Exception(f"Message length of {len(message)} is not a valid length for any message type")
     except Exception as e:
         raise Exception(
             f"{ANSI_BOLD}Failed to create message in create_message{ANSI_ESCAPE}:\n"
