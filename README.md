@@ -4,7 +4,13 @@ Welcome to UBC Solar's telemetry aggregation, storage, and visualization system,
 
 ## Need Help Running Sunlink?
 ### Commands
-**When you get into the sunlink directory immediately run:**
+**Recommended Everytime you Open Sunlink**
+```bash
+git pull
+sudo docker compose restart
+```
+
+**MUST Run Once in Sunlink directory**
 ```bash
 source  environment/bin/activate
 ```
