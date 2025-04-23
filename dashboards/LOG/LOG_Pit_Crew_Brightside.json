@@ -136,7 +136,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RawADC1\" or r[\"_field\"] == \"RawADC2\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RawADC1\" or r[\"_field\"] == \"RawADC2\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -225,7 +225,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveState\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveState\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -312,7 +312,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveActionStatus\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveActionStatus\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -385,7 +385,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"EcoModeOn\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"EcoModeOn\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -458,7 +458,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PowerMode\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PowerMode\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -568,7 +568,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ThrottleDAC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ThrottleDAC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -656,7 +656,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryCurrent\" or r[\"_field\"] == \"AcceleratorPosition\" or r[\"_field\"] == \"PackCurrent\")\n  |> filter(fn: (r) => r[\"car\"] == \"Brightside\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryCurrent\" or r[\"_field\"] == \"AcceleratorPosition\" or r[\"_field\"] == \"PackCurrent\")\n  |> filter(fn: (r) => r[\"car\"] == \"Brightside\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -760,7 +760,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"AcceleratorPosition\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"AcceleratorPosition\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -845,7 +845,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorRotatingSpeed\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorRotatingSpeed\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -901,7 +901,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorRotatingSpeed\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorRotatingSpeed\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -1020,7 +1020,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"FETTemperature\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"FETTemperature\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -1111,7 +1111,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RegenEnabled\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RegenEnabled\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -1188,7 +1188,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RegenerationStatus\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RegenerationStatus\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -1246,7 +1246,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryCurrentDirection\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryCurrentDirection\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -1356,7 +1356,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RegenDAC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RegenDAC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -1444,7 +1444,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"RegenerationVRPosition\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"car\"] == \"Brightside\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")\n  ",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"RegenerationVRPosition\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"car\"] == \"Brightside\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")\n  ",
               "refId": "A"
             }
           ],
@@ -1602,7 +1602,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LowVoltage\" or r[\"_field\"] == \"HighVoltage\" or r[\"_field\"] == \"LowTemp\" or r[\"_field\"] == \"HighTemp\" or r[\"_field\"] == \"NoECUCurrentMessage\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LowVoltage\" or r[\"_field\"] == \"HighVoltage\" or r[\"_field\"] == \"LowTemp\" or r[\"_field\"] == \"HighTemp\" or r[\"_field\"] == \"NoECUCurrentMessage\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -1854,7 +1854,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SlaveBoardComm\" or r[\"_field\"] == \"BMSSelfTest\" or r[\"_field\"] == \"OverTemp\" or r[\"_field\"] == \"UnderVoltage\" or r[\"_field\"] == \"OverVoltage\" or r[\"_field\"] == \"IsoLost\" or r[\"_field\"] == \"ChargeOvercurrent\" or r[\"_field\"] == \"VoltOutofRange\" or r[\"_field\"] == \"TempOutofRange\" or r[\"_field\"] == \"PackBalancingActive\" or r[\"_field\"] == \"LLIMActive\" or r[\"_field\"] == \"HLIMActive\" or r[\"_field\"] == \"ChargeOverTemp\" or r[\"_field\"] == \"RequestRegenOff\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"Faults\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SlaveBoardComm\" or r[\"_field\"] == \"BMSSelfTest\" or r[\"_field\"] == \"OverTemp\" or r[\"_field\"] == \"UnderVoltage\" or r[\"_field\"] == \"OverVoltage\" or r[\"_field\"] == \"IsoLost\" or r[\"_field\"] == \"ChargeOvercurrent\" or r[\"_field\"] == \"VoltOutofRange\" or r[\"_field\"] == \"TempOutofRange\" or r[\"_field\"] == \"PackBalancingActive\" or r[\"_field\"] == \"LLIMActive\" or r[\"_field\"] == \"HLIMActive\" or r[\"_field\"] == \"ChargeOverTemp\" or r[\"_field\"] == \"RequestRegenOff\")\n  |> sample(n: 10, pos: 1)\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -1916,7 +1916,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ESTOP_Pressed\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ESTOP_Pressed\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -1978,7 +1978,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TotalPackVoltage\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TotalPackVoltage\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -2071,7 +2071,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SuppBattVoltage\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SuppBattVoltage\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -2133,7 +2133,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofHighest\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofHighest\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -2294,7 +2294,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ECU\")\n  |> filter(fn: (r) => r[\"class\"] == \"ECUStatus\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -2356,7 +2356,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofLeast\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"VoltageSummary\")\n  |> filter(fn: (r) => r[\"_field\"] == \"VoltageofLeast\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -2811,7 +2811,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleTemps\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Temp1\" or r[\"_field\"] == \"Temp2\" or r[\"_field\"] == \"Temp3\" or r[\"_field\"] == \"Temp4\" or r[\"_field\"] == \"Temp5\"or r[\"_field\"] == \"Temp6\" or r[\"_field\"] == \"Temp7\" or r[\"_field\"] == \"Temp8\" or r[\"_field\"] == \"Temp9\" or r[\"_field\"] == \"Temp10\" or r[\"_field\"] == \"Temp11\" or r[\"_field\"] == \"Temp12\" or r[\"_field\"] == \"Temp13\" or r[\"_field\"] == \"Temp14\" or r[\"_field\"] == \"Temp15\"or r[\"_field\"] == \"Temp16\" or r[\"_field\"] == \"Temp17\" or r[\"_field\"] == \"Temp18\" or r[\"_field\"] == \"Temp19\" or r[\"_field\"] == \"Temp20\" or r[\"_field\"] == \"Temp21\" or r[\"_field\"] == \"Temp22\" or r[\"_field\"] == \"Temp23\" or r[\"_field\"] == \"Temp24\" or r[\"_field\"] == \"Temp25\"or r[\"_field\"] == \"Temp26\" or r[\"_field\"] == \"Temp27\" or r[\"_field\"] == \"Temp28\" or r[\"_field\"] == \"Temp29\" or r[\"_field\"] == \"Temp30\" or r[\"_field\"] == \"Temp31\" or r[\"_field\"] == \"Temp32\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BMS\")\n  |> filter(fn: (r) => r[\"class\"] == \"ModuleTemps\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Temp1\" or r[\"_field\"] == \"Temp2\" or r[\"_field\"] == \"Temp3\" or r[\"_field\"] == \"Temp4\" or r[\"_field\"] == \"Temp5\"or r[\"_field\"] == \"Temp6\" or r[\"_field\"] == \"Temp7\" or r[\"_field\"] == \"Temp8\" or r[\"_field\"] == \"Temp9\" or r[\"_field\"] == \"Temp10\" or r[\"_field\"] == \"Temp11\" or r[\"_field\"] == \"Temp12\" or r[\"_field\"] == \"Temp13\" or r[\"_field\"] == \"Temp14\" or r[\"_field\"] == \"Temp15\"or r[\"_field\"] == \"Temp16\" or r[\"_field\"] == \"Temp17\" or r[\"_field\"] == \"Temp18\" or r[\"_field\"] == \"Temp19\" or r[\"_field\"] == \"Temp20\" or r[\"_field\"] == \"Temp21\" or r[\"_field\"] == \"Temp22\" or r[\"_field\"] == \"Temp23\" or r[\"_field\"] == \"Temp24\" or r[\"_field\"] == \"Temp25\"or r[\"_field\"] == \"Temp26\" or r[\"_field\"] == \"Temp27\" or r[\"_field\"] == \"Temp28\" or r[\"_field\"] == \"Temp29\" or r[\"_field\"] == \"Temp30\" or r[\"_field\"] == \"Temp31\" or r[\"_field\"] == \"Temp32\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -2889,7 +2889,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"MDITimeSinceBootUp\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"MDITimeSinceBootUp\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -2963,7 +2963,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"MDIWatchdogReset\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"MDIWatchdogReset\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3026,7 +3026,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"DRDTimeSinceBootUp\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"DRDTimeSinceBootUp\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3100,7 +3100,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"DRDWatchdogReset\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"DRDWatchdogReset\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3252,7 +3252,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ADCOutOfRange\" or r[\"_field\"] == \"ADCMismatch\" or r[\"_field\"] == \"DRDWatchdogReset\" or r[\"_field\"] == \"MotorCommFault\" or r[\"_field\"] == \"RegenEnabled\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ADCOutOfRange\" or r[\"_field\"] == \"ADCMismatch\" or r[\"_field\"] == \"DRDWatchdogReset\" or r[\"_field\"] == \"MotorCommFault\" or r[\"_field\"] == \"RegenEnabled\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3342,7 +3342,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveState\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveState\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3416,7 +3416,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BrakePressed\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BrakePressed\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3479,7 +3479,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"STRTimeSinceBootUp\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"STRTimeSinceBootUp\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3553,7 +3553,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"STRWatchdogReset\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"STRWatchdogReset\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3627,7 +3627,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LTSSIGNAL\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LTSSIGNAL\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3701,7 +3701,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RTSSIGNAL\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RTSSIGNAL\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3775,7 +3775,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DRIVEMODE\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DRIVEMODE\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3837,7 +3837,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"TELTimeSinceBootUp\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"TELTimeSinceBootUp\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3910,7 +3910,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"TELWatchdogReset\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"TELWatchdogReset\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -3987,7 +3987,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"IMUReadFail\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"IMUReadFail\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -4064,7 +4064,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"IMUWriteFail\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"IMUWriteFail\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -4141,7 +4141,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\n  |> filter(fn: (r) => r[\"_field\"] == \"GPSReadFail\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\n  |> filter(fn: (r) => r[\"_field\"] == \"GPSReadFail\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -4213,7 +4213,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"GPSSatCount\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"GPSSatCount\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -4281,7 +4281,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"GPSFix\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"GPSFix\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -4383,7 +4383,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\" or r[\"_field\"] == \"LVCurrent\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")\n  ",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"PackCurrent\" or r[\"_field\"] == \"LVCurrent\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")\n  ",
               "refId": "A"
             }
           ],
@@ -4483,7 +4483,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputCurrentA\" or r[\"_field\"] == \"InputCurrentB\" or r[\"_field\"] == \"InputCurrentC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputCurrentA\" or r[\"_field\"] == \"InputCurrentB\" or r[\"_field\"] == \"InputCurrentC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -4569,7 +4569,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OutputCurrentA\" or r[\"_field\"] == \"OutputCurrentB\" or r[\"_field\"] == \"OutputCurrentC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OutputCurrentA\" or r[\"_field\"] == \"OutputCurrentB\" or r[\"_field\"] == \"OutputCurrentC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -4655,7 +4655,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputVoltageA\" or r[\"_field\"] == \"InputVoltageB\" or r[\"_field\"] == \"InputVoltageC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputVoltageA\" or r[\"_field\"] == \"InputVoltageB\" or r[\"_field\"] == \"InputVoltageC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
@@ -4741,7 +4741,7 @@
                 "type": "influxdb",
                 "uid": "P951FEA4DE68E13C5"
               },
-              "query": "from(bucket: \"CAN_lod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OutputVoltageA\" or r[\"_field\"] == \"OutputVoltageB\" or r[\"_field\"] == \"OutputVoltageC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+              "query": "from(bucket: \"CAN_log\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OutputVoltageA\" or r[\"_field\"] == \"OutputVoltageB\" or r[\"_field\"] == \"OutputVoltageC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
               "refId": "A"
             }
           ],
