@@ -794,3 +794,65 @@ SIG_VALTYPE_ 1888 GPSGeodHeight : 1;
 SIG_VALTYPE_ 1889 GPSTrueHeading : 1;
 SIG_VALTYPE_ 1889 GPSMagneticHeading : 1;
 SIG_VALTYPE_ 1892 CPULoad : 1;
+
+SIG_VALTYPE_ 1696 InputVoltageA              : 1;
+SIG_VALTYPE_ 1696 InputCurrentA              : 1;
+
+SIG_VALTYPE_ 1712 InputVoltageB              : 1;
+SIG_VALTYPE_ 1712 InputCurrentB              : 1;
+
+SIG_VALTYPE_ 1728 InputVoltageC              : 1;
+SIG_VALTYPE_ 1728 InputCurrentC              : 1;
+
+SIG_VALTYPE_ 1697 OutputVoltageA             : 1;
+SIG_VALTYPE_ 1697 OutputCurrentA             : 1;
+
+SIG_VALTYPE_ 1713 OutputVoltageB             : 1;
+SIG_VALTYPE_ 1713 OutputCurrentB             : 1;
+
+SIG_VALTYPE_ 1729 OutputVoltageC             : 1;
+SIG_VALTYPE_ 1729 OutputCurrentC             : 1;
+
+SIG_VALTYPE_ 1698 MosfetTemperatureA         : 1;
+SIG_VALTYPE_ 1698 ControllerTemperatureA     : 1;
+
+SIG_VALTYPE_ 1714 MosfetTemperatureB         : 1;
+SIG_VALTYPE_ 1714 ControllerTemperatureB     : 1;
+
+SIG_VALTYPE_ 1730 MosfetTemperatureC         : 1;
+SIG_VALTYPE_ 1730 ControllerTemperatureC     : 1;
+
+SIG_VALTYPE_ 1699 Aux12VA                    : 1;
+SIG_VALTYPE_ 1699 Aux3VA                     : 1;
+
+SIG_VALTYPE_ 1715 Aux12VB                    : 1;
+SIG_VALTYPE_ 1715 Aux3VB                     : 1;
+
+SIG_VALTYPE_ 1731 Aux12VC                    : 1;
+SIG_VALTYPE_ 1731 Aux3VC                     : 1;
+
+SIG_VALTYPE_ 1700 MaxOutputVoltageLimitA     : 1;
+SIG_VALTYPE_ 1700 MaxInputCurrentLimitA      : 1;
+
+SIG_VALTYPE_ 1716 MaxOutputVoltageLimitB     : 1;
+SIG_VALTYPE_ 1716 MaxInputCurrentLimitB      : 1;
+
+SIG_VALTYPE_ 1732 MaxOutputVoltageLimitC     : 1;
+SIG_VALTYPE_ 1732 MaxInputCurrentLimitC      : 1;
+
+SIG_VALTYPE_ 1702 OutputVoltageBattSideA     : 1;
+SIG_VALTYPE_ 1702 ConnectorTemperatureA      : 1;
+
+SIG_VALTYPE_ 1718 OutputVoltageBattSideB     : 1;
+SIG_VALTYPE_ 1718 ConnectorTemperatureB      : 1;
+
+SIG_VALTYPE_ 1734 OutputVoltageBattSideC     : 1;
+SIG_VALTYPE_ 1734 ConnectorTemperatureC      : 1;
+
+SIG_VALTYPE_ 1706 MaxOutputVoltageCmdA       : 1;
+SIG_VALTYPE_ 1722 MaxOutputVoltageCmdB       : 1;
+SIG_VALTYPE_ 1738 MaxOutputVoltageCmdC       : 1;
+
+SIG_VALTYPE_ 1707 MaxOutputCurrentCmdA       : 1;
+SIG_VALTYPE_ 1723 MaxOutputCurrentCmdB       : 1;
+SIG_VALTYPE_ 1739 MaxOutputCurrentCmdC       : 1;
