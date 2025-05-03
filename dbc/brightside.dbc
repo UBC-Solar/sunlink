@@ -429,7 +429,7 @@ BO_ 1027 DRDDiagnostics: 6 DRD
  SG_ ADCMismatch : 35|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ DRDWatchdogReset : 36|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MotorCommFault : 37|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ DriveState : 38|3@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DriveState : 40|8@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1028 DRDTimeSinceBootup: 4 DRD
  SG_ DRDTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "" Vector__XXX
@@ -856,3 +856,4 @@ SIG_VALTYPE_ 1738 MaxOutputVoltageCmdC       : 1;
 SIG_VALTYPE_ 1707 MaxOutputCurrentCmdA       : 1;
 SIG_VALTYPE_ 1723 MaxOutputCurrentCmdB       : 1;
 SIG_VALTYPE_ 1739 MaxOutputCurrentCmdC       : 1;
+
