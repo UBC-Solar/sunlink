@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 7,
+  "id": 14,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -669,7 +669,7 @@
       },
       "id": 1,
       "options": {
-        "alignValue": "left",
+        "alignValue": "center",
         "legend": {
           "displayMode": "list",
           "placement": "bottom",
@@ -696,9 +696,149 @@
       ],
       "title": "DRD Flags",
       "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0
+                },
+                "1": {
+                  "color": "orange",
+                  "index": 1
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bool"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SpeedTimeout {car=\"Brightside\", class=\"DRDDiagnostics\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Speed Timeout"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SOCTimeout {car=\"Brightside\", class=\"DRDDiagnostics\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "SOC Timeout"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DriveStateTimeout {car=\"Brightside\", class=\"DRDDiagnostics\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Drive State Timeout"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CurrentTimeout {car=\"Brightside\", class=\"DRDDiagnostics\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Current Timeout"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "VoltageTimeout {car=\"Brightside\", class=\"DRDDiagnostics\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Voltage Timeout"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 5,
+        "y": 15
+      },
+      "id": 19,
+      "options": {
+        "alignValue": "center",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"SOCTimeout\" or r[\"_field\"] == \"SpeedTimeout\" or r[\"_field\"] == \"VoltageTimeout\" or r[\"_field\"] == \"DriveStateTimeout\" or r[\"_field\"] == \"CurrentTimeout\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "title": "DRD Cyclic Data Timeouts",
+      "type": "state-timeline"
     }
   ],
-  "refresh": "",
+  "refresh": "1s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -727,6 +867,6 @@
   "timezone": "",
   "title": "PROD: DRD - Brightside",
   "uid": "df3bf64b-567e-4b48-a04c-c7479dcf240b",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
