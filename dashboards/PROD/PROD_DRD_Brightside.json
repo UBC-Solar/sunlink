@@ -321,14 +321,14 @@
             {
               "options": {
                 "0": {
-                  "color": "yellow",
-                  "index": 1,
-                  "text": "PRESSED"
-                },
-                "1": {
                   "color": "green",
                   "index": 0,
                   "text": "UNPRESSED"
+                },
+                "1": {
+                  "color": "yellow",
+                  "index": 1,
+                  "text": "PRESSED"
                 }
               },
               "type": "value"
@@ -698,7 +698,7 @@
       "type": "state-timeline"
     }
   ],
-  "refresh": "",
+  "refresh": "1s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -706,7 +706,7 @@
     "list": []
   },
   "time": {
-    "from": "now-1m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -727,6 +727,6 @@
   "timezone": "",
   "title": "PROD: DRD - Brightside",
   "uid": "df3bf64b-567e-4b48-a04c-c7479dcf240b",
-  "version": 5,
+  "version": 10,
   "weekStart": ""
 }
