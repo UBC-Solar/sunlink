@@ -20,6 +20,9 @@ REMOTE_HOST="elec-bay"
 INFLUX_CONTAINER="influxdb"
 LOG_BUCKET="CAN_log"
 
+# Retrieve local hostname and current user
+LOCAL_HOSTNAME=$(hostname)
+LOCAL_USER=$(whoami)
 
 echo -e "${BOLD}Starting Influx CSV Upload${NC}"
 
@@ -37,23 +40,31 @@ gzip -k -c "$1" > "$COMPRESSED_CSV_FILE"
 echo -e "${GREEN}Compressed the CSV file as ${COMPRESSED_CSV_FILE}${NC}"
 
 # Transfer the compressed CSV file to the Elec bay computer
-echo -e "${YELLOW}Using Elec-bay computer password:${NC} ${BOLD}'elec2024'${NC}"
-sshpass -p "$SSH_PASSWORD" scp "$COMPRESSED_CSV_FILE" "$REMOTE_USER@$REMOTE_HOST:~/sunlink/$COMPRESSED_CSV_FILE"
-echo -e "${GREEN}Transferred to elec-bay computer!${NC}"
-
-# SSH into the Elec bay computer and transfer the file to the InfluxDB container
-# Use -c in bash to execute commands as a string.
-sshpass -p "$SSH_PASSWORD" ssh -q "$REMOTE_USER@$REMOTE_HOST" << EOF > /dev/null
-cd ~/sunlink
-docker cp $COMPRESSED_CSV_FILE influxdb:/$COMPRESSED_CSV_FILE
-docker exec $INFLUX_CONTAINER bash -c "     
-influx write -b $LOG_BUCKET -f $COMPRESSED_CSV_FILE --compression 'gzip'
-rm $COMPRESSED_CSV_FILE
-"
-echo -e "${GREEN}Uploaded the compressed CSV file to InfluxDB!${NC}"
-rm $COMPRESSED_CSV_FILE
+if [[ "$LOCAL_HOSTNAME" == "$REMOTE_HOST" && "$LOCAL_USER" == "$REMOTE_USER" ]]; then
+    echo "Local system matches remote. Skipping sshpass."
+    cd ~/sunlink
+    docker cp "$COMPRESSED_CSV_FILE" influxdb:/"$COMPRESSED_CSV_FILE"
+    docker exec "$INFLUX_CONTAINER" bash -c "
+    influx write -b $LOG_BUCKET -f $COMPRESSED_CSV_FILE --compression 'gzip'
+    rm $COMPRESSED_CSV_FILE
+    "
+    echo -e "${GREEN}Uploaded the compressed CSV file to InfluxDB!${NC}"
+else
+    echo "Local system differs from remote. Proceeding with sshpass."
+    echo -e "${YELLOW}Using Elec-bay computer password:${NC} ${BOLD}'elec2024'${NC}"
+    sshpass -p "$SSH_PASSWORD" scp "$COMPRESSED_CSV_FILE" "$REMOTE_USER@$REMOTE_HOST:~/sunlink/$COMPRESSED_CSV_FILE"
+    echo -e "${GREEN}Transferred to elec-bay computer!${NC}"
+    # SSH into the Elec bay computer and transfer the file to the InfluxDB container
+    sshpass -p "$SSH_PASSWORD" ssh -q "$REMOTE_USER@$REMOTE_HOST" << EOF > /dev/null
+    cd ~/sunlink
+    docker cp "$COMPRESSED_CSV_FILE" influxdb:/"$COMPRESSED_CSV_FILE"
+    docker exec "$INFLUX_CONTAINER" bash -c "
+    influx write -b $LOG_BUCKET -f $COMPRESSED_CSV_FILE --compression 'gzip'
+    rm $COMPRESSED_CSV_FILE
+    "
+    echo -e "${GREEN}Uploaded the compressed CSV file to InfluxDB!${NC}"
+    rm "$COMPRESSED_CSV_FILE"
 EOF
+fi
 
-# rm $COMPRESSED_CSV_FILE
 echo -e "${BOLD}==================== DONE! ====================${NC}"
-
