@@ -421,7 +421,7 @@ BO_ 1025 MotorCommand: 5 DRD
  SG_ Direction : 32|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ EcoModeOn : 33|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1027 DRDDiagnostics: 7 DRD
+BO_ 1027 DRDDiagnostics: 8 DRD
  SG_ RawADC1 : 0|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RawADC2 : 16|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ BrakePressed : 32|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -436,6 +436,7 @@ BO_ 1027 DRDDiagnostics: 7 DRD
  SG_ SOCTimeout : 50|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ VoltageTimeout : 51|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ CurrentTimeout : 52|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ SOC : 56|8@1+ (1,0) [0|0] "%" Vector__XXX
 
 BO_ 1028 DRDTimeSinceBootup: 4 DRD
  SG_ DRDTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "" Vector__XXX
