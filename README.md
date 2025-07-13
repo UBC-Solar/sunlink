@@ -3,7 +3,7 @@
 Welcome to UBC Solar's telemetry aggregation, storage, and visualization system, Sunlink. This guide will cover the **most important aspects** of running the system. Please see the `docs` folder for more detailed information. *For example, There may be links in this guide referring to information inside a doc within the `docs` folder*.
 
 ## Need Help Running Sunlink?
-### Commands
+### SETUP Commands
 **Recommended Everytime you Open Sunlink**
 ```bash
 git pull
@@ -16,12 +16,19 @@ source  environment/bin/activate
 ```
 This will activate the virtual environment that has the Python packages to run our system installed.
 
+### RUNNING SUNLINK Commands
 | **Command**                                                | **Description**                                                                                                                                                                                                                    |
 | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `./link_telemetry.py -p /dev/ttyUSB0 -b 921600 --prod --batch-size 2000 --local`     | **Useful at COMP!**: (Before reading, see [Sunlink Radio Pre-requistes](#can-setup-windows)). Uses radio (serial port) and does all parsing locally. Write to the "CAN_prod" bucket on InfluxDB.                                                                                             |
 | `./link_telemetry.py -o --prod --batch-size 4000 --local`     | **Useful for BMS**: (Before reading, see [Sunlink CAN Pre-requistes](#can-setup-on-native-linux)). Uses CAN (-o) and does parsing locally instead of a docker container for increased speed. Set the batch size to 2x the typical data rate in seconds. To find the data rate, look at the yellow output when you run `./link_telemetry.py` and ballpark the number of messages processed every second. Writes to CAN_prod.                                                                                                 |        
 | `./link_telemetry.py -r --debug -f 200 --batch-size 400 --local`     | **Useful for Testing**: Uses random message generation and does all parsing locally. Write to the "CAN_test" bucket on InfluxDB.     
-                                                                                        
+
+### DATA UPLOAD Command
+```bash
+./link_telemetry.py -u fast
+```
+
+
 ### Common Issues
 | **Problem**                                                | **Solution**                                                                                                                                                                                                                    |
 | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
