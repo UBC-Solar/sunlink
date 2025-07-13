@@ -107,7 +107,14 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
     start_time_log = time.time()
     num_msgs_processed = 0
 
-    numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS
+    ## If you look in the SD card there are 14 .KMF files. You are able to iterate thorugh them. However, 
+    ## On closer inspection, each KMF file has EXACTLY the same logs! So, instead of going through each KMF
+    ## and then uploading each of the logs, we only go through 1 KMF file and upload all of its logs. Thats what the fast option 
+    ## does. The fast option means you upload all the logs of the first KMF file. However, we speculated that if the size of logs
+    ## exceeds 1.1GB (the size of a single KMF file based on clicking 'properties' of the KMF file) then its possible (still not confirmed)
+    ## that we would need to iterate through MULTIPLE KMF files. For now, we will do 1 KMF file.
+    # numLogs = 1 if "fast" in [option.lower() for option in args.log_upload] else NUM_LOGS
+    numLogs = 1
     
     # Get the log folder path as input
     LOG_FOLDER = input(f"{ANSI_GREEN}Enter the FULL ABSOLUTE path to the folder with .KMF files (include '/' at the end like ..../downloads/ and no '~'): {ANSI_RESET} ")  
