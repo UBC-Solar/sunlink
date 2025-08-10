@@ -1,10 +1,10 @@
 # UBC Solar's Sunlink Brief Overview
 
-Welcome to UBC Solar's telemetry aggregation, storage, and visualization system, Sunlink. This guide will cover the **most important aspects** of running the system. Please see the `docs` folder for more detailed information. *For example, There may be links in this guide referring to information inside a doc within the `docs` folder*.
+Welcome to UBC Solar's telemetry aggregation, storage, and visualization system, Sunlink. This guide will cover the **most important aspects** of running the system. Please see the `docs` folder for more detailed information.
 
-## Need Help Running Sunlink?
+## Running Sunlink?
 ### SETUP Commands
-**Recommended Everytime you Open Sunlink**
+**Everytime you Open Sunlink**
 ```bash
 git pull
 sudo docker compose restart
