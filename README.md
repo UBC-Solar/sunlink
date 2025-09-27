@@ -9,12 +9,14 @@ Welcome to UBC Solar's telemetry aggregation, storage, and visualization system,
 git pull
 sudo docker compose restart
 ```
-
 **MUST Run Once in Sunlink directory**
 ```bash
 source  environment/bin/activate
 ```
 This will activate the virtual environment that has the Python packages to run our system installed.
+
+### CAN or Radio Setup
+Depending on what you are using see the sections below for how to set up CAN or Radio. Need to do this before running sunlink commands!
 
 ### RUNNING SUNLINK Commands
 | **Command**                                                | **Description**                                                                                                                                                                                                                    |
