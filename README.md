@@ -41,7 +41,7 @@ Depending on what you are using see **CAN Setup** or **Radio Setup** sections be
 #### HW Side setup
 Make absolutely sure you have:
 * **5V** for CAN
-* **120 ohm** termination on **at least** one side of the bus. For best results terminate both sides but in practice, during benchtop testing we only need one 120 ohm to reduce signal reflection sufficiently. *Note: PCAN's do not come with termination resistors so use a CAN splitter and put on the jumper caps for termination*. 
+* **120 ohm** termination on **at least** one side of the bus. For best results terminate both sides but in practice, during benchtop testing we only need one 120 ohm to reduce signal reflection sufficiently. *Note: [PCAN's do not come with termination resistors](https://forum.peak-system.com/viewtopic.php?t=5727) so use a CAN splitter and put on the jumper caps for termination*. 
 
 
 #### Commands
