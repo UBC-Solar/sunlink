@@ -74,40 +74,87 @@ SECRET_KEY="dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4"
 # Access tokens currently empty
 # Populate everything in .env
 
-echo -e "${ANSI_YELLOW}Creating new .env file... $ANSI_RESET"
-touch .env
-sudo rm -f .env
-echo -e "# Grafana environment variables\n" >> .env
-echo -e "GRAFANA_ADMIN_USERNAME=\"$GRAFANA_ADMIN_USERNAME\"" >> .env
-echo -e "GRAFANA_ADMIN_PASSWORD=\"$GRAFANA_ADMIN_PASSWORD\"\n" >> .env
-echo -e "# InfluxDB environment variables\n" >> .env
-echo -e "INFLUX_ADMIN_USERNAME=\"$INFLUX_ADMIN_USERNAME\"" >> .env
-echo -e "INFLUX_ADMIN_PASSWORD=\"$INFLUX_ADMIN_PASSWORD\"\n" >> .env
-echo -e "INFLUX_ORG=\"UBC Solar\"\n" >> .env
-echo -e "MESSAGE_TYPES=\"CAN,GPS,IMU\"\n" >> .env
-echo -e "# Needed to Initialize InfluxDB" >> .env
-echo -e "INFLUX_INIT_BUCKET=\"Init_test\"" >> .env
-echo -e "INFLUX_DEBUG_BUCKET=\"Debug\"\n" >> .env
-echo -e "DS_INFLUXDB=\"P951FEA4DE68E13C5\"\n" >> .env
-echo -e "# Parser Secret key\n" >> .env
-echo -e "SECRET_KEY=\"dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4\"\n" >> .env
-echo -e "# Access tokens\n" >> .env
-echo -e "INFLUX_TOKEN=\"\"" >> .env
-echo -e "GRAFANA_TOKEN=\"\"" >> .env
-echo -e "${ANSI_GREEN}DONE creating .env file! $ANSI_RESET"
+# echo -e "${ANSI_YELLOW}Creating new .env file... $ANSI_RESET"
+# touch .env
+# sudo rm -f .env
+# echo -e "# Grafana environment variables\n" >> .env
+# echo -e "GRAFANA_ADMIN_USERNAME=\"$GRAFANA_ADMIN_USERNAME\"" >> .env
+# echo -e "GRAFANA_ADMIN_PASSWORD=\"$GRAFANA_ADMIN_PASSWORD\"\n" >> .env
+# echo -e "# InfluxDB environment variables\n" >> .env
+# echo -e "INFLUX_ADMIN_USERNAME=\"$INFLUX_ADMIN_USERNAME\"" >> .env
+# echo -e "INFLUX_ADMIN_PASSWORD=\"$INFLUX_ADMIN_PASSWORD\"\n" >> .env
+# echo -e "INFLUX_ORG=\"UBC Solar\"\n" >> .env
+# echo -e "MESSAGE_TYPES=\"CAN,GPS,IMU\"\n" >> .env
+# echo -e "# Needed to Initialize InfluxDB" >> .env
+# echo -e "INFLUX_INIT_BUCKET=\"Init_test\"" >> .env
+# echo -e "INFLUX_DEBUG_BUCKET=\"Debug\"\n" >> .env
+# echo -e "DS_INFLUXDB=\"P951FEA4DE68E13C5\"\n" >> .env
+# echo -e "# Parser Secret key\n" >> .env
+# echo -e "SECRET_KEY=\"dsdsxt12pr364s4isWFyu3IBcC392hLJhjEqVvxUwm4\"\n" >> .env
+# echo -e "# Access tokens\n" >> .env
+# echo -e "INFLUX_TOKEN=\"\"" >> .env
+# echo -e "GRAFANA_TOKEN=\"\"" >> .env
+# echo -e "${ANSI_GREEN}DONE creating .env file! $ANSI_RESET"
 
-# Telemetry link configuration
-echo -e "${ANSI_YELLOW}Creating new telemetry.toml file... $ANSI_RESET"
-touch telemetry.toml
-sudo rm -f telemetry.toml
-echo -e "[parser]" >> telemetry.toml
-echo -e "url = \"http://localhost:5000/\"\n" >> telemetry.toml
-echo -e "[security]" >> telemetry.toml
-echo -e "secret_key = \"$SECRET_KEY\"\n" >> telemetry.toml
-echo -e "[offline]" >> telemetry.toml
-echo -e "channel = \"can0\"" >> telemetry.toml
-echo -e "bitrate = \"500000\"" >> telemetry.toml
-echo -e "${ANSI_GREEN}DONE creating telemetry.toml file! $ANSI_RESET"
+# # Telemetry link configuration
+# echo -e "${ANSI_YELLOW}Creating new telemetry.toml file... $ANSI_RESET"
+# touch telemetry.toml
+# sudo rm -f telemetry.toml
+# echo -e "[parser]" >> telemetry.toml
+# echo -e "url = \"http://localhost:5000/\"\n" >> telemetry.toml
+# echo -e "[security]" >> telemetry.toml
+# echo -e "secret_key = \"$SECRET_KEY\"\n" >> telemetry.toml
+# echo -e "[offline]" >> telemetry.toml
+# echo -e "channel = \"can0\"" >> telemetry.toml
+# echo -e "bitrate = \"500000\"" >> telemetry.toml
+# echo -e "${ANSI_GREEN}DONE creating telemetry.toml file! $ANSI_RESET"
+
+# Replaced
+echo -e "${ANSI_YELLOW}Creating/Updating .env file... $ANSI_RESET"
+
+# If an .env already exists, we keep it and only add missing keys.
+if [ -f .env ]; then
+  echo -e "${ANSI_YELLOW}.env already exists. Leaving existing values in place and only adding missing keys.$ANSI_RESET"
+else
+  touch .env
+fi
+
+# Helper: append KEY=VALUE only if KEY is not present
+ensure_kv () {
+  k="$1"; v="$2"
+  if ! grep -qE "^${k}=" .env; then echo "${k}=${v}" >> .env; fi
+}
+
+# Grafana environment variables
+ensure_kv "GRAFANA_ADMIN_USERNAME" "\"$GRAFANA_ADMIN_USERNAME\""
+ensure_kv "GRAFANA_ADMIN_PASSWORD" "\"$GRAFANA_ADMIN_PASSWORD\""
+
+# InfluxDB environment variables
+ensure_kv "INFLUX_ADMIN_USERNAME" "\"$INFLUX_ADMIN_USERNAME\""
+ensure_kv "INFLUX_ADMIN_PASSWORD" "\"$INFLUX_ADMIN_PASSWORD\""
+ensure_kv "INFLUX_ORG" "\"UBC Solar\""
+ensure_kv "INFLUX_INIT_BUCKET" "\"Init_test\""
+ensure_kv "INFLUX_DEBUG_BUCKET" "\"Debug\""
+ensure_kv "DS_INFLUXDB" "\"P951FEA4DE68E13C5\""
+
+# Parser secret & tokens
+ensure_kv "SECRET_KEY" "\"$SECRET_KEY\""
+ensure_kv "INFLUX_TOKEN" "\"\""
+ensure_kv "GRAFANA_TOKEN" "\"\""
+
+# New: vars used by the gRPC parser container
+ensure_kv "USE_NOW_TIME" "true"
+ensure_kv "POINT_BATCH_SIZE" "1000"
+ensure_kv "FLUSH_INTERVAL_MS" "1000"
+ensure_kv "GRPC_COMPRESSION" "gzip"
+
+# Where the parser writes (inside compose, 'influxdb' is the service hostname)
+ensure_kv "INFLUX_URL" "\"http://influxdb:8086\""
+
+# Optional: where the gRPC server binds inside the container
+ensure_kv "GRPC_BIND" "\"0.0.0.0:50051\""
+
+# Replacement end
 
 #sudo apt install nginx
 # NGINX stuff

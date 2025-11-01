@@ -42,6 +42,31 @@ services:
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_BUCKET=${INFLUX_INIT_BUCKET}
+
+  # New gRPC parser
+  parser_grpc:
+    build:
+      context: .
+      dockerfile: parser/Dockerfile   
+    container_name: parser_grpc
+    restart: unless-stopped
+    environment:
+      - DBC_FILE=/app/dbc/brightside.dbc
+      - INFLUX_URL=${INFLUX_URL}          # e.g., http://influxdb:8086
+      - INFLUX_ORG=${INFLUX_ORG}
+      - INFLUX_BUCKET=${INFLUX_INIT_BUCKET}
+      - INFLUX_TOKEN=${INFLUX_TOKEN}
+      - USE_NOW_TIME=${USE_NOW_TIME:-true}
+      - POINT_BATCH_SIZE=${POINT_BATCH_SIZE:-1000}
+      - FLUSH_INTERVAL_MS=${FLUSH_INTERVAL_MS:-1000}
+      - GRPC_BIND=${GRPC_BIND:-0.0.0.0:50051}
+      - GRPC_MAX_WORKERS=8
+      - GRPC_COMPRESSION=${GRPC_COMPRESSION:-gzip}
+    ports:
+      - "50051:50051"
+    depends_on:
+      - influxdb
+
   
   parser:
     init: true

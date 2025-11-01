@@ -11,7 +11,7 @@ from influxdb_client import InfluxDBClient, Point, WriteOptions
 from tools.proto import canlink_pb2, canlink_pb2_grpc
 
 # CONFIG (envs or defaults) 
-DBC_FILE      = os.getenv("DBC_FILE", "./dbc/brightside.dbc")
+DBC_FILE      = os.getenv("DBC_FILE", "/app/dbc/brightside.dbc")
 INFLUX_URL    = os.getenv("INFLUX_URL", "http://localhost:8086")
 INFLUX_ORG    = os.getenv("INFLUX_ORG", "UBC Solar")
 INFLUX_BUCKET = os.getenv("INFLUX_BUCKET", "CAN_test")
