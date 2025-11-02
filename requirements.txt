@@ -56,5 +56,4 @@ Werkzeug==2.3.4
 wrapt==1.14.1
 zope.interface==6.2
 grpcio==1.62
-grpcio-tools==1.62
-protobuf==4.25
+protobuf==5.26.1
