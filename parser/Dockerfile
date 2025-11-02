@@ -31,3 +31,4 @@ ENV PYTHONPATH="/app:/app/tools:/app/tools/proto:${PYTHONPATH}"
 
 # If you have an entrypoint/cmd already, keep it; otherwise:
 # CMD ["python", "-m", "parser.main"]
+
