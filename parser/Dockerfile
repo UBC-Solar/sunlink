@@ -15,13 +15,11 @@ COPY parser/requirements.txt /app/parser/requirements.txt
 # ---- Critical pins to match generated code ----
 # Your stubs require protobuf >= 6.31.1 and grpcio >= 1.75.1
 RUN python -m pip install --upgrade pip && \
-    pip install --no-cache-dir \
-      protobuf==6.31.1 \
-      grpcio==1.75.1 \
-      grpcio-tools==1.75.1
+    pip install --no-cache-dir protobuf==6.31.1 grpcio==1.75.1 grpcio-tools==1.75.1
 
 # Now install the rest; keep pins in effect (avoid downgrades)
-RUN pip install --no-cache-dir -r /app/parser/requirements.txt
+RUN pip install --no-cache-dir -r /app/parser/requirements.txt && \
+    pip install --no-cache-dir protobuf==6.31.1 grpcio==1.75.1 grpcio-tools==1.75.1
 
 # Copy the whole repo (stubs are at /app/tools/proto)
 COPY . /app
