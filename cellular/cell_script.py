@@ -3,17 +3,17 @@ import time
 import signal
 import struct
 import logging
-from datetime import datetime, timezone
+from   datetime import datetime, timezone
 import serial
 import cantools
-from influxdb_client import InfluxDBClient, Point, WriteOptions
+from   influxdb_client import InfluxDBClient, Point, WriteOptions
 
 # -------------------------------- CONFIG --------------------------------
 SERIAL_PORT          = "/dev/ttyUSB0"
 BAUDRATE             = 230400                           # Configure baudrate
 FRAME_LEN            = 21
 CHUNK_SIZE           = 16384
-DBC_FILE             = "/home/tonychen/brightside.dbc"
+DBC_FILE             = "/home/tonychen/brightside.dbc"  # Directory to DBC file
 INFLUX_URL           = "http://100.84.92.39"            # Replace with URL end-point
 INFLUX_ORG           = "UBC Solar"
 INFLUX_BUCKET        = "CAN_test"                       # Replace with end-point bucket
