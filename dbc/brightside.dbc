@@ -176,7 +176,6 @@ BO_ 1104 ECUStatus: 7 ECU
  SG_ COC : 43|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ ESTOP_Pressed : 45|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ ResetFromWatchdog : 44|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ MPPTPCACTIVE : 46|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ VicorHeatSinkTemp : 48|8@1+ (1,0) [-127|127] "" Vector__XXX
 
 BO_ 1280 MDITimeSinceBootup: 4 MDI
