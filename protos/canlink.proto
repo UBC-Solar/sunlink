@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package canlink;
+
+// One raw CAN frame as emitted by TEL -> UART -> RPi.
+// Keep enough info to decode: timestamp, ID (std/ext), data, dlc.
+message RawFrame {
+  double  timestamp        = 1;  // seconds since epoch (double)
+  uint32  can_id           = 2;  // 11-bit or 29-bit, see is_extended
+  bool    is_extended_id   = 3;  // true => 29-bit, false => 11-bit
+  bytes   data             = 4;  // up to 8 bytes
+  uint32  dlc              = 5;  // 0..8
+}
+
+// A batch of frames. The RPi will send either N frames or T ms, whichever first.
+message FrameBatch {
+  repeated RawFrame frames = 1;
+}
+
+// Ack for each batch stream completion.
+message UploadAck {
+  uint64 frames_ingested = 1;
+}
+
+// Streaming: the client (RPi) sends successive FrameBatch messages,
+// server returns one UploadAck when the stream completes.
+service CanIngest {
+  rpc UploadFrames (stream FrameBatch) returns (UploadAck);
+}

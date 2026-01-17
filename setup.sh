@@ -95,6 +95,14 @@ echo -e "# Access tokens\n" >> .env
 echo -e "INFLUX_TOKEN=\"\"" >> .env
 echo -e "GRAFANA_TOKEN=\"\"" >> .env
 echo -e "${ANSI_GREEN}DONE creating .env file! $ANSI_RESET"
+# gRPC cellular parser environment variables
+echo -e "\n# gRPC cellular parser environment variables\n" >> .env
+echo -e "USE_NOW_TIME=\"true\"" >> .env
+echo -e "POINT_BATCH_SIZE=\"1000\"" >> .env
+echo -e "FLUSH_INTERVAL_MS=\"1000\"" >> .env
+echo -e "GRPC_COMPRESSION=\"gzip\"" >> .env
+echo -e "INFLUX_URL=\"http://influxdb:8086\"" >> .env
+echo -e "GRPC_BIND=\"0.0.0.0:50051\"" >> .env
 
 # Telemetry link configuration
 echo -e "${ANSI_YELLOW}Creating new telemetry.toml file... $ANSI_RESET"
