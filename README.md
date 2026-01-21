@@ -15,6 +15,10 @@ source  environment/bin/activate
 ```
 This will activate the virtual environment that has the Python packages to run our system installed.
 
+### Cellular Parser (Detailed Instructions)
+For full setup and usage details of the cellular parser container, see the Sunlite README:  
+https://github.com/UBC-Solar/sunlite/blob/main/src/grpc_cellular/README.md
+
 ### CAN or Radio Setup
 Depending on what you are using see **CAN Setup** or **Radio Setup** sections below for how to set up CAN or Radio. Need to do this before running sunlink commands!
 

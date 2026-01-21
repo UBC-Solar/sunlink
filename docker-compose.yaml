@@ -1,24 +1,22 @@
-version: "3.9"
 services:
-
   nginx:
     image: nginx:latest
     container_name: nginx
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
       - type: bind
         source: ./nginx/nginx.conf
         target: /etc/nginx/nginx.conf
         read_only: true
     restart: always
-  
+
   grafana:
     image: grafana/grafana-oss:9.5.2
     container_name: grafana
     ports:
-      - 3000:3000
+      - "3000:3000"
     volumes:
       - grafana:/var/lib/grafana
       - type: bind
@@ -42,7 +40,40 @@ services:
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_BUCKET=${INFLUX_INIT_BUCKET}
-  
+
+  # gRPC cellular parser
+  cellular_parser:
+    build:
+      context: .
+      dockerfile: parser/Dockerfile
+    container_name: parser_grpc
+    restart: unless-stopped
+    command: python -u /app/parser/cellular_parser.py
+    environment:
+      - DBC_FILE=/app/dbc/brightside.dbc
+      - INFLUX_URL=${INFLUX_URL}
+      - INFLUX_ORG=${INFLUX_ORG}
+      - INFLUX_BUCKET=CAN_test
+      - INFLUX_TOKEN=${INFLUX_TOKEN}
+      - USE_NOW_TIME=${USE_NOW_TIME:-true}
+      - POINT_BATCH_SIZE=${POINT_BATCH_SIZE:-1000}
+      - FLUSH_INTERVAL_MS=${FLUSH_INTERVAL_MS:-1000}
+      - GRPC_BIND=${GRPC_BIND:-0.0.0.0:50051}
+      - GRPC_MAX_WORKERS=8
+      - GRPC_COMPRESSION=${GRPC_COMPRESSION:-gzip}
+      - PRINT_EVERY_SEC=${PRINT_EVERY_SEC:-5}
+      - FAIL_LOG_PATH=/app/logs/parser_failures.log
+    ports:
+      - "50051:50051"
+    volumes:
+      # so you can grab failure logs from the host
+      - type: bind
+        source: ./dbgfiles
+        target: /app/logs
+    depends_on:
+      - influxdb
+
+  # (optional) Flask parser UI you already had
   parser:
     init: true
     build: .
@@ -50,16 +81,16 @@ services:
     volumes:
       - .:/sunlink
     ports:
-      - 5000:5000
-    depends_on: 
+      - "5000:5000"
+    depends_on:
       - nginx
     restart: always
-  
+
   influxdb:
     image: influxdb:2.7.1
     container_name: influxdb
     ports:
-      - 8086:8086
+      - "8086:8086"
     volumes:
       - influxdb-storage:/var/lib/influxdb2
       - influxdb-config:/etc/influxdb2
@@ -80,3 +111,4 @@ volumes:
   grafana:
   influxdb-storage:
   influxdb-config:
+
