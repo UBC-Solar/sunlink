@@ -203,9 +203,9 @@ case $installKvaserLibs in
         echo -e "${ANSI_GREEN}DONE installing  LINUXCAN! $ANSI_RESET"
 
         echo -e "${ANSI_BOLD}Installing KVLIBSDK... $ANSI_RESET"                                 # KVLIBSDK
-        sudo wget -P ~ --content-disposition "https://resources.kvaser.com/PreProductionAssets/Product_Resources/kvlibsdk_5_45_724.tar.gz"
-        sudo tar -xzvf ~/kvlibsdk_*.tar.gz -C ~                                                  # not version dependent
-        sudo rm -rfd ~/kvlibsdk_*.tar.gz
+        sudo wget -P ~ --content-disposition "https://pim.kvaser.com/var/assets/Product_Resources/kvlibsdk-5.45.724.tar.gz"
+        sudo tar -xzvf ~/kvlibsdk*.tar.gz -C ~                                                  # not version dependent
+        sudo rm -rfd ~/kvlibsdk*.tar.gz
         echo -e "${ANSI_YELLOW}Changing directory to ~/kvlibsdk... $ANSI_RESET"
         cd ~/kvlibsdk
         make
