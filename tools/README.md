@@ -3,4 +3,3 @@
 * Ensure that you have the SD Card with the logged messages from the memorator
 * Then plug in the SD Card into your device which is running sunlink
 * Now, navigate to the `tools/` directory and then to the `MemoratorUploader.py` script. 
-* Inside here you will need to change the `LOG_FOLDER` constant to the directory of the SD Card (directory that contains the `LOG000xx.KMF` files)
