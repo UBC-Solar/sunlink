@@ -40,17 +40,19 @@ gzip -k -c "$1" > "$COMPRESSED_CSV_FILE"
 echo -e "${GREEN}Compressed the CSV file as ${COMPRESSED_CSV_FILE}${NC}"
 
 # Transfer the compressed CSV file to the Elec bay computer
-if [[ "$LOCAL_HOSTNAME" == "$REMOTE_HOST" && "$LOCAL_USER" == "$REMOTE_USER" ]]; then
-    echo "Local system matches remote. Skipping sshpass."
-    cd ~/sunlink
+read -p "Are you uploading locally? (y/n): " UPLOAD_MODE
+if [[ "$UPLOAD_MODE" == "y" ]]; then
+    read -p "Paste InfluxDB auth token: " INFLUX_TOKEN
+    echo ""
     docker cp "$COMPRESSED_CSV_FILE" influxdb:/"$COMPRESSED_CSV_FILE"
     docker exec "$INFLUX_CONTAINER" bash -c "
-    influx write -b $LOG_BUCKET -f $COMPRESSED_CSV_FILE --compression 'gzip'
+    influx write -b $LOG_BUCKET -f $COMPRESSED_CSV_FILE --org 'UBC Solar' --token $INFLUX_TOKEN --compression 'gzip'
     rm $COMPRESSED_CSV_FILE
     "
     echo -e "${GREEN}Uploaded the compressed CSV file to InfluxDB!${NC}"
+    rm "$COMPRESSED_CSV_FILE"
 else
-    echo "Local system differs from remote. Proceeding with sshpass."
+    echo "Proceeding with sshpass."
     echo -e "${YELLOW}Using Elec-bay computer password:${NC} ${BOLD}'elec2024'${NC}"
     sshpass -p "$SSH_PASSWORD" scp "$COMPRESSED_CSV_FILE" "$REMOTE_USER@$REMOTE_HOST:~/sunlink/$COMPRESSED_CSV_FILE"
     echo -e "${GREEN}Transferred to elec-bay computer!${NC}"
@@ -59,7 +61,7 @@ else
     cd ~/sunlink
     docker cp "$COMPRESSED_CSV_FILE" influxdb:/"$COMPRESSED_CSV_FILE"
     docker exec "$INFLUX_CONTAINER" bash -c "
-    influx write -b $LOG_BUCKET -f $COMPRESSED_CSV_FILE --compression 'gzip'
+    influx write -b $LOG_BUCKET -f $COMPRESSED_CSV_FILE --org 'UBC Solar' --compression 'gzip'
     rm $COMPRESSED_CSV_FILE
     "
     echo -e "${GREEN}Uploaded the compressed CSV file to InfluxDB!${NC}"
