@@ -188,8 +188,8 @@ case $installKvaserLibs in
         sudo apt-get install linux-headers-`uname -r` 
         sudo apt-get install build-essential 
         sudo wget -P ~ --content-disposition "https://www.kvaser.com/download/?utm_source=software&utm_ean=7330130980754&utm_status=latest"
-        sudo tar -xzvf ~/linuxcan_*.tar.gz -C ~                                                  # not version dependent
-        sudo rm -rfd ~/linuxcan_*.tar.gz
+        sudo tar -xzvf ~/linuxcan*.tar.gz -C ~                                                  # not version dependent
+        sudo rm -rfd ~/linuxcan*.tar.gz
         echo -e "${ANSI_YELLOW}Changing directory to ~/linuxcan... $ANSI_RESET"
         cd ~/linuxcan
         sudo apt install --reinstall gcc-12

@@ -156,7 +156,6 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
         kmf_file.close()
 
     upload_input = input(f"{ANSI_GREEN}Enter Log Indicies to Upload (Space Delimited) or type 'n' for no upload or 'y' for all: {ANSI_RESET} \n")
-    delete_input = input(f"{ANSI_RED}Would you like to DELETE ALL after (y/n): {ANSI_RESET} \n")
     if upload_input.lower() != 'n' or upload_input == '':
         for i in range(numLogs):
             log_path = LOG_FOLDER + "LOG000{:02d}".format(i)
@@ -179,22 +178,7 @@ def memorator_upload_script(parserCallFunc: callable, live_filters: list,  log_f
 
     print(f"\n{ANSI_BOLD}{ANSI_GREEN}====== DONE WRITING CSV ======{ANSI_RESET}{ANSI_RESET} \n")
 
-    if delete_input.lower() == 'y':
-        for i in range(numLogs):
-            log_path = LOG_FOLDER + "LOG000{:02d}".format(i)
-            kmf_file = kvmlib.openKmf(log_path.format(i))
-            print(f"{ANSI_RED}Opening file: {log_path.format(i)}{ANSI_RESET}")  
-
-            # Access the log attribute of the KMF object
-            log = kmf_file.log
-            log.delete_all()
-            
-            # Close the KMF file
-            kmf_file.close()
-
-            print(f"{ANSI_BOLD}{ANSI_RED}DELETED {log_path.format(i)}{ANSI_RESET}{ANSI_RESET}")  
-    else:
-        print(f"{ANSI_BOLD}{ANSI_GREEN}====== NOT DELETING ANYTHING ======{ANSI_RESET}{ANSI_RESET}\n")  
+    print(f"{ANSI_BOLD}{ANSI_GREEN}====== NOT DELETING ANYTHING ======{ANSI_RESET}{ANSI_RESET}\n")  
 
 # TESTING PURPOSES
 def main():
