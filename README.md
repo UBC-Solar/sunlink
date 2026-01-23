@@ -29,15 +29,7 @@ Depending on what you are using see **CAN Setup** or **Radio Setup** sections be
 | `./link_telemetry.py -o --prod --batch-size 4000 --local`     | **Useful for BMS**: (Before reading, see [Sunlink CAN Pre-requistes](#can-setup-on-native-linux)). Uses CAN (-o) and does parsing locally instead of a docker container for increased speed. Set the batch size to 2x the typical data rate in seconds. To find the data rate, look at the yellow output when you run `./link_telemetry.py` and ballpark the number of messages processed every second. Writes to CAN_prod.                                                                                                 |        
 | `./link_telemetry.py -r can --debug -f 200 --batch-size 400 --local`     | **Useful for Testing**: Uses random message generation and does all parsing locally. Write to the "CAN_test" bucket on InfluxDB.     
 
-### Data/Memorator UPLOAD
-*You **need** a Native Linux Computer for this.* Also, Ensure that `canlib` is installed correctly. [**See this guide**](https://github.com/UBC-Solar/firmware_v3/tree/master/tools/t_programs/sendRTC).
-1. Plug in the SD Card from the Memorator into your computer. *You may need an SD card to USB adpater. Find these in the FW Proto box*. If you want to upload to the bay computer, then run the script on the bay computer.
-2. Open `sunlink` and source your environment. Do a `git pull` as well
-3. Now type in `./link_telemetry.py -u fast` in the sunlink root directory.
-4. Paste and Enter in the absolute folder path with the KMF files. For example: `/media/<USERNAME>/disk/` or `/media/aarjav/disk/`
-5. Look at the various logs choose which **Log Idx**'s you want to upload. Use the date the log was produced to guide you. Example entry `1 5 6 10`. 
-6. Enter `n` to the next prompt. DO NOT DELETE ALL unless you know what you are doing.
-
+### [Data/Memorator UPLOAD](./tools/DATA_UPLOAD_SOP.md)
 
 ### Common Issues
 | **Problem**                                                | **Solution**                                                                                                                                                                                                                    |
