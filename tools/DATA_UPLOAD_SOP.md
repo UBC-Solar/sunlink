@@ -16,11 +16,13 @@ Sometimes you need to create space for the logs. In this case, uncomment the fol
 
 ## Correct Data Upload Procedure
 The general upload script procedure is below:
-1. Plug in the SD Card from the Memorator into your computer. *You may need an SD card to USB adpater. Find these in the FW Proto box*. If you want to upload to the bay computer, then run the script on the bay computer.
-2. Open `sunlink` and source your environment. Do a `git pull` as well
-3. Now type in `./link_telemetry.py -u fast` in the sunlink root directory.
-4. Paste and Enter in the absolute folder path with the KMF files. For example: `/media/<USERNAME>/disk/` or `/media/aarjav/disk/`
-5. Look at the various logs choose which **Log Idx**'s you want to upload. Use the date the log was produced to guide you. Example entry `1 5 6 10`. 
+1. `sudo usermod -aG docker $USER` -> Add your user to the docker group 
+2. `newgrp docker` -> Allows docker group usage withou sudo. 
+3. Plug in the SD Card from the Memorator into your computer. *You may need an SD card to USB adpater. Find these in the FW Proto box*. If you want to upload to the bay computer, then run the script on the bay computer.
+4. Open `sunlink` and source your environment. Do a `git pull` as well
+5. Now type in `./link_telemetry.py -u fast` in the sunlink root directory.
+6. Paste and Enter in the absolute folder path with the KMF files. For example: `/media/<USERNAME>/disk/` or `/media/aarjav/disk/`
+7. Look at the various logs choose which **Log Idx**'s you want to upload. Use the date the log was produced to guide you. Example entry `1 5 6 10`. 
 
 Here are some notes regarding this process
 - Look at which log indicies have start/end dates that match your **driving days**. Ex. you typically drive and then you take the SD card out of the memorator right after and upload data. So check for the logs that line up with this time.
