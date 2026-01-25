@@ -35,6 +35,7 @@ Depending on what you are using see **CAN Setup** or **Radio Setup** sections be
 | **Problem**                                                | **Solution**                                                                                                                                                                                                                    |
 | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `RTNETLINK answers: Device or resource busy`    | Restart CAN peripheral by unplugging the PCAN and plugging it back in. [Then run the commands here.](#can-setup-on-native-linux).                                                                                             |
+| `Cannot find device "can0"`    | [Follow this](https://github.com/UBC-Solar/sunlink/blob/main/docs/DETAILED_OVERVIEW.md#how-to-install-linux-pcan-drivers)                                                                                             |
 
 
 ### CAN Setup on Native Linux

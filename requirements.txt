@@ -6,7 +6,7 @@ beautifultable==1.1.0
 bitstruct==8.15.1
 blinker==1.6.2
 canlib==1.25.393
-cantools==38.0.2
+cantools==37.2.0
 certifi==2021.10.8
 charset-normalizer==2.0.12
 click==8.1.3
