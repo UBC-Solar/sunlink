@@ -176,7 +176,7 @@ sudo docker compose down
 sudo docker compose up -d
 
 # Installing Kvaser linuxcan and kvlibsdk drivers
-echo -ne "${ANSI_YELLOW}Are you on WSL/Windows? (y/n)?$ANSI_RESET"
+echo -ne "${ANSI_YELLOW}Are you on WSL/Windows or Do you already have canlib installed (in home directory)? (y/n)?$ANSI_RESET"
 read installKvaserLibs
 
 case $installKvaserLibs in
@@ -256,9 +256,9 @@ sudo docker compose down
 sudo docker compose up -d
 
 # Setting up Tailscale
-echo -ne "${ANSI_YELLOW}Would you like to Set Up Tailscale (y/n)?: $ANSI_RESET"
+echo -ne "${ANSI_YELLOW}Do you already have Tailscale setup (y/n)?: $ANSI_RESET"
 read setupTailscale
-if [ $setupTailscale = "y" ]; then
+if [ $setupTailscale = "n" ]; then
     echo -ne "${ANSI_YELLOW}ENTER your Tailscale authkey here (you may need to ask your lead for this): $ANSI_RESET"
     read tailscaleAuthKey
     echo -e "${ANSI_BOLD}Setting up Tailscale... $ANSI_RESET"
