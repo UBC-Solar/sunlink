@@ -6,9 +6,7 @@ Welcome to UBC Solar's telemetry aggregation, storage, and visualization system,
 ### SETUP Commands
 **Recommended Everytime you Open Sunlink**
 ```bash
-git pull
-git submodule update --init --recursive
-sudo docker compose restart
+python .\update_can.py
 ```
 The submodule update is required everytime for **Suncan** submodule changes. Do it everytime to have up to date dbc file.
 **MUST Run Once in Sunlink directory**
