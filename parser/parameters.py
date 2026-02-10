@@ -32,7 +32,7 @@ IMU_LENGTH_MAX      = 17
 
 
 # <----- DBC Variables (Can be changed by user arguement in Link Tel) ----->
-DBC_FILE = Path("./dbc/brightside.dbc")
+DBC_FILE = Path("./suncan/dbc/cascadia.dbc")
 if not DBC_FILE.is_file():
     print(f"Unable to find expected existing DBC file: \"{DBC_FILE.absolute()}\"")
     sys.exit(1)
