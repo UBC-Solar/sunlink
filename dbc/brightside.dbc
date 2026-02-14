@@ -408,6 +408,7 @@ BO_ 1873 TELDiagnostics: 1 TEL
  SG_ IMUReadFail : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUWriteFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSReadFail : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSWriteFail : 4|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1408 STRTurnModeHornSignal: 1 STR
  SG_ RTSSIGNAL : 0|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -776,6 +777,7 @@ CM_ SG_ 1295 MCBDriveCmdTimeout "0 = no timeout, 1 = timeout";
 CM_ SG_ 1295 DirectionSentToMC "0 = reverse, 1 = forward";
 CM_ SG_ 1295 DriveModeToMC "0 = ECO mode, 1 = POWER mode";
 CM_ SG_ 1295 RegenSentToMC "0 = no regen requested, 1 = regen ON";
+BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","J1939PG";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
@@ -863,4 +865,5 @@ SIG_VALTYPE_ 1738 MaxOutputVoltageCmdC       : 1;
 SIG_VALTYPE_ 1707 MaxOutputCurrentCmdA       : 1;
 SIG_VALTYPE_ 1723 MaxOutputCurrentCmdB       : 1;
 SIG_VALTYPE_ 1739 MaxOutputCurrentCmdC       : 1;
+
 
