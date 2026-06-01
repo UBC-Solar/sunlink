@@ -104,7 +104,11 @@ Run the automated setup script inside WSL. This will install `usbipd-win` on Win
 chmod +x pcan_wsl_setup.sh
 ./pcan_wsl_setup.sh
 ```
-Click install, and yes to everything. Feel free to read it to understand what is going on. 
+Note: If the script fails to download the kernel automatically, you can manually download the compiled bzImage-pcan file from [this Google Drive link](https://drive.google.com/file/d/1ubS1mpVaoXLuAkjDefm8T7TJQKOHsK2h/view) and place it directly in your `C:\Users\<Your_Windows_Username>\` folder.
+
+Follow the terminal output instructions at the end of the script to link the new kernel in your .wslconfig file and restart WSL.
+
+Once you setup the kernel and followed the instructions in the script then move onto the next step.
 
 #### Commands
 **1. Pass the USB Device to WSL (Run in Windows Administrator PowerShell):**
@@ -117,6 +121,15 @@ usbipd attach --wsl --busid <BUSID>
 
 #### Test Command
 ```bash
+# Configure and bring up the network interface
+sudo ip link set can0 type can bitrate 500000
+sudo ip link set can0 up
+
+# Send a test frame
+candump can0
+```
+or
+```
 cansend can0 123#DEADBEEF
 ```
 
