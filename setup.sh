@@ -231,9 +231,9 @@ echo -e "${ANSI_YELLOW}Changing directory to $SUNLINK_DIR $ANSI_RESET"
 cd $SUNLINK_DIR
 
 echo -e "${ANSI_YELLOW}Setting up virtual environment... $ANSI_RESET"
-sudo apt-get install -y python3-venv
-sudo python3 -m venv environment
-sudo chmod -R a+rwx environment
+sudo apt-get install -y python3-venv build-essential
+python3 -m venv environment
+environment/bin/python3 -m pip install --upgrade pip
 echo -e "${ANSI_GREEN}DONE creating virtual environment! $ANSI_RESET"
 
 echo -e "$ANSI_YELLOW Creating Influx Buckets... ${ANSI_RESET}"
