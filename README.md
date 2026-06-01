@@ -95,6 +95,29 @@ sudo usermod -a -G dialout $USER
 #### Relevant Link
 > https://learn.microsoft.com/en-us/windows/wsl/connect-usb
 
+### PCAN Setup on WSL
+WSL2 does not have physical access to host USB ports. You must compile the hardware drivers into the virtual kernel and use USB/IP to bridge the physical connection.
+
+#### 1. First-Time Setup
+Run the automated setup script inside WSL. This will install `usbipd-win` on Windows, install `can-utils` in WSL, and compile a custom kernel with PCAN drivers built-in.
+```bash
+chmod +x pcan_wsl_setup.sh
+./pcan_wsl_setup.sh
+```
+
+#### Commands
+**1. Pass the USB Device to WSL (Run in Windows Administrator PowerShell):**
+```powershell
+usbipd list
+# Note the BUSID of the PEAK-System device
+usbipd bind --busid <BUSID>
+usbipd attach --wsl --busid <BUSID>
+```
+
+#### Test Command
+```bash
+cansend can0 123#DEADBEEF
+```
 
 ## How to Install Sunlink?
 1. **Download the Script**
