@@ -12,11 +12,11 @@ ANSI_RESET="\033[0m"
 echo -e "${ANSI_BOLD}Updating apt... $ANSI_RESET"                 # Update apt
 sudo apt update
 sudo apt-get update
-echo -e "${ANSI_GREEN}DONE updating apt! $ANSI_RESET"                         
+echo -e "${ANSI_GREEN}DONE updating apt! $ANSI_RESET"                          
 
 echo -e "${ANSI_BOLD}Installing gnome terminal... $ANSI_RESET"                
 sudo apt install -y gnome-terminal                                        # install gnome terminal
-echo -e "${ANSI_GREEN}DONE installing gnome terminal! $ANSI_RESET"                         
+echo -e "${ANSI_GREEN}DONE installing gnome terminal! $ANSI_RESET"                          
 
 echo -e "${ANSI_BOLD}Checking for docker installation. $ANSI_RESET"              
 doInstall=true 
@@ -60,9 +60,9 @@ fi
 # Clone Sunlink
 echo -e "${ANSI_YELLOW}\nCloning Sunlink Repository\n $ANSI_RESET"
 git clone https://github.com/UBC-Solar/sunlink.git sunlink
-cd sunlink                                                               # Change directory into sunlink
+cd sunlink                                                                           # Change directory into sunlink
 
-echo -e "${ANSI_YELLOW}Setting up sunlink environment... $ANSI_RESET"                 # Set up influx and grafana
+echo -e "${ANSI_YELLOW}Setting up sunlink environment... $ANSI_RESET"                # Set up influx and grafana
 SUNLINK_DIR=$PWD
 GRAFANA_ADMIN_USERNAME=admin
 GRAFANA_ADMIN_PASSWORD=new_password
@@ -117,27 +117,10 @@ echo -e "channel = \"can0\"" >> telemetry.toml
 echo -e "bitrate = \"500000\"" >> telemetry.toml
 echo -e "${ANSI_GREEN}DONE creating telemetry.toml file! $ANSI_RESET"
 
-#sudo apt install nginx
-# NGINX stuff
-# sudo docker pull nginx:latest
-# sudo docker run -v nginx/nginx.conf:/etc/nginx/nginx.conf:ro -d -p 80:80 nginx
 # Starting the telemetry cluster
 echo -e "$ANSI_GREEN \nStarting up docker containers. May take a few minutes...\n $ANSI_RESET"
 sudo docker compose up -d
-# sudo ufw allow 'Nginx HTTP'
-# sudo docker images # verify that pull worked
-  #create, run, name, and specify ports for the container
-# sudo ufw status
-# systemctl status nginx # Checking if NGINX is up
 sudo docker compose ps # Show all containers
-# Update and install Certbot
-# sudo apt update
-# sudo apt install -y certbot python3-certbot-nginx
-# # Setup SSL certificates for NGINX
-# sudo certbot --nginx -d example.com -d www.example.com
-# # Test automatic renewal
-# sudo certbot renew --dry-run
-
 
 # Get API Token for Grafana
 echo -e "\n\n"
@@ -185,7 +168,7 @@ case $installKvaserLibs in
 
         echo -e "${ANSI_BOLD}Installing LINUXCAN... $ANSI_RESET"
         sudo apt-get update
-        sudo apt-get install -y pkg-config                                                 # Linuxcan first
+        sudo apt-get install -y pkg-config                                                         # Linuxcan first
         sudo apt-get install -y linux-headers-`uname -r` 
         sudo apt-get install -y build-essential 
         sudo apt-get install -y --reinstall gcc-12
@@ -193,7 +176,7 @@ case $installKvaserLibs in
 
         # Dynamic download for LINUXCAN
         sudo wget -O ~/linuxcan.tar.gz --content-disposition "https://www.kvaser.com/download/?utm_source=software&utm_ean=7330130980754&utm_status=latest"
-        sudo tar -xzvf ~/linuxcan.tar.gz -C ~                                          
+        sudo tar -xzvf ~/linuxcan.tar.gz -C ~                                                  
         sudo rm -f ~/linuxcan.tar.gz
         echo -e "${ANSI_YELLOW}Changing directory to ~/linuxcan... $ANSI_RESET"
         cd ~/linuxcan*/
@@ -205,7 +188,7 @@ case $installKvaserLibs in
         echo -e "${ANSI_BOLD}Installing KVLIBSDK... $ANSI_RESET"                                 # KVLIBSDK
         # Dynamic download for KVLIBSDK
         sudo wget -O ~/kvlibsdk.tar.gz --content-disposition "https://www.kvaser.com/downloads-kvaser/?utm_source=software&utm_ean=7330130981966&utm_status=latest"
-        sudo tar -xzvf ~/kvlibsdk.tar.gz -C ~                                          
+        sudo tar -xzvf ~/kvlibsdk.tar.gz -C ~                                                  
         sudo rm -f ~/kvlibsdk.tar.gz
         echo -e "${ANSI_YELLOW}Changing directory to ~/kvlibsdk... $ANSI_RESET"
         cd ~/kvlibsdk*/
@@ -226,14 +209,18 @@ case $installKvaserLibs in
     * ) echo -e "${ANSI_YELLOW}Please enter (y/n). ${ANSI_RESET}";;
 esac
 
-# Creating a python virtual environment. First check if venv is installed
+# Creating a python virtual environment pinned to Python 3.12
 echo -e "${ANSI_YELLOW}Changing directory to $SUNLINK_DIR $ANSI_RESET"
 cd $SUNLINK_DIR
 
-echo -e "${ANSI_YELLOW}Setting up virtual environment... $ANSI_RESET"
-sudo apt-get install -y python3-venv
-sudo python3 -m venv environment
-sudo chmod -R a+rwx environment
+echo -e "${ANSI_YELLOW}Setting up Python 3.12 virtual environment... $ANSI_RESET"
+sudo apt-get install -y software-properties-common build-essential
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt-get update
+sudo apt-get install -y python3.12 python3.12-venv python3.12-dev
+
+python3.12 -m venv environment
+environment/bin/python3 -m pip install --upgrade pip
 echo -e "${ANSI_GREEN}DONE creating virtual environment! $ANSI_RESET"
 
 echo -e "$ANSI_YELLOW Creating Influx Buckets... ${ANSI_RESET}"
@@ -243,17 +230,6 @@ sudo docker exec -it influxdb influx bucket create --name "CAN_prod" --org "UBC 
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_prod' created$ANSI_RESET"
 sudo docker exec -it influxdb influx bucket create --name "CAN_log" --org "UBC Solar" --token "${INFLUX_TOKEN}"
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_log' created$ANSI_RESET"
-
-# REMOVED UNTIL API MODE EXISTS
-# sudo docker exec -it influxdb influx bucket create --name "ATR_test" --org "${DOCKER_INFLUXDB_INIT_ORG}" 
-# echo -e "${ANSI_GREEN}BUCEKT: 'ATR_test' created$ANSI_RESET"
-# sudo docker exec -it influxdb influx bucket create --name "ATR_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-# echo -e "${ANSI_GREEN}BUCEKT: 'ATR_prod' created$ANSI_RESET"
-
-# sudo docker exec -it influxdb influx bucket create --name "ATL_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-# echo -e "${ANSI_GREEN}BUCEKT: 'ATL_test' created$ANSI_RESET"
-# sudo docker exec -it influxdb influx bucket create --name "ATL_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-# echo -e "${ANSI_GREEN}BUCEKT: 'ATL_prod' created$ANSI_RESET"
 
 # Restarting docker
 echo -e "${ANSI_YELLOW}Restarting docker containers one last time... $ANSI_RESET"
@@ -294,4 +270,3 @@ echo -e "\n\n"
 # Removing script
 echo -e "${ANSI_BOLD}Removing setup.sh script (already in sunlink/)... $ANSI_RESET"
 rm -f ../setup.sh
-s
