@@ -26,8 +26,7 @@ from beautifultable import BeautifulTable
 import warnings
 import threading
 
-import concurrent.futures
-from tools.MemoratorUploader import memorator_upload_script
+import concurrent.futures  
 from parser.create_message import create_message
 from LINK_CONSTANTS import *
 from dotenv import dotenv_values
@@ -514,6 +513,12 @@ def sendToParser(message: str, live_filters: list, log_filters: list, display_fi
 
 def upload_logs(args, live_filters, log_filters, display_filters, csv_file_f):
     # Call the memorator log uploader function
+    if args.mac:
+        raise RuntimeError(
+            "--log-upload option is not supported on macOS because it requires Kvaser Memorator/canlib workflow (not available on MacOS)"
+        )
+
+    from tools.MemoratorUploader import memorator_upload_script
     memorator_upload_script(create_message, live_filters, log_filters, display_filters, args, csv_file_f) 
 
 
@@ -665,6 +670,9 @@ def main():
     source_group.add_argument("--local", action="store_true",
                               help=((f"Will parse messages without using the parser docker container. Generally faster and useful for high data rates")))
 
+    source_group.add_argument("--mac", action="store_true",
+                              help=((f"Use macOS PCAN CAN bus settings instead of Linux SocketCAN settings.")))
+
     args = parser.parse_args()
 
     # <----- Argument validation and handling ----->
@@ -674,6 +682,10 @@ def main():
         return 0
 
     validate_args(parser, args)
+
+    # Error message for MacOS users trying to use --log-upload option since Kvaser Memorator/canlib workflow is not supported on MacOS
+    if args.mac and args.log_upload:
+        raise RuntimeError("--log-upload is not supported on macOS because it requires the Kvaser Memorator/canlib workflow.")
 
     # build the correct URL to make POST request to
     if args.prod or args.offline:
@@ -710,7 +722,10 @@ def main():
     # <----- Define Can Bus for Offline Mode ----->
     if args.offline:
         # Defining the Can bus
-        can_bus = can.interface.Bus(bustype='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
+        if args.mac: 
+            can_bus = can.interface.Bus(interface='pcan', channel='PCAN_USBBUS1', bitrate= 500000)
+        else:
+            can_bus = can.interface.Bus(interface='socketcan', channel=OFFLINE_CAN_CHANNEL, bitrate=OFFLINE_CAN_BITRATE)
 
     # <----- Define Live Filters ----->
     live_filters = args.live_on
