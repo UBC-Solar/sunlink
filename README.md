@@ -125,6 +125,9 @@ cansend can0 123#DEADBEEF
 
    Download the `setup.sh` script into the directory where you want to set up the telemetry cluster:
 
+**IF MacOS!!**
+Download 'MacOS_setup.sh' instead
+
    ```sh
    curl -O https://raw.githubusercontent.com/UBC-Solar/sunlink/main/setup.sh
    ```
