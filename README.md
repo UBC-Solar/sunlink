@@ -104,12 +104,13 @@ Run the automated setup script inside WSL. This will install `usbipd-win` on Win
 chmod +x pcan_wsl_setup.sh
 ./pcan_wsl_setup.sh
 ```
+Click install, and yes to everything. Feel free to read it to understand what is going on. 
 
 #### Commands
 **1. Pass the USB Device to WSL (Run in Windows Administrator PowerShell):**
 ```powershell
 usbipd list
-# Note the BUSID of the PEAK-System device
+# Note the BUSID of the PEAK-System device. It should say 'PCAN-USB' in the DEVICE column. 
 usbipd bind --busid <BUSID>
 usbipd attach --wsl --busid <BUSID>
 ```
