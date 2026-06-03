@@ -137,4 +137,4 @@ telemetry.toml
 logfiles/*
 dbgfiles/*
 failfiles/*
-logs/*.DS_Store
+**.DS_Store
