@@ -186,7 +186,7 @@
       "type": "stat"
     }
   ],
-  "refresh": "",
+  "refresh": "1s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
