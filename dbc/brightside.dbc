@@ -31,10 +31,25 @@ NS_ :
 	BU_BO_REL_
 	SG_MUL_VAL_
 
+
 BS_:
 
-BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD MPPT
+BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD MPPT DIST
 
+BO_ 774 DistHeartBeat: 3 DIST
+ SG_ DistHeartbeat : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DistHeartbeatCounter : 8|16@1- (1,0) [0|65535] "" Vector__XXX
+
+BO_ 804 DistFault: 1 DIST
+ SG_ DistFault : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 805 DistCurrents: 5 DIST
+ SG_ DRDCurrent : 0|8@1+ (5,0) [0|1280] "mA" Vector__XXX
+ SG_ MDICurrent : 8|8@1+ (5,0) [0|1280] "mA" Vector__XXX
+ SG_ SpareCurrent : 16|8@1+ (5,0) [0|1280] "mA" Vector__XXX
+ SG_ SpareControlCurrent : 24|8@1+ (5,0) [0|1280] "mA" Vector__XXX
+ SG_ SpareMuxCurrent : 32|8@1+ (5,0) [0|1280] "mA" Vector__XXX
+ 
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX

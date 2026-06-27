@@ -171,7 +171,7 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
     """
     if args.live_on and args.live_off:
         parser.error("--live-on and --live-off cannot be used together")
-    if (args.log_upload and args.debug) or (args.log_upload and args.prod) or (args.log_upload and args.no_write) or (args.offline and args.log_upload):
+    if (args.log_upload and args.test) or (args.log_upload and args.prod) or (args.log_upload and args.no_write) or (args.offline and args.log_upload):
         parser.error("-u (--log-upload) can only be used alone (cannot be used with ANY other options)")
     elif args.log_upload:
         return
@@ -195,13 +195,13 @@ def validate_args(parser: 'argparse.ArgumentParser', args: 'argparse.Namespace')
         #     parser.error("-p and -b options must both be specified")
 
     if args.no_write:
-        if args.debug or args.prod:
+        if args.test or args.prod:
             parser.error("Conflicting configuration. Cannot specify --no-write with --debug or --prod.")
     else:
-        if args.debug and args.prod:
+        if args.test and args.prod:
             parser.error("Conflicting configuration. Cannot specify both --debug and --prod. Must choose one.")
 
-        if args.debug is False and args.prod is False:
+        if args.test is False and args.prod is False:
             parser.error("Must specify one of --debug, --prod, or --no-write.")
 
 
@@ -232,7 +232,7 @@ def print_config_table(args: 'argparse.Namespace', live_filters: list):
 
     if args.prod:
         config_table.add_row(["WRITE TARGET", "PRODUCTION BUCKET"])
-    elif args.debug:
+    elif args.test:
         config_table.add_row(["WRITE TARGET", "DEBUG BUCKET"])
     else:
         config_table.add_row(["WRITE TARGET", "WRITE DISABLED"])
@@ -604,7 +604,7 @@ def main():
                                   help=(f"The max number of threads to use for making HTTP requests to \
                                         the parser. Default is {DEFAULT_MAX_WORKERS}."))
 
-    write_group.add_argument("--debug", action="store_true",
+    write_group.add_argument("--test", action="store_true",
                              help=("Requests parser to write parsed data to the debug InfluxDB bucket."))
     write_group.add_argument("--prod", action="store_true",
                              help=("Requests parser to write parsed data to the production InfluxDB bucket."))
@@ -691,7 +691,7 @@ def main():
     # build the correct URL to make POST request to
     if args.prod or args.offline:
         PARSER_ENDPOINT = PROD_WRITE_ENDPOINT
-    elif args.debug:
+    elif args.test:
         PARSER_ENDPOINT = DEBUG_WRITE_ENDPOINT
     else:
         PARSER_ENDPOINT = NO_WRITE_ENDPOINT
@@ -877,7 +877,7 @@ def handle_raw_message(raw_message, display_filters, args):
     parsed_message = safe_create_message(raw_message)
     if (parsed_message is not None):
         handle_message_from_response(parsed_message.data["display_data"], display_filters, args)
-        write_to_influx(parsed_message, "_test" if args.debug else "_prod", args.batch_size)
+        write_to_influx(parsed_message, "_test" if args.test else "_prod", args.batch_size)
 
 def write_to_influx(parsed_message, bucket, batch_size):
     for i in range(len(parsed_message.data[list(parsed_message.data.keys())[0]])):
