@@ -181,8 +181,12 @@ BO_ 1104 ECUStatus: 7 ECU
 BO_ 1280 MDITimeSinceBootup: 4 MDI
  SG_ MDITimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
 
-BO_ 1281 MDIDiagnostics: 1 MDI
+BO_ 1281 MDIDiagnostics: 5 MDI
  SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1282 MDI_Motor_Temperature: 5 Vector__XXX
+ SG_ RTD_Read_Success : 0|8@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Motor_Temperature : 8|32@1- (1,0) [-100|300] "degC" Vector__XXX
 
 BO_ 1409 STRTimeSinceBootup: 4 STR
  SG_ STRTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
