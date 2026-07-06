@@ -32,7 +32,7 @@ app = Flask(__name__)
 
 # <----- Constants ----->
 
-CAR_NAME = "Brightside"
+CAR_NAME = "Cascadia"
 
 # paths are relative to project root
 ENV_FILE = Path(".env")

@@ -8,7 +8,7 @@ cellular_parser.py
 - Logs undecodable/unknown frames to a rotating file
 
 ENV (typical):
-  DBC_FILE=/app/dbc/brightside.dbc
+  DBC_FILE=/app/dbc/cascadia.dbc
   INFLUX_URL=http://influxdb:8086
   INFLUX_ORG=UBC Solar
   INFLUX_BUCKET=CAN_test
@@ -41,7 +41,7 @@ import canlink_pb2, canlink_pb2_grpc  # noqa: E402
 # -----------------------------
 # Config from environment
 # -----------------------------
-DBC_FILE       = os.getenv("DBC_FILE", "/app/dbc/brightside.dbc")
+DBC_FILE       = os.getenv("DBC_FILE", "/app/dbc/cascadia.dbc")
 INFLUX_URL     = os.getenv("INFLUX_URL", "http://localhost:8086")
 INFLUX_ORG     = os.getenv("INFLUX_ORG", "UBC Solar")
 INFLUX_BUCKET  = os.getenv("INFLUX_BUCKET", "CAN_test")
