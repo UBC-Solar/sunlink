@@ -184,6 +184,10 @@ BO_ 1280 MDITimeSinceBootup: 4 MDI
 BO_ 1281 MDIDiagnostics: 1 MDI
  SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 1282 MDIMotorTemperature: 5 MDI
+ SG_ RTDReadSuccess : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorTemperature : 8|32@1- (1,0) [-100|300] "degC" Vector__XXX
+
 BO_ 1409 STRTimeSinceBootup: 4 STR
  SG_ STRTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
 
