@@ -184,8 +184,18 @@ BO_ 1280 MDITimeSinceBootup: 4 MDI
 BO_ 1281 MDIDiagnostics: 1 MDI
  SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1409 STRTimeSinceBootup: 4 STR
+BO_ 1028 STRTimeSinceBootup: 4 STR
  SG_ STRTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
+
+BO_ 1408 STRDRDControl: 3 STR
+ SG_ STRRegenEnabled : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRCruiseEnabled : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRLCDScreenNextPage : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRLeftTurnSignalEnabled : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRRightTurnSignalEnabled : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRHornEnabled : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRPushToTalkEnabled : 6|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRCruiseSetVelocity : 8|16@1+ (1,0) [0|0] "km/hr" Vector__XXX
 
 BO_ 1410 STRDiagnostics : 1 STR
  SG_ STRWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
