@@ -184,7 +184,7 @@ BO_ 1280 MDITimeSinceBootup: 4 MDI
 BO_ 1281 MDIDiagnostics: 1 MDI
  SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1028 STRTimeSinceBootup: 4 STR
+BO_ 1409 STRTimeSinceBootup: 4 STR
  SG_ STRTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
 
 BO_ 1408 STRDRDControl: 3 STR
