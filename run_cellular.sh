@@ -27,6 +27,19 @@ fi
 
 export SSHPASS="$RPI_PASSWORD"
 ssh_cmd=(sshpass -e ssh -o StrictHostKeyChecking=accept-new "$RPI_USER@$RPI_HOST")
+REMOTE_PID=""
+
+cleanup() {
+  local exit_code=$?
+  if [[ -n "$REMOTE_PID" ]]; then
+    sshpass -e ssh -o StrictHostKeyChecking=accept-new "$RPI_USER@$RPI_HOST" "pkill -f 'python3 cell_script.py' || true" >/dev/null 2>&1 || true
+    echo "Stopped the remote cellular parser." >&2
+  fi
+  trap - INT TERM
+  exit "$exit_code"
+}
+
+trap cleanup INT TERM
 
 if [[ ! -f "$LOCAL_ENV_FILE" ]]; then
   echo "Local environment file not found: $LOCAL_ENV_FILE" >&2
@@ -43,29 +56,18 @@ read_local_env_values() {
   python3 - "$LOCAL_ENV_FILE" <<'PY'
 import sys
 from pathlib import Path
+from dotenv import dotenv_values
 
 env_path = Path(sys.argv[1])
 if not env_path.exists():
     raise SystemExit(1)
 
-values = {}
-for raw_line in env_path.read_text().splitlines():
-    line = raw_line.strip()
-    if not line or line.startswith('#') or '=' not in line:
-        continue
-    key, value = line.split('=', 1)
-    key = key.strip()
-    value = value.strip()
-    if value.startswith('"') and value.endswith('"'):
-        value = value[1:-1]
-    elif value.startswith("'") and value.endswith("'"):
-        value = value[1:-1]
-    values[key] = value
-
-for key in ("INFLUX_URL", "INFLUX_TOKEN"):
-    if not values.get(key):
+config = dotenv_values(env_path)
+for key in ("INFLUX_TOKEN",):
+    value = config.get(key, "")
+    if not value:
         raise SystemExit(f"Missing {key} in {env_path}")
-    print(f"{key}={values[key]}")
+    print(f"{key}={value}")
 PY
 }
 
@@ -94,20 +96,20 @@ seen_url = False
 seen_token = False
 for line in env_path.read_text().splitlines():
     if line.startswith('INFLUX_URL='):
-        lines.append(f'INFLUX_URL="{url}"')
+        lines.append(f'INFLUX_URL=\"{url}\"')
         seen_url = True
     elif line.startswith('INFLUX_TOKEN='):
-        lines.append(f'INFLUX_TOKEN="{token}"')
+        lines.append(f'INFLUX_TOKEN=\"{token}\"')
         seen_token = True
     else:
         lines.append(line)
 
 if not seen_url:
-    lines.append(f'INFLUX_URL="{url}"')
+    lines.append(f'INFLUX_URL=\"{url}\"')
 if not seen_token:
-    lines.append(f'INFLUX_TOKEN="{token}"')
+    lines.append(f'INFLUX_TOKEN=\"{token}\"')
 
-env_path.write_text('\n'.join(lines) + '\n')
+env_path.write_text('\\n'.join(lines) + '\\n')
 PY"
 }
 
@@ -128,25 +130,29 @@ check_remote_serial() {
 
 mapfile -t local_env_values < <(read_local_env_values)
 
-INFLUX_URL=""
 INFLUX_TOKEN=""
 for entry in "${local_env_values[@]}"; do
   case "$entry" in
-    INFLUX_URL=*)
-      INFLUX_URL="${entry#INFLUX_URL=}"
-      ;;
     INFLUX_TOKEN=*)
       INFLUX_TOKEN="${entry#INFLUX_TOKEN=}"
       ;;
   esac
 done
 
-if [[ -z "$INFLUX_URL" || -z "$INFLUX_TOKEN" ]]; then
-  echo "Unable to read INFLUX_URL and INFLUX_TOKEN from $LOCAL_ENV_FILE" >&2
+if [[ -z "$INFLUX_TOKEN" ]]; then
+  echo "Unable to read INFLUX_TOKEN from $LOCAL_ENV_FILE" >&2
   exit 1
 fi
 
-echo "Using INFLUX_URL from local .env: $INFLUX_URL"
+TAILSCALE_IP="$(tailscale ip 2>/dev/null | awk '/^100\./ {print $1; exit}' || true)"
+if [[ -z "$TAILSCALE_IP" ]]; then
+  echo "Unable to determine the local Tailscale IPv4 address. Run 'tailscale ip' first." >&2
+  exit 1
+fi
+
+INFLUX_URL="http://${TAILSCALE_IP}:8086"
+echo "Using Tailscale IP: $TAILSCALE_IP"
+echo "Using INFLUX_URL: $INFLUX_URL"
 echo "Using INFLUX_TOKEN from local .env"
 
 check_remote_repo
@@ -154,4 +160,5 @@ check_remote_serial
 write_remote_env "$INFLUX_URL" "$INFLUX_TOKEN"
 
 echo "Starting cellular parser on the Pi..."
-"${ssh_cmd[@]}" "cd '${REMOTE_REPO_DIR}' && source .venv/bin/activate && cd src/influx_cellular && python3 cell_script.py"
+REMOTE_PID="$("${ssh_cmd[@]}" "cd '${REMOTE_REPO_DIR}' && source .venv/bin/activate && cd src/influx_cellular && python3 cell_script.py" & echo $! )"
+wait $REMOTE_PID
