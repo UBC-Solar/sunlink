@@ -5,6 +5,16 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$SCRIPT_DIR"
 LOCAL_ENV_FILE="$REPO_ROOT/.env"
 
+if [[ -x "$REPO_ROOT/environment/bin/python" ]]; then
+  PYTHON_BIN="$REPO_ROOT/environment/bin/python"
+elif [[ -x "$REPO_ROOT/environment/bin/python3" ]]; then
+  PYTHON_BIN="$REPO_ROOT/environment/bin/python3"
+elif command -v python3 >/dev/null 2>&1; then
+  PYTHON_BIN="$(command -v python3)"
+else
+  PYTHON_BIN="python"
+fi
+
 RPI_USER="sunlite"
 RPI_HOST="100.88.33.33"
 RPI_PASSWORD="solarisbest123"
@@ -53,7 +63,7 @@ if ! sshpass -e ssh -o BatchMode=no -o ConnectTimeout=5 "$RPI_USER@$RPI_HOST" tr
 fi
 
 read_local_env_values() {
-  python3 - "$LOCAL_ENV_FILE" <<'PY'
+  "$PYTHON_BIN" - "$LOCAL_ENV_FILE" <<'PY'
 import sys
 from pathlib import Path
 from dotenv import dotenv_values
