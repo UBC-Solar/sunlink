@@ -1044,12 +1044,132 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "color": "light-blue",
+                  "index": 0
+                },
+                "to": 25
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 26,
+                "result": {
+                  "color": "super-light-yellow",
+                  "index": 1
+                },
+                "to": 55
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 56,
+                "result": {
+                  "color": "orange",
+                  "index": 2
+                },
+                "to": 68
+              },
+              "type": "range"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 29
+      },
+      "id": 98,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDI\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorTemperature\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "MDI: Motor Temperature",
+      "type": "timeseries"
+    },
+    {
       "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 35
       },
       "id": 6,
       "panels": [
@@ -1473,7 +1593,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 36
       },
       "id": 70,
       "panels": [],
@@ -1594,7 +1714,7 @@
         "h": 7,
         "w": 10,
         "x": 0,
-        "y": 31
+        "y": 37
       },
       "id": 74,
       "options": {
@@ -1847,7 +1967,7 @@
         "h": 7,
         "w": 11,
         "x": 10,
-        "y": 31
+        "y": 37
       },
       "id": 75,
       "options": {
@@ -1910,7 +2030,7 @@
         "h": 7,
         "w": 3,
         "x": 21,
-        "y": 31
+        "y": 37
       },
       "id": 76,
       "options": {
@@ -1974,7 +2094,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 38
+        "y": 44
       },
       "id": 77,
       "options": {
@@ -2069,7 +2189,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 38
+        "y": 44
       },
       "id": 73,
       "options": {
@@ -2173,7 +2293,7 @@
         "h": 8,
         "w": 4,
         "x": 8,
-        "y": 38
+        "y": 44
       },
       "id": 97,
       "options": {
@@ -2338,7 +2458,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 38
+        "y": 44
       },
       "id": 72,
       "options": {
@@ -2399,7 +2519,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 42
+        "y": 48
       },
       "id": 78,
       "options": {
@@ -2463,7 +2583,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 42
+        "y": 48
       },
       "id": 71,
       "options": {
@@ -2918,7 +3038,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 46
+        "y": 52
       },
       "id": 79,
       "options": {
@@ -2957,7 +3077,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 54
+        "y": 60
       },
       "id": 54,
       "panels": [
@@ -4414,7 +4534,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 61
       },
       "id": 29,
       "panels": [],
@@ -4483,7 +4603,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 56
+        "y": 62
       },
       "id": 32,
       "options": {
@@ -4517,7 +4637,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 69
       },
       "id": 92,
       "panels": [],
@@ -4581,7 +4701,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 64
+        "y": 70
       },
       "id": 94,
       "options": {
@@ -4667,7 +4787,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 64
+        "y": 70
       },
       "id": 95,
       "options": {
@@ -4778,7 +4898,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 71
+        "y": 77
       },
       "id": 93,
       "options": {
@@ -4864,7 +4984,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 71
+        "y": 77
       },
       "id": 96,
       "options": {
