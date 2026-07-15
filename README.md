@@ -19,6 +19,23 @@ This will activate the virtual environment that has the Python packages to run o
 For full setup and usage details of the cellular parser container, see the Sunlite README:  
 https://github.com/UBC-Solar/sunlite/blob/main/src/grpc_cellular/README.md
 
+### Cellular Startup
+If it is your first time running Cellular, we need sshpass to bypass the password on the rpi. To do this run:
+
+`sudo apt-get install sshpass`
+
+Then we need to confirm that we can ssh into the RPI so run:
+
+`ssh sunlite@100.88.33.33`
+
+password: `solarisbest123`
+
+If that works, then write `exit` in the terminal and you can proceed with the following bash command.
+
+| Command | Description |
+| --- | --- |
+| `bash run_cellular.sh` | Simplifies the cellular parser startup to a single bash command by connecting to the Pi, syncing the Influx configuration from the local Sunlink environment, and launching the parser. |
+
 ### CAN or Radio Setup
 Depending on what you are using see **CAN Setup** or **Radio Setup** sections below for how to set up CAN or Radio. Need to do this before running sunlink commands!
 
