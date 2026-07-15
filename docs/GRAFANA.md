@@ -82,8 +82,8 @@ When creating a dashboard on Grafana there are no standards on what the dashboar
     * The name of the dashboard must follow the naming convention of `<BUCKET_NAME>: <TITLE> - <CAR>`. 
         * `<BUCKET_NAME>`: This is the influx bucket(s) that this dashboard's panels will pull data from. Simply list all the buckets that the dashboard pulls from in this field. Examples: `PROD` and `PROD, LOG`.
         * `<TITLE>`: This is the name of the dashboard. It should sufficinetly explain that type of data we will see inside it. Examples: `Pit Crew`, `BMS`, `MCB`.     
-        * `<CAR>`: This is the car that the dashboard is for. Examples: `Cascadia` and `Daybreak`.
-        * Examples: `PROD: Pit Crew - Cascadia` and `PROD: MC (Mitsuba) - Cascadia`.
+        * `<CAR>`: This is the car that the dashboard is for. Examples: `Brightside` and `Daybreak`.
+        * Examples: `PROD: Pit Crew - Brightside` and `PROD: MC (Mitsuba) - Brightside`.
         * This convention was chosen because it helps users quickly find their intended dashboard and it contians suffieicnt detials to find the specific panel they are looking for. By appending the bucket name first you guarantee that the panels inside should populate if you ran sunlink to go into that bucket. 
 
 ### Panels

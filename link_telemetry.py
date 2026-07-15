@@ -656,8 +656,8 @@ def main():
                             help=("allows randomization with production bucket. Please user carefully and locally "))
     
     source_group.add_argument("--dbc", action="store",
-                              help="Specifies the dbc file to use. For example: ./dbc/cascadia.dbc"
-                              "Default: ./dbc/cascadia.dbc")
+                              help="Specifies the dbc file to use. For example: ./dbc/brightside.dbc"
+                              "Default: ./dbc/brightside.dbc")
 
     source_group.add_argument("-f", "--frequency-hz", action="store", default=DEFAULT_RANDOM_FREQUENCY_HZ, type=int,
                               help=((f"Specifies the frequency (in Hz) for random message generation. \

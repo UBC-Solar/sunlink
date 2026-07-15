@@ -93,7 +93,7 @@ def upload(log_file: kvmlib.LogFile, parserCallFunc: callable, live_filters: lis
                     csv_string += "," + str(dict_data['Value'][i])                            # Value
                     csv_string += "," + dict_data['Measurement'][i]                      # Signal Name
                     csv_string += "," + dict_data['Source'][i]                           # Board Name
-                    csv_string += "," + "Cascadia"                                # Car Name
+                    csv_string += "," + "Brightside"                                # Car Name
                     csv_string += "," + class_name                                  # Message Name
 
                     print(csv_string + '\n', file=csv_file_f, end='')
