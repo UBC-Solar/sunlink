@@ -57,11 +57,84 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Second {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Second"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Minute {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Minute"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Hour {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Hour"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Day {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Day"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Month {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Month"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Year {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Year"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 7,
-        "w": 7,
+        "w": 24,
         "x": 0,
         "y": 1
       },
