@@ -1,0 +1,3 @@
+[submodule "suncan"]
+	path = suncan
+	url = git@github.com:UBC-Solar/suncan.git
