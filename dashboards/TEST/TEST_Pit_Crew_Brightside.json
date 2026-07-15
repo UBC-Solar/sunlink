@@ -4894,7 +4894,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": "1s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -4902,7 +4902,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-1m",
     "to": "now"
   },
   "timepicker": {

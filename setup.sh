@@ -15,7 +15,7 @@ sudo apt-get update
 echo -e "${ANSI_GREEN}DONE updating apt! $ANSI_RESET"                          
 
 echo -e "${ANSI_BOLD}Installing gnome terminal... $ANSI_RESET"                
-sudo apt install gnome-terminal                                        # install gnome terminal
+sudo apt install -y gnome-terminal                                        # install gnome terminal
 echo -e "${ANSI_GREEN}DONE installing gnome terminal! $ANSI_RESET"                          
 
 echo -e "${ANSI_BOLD}Checking for docker installation. $ANSI_RESET"              
@@ -26,7 +26,7 @@ if [ -x "$(command -v docker)" ]; then                                 # Check i
     case $reinstall in
         [Yy]* ) 
             echo -e "${ANSI_YELLOW}Removing Docker Installation $ANSI_RESET"
-            sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+            sudo apt-get purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
             sudo rm -rf /var/lib/docker
             sudo rm -rf /var/lib/containerd
             echo -e "${ANSI_YELLOW}DONE removing docker. Installing... $ANSI_RESET"
@@ -42,7 +42,7 @@ fi
 
 if [ $doInstall = true ]; then
     # install docker
-    sudo apt-get install ca-certificates curl
+    sudo apt-get install -y ca-certificates curl
     sudo install -m 0755 -d /etc/apt/keyrings
     sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -53,7 +53,7 @@ if [ $doInstall = true ]; then
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get update
     ## install latest version of docker
-    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     echo -e "${ANSI_GREEN}DONE installing docker! $ANSI_RESET "
 fi
 
@@ -117,27 +117,10 @@ echo -e "channel = \"can0\"" >> telemetry.toml
 echo -e "bitrate = \"500000\"" >> telemetry.toml
 echo -e "${ANSI_GREEN}DONE creating telemetry.toml file! $ANSI_RESET"
 
-#sudo apt install nginx
-# NGINX stuff
-# sudo docker pull nginx:latest
-# sudo docker run -v nginx/nginx.conf:/etc/nginx/nginx.conf:ro -d -p 80:80 nginx
 # Starting the telemetry cluster
 echo -e "$ANSI_GREEN \nStarting up docker containers. May take a few minutes...\n $ANSI_RESET"
 sudo docker compose up -d
-# sudo ufw allow 'Nginx HTTP'
-# sudo docker images # verify that pull worked
-  #create, run, name, and specify ports for the container
-# sudo ufw status
-# systemctl status nginx # Checking if NGINX is up
 sudo docker compose ps # Show all containers
-# Update and install Certbot
-# sudo apt update
-# sudo apt install -y certbot python3-certbot-nginx
-# # Setup SSL certificates for NGINX
-# sudo certbot --nginx -d example.com -d www.example.com
-# # Test automatic renewal
-# sudo certbot renew --dry-run
-
 
 # Get API Token for Grafana
 echo -e "\n\n"
@@ -183,33 +166,38 @@ case $installKvaserLibs in
     [Nn]* ) 
         echo -e "${ANSI_YELLOW}Installing Kvaser linuxcan and kvlibsdk drivers in ~/ directory... $ANSI_RESET"
 
-        echo -e "${ANSI_bold}Installing LINUXCAN... $ANSI_RESET"
-        sudo apt-get install pkg-config                                                         # Linuxcan first
-        sudo apt-get install linux-headers-`uname -r` 
-        sudo apt-get install build-essential 
-        sudo wget -P ~ --content-disposition "https://www.kvaser.com/download/?utm_source=software&utm_ean=7330130980754&utm_status=latest"
-        sudo tar -xzvf ~/linuxcan*.tar.gz -C ~                                                  # not version dependent
-        sudo rm -rfd ~/linuxcan*.tar.gz
+        echo -e "${ANSI_BOLD}Installing LINUXCAN... $ANSI_RESET"
+        sudo apt-get update
+        sudo apt-get install -y pkg-config                                                         # Linuxcan first
+        sudo apt-get install -y linux-headers-`uname -r` 
+        sudo apt-get install -y build-essential 
+        sudo apt-get install -y --reinstall gcc-12
+        sudo apt-get install -y zlib1g zlib1g-dev libxml2 libxml2-dev
+
+        # Dynamic download for LINUXCAN
+        sudo wget -O ~/linuxcan.tar.gz --content-disposition "https://www.kvaser.com/download/?utm_source=software&utm_ean=7330130980754&utm_status=latest"
+        sudo tar -xzvf ~/linuxcan.tar.gz -C ~                                                  
+        sudo rm -f ~/linuxcan.tar.gz
         echo -e "${ANSI_YELLOW}Changing directory to ~/linuxcan... $ANSI_RESET"
-        cd ~/linuxcan
-        sudo apt install --reinstall gcc-12
-        sudo apt-get install zlib1g
-        sudo apt-get install zlib1g-dev
-        sudo apt-get install libxml2
-        sudo apt-get install libxml2-dev
+        cd ~/linuxcan*/
         make
         sudo make uninstall
         sudo make install  
-        echo -e "${ANSI_GREEN}DONE installing  LINUXCAN! $ANSI_RESET"
+        echo -e "${ANSI_GREEN}DONE installing LINUXCAN! $ANSI_RESET"
 
         echo -e "${ANSI_BOLD}Installing KVLIBSDK... $ANSI_RESET"                                 # KVLIBSDK
-        sudo wget -P ~ --content-disposition "https://pim.kvaser.com/var/assets/Product_Resources/kvlibsdk-5.45.724.tar.gz"
-        sudo tar -xzvf ~/kvlibsdk*.tar.gz -C ~                                                  # not version dependent
-        sudo rm -rfd ~/kvlibsdk*.tar.gz
+        # Dynamic download for KVLIBSDK
+        sudo wget -O ~/kvlibsdk.tar.gz --content-disposition "https://www.kvaser.com/downloads-kvaser/?utm_source=software&utm_ean=7330130981966&utm_status=latest"
+        sudo tar -xzvf ~/kvlibsdk.tar.gz -C ~                                                  
+        sudo rm -f ~/kvlibsdk.tar.gz
         echo -e "${ANSI_YELLOW}Changing directory to ~/kvlibsdk... $ANSI_RESET"
-        cd ~/kvlibsdk
+        cd ~/kvlibsdk*/
         make
-        sudo make install  
+        sudo make install
+        
+        echo -e "${ANSI_YELLOW}Rebuilding dynamic linker cache... $ANSI_RESET"
+        sudo ldconfig  
+        
         echo -e "${ANSI_GREEN}DONE installing KVLIBSDK and LINUXCAN! $ANSI_RESET"
         echo -e "${ANSI_YELLOW}To uninstall. run 'sudo make uninstall' in both directories $ANSI_RESET"
         ;;
@@ -221,14 +209,18 @@ case $installKvaserLibs in
     * ) echo -e "${ANSI_YELLOW}Please enter (y/n). ${ANSI_RESET}";;
 esac
 
-# Creating a python virtual environment. First check if venv is installed
+# Creating a python virtual environment pinned to Python 3.12
 echo -e "${ANSI_YELLOW}Changing directory to $SUNLINK_DIR $ANSI_RESET"
 cd $SUNLINK_DIR
 
-echo -e "${ANSI_YELLOW}Setting up virtual environment... $ANSI_RESET"
-sudo apt-get install python3-venv
-sudo python3 -m venv environment
-sudo chmod -R a+rwx environment
+echo -e "${ANSI_YELLOW}Setting up Python 3.12 virtual environment... $ANSI_RESET"
+sudo apt-get install -y software-properties-common build-essential
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt-get update
+sudo apt-get install -y python3.12 python3.12-venv python3.12-dev
+
+python3.12 -m venv environment
+environment/bin/python3 -m pip install --upgrade pip
 echo -e "${ANSI_GREEN}DONE creating virtual environment! $ANSI_RESET"
 
 echo -e "$ANSI_YELLOW Creating Influx Buckets... ${ANSI_RESET}"
@@ -238,17 +230,6 @@ sudo docker exec -it influxdb influx bucket create --name "CAN_prod" --org "UBC 
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_prod' created$ANSI_RESET"
 sudo docker exec -it influxdb influx bucket create --name "CAN_log" --org "UBC Solar" --token "${INFLUX_TOKEN}"
 echo -e "${ANSI_GREEN}BUCEKT: 'CAN_log' created$ANSI_RESET"
-
-# REMOVED UNTIL API MODE EXISTS
-# sudo docker exec -it influxdb influx bucket create --name "ATR_test" --org "${DOCKER_INFLUXDB_INIT_ORG}" 
-# echo -e "${ANSI_GREEN}BUCEKT: 'ATR_test' created$ANSI_RESET"
-# sudo docker exec -it influxdb influx bucket create --name "ATR_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-# echo -e "${ANSI_GREEN}BUCEKT: 'ATR_prod' created$ANSI_RESET"
-
-# sudo docker exec -it influxdb influx bucket create --name "ATL_test" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-# echo -e "${ANSI_GREEN}BUCEKT: 'ATL_test' created$ANSI_RESET"
-# sudo docker exec -it influxdb influx bucket create --name "ATL_prod" --org "${DOCKER_INFLUXDB_INIT_ORG}"
-# echo -e "${ANSI_GREEN}BUCEKT: 'ATL_prod' created$ANSI_RESET"
 
 # Restarting docker
 echo -e "${ANSI_YELLOW}Restarting docker containers one last time... $ANSI_RESET"
@@ -266,7 +247,7 @@ if [ $setupTailscale = "n" ]; then
     curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
     curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
     sudo apt-get update
-    sudo apt-get install tailscale
+    sudo apt-get install -y tailscale
     sudo tailscale up --auth-key $tailscaleAuthKey
     echo -e "${ANSI_GREEN}DONE setting up Tailscale! $ANSI_RESET"
 else
