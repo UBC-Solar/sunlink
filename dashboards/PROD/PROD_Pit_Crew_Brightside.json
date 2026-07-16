@@ -31,6 +31,150 @@
         "x": 0,
         "y": 0
       },
+      "id": 102,
+      "panels": [],
+      "title": "Memorator",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Second {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Second"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Minute {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Minute"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Hour {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Hour"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Day {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Day"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Month {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Month"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Year {car=\"Brightside\", class=\"RTCTimestamp\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Year"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 103,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MEMORATOR\")\n  |> filter(fn: (r) => r[\"class\"] == \"RTCTimestamp\")\n  |> filter(fn: (r) => r[\"_field\"] == \"Second\" or r[\"_field\"] == \"Minute\" or r[\"_field\"] == \"Hour\" or r[\"_field\"] == \"Day\" or r[\"_field\"] == \"Month\" or r[\"_field\"] == \"Year\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Memorator Timestamp",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
       "id": 41,
       "panels": [],
       "title": "Motor Control Details",
@@ -118,7 +262,7 @@
         "h": 7,
         "w": 9,
         "x": 0,
-        "y": 1
+        "y": 9
       },
       "id": 68,
       "options": {
@@ -206,7 +350,7 @@
         "h": 7,
         "w": 4,
         "x": 9,
-        "y": 1
+        "y": 9
       },
       "id": 52,
       "options": {
@@ -294,7 +438,7 @@
         "h": 7,
         "w": 4,
         "x": 13,
-        "y": 1
+        "y": 9
       },
       "id": 24,
       "options": {
@@ -368,7 +512,7 @@
         "h": 7,
         "w": 4,
         "x": 17,
-        "y": 1
+        "y": 9
       },
       "id": 90,
       "options": {
@@ -442,7 +586,7 @@
         "h": 7,
         "w": 3,
         "x": 21,
-        "y": 1
+        "y": 9
       },
       "id": 26,
       "options": {
@@ -555,7 +699,7 @@
         "h": 7,
         "w": 9,
         "x": 0,
-        "y": 8
+        "y": 16
       },
       "id": 66,
       "options": {
@@ -646,7 +790,7 @@
         "h": 14,
         "w": 15,
         "x": 9,
-        "y": 8
+        "y": 16
       },
       "id": 30,
       "options": {
@@ -747,7 +891,7 @@
         "h": 7,
         "w": 9,
         "x": 0,
-        "y": 15
+        "y": 23
       },
       "id": 48,
       "options": {
@@ -836,7 +980,7 @@
         "h": 7,
         "w": 10,
         "x": 0,
-        "y": 22
+        "y": 30
       },
       "id": 45,
       "options": {
@@ -892,7 +1036,7 @@
         "h": 7,
         "w": 4,
         "x": 10,
-        "y": 22
+        "y": 30
       },
       "id": 69,
       "options": {
@@ -1011,7 +1155,7 @@
         "h": 7,
         "w": 10,
         "x": 14,
-        "y": 22
+        "y": 30
       },
       "id": 53,
       "options": {
@@ -1046,7 +1190,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 37
       },
       "id": 6,
       "panels": [
@@ -1470,7 +1614,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 38
       },
       "id": 70,
       "panels": [],
@@ -1590,7 +1734,7 @@
         "h": 7,
         "w": 10,
         "x": 0,
-        "y": 31
+        "y": 39
       },
       "id": 74,
       "options": {
@@ -1842,7 +1986,7 @@
         "h": 7,
         "w": 11,
         "x": 10,
-        "y": 31
+        "y": 39
       },
       "id": 75,
       "options": {
@@ -1904,7 +2048,7 @@
         "h": 7,
         "w": 3,
         "x": 21,
-        "y": 31
+        "y": 39
       },
       "id": 76,
       "options": {
@@ -1967,7 +2111,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 38
+        "y": 46
       },
       "id": 77,
       "options": {
@@ -2061,7 +2205,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 38
+        "y": 46
       },
       "id": 73,
       "options": {
@@ -2164,7 +2308,7 @@
         "h": 8,
         "w": 4,
         "x": 8,
-        "y": 38
+        "y": 46
       },
       "id": 97,
       "options": {
@@ -2328,7 +2472,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 38
+        "y": 46
       },
       "id": 72,
       "options": {
@@ -2388,7 +2532,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 42
+        "y": 50
       },
       "id": 78,
       "options": {
@@ -2451,7 +2595,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 42
+        "y": 50
       },
       "id": 71,
       "options": {
@@ -2905,7 +3049,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 46
+        "y": 54
       },
       "id": 79,
       "options": {
@@ -2944,7 +3088,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 54
+        "y": 62
       },
       "id": 54,
       "panels": [],
@@ -2982,7 +3126,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 55
+        "y": 63
       },
       "id": 59,
       "options": {
@@ -3055,7 +3199,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 55
+        "y": 63
       },
       "id": 65,
       "options": {
@@ -3117,7 +3261,7 @@
         "h": 7,
         "w": 5,
         "x": 0,
-        "y": 61
+        "y": 69
       },
       "id": 58,
       "options": {
@@ -3190,7 +3334,7 @@
         "h": 7,
         "w": 4,
         "x": 5,
-        "y": 61
+        "y": 69
       },
       "id": 64,
       "options": {
@@ -3340,7 +3484,7 @@
         "h": 7,
         "w": 7,
         "x": 9,
-        "y": 61
+        "y": 69
       },
       "id": 89,
       "options": {
@@ -3430,7 +3574,7 @@
         "h": 7,
         "w": 4,
         "x": 16,
-        "y": 61
+        "y": 69
       },
       "id": 88,
       "options": {
@@ -3503,7 +3647,7 @@
         "h": 7,
         "w": 4,
         "x": 20,
-        "y": 61
+        "y": 69
       },
       "id": 87,
       "options": {
@@ -3565,7 +3709,7 @@
         "h": 8,
         "w": 5,
         "x": 0,
-        "y": 68
+        "y": 76
       },
       "id": 57,
       "options": {
@@ -3638,7 +3782,7 @@
         "h": 4,
         "w": 6,
         "x": 5,
-        "y": 68
+        "y": 76
       },
       "id": 84,
       "options": {
@@ -3776,7 +3920,7 @@
         "h": 8,
         "w": 8,
         "x": 11,
-        "y": 68
+        "y": 76
       },
       "id": 98,
       "options": {
@@ -3850,7 +3994,7 @@
         "h": 8,
         "w": 5,
         "x": 19,
-        "y": 68
+        "y": 76
       },
       "id": 86,
       "options": {
@@ -3923,7 +4067,7 @@
         "h": 4,
         "w": 6,
         "x": 5,
-        "y": 72
+        "y": 80
       },
       "id": 85,
       "options": {
@@ -3985,7 +4129,7 @@
         "h": 7,
         "w": 5,
         "x": 0,
-        "y": 76
+        "y": 84
       },
       "id": 60,
       "options": {
@@ -4058,7 +4202,7 @@
         "h": 7,
         "w": 4,
         "x": 5,
-        "y": 76
+        "y": 84
       },
       "id": 61,
       "options": {
@@ -4135,7 +4279,7 @@
         "h": 7,
         "w": 3,
         "x": 9,
-        "y": 76
+        "y": 84
       },
       "id": 80,
       "options": {
@@ -4212,7 +4356,7 @@
         "h": 7,
         "w": 3,
         "x": 12,
-        "y": 76
+        "y": 84
       },
       "id": 81,
       "options": {
@@ -4289,7 +4433,7 @@
         "h": 7,
         "w": 3,
         "x": 15,
-        "y": 76
+        "y": 84
       },
       "id": 91,
       "options": {
@@ -4361,7 +4505,7 @@
         "h": 7,
         "w": 3,
         "x": 18,
-        "y": 76
+        "y": 84
       },
       "id": 82,
       "options": {
@@ -4429,7 +4573,7 @@
         "h": 7,
         "w": 3,
         "x": 21,
-        "y": 76
+        "y": 84
       },
       "id": 83,
       "options": {
@@ -4466,7 +4610,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 83
+        "y": 91
       },
       "id": 29,
       "panels": [],
@@ -4534,7 +4678,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 84
+        "y": 92
       },
       "id": 32,
       "options": {
@@ -4568,7 +4712,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 91
+        "y": 99
       },
       "id": 92,
       "panels": [],
@@ -4632,7 +4776,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 92
+        "y": 100
       },
       "id": 94,
       "options": {
@@ -4718,7 +4862,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 92
+        "y": 100
       },
       "id": 95,
       "options": {
@@ -4829,7 +4973,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 99
+        "y": 107
       },
       "id": 93,
       "options": {
@@ -4915,7 +5059,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 99
+        "y": 107
       },
       "id": 96,
       "options": {
