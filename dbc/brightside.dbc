@@ -34,35 +34,35 @@ NS_ :
 
 BS_:
 
-BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD MPPT DIST MST
+BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD MPPT DIST MST HVC
 
-BO_ 770 HvcHeartbeat: 2 HVC
- SG_ HvcHeartbeatCounter : 7|16@0+ (1,0) [0|65535] "" Vector__XXX
+BO_ 770 HVCHeartbeat: 2 HVC
+ SG_ HVCTimeSinceBootUp : 7|32@0+ (1,0) [0|4294967296] "" Vector__XXX
 
-BO_ 771 HvcLvPowerupSent: 2 HVC
- SG_ HvcLvPowerupSent : 0|8@1+ (1,0) [0|1] "" Vector__XXX
+BO_ 771 HVCLvPowerupSent: 2 HVC
+ SG_ HVCLvPowerupSent : 0|8@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 772 HvcStatus: 8 HVC
- SG_ HvcState : 0|8@1+ (1,0) [0|14] "" Vector__XXX
+ SG_ HVCState : 0|8@1+ (1,0) [0|14] "" Vector__XXX
  SG_ EstopFault : 8|8@1+ (1,0) [0|1] "" Vector__XXX
- SG_ ImdFault : 16|8@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ IMDFault : 16|8@1+ (1,0) [0|1] "" Vector__XXX
  SG_ MasterboardFault : 24|8@1+ (1,0) [0|1] "" Vector__XXX
  SG_ OvercurrentFault : 32|8@1+ (1,0) [0|1] "" Vector__XXX
  SG_ UndercurrentFault : 40|8@1+ (1,0) [0|1] "" Vector__XXX
- SG_ DistFaultFlag : 48|8@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTFaultFlag : 48|8@1+ (1,0) [0|1] "" Vector__XXX
  SG_ HeartbeatTimeoutFlag : 56|8@1+ (1,0) [0|1] "" Vector__XXX
 
-BO_ 773 HvcShuntCurrent: 4 HVC
- SG_ ShuntCurrent : 7|32@0- (1,0) [-2147483648|2147483647] "mA" Vector__XXX
+BO_ 773 HVCShuntCurrent: 4 HVC
+ SG_ PackCurrent : 7|32@0- (1,0) [-2147483648|2147483647] "mA" Vector__XXX
 
-BO_ 774 DistHeartBeat: 3 DIST
- SG_ DistHeartbeat : 0|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ DistHeartbeatCounter : 15|16@0+ (1,0) [0|65535] "" Vector__XXX
+BO_ 774 DISTHeartBeat: 3 DIST
+ SG_ DISTHeartbeat : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTTimeSinceBootUp : 15|32@0+ (1,0) [0|4294967296] "" Vector__XXX
 
-BO_ 775 DistFault: 1 DIST
- SG_ DistFault : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+BO_ 775 DISTFault: 1 DIST
+ SG_ DISTFault : 0|1@1+ (1,0) [0|1] "" Vector__XXX
 
-BO_ 776 DistLVOn: 1 DIST
+BO_ 776 DISTLVOn: 1 DIST
  SG_ DISTLVOn : 0|8@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 777 DistCurrents: 5 DIST
@@ -72,8 +72,8 @@ BO_ 777 DistCurrents: 5 DIST
  SG_ SpareMuxCurrent : 24|8@1+ (5,0) [0|1275] "mA" Vector__XXX
  SG_ SpareCurrent : 32|8@1+ (5,0) [0|1275] "mA" Vector__XXX
 
-BO_ 784 BmsStatus: 8 MST
- SG_ BmsHeartbeatCounter : 0|32@1+ (1,0) [0|4294967295] "" Vector__XXX
+BO_ 784 BMSStatus: 8 MST
+ SG_ MSTTimeSinceBootUp : 0|32@1+ (1,0) [0|4294967295] "" Vector__XXX
  SG_ ErrCommFail : 32|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ ErrSelfTest : 33|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ FaultOverTemp : 34|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -238,6 +238,12 @@ BO_ 867 ModuleStatus3: 8 MST
 BO_ 790 BalanceData: 4 MST
  SG_ BalanceBitmap : 0|32@1+ (1,0) [0|4294967295] "" Vector__XXX 
 
+
+
+
+
+
+
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
  SG_ VoltSensor2 : 32|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -369,7 +375,7 @@ BO_ 1575 ModuleTemps: 5 BMS
  SG_ Temp32 m7 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
 
 BO_ 1104 ECUStatus: 7 ECU
- SG_ PackCurrent : 0|16@1- (0.015259021897,0) [-127|127] "A" Vector__XXX
+ SG_ PackCurrentOld : 0|16@1- (0.015259021897,0) [-127|127] "A" Vector__XXX
  SG_ LVCurrent : 32|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
  SG_ SuppBattVoltage : 16|16@1+ (0.001,0) [0|16] "V" Vector__XXX
  SG_ PackOverDischargeWarning : 40|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -887,7 +893,7 @@ CM_ SG_ 1575 Temp30 "Twos Complement
 ";
 CM_ SG_ 1575 Temp31 "Twos Complement";
 CM_ SG_ 1575 Temp32 "Twos Complement";
-CM_ SG_ 1104 PackCurrent "int16_t, positive is discharging from PACK(divide by 65.535 to get value in A) Must cast back to int16_t if retrieving value from CAN bus";
+CM_ SG_ 1104 PackCurrentOld "int16_t, positive is discharging from PACK(divide by 65.535 to get value in A) Must cast back to int16_t if retrieving value from CAN bus";
 CM_ SG_ 1104 LVCurrent "Unsigned, 0-30A (divide by 8.5 to get value in A)
 
 
