@@ -2,39 +2,241 @@ VERSION ""
 
 
 NS_ : 
-	NS_DESC_
-	CM_
-	BA_DEF_
-	BA_
-	VAL_
-	CAT_DEF_
-	CAT_
-	FILTER
-	BA_DEF_DEF_
-	EV_DATA_
-	ENVVAR_DATA_
-	SGTYPE_
-	SGTYPE_VAL_
-	BA_DEF_SGTYPE_
-	BA_SGTYPE_
-	SIG_TYPE_REF_
-	VAL_TABLE_
-	SIG_GROUP_
-	SIG_VALTYPE_
-	SIGTYPE_VALTYPE_
-	BO_TX_BU_
-	BA_DEF_REL_
-	BA_REL_
-	BA_DEF_DEF_REL_
-	BU_SG_REL_
-	BU_EV_REL_
-	BU_BO_REL_
-	SG_MUL_VAL_
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SIG_TYPE_REF_
+    VAL_TABLE_
+    SIG_GROUP_
+    SIG_VALTYPE_
+    SIGTYPE_VALTYPE_
+    BO_TX_BU_
+    BA_DEF_REL_
+    BA_REL_
+    BA_DEF_DEF_REL_
+    BU_SG_REL_
+    BU_EV_REL_
+    BU_BO_REL_
+    SG_MUL_VAL_
+
 
 BS_:
 
-BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD MPPT
+BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD MPPT DIST MST HVC
 
+BO_ 770 HVCHeartbeat: 2 HVC
+ SG_ HVCTimeSinceBootUp : 7|32@0+ (1,0) [0|4294967296] "" Vector__XXX
+
+BO_ 771 HVCLvPowerupSent: 2 HVC
+ SG_ HVCLvPowerupSent : 0|8@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 772 HvcStatus: 8 HVC
+ SG_ HVCState : 0|8@1+ (1,0) [0|14] "" Vector__XXX
+ SG_ EstopFault : 8|8@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ IMDFault : 16|8@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MasterboardFault : 24|8@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ OvercurrentFault : 32|8@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ UndercurrentFault : 40|8@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTFaultFlag : 48|8@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ HeartbeatTimeoutFlag : 56|8@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 773 HVCShuntCurrent: 4 HVC
+ SG_ PackCurrent : 7|32@0- (1,0) [-2147483648|2147483647] "mA" Vector__XXX
+
+BO_ 774 DISTHeartBeat: 3 DIST
+ SG_ DISTHeartbeat : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTTimeSinceBootUp : 15|32@0+ (1,0) [0|4294967296] "" Vector__XXX
+
+BO_ 775 DISTFault: 1 DIST
+ SG_ DISTFault : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 776 DISTLVOn: 1 DIST
+ SG_ DISTLVOn : 0|8@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 777 DistCurrents: 5 DIST
+ SG_ DRDCurrent : 0|8@1+ (5,0) [0|1275] "mA" Vector__XXX
+ SG_ MDICurrent : 8|8@1+ (5,0) [0|1275] "mA" Vector__XXX
+ SG_ SpareControlCurrent : 16|8@1+ (5,0) [0|1275] "mA" Vector__XXX
+ SG_ SpareMuxCurrent : 24|8@1+ (5,0) [0|1275] "mA" Vector__XXX
+ SG_ SpareCurrent : 32|8@1+ (5,0) [0|1275] "mA" Vector__XXX
+
+BO_ 784 BMSStatus: 8 MST
+ SG_ MstHeartbeatCounter : 0|32@1+ (1,0) [0|4294967295] "" Vector__XXX
+ SG_ ErrCommFail : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ ErrSelfTest : 33|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FaultOverTemp : 34|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FaultUnderVolt : 35|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FaultOverVolt : 36|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FaultUnderTemp : 37|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WarnLowVolt : 38|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WarnHighVolt : 39|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WarnHighTemp : 40|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BalancingActive : 41|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LlimEnable : 42|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ HlimEnable : 43|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BalancingEnable : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ ScrutineeringEnable : 45|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 785 VoltSummary: 8 MST
+ SG_ TotalVoltage : 0|32@1+ (1,0) [0|4294967295] "mV" Vector__XXX
+ SG_ MinVoltModuleIdx : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ MaxVoltModuleIdx : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 786 TempSummary: 4 MST
+ SG_ AvgTemp : 0|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ MinTempModuleIdx : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ MaxTempModuleIdx : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 800 ModuleVoltData0: 8 MST
+ SG_ Mod0Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod1Voltage : 16|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod2Voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod3Voltage : 48|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+
+BO_ 801 ModuleVoltData1: 8 MST
+ SG_ Mod4Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod5Voltage : 16|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod6Voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod7Voltage : 48|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+
+BO_ 802 ModuleVoltData2: 8 MST
+ SG_ Mod8Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod9Voltage : 16|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod10Voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod11Voltage : 48|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+
+BO_ 803 ModuleVoltData3: 8 MST
+ SG_ Mod12Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod13Voltage : 16|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod14Voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod15Voltage : 48|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+
+BO_ 804 ModuleVoltData4: 8 MST
+ SG_ Mod16Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod17Voltage : 16|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod18Voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod19Voltage : 48|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+
+BO_ 805 ModuleVoltData5: 8 MST
+ SG_ Mod20Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod21Voltage : 16|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod22Voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod23Voltage : 48|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+
+BO_ 806 ModuleVoltData6: 8 MST
+ SG_ Mod24Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod25Voltage : 16|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod26Voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod27Voltage : 48|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+
+BO_ 807 ModuleVoltData7: 8 MST
+ SG_ Mod28Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod29Voltage : 16|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod30Voltage : 32|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ Mod31Voltage : 48|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+
+BO_ 832 ModuleTempData0: 8 MST
+ SG_ Mod0Temp : 0|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod1Temp : 16|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod2Temp : 32|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod3Temp : 48|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+
+BO_ 833 ModuleTempData1: 8 MST
+ SG_ Mod4Temp : 0|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod5Temp : 16|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod6Temp : 32|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod7Temp : 48|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+
+BO_ 834 ModuleTempData2: 8 MST
+ SG_ Mod8Temp : 0|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod9Temp : 16|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod10Temp : 32|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod11Temp : 48|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+
+BO_ 835 ModuleTempData3: 8 MST
+ SG_ Mod12Temp : 0|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod13Temp : 16|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod14Temp : 32|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod15Temp : 48|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+
+BO_ 836 ModuleTempData4: 8 MST
+ SG_ Mod16Temp : 0|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod17Temp : 16|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod18Temp : 32|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod19Temp : 48|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+
+BO_ 837 ModuleTempData5: 8 MST
+ SG_ Mod20Temp : 0|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod21Temp : 16|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod22Temp : 32|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod23Temp : 48|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+
+BO_ 838 ModuleTempData6: 8 MST
+ SG_ Mod24Temp : 0|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod25Temp : 16|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod26Temp : 32|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod27Temp : 48|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+
+BO_ 839 ModuleTempData7: 8 MST
+ SG_ Mod28Temp : 0|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod29Temp : 16|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod30Temp : 32|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+ SG_ Mod31Temp : 48|16@1- (1,0) [-32768|32767] "degC" Vector__XXX
+
+BO_ 864 ModuleWarnsAndFaults0: 8 MST
+ SG_ Mod0WarnsAndFaults : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod1WarnsAndFaults : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod2WarnsAndFaults : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod3WarnsAndFaults : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod4WarnsAndFaults : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod5WarnsAndFaults : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod6WarnsAndFaults : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod7WarnsAndFaults : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 865 ModuleWarnsAndFaults1: 8 MST
+ SG_ Mod8WarnsAndFaults : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod9WarnsAndFaults : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod10WarnsAndFaults : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod11WarnsAndFaults : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod12WarnsAndFaults : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod13WarnsAndFaults : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod14WarnsAndFaults : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod15WarnsAndFaults : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 866 ModuleWarnsAndFaults2: 8 MST
+ SG_ Mod16WarnsAndFaults : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod17WarnsAndFaults : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod18WarnsAndFaults : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod19WarnsAndFaults : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod20WarnsAndFaults : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod21WarnsAndFaults : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod22WarnsAndFaults : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod23WarnsAndFaults : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 867 ModuleWarnsAndFaults3: 8 MST
+ SG_ Mod24WarnsAndFaults : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod25WarnsAndFaults : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod26WarnsAndFaults : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod27WarnsAndFaults : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod28WarnsAndFaults : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod29WarnsAndFaults : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod30WarnsAndFaults : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Mod31WarnsAndFaults : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 790 BalanceData: 4 MST
+ SG_ BalanceBitmap : 0|32@1+ (1,0) [0|4294967295] "" Vector__XXX 
 
 BO_ 1793 VoltageSensorsData: 8 AMB
  SG_ VoltSensor1 : 0|32@1- (1,0) [0|0] "V" Vector__XXX
@@ -167,7 +369,7 @@ BO_ 1575 ModuleTemps: 5 BMS
  SG_ Temp32 m7 : 32|8@1+ (1,0) [4294967169|127] "C" Vector__XXX
 
 BO_ 1104 ECUStatus: 7 ECU
- SG_ PackCurrent : 0|16@1- (0.015259021897,0) [-127|127] "A" Vector__XXX
+ SG_ PackCurrentOld : 0|16@1- (0.015259021897,0) [-127|127] "A" Vector__XXX
  SG_ LVCurrent : 32|8@1+ (0.11764705882,0) [0|30] "A" Vector__XXX
  SG_ SuppBattVoltage : 16|16@1+ (0.001,0) [0|16] "V" Vector__XXX
  SG_ PackOverDischargeWarning : 40|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -693,7 +895,7 @@ CM_ SG_ 1575 Temp30 "Twos Complement
 ";
 CM_ SG_ 1575 Temp31 "Twos Complement";
 CM_ SG_ 1575 Temp32 "Twos Complement";
-CM_ SG_ 1104 PackCurrent "int16_t, positive is discharging from PACK(divide by 65.535 to get value in A) Must cast back to int16_t if retrieving value from CAN bus";
+CM_ SG_ 1104 PackCurrentOld "int16_t, positive is discharging from PACK(divide by 65.535 to get value in A) Must cast back to int16_t if retrieving value from CAN bus";
 CM_ SG_ 1104 LVCurrent "Unsigned, 0-30A (divide by 8.5 to get value in A)
 
 
@@ -871,4 +1073,6 @@ SIG_VALTYPE_ 1738 MaxOutputVoltageCmdC       : 1;
 SIG_VALTYPE_ 1707 MaxOutputCurrentCmdA       : 1;
 SIG_VALTYPE_ 1723 MaxOutputCurrentCmdB       : 1;
 SIG_VALTYPE_ 1739 MaxOutputCurrentCmdC       : 1;
+
+
 
