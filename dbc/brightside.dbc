@@ -37,7 +37,7 @@ BS_:
 BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD MPPT DIST MST HVC
 
 BO_ 770 HVCHeartbeat: 2 HVC
- SG_ HVCTimeSinceBootUp : 7|32@0+ (1,0) [0|4294967296] "" Vector__XXX
+ SG_ HVCHeartbeatCounter : 7|16@0+ (1,0) [0|65535] "" Vector__XXX
 
 BO_ 771 HVCLvPowerupSent: 2 HVC
  SG_ HVCLvPowerupSent : 0|8@1+ (1,0) [0|1] "" Vector__XXX
@@ -56,8 +56,8 @@ BO_ 773 HVCShuntCurrent: 4 HVC
  SG_ PackCurrent : 7|32@0- (1,0) [-2147483648|2147483647] "mA" Vector__XXX
 
 BO_ 774 DISTHeartBeat: 3 DIST
- SG_ DISTHeartbeat : 0|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ DISTTimeSinceBootUp : 15|32@0+ (1,0) [0|4294967296] "" Vector__XXX
+ SG_ DISTHeartbeat : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DISTHeartbeatCounter : 15|16@0+ (1,0) [0|65535] "" Vector__XXX
 
 BO_ 775 DISTFault: 1 DIST
  SG_ DISTFault : 0|1@1+ (1,0) [0|1] "" Vector__XXX
