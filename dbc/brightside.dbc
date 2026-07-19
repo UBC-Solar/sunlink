@@ -36,14 +36,35 @@ BS_:
 
 BU_: AMB BMS ECU TEL OBC MEMORATOR MDI MC STR DRD MPPT DIST MST HVC
 
-BO_ 769 HvcFault: 8 HVC
- SG_ EstopFault : 8|8@1+ (1,0) [0|1] "" Vector__XXX
- SG_ ImdFault : 16|8@1+ (1,0) [0|1] "" Vector__XXX
- SG_ MasterboardFault : 24|8@1+ (1,0) [0|1] "" Vector__XXX
- SG_ OvercurrentFault : 32|8@1+ (1,0) [0|1] "" Vector__XXX
- SG_ UndercurrentFault : 40|8@1+ (1,0) [0|1] "" Vector__XXX
- SG_ DistFaultFlag : 48|8@1+ (1,0) [0|1] "" Vector__XXX
- SG_ DcdcFault : 56|8@1+ (1,0) [0|1] "" Vector__XXX
+
+
+BO_ 769 HvcFault: 2 HVC
+ SG_ TelHeartbeatTimeout : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DcdcFault : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DistFaultFlag : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ UndercurrentFault : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ OvercurrentFault : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MasterboardFault : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ ImdFault : 6|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ EstopFault : 7|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DistHeartbeatTimeout : 14|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MstHeartbeatTimeout : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 770 HVCHeartbeat: 4 HVC
+ SG_ HVCTimeSinceBootUp : 23|16@0+ (1,0) [0|65535] "" Vector__XXX
+
+BO_ 771 HVCLvPowerupSent: 1 HVC
+ SG_ HVCLvPowerupSent : 0|8@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 772 HvcStatus: 1 HVC
+ SG_ HVCState : 0|8@1+ (1,0) [0|14] "" Vector__XXX
+
+BO_ 773 HVCShuntCurrent: 4 HVC
+ SG_ PackCurrent : 7|32@0- (1,0) [-2147483648|2147483647] "mA" Vector__XXX
+
+BO_ 791 HvcSuppVoltage: 4 HVC
+ SG_ SuppVoltage : 7|32@0+ (1,0) [0|4294967295] "mV" Vector__XXX
+
 
 BO_ 770 HVCHeartbeat: 2 HVC
  SG_ HVCTimeSinceBootUp : 7|16@0+ (1,0) [0|65535] "" Vector__XXX
@@ -1070,6 +1091,7 @@ SIG_VALTYPE_ 1738 MaxOutputVoltageCmdC       : 1;
 SIG_VALTYPE_ 1707 MaxOutputCurrentCmdA       : 1;
 SIG_VALTYPE_ 1723 MaxOutputCurrentCmdB       : 1;
 SIG_VALTYPE_ 1739 MaxOutputCurrentCmdC       : 1;
+
 
 
 
