@@ -54,7 +54,31 @@ Depending on what you are using see **CAN Setup** or **Radio Setup** sections be
 | `RTNETLINK answers: Device or resource busy`    | Restart CAN peripheral by unplugging the PCAN and plugging it back in. [Then run the commands here.](#can-setup-on-native-linux).                                                                                             |
 | `Cannot find device "can0"`    | [Follow this](https://github.com/UBC-Solar/sunlink/blob/main/docs/DETAILED_OVERVIEW.md#how-to-install-linux-pcan-drivers)                                                                                             |
 
+### Connecting via TailScale network
+If someone is running telemetry, you are able to leech off of there influxdb/grafana instance by connecting to their tailscale network. If you are on Mac/Linux, Tailscale should have been set up when you installed Sunlink. If you are on windows or did not install Tailscale do:
+1. Download Tailscale [here](https://tailscale.com/download/windows) and run the exe file:
+2. Navigate to `Program Files/Tailscale` in terminal
+3. Run `.\tailscale.exe up --authkey=tskey-auth-<authkeyhere>` - Ask your lead for the authkey
 
+
+#### Running Grafana/Influx with Tailscale IP:
+```
+tailscale status | grep "<name of laptop>"
+```
+For example this returns the tailscale IP:
+```
+tailscale status | grep "greg"
+
+100.101.183.2     gregorybian-thinkpad-e16-gen-3
+```
+Then to access grafana use :3000 and influx :8080 at the end of the tailscale IP, i.e.:
+`100.101.183.2:3000`
+
+You will be prompted to enter a username and password, by default it is:
+```
+Username: admin
+Password: new_password
+```
 ### CAN Setup on Native Linux
 #### HW Side setup
 Make absolutely sure you have:
