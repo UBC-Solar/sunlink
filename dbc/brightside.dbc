@@ -67,7 +67,7 @@ BO_ 791 HvcSuppVoltage: 4 HVC
 
 
 BO_ 770 HVCHeartbeat: 2 HVC
- SG_ HVCTimeSinceBootUp : 7|16@0+ (1,0) [0|65535] "" Vector__XXX
+ SG_ HVCHeartbeatCounter : 7|16@0+ (1,0) [0|65535] "" Vector__XXX
 
 BO_ 771 HVCLvPowerupSent: 2 HVC
  SG_ HVCLvPowerupSent : 0|8@1+ (1,0) [0|1] "" Vector__XXX
@@ -78,12 +78,9 @@ BO_ 772 HvcStatus: 1 HVC
 BO_ 773 HVCShuntCurrent: 4 HVC
  SG_ PackCurrent : 7|32@0- (1,0) [-2147483648|2147483647] "mA" Vector__XXX
 
-BO_ 791 HvcSuppVoltage: 4 HVC
- SG_ SuppVoltage : 7|32@0+ (1,0) [0|4294967295] "mV" Vector__XXX
-
-BO_ 774 DISTHeartBeat: 5 DIST
- SG_ DISTHeartbeat : 0|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ DISTTimeSinceBootUp : 15|32@0+ (1,0) [0|4294967296] "" Vector__XXX
+BO_ 774 DISTHeartBeat: 3 DIST
+ SG_ DISTHeartbeat : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DISTHeartbeatCounter : 15|16@0+ (1,0) [0|65535] "" Vector__XXX
 
 BO_ 775 DISTFault: 1 DIST
  SG_ DISTFault : 0|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -412,8 +409,24 @@ BO_ 1280 MDITimeSinceBootup: 4 MDI
 BO_ 1281 MDIDiagnostics: 1 MDI
  SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 1282 MDIMotorTemperature: 5 MDI
+ SG_ RTDReadSuccess : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MotorTemperature : 8|32@1- (1,0) [-100|300] "degC" Vector__XXX
+
 BO_ 1409 STRTimeSinceBootup: 4 STR
  SG_ STRTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
+
+BO_ 1408 STRDRDControl: 4 STR
+ SG_ STRRegenEnabled : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRCruiseEnabled : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRLCDScreenNextPage : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRLeftTurnSignalEnabled : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRRightTurnSignalEnabled : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRHornEnabled : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRPushToTalkEnabled : 6|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRCruiseSetVelocity : 8|16@1+ (1,0) [0|0] "km/hr" Vector__XXX
+ SG_ STRCruiseIncrement : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ STRCruiseDecrement : 25|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 1410 STRDiagnostics : 1 STR
  SG_ STRWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -636,12 +649,6 @@ BO_ 1873 TELDiagnostics: 1 TEL
  SG_ IMUReadFail : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUWriteFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSReadFail : 3|1@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1408 STRTurnModeHornSignal: 1 STR
- SG_ RTSSIGNAL : 0|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ LTSSIGNAL : 1|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ DRIVEMODE : 2|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ HORNSIGNAL : 3|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1025 MotorCommand: 5 DRD
  SG_ ThrottleDAC : 0|16@1+ (1,0) [0|0] "" Vector__XXX
