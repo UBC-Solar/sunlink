@@ -71,7 +71,7 @@ tailscale status | grep "greg"
 
 100.101.183.2     gregorybian-thinkpad-e16-gen-3
 ```
-Then to access grafana use :3000 and influx :8080 at the end of the tailscale IP, i.e.:
+Then to access grafana use :3000 and influx :8086 at the end of the tailscale IP, i.e.:
 `100.101.183.2:3000`
 
 You will be prompted to enter a username and password, by default it is:
