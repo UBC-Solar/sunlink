@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 13,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -102,11 +102,11 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputVoltageA\" or r[\"_field\"] == \"InputVoltageB\" or r[\"_field\"] == \"InputVoltageC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputVoltageA\" or r[\"_field\"] == \"InputVoltageB\" or r[\"_field\"] == \"InputVoltageC\" or r[\"_field\"] == \"InputVoltageD\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Input Voltage",
+      "title": "MPPT A, B, C, D Input Voltage",
       "type": "timeseries"
     },
     {
@@ -193,7 +193,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Input Current",
+      "title": "MPPT A, B, C, D Input Current",
       "type": "timeseries"
     },
     {
@@ -280,7 +280,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Output Current",
+      "title": "MPPT A, B, C, D Output Current",
       "type": "timeseries"
     },
     {
@@ -367,7 +367,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Output Voltage",
+      "title": "MPPT A, B, C, D Output Voltage",
       "type": "timeseries"
     },
     {
@@ -454,7 +454,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Mosfet Temperature",
+      "title": "MPPT A, B, C, D Mosfet Temperature",
       "type": "timeseries"
     },
     {
@@ -541,7 +541,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Controller Temperature",
+      "title": "MPPT A, B, C, D Controller Temperature",
       "type": "timeseries"
     },
     {
@@ -628,7 +628,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Aux 12V",
+      "title": "MPPT A, B, C, D Aux 12V",
       "type": "timeseries"
     },
     {
@@ -715,7 +715,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Aux 3V",
+      "title": "MPPT A, B, C, D Aux 3V",
       "type": "timeseries"
     },
     {
@@ -802,7 +802,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Max Output Voltage Limit",
+      "title": "MPPT A, B, C, D Max Output Voltage Limit",
       "type": "timeseries"
     },
     {
@@ -889,7 +889,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Max Input Current Limit",
+      "title": "MPPT A, B, C, D Max Input Current Limit",
       "type": "timeseries"
     },
     {
@@ -975,7 +975,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C CAN Tx Error",
+      "title": "MPPT A, B, C, D CAN Tx Error",
       "type": "timeseries"
     },
     {
@@ -1061,7 +1061,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C CAN Rx Error",
+      "title": "MPPT A, B, C, D CAN Rx Error",
       "type": "timeseries"
     },
     {
@@ -1147,7 +1147,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C CAN Tx Overflow Counter",
+      "title": "MPPT A, B, C, D CAN Tx Overflow Counter",
       "type": "timeseries"
     },
     {
@@ -1257,7 +1257,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Under Voltage 12V",
+      "title": "MPPT A, B, C, D Under Voltage 12V",
       "type": "timeseries"
     },
     {
@@ -1359,7 +1359,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C HW Overcurrent",
+      "title": "MPPT A, B, C, D HW Overcurrent",
       "type": "timeseries"
     },
     {
@@ -1461,7 +1461,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C HW Overvoltage",
+      "title": "MPPT A, B, C, D HW Overvoltage",
       "type": "timeseries"
     },
     {
@@ -1563,7 +1563,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Battery Full",
+      "title": "MPPT A, B, C, D Battery Full",
       "type": "timeseries"
     },
     {
@@ -1665,7 +1665,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Battery Low",
+      "title": "MPPT A, B, C, D Battery Low",
       "type": "timeseries"
     },
     {
@@ -1767,7 +1767,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Mosfet Overheat",
+      "title": "MPPT A, B, C, D Mosfet Overheat",
       "type": "timeseries"
     },
     {
@@ -1869,7 +1869,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Low Array Power",
+      "title": "MPPT A, B, C, D Low Array Power",
       "type": "timeseries"
     },
     {
@@ -1971,7 +1971,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Global MPPT",
+      "title": "MPPT A, B, C, D Global MPPT",
       "type": "timeseries"
     },
     {
@@ -2073,7 +2073,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Local MPPT",
+      "title": "MPPT A, B, C, D Local MPPT",
       "type": "timeseries"
     },
     {
@@ -2175,7 +2175,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Duty Cycle Max",
+      "title": "MPPT A, B, C, D Duty Cycle Max",
       "type": "timeseries"
     },
     {
@@ -2277,7 +2277,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Duty Cycle Min",
+      "title": "MPPT A, B, C, D Duty Cycle Min",
       "type": "timeseries"
     },
     {
@@ -2379,7 +2379,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Mosfet Temp Fault",
+      "title": "MPPT A, B, C, D Mosfet Temp Fault",
       "type": "timeseries"
     },
     {
@@ -2481,7 +2481,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Output Voltage Max",
+      "title": "MPPT A, B, C, D Output Voltage Max",
       "type": "timeseries"
     },
     {
@@ -2583,7 +2583,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Input Current Max",
+      "title": "MPPT A, B, C, D Input Current Max",
       "type": "timeseries"
     },
     {
@@ -2685,7 +2685,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Input Current Min",
+      "title": "MPPT A, B, C, D Input Current Min",
       "type": "timeseries"
     },
     {
@@ -2787,7 +2787,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Mode",
+      "title": "MPPT A, B, C, D Mode",
       "type": "timeseries"
     },
     {
@@ -2873,7 +2873,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Test Counter",
+      "title": "MPPT A, B, C, D Test Counter",
       "type": "timeseries"
     },
     {
@@ -2960,7 +2960,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Output Voltage Battery Side of Fuse",
+      "title": "MPPT A, B, C, D Output Voltage Battery Side of Fuse",
       "type": "timeseries"
     },
     {
@@ -3047,7 +3047,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Connector Temperature",
+      "title": "MPPT A, B, C, D Connector Temperature",
       "type": "timeseries"
     },
     {
@@ -3149,7 +3149,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Mode Command",
+      "title": "MPPT A, B, C, D Mode Command",
       "type": "timeseries"
     },
     {
@@ -3236,7 +3236,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Max Output Current Command",
+      "title": "MPPT A, B, C, D Max Output Current Command",
       "type": "timeseries"
     },
     {
@@ -3323,7 +3323,7 @@
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Max Output Voltage Command",
+      "title": "MPPT A, B, C, D Max Output Voltage Command",
       "type": "timeseries"
     }
   ],
@@ -3356,6 +3356,6 @@
   "timezone": "",
   "title": "PROD: MPPT - Brightside",
   "uid": "b55447aa-56d4-48b5-a7e5-dba927b422b9",
-  "version": 10,
+  "version": 2,
   "weekStart": ""
 }

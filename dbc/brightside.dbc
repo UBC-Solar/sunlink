@@ -679,7 +679,7 @@ BO_ 1028 DRDTimeSinceBootup: 4 DRD
 
 
 //////////////////////////////////////////////////////////////////////
-// MPPT Input Measurements (0x6A0/0x6B0/0x6C0)
+// MPPT Input Measurements (0x6A0/0x6B0/0x6C0/0x6D0)
 //////////////////////////////////////////////////////////////////////
 BO_ 1696 MPPTInputMeasurementsA: 8 MPPT
  SG_ InputVoltageA       :  0|32@1- (1,0) [0|0] "V"  MPPT
@@ -693,8 +693,12 @@ BO_ 1728 MPPTInputMeasurementsC: 8 MPPT
  SG_ InputVoltageC       :  0|32@1- (1,0) [0|0] "V"  MPPT
  SG_ InputCurrentC       : 32|32@1- (1,0) [0|0] "A"  MPPT
 
+BO_ 1744 MPPTInputMeasurementsD: 8 MPPT
+ SG_ InputVoltageD       :  0|32@1- (1,0) [0|0] "V"  MPPT
+ SG_ InputCurrentD       : 32|32@1- (1,0) [0|0] "A"  MPPT
+
 //////////////////////////////////////////////////////////////////////
-// MPPT Output Measurements (0x6A1/0x6B1/0x6C1)
+// MPPT Output Measurements (0x6A1/0x6B1/0x6C1/0x6D1)
 //////////////////////////////////////////////////////////////////////
 BO_ 1697 MPPTOutputMeasurementsA: 8 MPPT
  SG_ OutputVoltageA      :  0|32@1- (1,0) [0|0] "V"  MPPT
@@ -708,8 +712,12 @@ BO_ 1729 MPPTOutputMeasurementsC: 8 MPPT
  SG_ OutputVoltageC      :  0|32@1- (1,0) [0|0] "V"  MPPT
  SG_ OutputCurrentC      : 32|32@1- (1,0) [0|0] "A"  MPPT
 
+BO_ 1745 MPPTOutputMeasurementsD: 8 MPPT
+ SG_ OutputVoltageD      :  0|32@1- (1,0) [0|0] "V"  MPPT
+ SG_ OutputCurrentD      : 32|32@1- (1,0) [0|0] "A"  MPPT
+
 //////////////////////////////////////////////////////////////////////
-// MPPT Temperatures (0x6A2/0x6B2/0x6C2)
+// MPPT Temperatures (0x6A2/0x6B2/0x6C2/0x6D2)
 //////////////////////////////////////////////////////////////////////
 BO_ 1698 MPPTTemperatureA : 8 MPPT
  SG_ MosfetTemperatureA     :   0|32@1- (1,0) [-40|150] "°C" MPPT
@@ -723,8 +731,12 @@ BO_ 1730 MPPTTemperatureC: 8 MPPT
  SG_ MosfetTemperatureC     :   0|32@1- (1,0) [-40|150] "°C" MPPT
  SG_ ControllerTemperatureC :   32|32@1- (1,0) [-40|150] "°C" MPPT
 
+BO_ 1746 MPPTTemperatureD: 8 MPPT
+ SG_ MosfetTemperatureD     :   0|32@1- (1,0) [-40|150] "°C" MPPT
+ SG_ ControllerTemperatureD :   32|32@1- (1,0) [-40|150] "°C" MPPT
+
 //////////////////////////////////////////////////////////////////////
-// MPPT Auxiliary Power Supply (0x6A3/0x6B3/0x6C3)
+// MPPT Auxiliary Power Supply (0x6A3/0x6B3/0x6C3/0x6D3)
 //////////////////////////////////////////////////////////////////////
 BO_ 1699 MPPTAuxiliaryPowerSupplyA: 8 MPPT
  SG_ Aux12VA             :  0|32@1- (1,0) [0|20]  "V"  MPPT
@@ -738,8 +750,12 @@ BO_ 1731 MPPTAuxiliaryPowerSupplyC: 8 MPPT
  SG_ Aux12VC             :  0|32@1- (1,0) [0|20]  "V"  MPPT
  SG_ Aux3VC              : 32|32@1- (1,0) [0|5]   "V"  MPPT
 
+BO_ 1747 MPPTAuxiliaryPowerSupplyD: 8 MPPT
+ SG_ Aux12VD             :  0|32@1- (1,0) [0|20]  "V"  MPPT
+ SG_ Aux3VD              : 32|32@1- (1,0) [0|5]   "V"  MPPT
+
 //////////////////////////////////////////////////////////////////////
-// MPPT Limits (0x6A4/0x6B4/0x6C4)
+// MPPT Limits (0x6A4/0x6B4/0x6C4/0x6D4)
 //////////////////////////////////////////////////////////////////////
 BO_ 1700 MPPTLimitsA: 8 MPPT
  SG_ MaxOutputVoltageLimitA:  0|32@1- (1,0) [0|0] "V" MPPT
@@ -753,8 +769,12 @@ BO_ 1732 MPPTLimitsC: 8 MPPT
  SG_ MaxOutputVoltageLimitC:  0|32@1- (1,0) [0|0] "V" MPPT
  SG_ MaxInputCurrentLimitC : 32|32@1- (1,0) [0|0] "A" MPPT
 
+BO_ 1748 MPPTLimitsD: 8 MPPT
+ SG_ MaxOutputVoltageLimitD:  0|32@1- (1,0) [0|0] "V" MPPT
+ SG_ MaxInputCurrentLimitD : 32|32@1- (1,0) [0|0] "A" MPPT
+
 //////////////////////////////////////////////////////////////////////
-// MPPT Status (0x6A5/0x6B5/0x6C5)
+// MPPT Status (0x6A5/0x6B5/0x6C5/0x6D5)
 //////////////////////////////////////////////////////////////////////
 BO_ 1701 MPPTStatusA: 8 MPPT
  SG_ CANRXErrorCounterA    :  0| 8@1+ (1,0) [0|255] "" MPPT
@@ -828,8 +848,32 @@ BO_ 1733 MPPTStatusC: 8 MPPT
  SG_ Reserved2C            : 48| 8@1+ (1,0) [0|255] "" MPPT
  SG_ TestCounterC          : 56| 8@1+ (1,0) [0|255] "" MPPT
 
+BO_ 1749 MPPTStatusD: 8 MPPT
+ SG_ CANRXErrorCounterD    :  0| 8@1+ (1,0) [0|255] "" MPPT
+ SG_ CANTXErrorCounterD    :  8| 8@1+ (1,0) [0|255] "" MPPT
+ SG_ CANTXOverflowCounterD : 16| 8@1+ (1,0) [0|255] "" MPPT
+ SG_ HWOvervoltageD        : 24| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ HWOvercurrentD        : 25| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ Reserved1D            : 26| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ Undervoltage12VD      : 27| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ BatteryFullD          : 28| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ BatteryLowD           : 29| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ MosfetOverheatD       : 30| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ LowArrayPowerD        : 31| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ GlobalMPPTD           : 32| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ LocalMPPTD            : 33| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ DutyCycleMaxD         : 34| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ DutyCycleMinD         : 35| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ MosfetTempFaultD      : 36| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ OutputVoltageMaxD     : 37| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ InputCurrentMaxD      : 38| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ InputCurrentMinD      : 39| 1@1+ (1,0) [0|1]   "" MPPT
+ SG_ ModeD                 : 40| 8@1+ (1,0) [0|1]   "" MPPT
+ SG_ Reserved2D            : 48| 8@1+ (1,0) [0|255] "" MPPT
+ SG_ TestCounterD          : 56| 8@1+ (1,0) [0|255] "" MPPT
+
 //////////////////////////////////////////////////////////////////////
-// MPPT Power Connector (0x6A6/0x6B6/0x6C6)
+// MPPT Power Connector (0x6A6/0x6B6/0x6C6/0x6D6)
 //////////////////////////////////////////////////////////////////////
 BO_ 1702 MPPTPowerConnectorA: 8 MPPT
  SG_ OutputVoltageBattSideA:  0|32@1- (1,0) [0|0] "V"  MPPT
@@ -843,8 +887,12 @@ BO_ 1734 MPPTPowerConnectorC: 8 MPPT
  SG_ OutputVoltageBattSideC:  0|32@1- (1,0) [0|0] "V"  MPPT
  SG_ ConnectorTemperatureC : 32|32@1- (1,0) [-40|150] "°C" MPPT
 
+BO_ 1750 MPPTPowerConnectorD: 8 MPPT
+ SG_ OutputVoltageBattSideD:  0|32@1- (1,0) [0|0] "V"  MPPT
+ SG_ ConnectorTemperatureD : 32|32@1- (1,0) [-40|150] "°C" MPPT
+
 //////////////////////////////////////////////////////////////////////
-// MPPT Mode Command (0x6A8/0x6B8/0x6C8)
+// MPPT Mode Command (0x6A8/0x6B8/0x6C8/0x6D8)
 //////////////////////////////////////////////////////////////////////
 BO_ 1704 MPPTModeCommandA: 1 MPPT
  SG_ ModeCmdA             :  0| 8@1+ (1,0) [0|1] "" MPPT
@@ -855,8 +903,11 @@ BO_ 1720 MPPTModeCommandB: 1 MPPT
 BO_ 1736 MPPTModeCommandC: 1 MPPT
  SG_ ModeCmdC             :  0| 8@1+ (1,0) [0|1] "" MPPT
 
+BO_ 1752 MPPTModeCommandD: 1 MPPT
+ SG_ ModeCmdD             :  0| 8@1+ (1,0) [0|1] "" MPPT
+
 //////////////////////////////////////////////////////////////////////
-// MPPT Max Output Voltage Command (0x6AA/0x6BA/0x6CA)
+// MPPT Max Output Voltage Command (0x6AA/0x6BA/0x6CA/0x6DA)
 //////////////////////////////////////////////////////////////////////
 BO_ 1706 MPPTMaxOutputVoltageCommandA: 4 MPPT
  SG_ MaxOutputVoltageCmdA :  0|32@1- (1,0) [0|0] "V" MPPT
@@ -867,8 +918,11 @@ BO_ 1722 MPPTMaxOutputVoltageCommandB: 4 MPPT
 BO_ 1738 MPPTMaxOutputVoltageCommandC: 4 MPPT
  SG_ MaxOutputVoltageCmdC :  0|32@1- (1,0) [0|0] "V" MPPT
 
+BO_ 1754 MPPTMaxOutputVoltageCommandD: 4 MPPT
+ SG_ MaxOutputVoltageCmdD :  0|32@1- (1,0) [0|0] "V" MPPT
+
 //////////////////////////////////////////////////////////////////////
-// MPPT Max Output Current Command (0x6AB/0x6BB/0x6CB)
+// MPPT Max Output Current Command (0x6AB/0x6BB/0x6CB/0x6DB)
 //////////////////////////////////////////////////////////////////////
 BO_ 1707 MPPTMaxOutputCurrentCommandA: 4 MPPT
  SG_ MaxOutputCurrentCmdA :  0|32@1- (1,0) [0|0] "A" MPPT
@@ -879,6 +933,8 @@ BO_ 1723 MPPTMaxOutputCurrentCommandB: 4 MPPT
 BO_ 1739 MPPTMaxOutputCurrentCommandC: 4 MPPT
  SG_ MaxOutputCurrentCmdC :  0|32@1- (1,0) [0|0] "A" MPPT
 
+BO_ 1755 MPPTMaxOutputCurrentCommandD: 4 MPPT
+ SG_ MaxOutputCurrentCmdD :  0|32@1- (1,0) [0|0] "A" MPPT
 
 
 CM_ SG_ 1572 b0x00 "Unused";
