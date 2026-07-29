@@ -4,6 +4,31 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$SCRIPT_DIR"
 LOCAL_ENV_FILE="$REPO_ROOT/.env"
+BUCKET="CAN_prod"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --prod)
+      BUCKET="CAN_prod"
+      ;;
+    --log)
+      BUCKET="CAN_log"
+      ;;
+    --test)
+      BUCKET="CAN_test"
+      ;;
+    --help|-h)
+      echo "Usage: $0 [--prod|--log|--test]"
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1" >&2
+      echo "Usage: $0 [--prod|--log|--test]" >&2
+      exit 1
+      ;;
+  esac
+  shift
+done
 
 if [[ -x "$REPO_ROOT/environment/bin/python" ]]; then
   PYTHON_BIN="$REPO_ROOT/environment/bin/python"
@@ -84,14 +109,16 @@ PY
 write_remote_env() {
   local influx_url="$1"
   local influx_token="$2"
+  local influx_bucket="$3"
 
-  "${ssh_cmd[@]}" "python3 - '$REMOTE_ENV_PATH' '$influx_url' '$influx_token' <<'PY'
+  "${ssh_cmd[@]}" "python3 - '$REMOTE_ENV_PATH' '$influx_url' '$influx_token' '$influx_bucket' <<'PY'
 import sys
 from pathlib import Path
 
 env_path = Path(sys.argv[1])
 url = sys.argv[2]
 token = sys.argv[3]
+bucket = sys.argv[4]
 
 env_path.parent.mkdir(parents=True, exist_ok=True)
 example_path = env_path.parent / '.env.example'
@@ -104,6 +131,7 @@ if not env_path.exists():
 lines = []
 seen_url = False
 seen_token = False
+seen_bucket = False
 for line in env_path.read_text().splitlines():
     if line.startswith('INFLUX_URL='):
         lines.append(f'INFLUX_URL=\"{url}\"')
@@ -111,6 +139,9 @@ for line in env_path.read_text().splitlines():
     elif line.startswith('INFLUX_TOKEN='):
         lines.append(f'INFLUX_TOKEN=\"{token}\"')
         seen_token = True
+    elif line.startswith('INFLUX_BUCKET='):
+        lines.append(f'INFLUX_BUCKET=\"{bucket}\"')
+        seen_bucket = True
     else:
         lines.append(line)
 
@@ -118,6 +149,8 @@ if not seen_url:
     lines.append(f'INFLUX_URL=\"{url}\"')
 if not seen_token:
     lines.append(f'INFLUX_TOKEN=\"{token}\"')
+if not seen_bucket:
+    lines.append(f'INFLUX_BUCKET=\"{bucket}\"')
 
 env_path.write_text('\\n'.join(lines) + '\\n')
 PY"
@@ -163,11 +196,12 @@ fi
 INFLUX_URL="http://${TAILSCALE_IP}:8086"
 echo "Using Tailscale IP: $TAILSCALE_IP"
 echo "Using INFLUX_URL: $INFLUX_URL"
+echo "Using INFLUX_BUCKET: $BUCKET"
 echo "Using INFLUX_TOKEN from local .env"
 
 check_remote_repo
 check_remote_serial
-write_remote_env "$INFLUX_URL" "$INFLUX_TOKEN"
+write_remote_env "$INFLUX_URL" "$INFLUX_TOKEN" "$BUCKET"
 
 echo "Starting cellular parser on the Pi..."
 REMOTE_PID="$("${ssh_cmd[@]}" "cd '${REMOTE_REPO_DIR}' && source .venv/bin/activate && cd src/influx_cellular && python3 cell_script.py" & echo $! )"
