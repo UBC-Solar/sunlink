@@ -1102,6 +1102,9 @@ SIG_VALTYPE_ 1712 InputCurrentB              : 1;
 SIG_VALTYPE_ 1728 InputVoltageC              : 1;
 SIG_VALTYPE_ 1728 InputCurrentC              : 1;
 
+SIG_VALTYPE_ 1744 InputVoltageD              : 1;
+SIG_VALTYPE_ 1744 InputCurrentD              : 1;
+
 SIG_VALTYPE_ 1697 OutputVoltageA             : 1;
 SIG_VALTYPE_ 1697 OutputCurrentA             : 1;
 
@@ -1110,6 +1113,9 @@ SIG_VALTYPE_ 1713 OutputCurrentB             : 1;
 
 SIG_VALTYPE_ 1729 OutputVoltageC             : 1;
 SIG_VALTYPE_ 1729 OutputCurrentC             : 1;
+
+SIG_VALTYPE_ 1745 OutputVoltageD             : 1;
+SIG_VALTYPE_ 1745 OutputCurrentD             : 1;
 
 SIG_VALTYPE_ 1698 MosfetTemperatureA         : 1;
 SIG_VALTYPE_ 1698 ControllerTemperatureA     : 1;
@@ -1120,6 +1126,9 @@ SIG_VALTYPE_ 1714 ControllerTemperatureB     : 1;
 SIG_VALTYPE_ 1730 MosfetTemperatureC         : 1;
 SIG_VALTYPE_ 1730 ControllerTemperatureC     : 1;
 
+SIG_VALTYPE_ 1746 MosfetTemperatureD         : 1;
+SIG_VALTYPE_ 1746 ControllerTemperatureD     : 1;
+
 SIG_VALTYPE_ 1699 Aux12VA                    : 1;
 SIG_VALTYPE_ 1699 Aux3VA                     : 1;
 
@@ -1128,6 +1137,9 @@ SIG_VALTYPE_ 1715 Aux3VB                     : 1;
 
 SIG_VALTYPE_ 1731 Aux12VC                    : 1;
 SIG_VALTYPE_ 1731 Aux3VC                     : 1;
+
+SIG_VALTYPE_ 1747 Aux12VD                    : 1;
+SIG_VALTYPE_ 1747 Aux3VD                     : 1;
 
 SIG_VALTYPE_ 1700 MaxOutputVoltageLimitA     : 1;
 SIG_VALTYPE_ 1700 MaxInputCurrentLimitA      : 1;
@@ -1138,6 +1150,9 @@ SIG_VALTYPE_ 1716 MaxInputCurrentLimitB      : 1;
 SIG_VALTYPE_ 1732 MaxOutputVoltageLimitC     : 1;
 SIG_VALTYPE_ 1732 MaxInputCurrentLimitC      : 1;
 
+SIG_VALTYPE_ 1748 MaxOutputVoltageLimitD     : 1;
+SIG_VALTYPE_ 1748 MaxInputCurrentLimitD      : 1;
+
 SIG_VALTYPE_ 1702 OutputVoltageBattSideA     : 1;
 SIG_VALTYPE_ 1702 ConnectorTemperatureA      : 1;
 
@@ -1147,13 +1162,18 @@ SIG_VALTYPE_ 1718 ConnectorTemperatureB      : 1;
 SIG_VALTYPE_ 1734 OutputVoltageBattSideC     : 1;
 SIG_VALTYPE_ 1734 ConnectorTemperatureC      : 1;
 
+SIG_VALTYPE_ 1750 OutputVoltageBattSideD     : 1;
+SIG_VALTYPE_ 1750 ConnectorTemperatureD      : 1;
+
 SIG_VALTYPE_ 1706 MaxOutputVoltageCmdA       : 1;
 SIG_VALTYPE_ 1722 MaxOutputVoltageCmdB       : 1;
 SIG_VALTYPE_ 1738 MaxOutputVoltageCmdC       : 1;
+SIG_VALTYPE_ 1754 MaxOutputVoltageCmdD       : 1;
 
 SIG_VALTYPE_ 1707 MaxOutputCurrentCmdA       : 1;
 SIG_VALTYPE_ 1723 MaxOutputCurrentCmdB       : 1;
 SIG_VALTYPE_ 1739 MaxOutputCurrentCmdC       : 1;
+SIG_VALTYPE_ 1755 MaxOutputCurrentCmdD       : 1;
 
 
 

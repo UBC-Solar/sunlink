@@ -2171,7 +2171,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DutyCycleMaxC\" or r[\"_field\"] == \"DutyCycleMaxB\" or r[\"_field\"] == \"DutyCycleMaxA\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DutyCycleMaxC\" or r[\"_field\"] == \"DutyCycleMaxB\" or r[\"_field\"] == \"DutyCycleMaxA\" or r[\"_field\"] == \"DutyCycleMaxD\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -2783,7 +2783,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ModeC\" or r[\"_field\"] == \"ModeB\" or r[\"_field\"] == \"ModeA\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ModeC\" or r[\"_field\"] == \"ModeB\" or r[\"_field\"] == \"ModeA\" or r[\"_field\"] == \"ModeD\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
