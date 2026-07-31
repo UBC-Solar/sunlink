@@ -4916,11 +4916,11 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputCurrentA\" or r[\"_field\"] == \"InputCurrentB\" or r[\"_field\"] == \"InputCurrentC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputCurrentA\" or r[\"_field\"] == \"InputCurrentB\" or r[\"_field\"] == \"InputCurrentC\" or r[\"_field\"] == \"InputCurrentD\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Input Current",
+      "title": "MPPT A, B, C, D Input Current",
       "type": "timeseries"
     },
     {
@@ -5002,11 +5002,11 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OutputCurrentA\" or r[\"_field\"] == \"OutputCurrentB\" or r[\"_field\"] == \"OutputCurrentC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OutputCurrentA\" or r[\"_field\"] == \"OutputCurrentB\" or r[\"_field\"] == \"OutputCurrentC\" or r[\"_field\"] == \"OutputCurrentD\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Output Current",
+      "title": "MPPT A, B, C, D Output Current",
       "type": "timeseries"
     },
     {
@@ -5113,11 +5113,11 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputVoltageA\" or r[\"_field\"] == \"InputVoltageB\" or r[\"_field\"] == \"InputVoltageC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"InputVoltageA\" or r[\"_field\"] == \"InputVoltageB\" or r[\"_field\"] == \"InputVoltageC\" or r[\"_field\"] == \"InputVoltageD\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Input Voltage",
+      "title": "MPPT A, B, C, D Input Voltage",
       "type": "timeseries"
     },
     {
@@ -5199,11 +5199,11 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OutputVoltageA\" or r[\"_field\"] == \"OutputVoltageB\" or r[\"_field\"] == \"OutputVoltageC\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MPPT\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OutputVoltageA\" or r[\"_field\"] == \"OutputVoltageB\" or r[\"_field\"] == \"OutputVoltageC\" or r[\"_field\"] == \"OutputVoltageD\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
-      "title": "MPPT A, B, C Output Voltage",
+      "title": "MPPT A, B, C, D Output Voltage",
       "type": "timeseries"
     }
   ],
