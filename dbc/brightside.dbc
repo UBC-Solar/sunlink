@@ -579,18 +579,27 @@ BO_ 768 RTCTimestamp: 8 MEMORATOR
  SG_ Month : 32|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Year : 40|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1874 IMU_X: 8 TEL
- SG_ Acceleration_X : 0|32@1- (1,0) [-100|100] "" Vector__XXX
- SG_ Gyroscope_X : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+BO_ 2147485696 TELImuAG_X: 8 TEL
+ SG_ ImuAGXAccel : 0|32@1- (1,0) [0|0] "m/s^2" Vector__XXX
+ SG_ ImuAGXGyro : 32|32@1- (1,0) [0|0] "rad/s" Vector__XXX
 
-BO_ 1875 IMU_Y: 8 TEL
- SG_ Acceleration_Y : 0|32@1- (1,0) [-100|100] "" Vector__XXX
- SG_ Gyroscope_Y : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+BO_ 2147485697 TELImuAGY: 8 TEL
+ SG_ ImuAGYAccel : 0|32@1- (1,0) [0|0] "m/s^2" Vector__XXX
+ SG_ ImuAGYGyro : 32|32@1- (1,0) [0|0] "rad/s" Vector__XXX
 
-BO_ 1876 IMU_Z: 8 TEL
- SG_ Acceleration_Z : 0|32@1- (1,0) [-100|100] "" Vector__XXX
- SG_ Gyroscope_Z : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+BO_ 2147485698 TELImuAGZ: 8 TEL
+ SG_ ImuAGZAccel : 0|32@1- (1,0) [0|0] "m/s^2" Vector__XXX
+ SG_ ImuAGZGyro : 32|32@1- (1,0) [0|0] "rad/s" Vector__XXX
 
+BO_ 2147485699 TELImuMX: 4 TEL
+ SG_ ImuMXMag : 0|32@1- (1,0) [0|0] "uT" Vector__XXX
+
+BO_ 2147485700 TELImuMY: 4 TEL
+ SG_ ImuMYMag : 0|32@1- (1,0) [0|0] "uT" Vector__XXX
+
+BO_ 2147485701 TELImuMZ: 4 TEL
+ SG_ ImuMZMag : 0|32@1- (1,0) [0|0] "uT" Vector__XXX
+ 
 BO_ 1877 GPSStatus: 4 TEL
  SG_ GPSFix : 0|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSSatCount : 8|8@1+ (1,0) [0|0] "" Vector__XXX
