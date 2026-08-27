@@ -54,6 +54,7 @@ BO_ 801 HvcFault: 2 HVC
  SG_ EstopFault : 7|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ DistHeartbeatTimeout : 14|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ MstHeartbeatTimeout : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WatchdogResetError : 13|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 802 HVCHeartbeat: 4 HVC
  SG_ HVCTimeSinceBootUp : 23|16@0+ (1,0) [0|65535] "" Vector__XXX
