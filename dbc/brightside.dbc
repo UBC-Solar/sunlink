@@ -599,42 +599,6 @@ BO_ 1878 TELImuMY: 4 TEL
 
 BO_ 1879 TELImuMZ: 4 TEL
  SG_ ImuMZMag : 0|32@1- (1,0) [0|0] "uT" Vector__XXX
- 
-BO_ 1877 GPSStatus: 4 TEL
- SG_ GPSFix : 0|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSatCount : 8|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSatInView : 16|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSNR : 24|8@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1878 GPSPosition: 8 TEL
- SG_ GPSLatitude : 0|32@1+ (1,0) [0|0] "Degrees" Vector__XXX
- SG_ GPSLongitude : 32|32@1+ (1,0) [0|0] "Degrees" Vector__XXX
-
-BO_ 1879 GPSPrecision: 8 TEL
- SG_ GPSHdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSVdop : 32|32@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1880 GPSTimeSide: 8 TEL
- SG_ GPSDay : 0|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSMonth : 8|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSYear : 16|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSHour : 24|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSMinute : 32|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSecond : 40|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSLatSide : 48|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSLonSide : 56|8@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1881 GPSSpeedPrec: 8 TEL
- SG_ GPSPdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSpeedkmh : 32|32@1+ (1,0) [0|0] "Km/h" Vector__XXX
-
-BO_ 1888 GPSAltitudeGeod: 8 TEL
- SG_ GPSAltitude : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSGeodHeight : 32|32@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1889 GPSHeading: 8 TEL
- SG_ GPSTrueHeading : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSMagneticHeading : 32|32@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1891 CANBusLoad: 1 TEL
  SG_ BusLoad : 0|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -1085,16 +1049,6 @@ SIG_VALTYPE_ 1876 ImuAGZGyro : 1;
 SIG_VALTYPE_ 1877 ImuMXMag : 1;
 SIG_VALTYPE_ 1878 ImuMYMag : 1;
 SIG_VALTYPE_ 1879 ImuMZMag : 1;
-SIG_VALTYPE_ 1878 GPSLatitude : 1;
-SIG_VALTYPE_ 1878 GPSLongitude : 1;
-SIG_VALTYPE_ 1879 GPSHdop : 1;
-SIG_VALTYPE_ 1879 GPSVdop : 1;
-SIG_VALTYPE_ 1881 GPSPdop : 1;
-SIG_VALTYPE_ 1881 GPSSpeedkmh : 1;
-SIG_VALTYPE_ 1888 GPSAltitude : 1;
-SIG_VALTYPE_ 1888 GPSGeodHeight : 1;
-SIG_VALTYPE_ 1889 GPSTrueHeading : 1;
-SIG_VALTYPE_ 1889 GPSMagneticHeading : 1;
 SIG_VALTYPE_ 1892 CPULoad : 1;
 
 SIG_VALTYPE_ 1696 InputVoltageA              : 1;
