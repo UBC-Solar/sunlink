@@ -579,53 +579,26 @@ BO_ 768 RTCTimestamp: 8 MEMORATOR
  SG_ Month : 32|8@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Year : 40|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1874 IMU_X: 8 TEL
- SG_ Acceleration_X : 0|32@1- (1,0) [-100|100] "" Vector__XXX
- SG_ Gyroscope_X : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+BO_ 1874 TELImuAG_X: 8 TEL
+ SG_ ImuAGXAccel : 0|32@1- (1,0) [0|0] "m/s^2" Vector__XXX
+ SG_ ImuAGXGyro : 32|32@1- (1,0) [0|0] "rad/s" Vector__XXX
 
-BO_ 1875 IMU_Y: 8 TEL
- SG_ Acceleration_Y : 0|32@1- (1,0) [-100|100] "" Vector__XXX
- SG_ Gyroscope_Y : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+BO_ 1875 TELImuAGY: 8 TEL
+ SG_ ImuAGYAccel : 0|32@1- (1,0) [0|0] "m/s^2" Vector__XXX
+ SG_ ImuAGYGyro : 32|32@1- (1,0) [0|0] "rad/s" Vector__XXX
 
-BO_ 1876 IMU_Z: 8 TEL
- SG_ Acceleration_Z : 0|32@1- (1,0) [-100|100] "" Vector__XXX
- SG_ Gyroscope_Z : 32|32@1- (1,0) [-100|100] "" Vector__XXX
+BO_ 1876 TELImuAGZ: 8 TEL
+ SG_ ImuAGZAccel : 0|32@1- (1,0) [0|0] "m/s^2" Vector__XXX
+ SG_ ImuAGZGyro : 32|32@1- (1,0) [0|0] "rad/s" Vector__XXX
 
-BO_ 1877 GPSStatus: 4 TEL
- SG_ GPSFix : 0|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSatCount : 8|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSatInView : 16|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSNR : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+BO_ 1877 TELImuMX: 4 TEL
+ SG_ ImuMXMag : 0|32@1- (1,0) [0|0] "uT" Vector__XXX
 
-BO_ 1878 GPSPosition: 8 TEL
- SG_ GPSLatitude : 0|32@1+ (1,0) [0|0] "Degrees" Vector__XXX
- SG_ GPSLongitude : 32|32@1+ (1,0) [0|0] "Degrees" Vector__XXX
+BO_ 1878 TELImuMY: 4 TEL
+ SG_ ImuMYMag : 0|32@1- (1,0) [0|0] "uT" Vector__XXX
 
-BO_ 1879 GPSPrecision: 8 TEL
- SG_ GPSHdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSVdop : 32|32@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1880 GPSTimeSide: 8 TEL
- SG_ GPSDay : 0|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSMonth : 8|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSYear : 16|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSHour : 24|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSMinute : 32|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSecond : 40|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSLatSide : 48|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSLonSide : 56|8@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1881 GPSSpeedPrec: 8 TEL
- SG_ GPSPdop : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSSpeedkmh : 32|32@1+ (1,0) [0|0] "Km/h" Vector__XXX
-
-BO_ 1888 GPSAltitudeGeod: 8 TEL
- SG_ GPSAltitude : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSGeodHeight : 32|32@1+ (1,0) [0|0] "" Vector__XXX
-
-BO_ 1889 GPSHeading: 8 TEL
- SG_ GPSTrueHeading : 0|32@1+ (1,0) [0|0] "" Vector__XXX
- SG_ GPSMagneticHeading : 32|32@1+ (1,0) [0|0] "" Vector__XXX
+BO_ 1879 TELImuMZ: 4 TEL
+ SG_ ImuMZMag : 0|32@1- (1,0) [0|0] "uT" Vector__XXX
 
 BO_ 1891 CANBusLoad: 1 TEL
  SG_ BusLoad : 0|8@1+ (1,0) [0|0] "" Vector__XXX
@@ -1067,22 +1040,15 @@ SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
 SIG_VALTYPE_ 1283 MotorVelocity : 1;
 SIG_VALTYPE_ 1283 VehicleVelocity : 1;
-SIG_VALTYPE_ 1874 Acceleration_X : 1;
-SIG_VALTYPE_ 1874 Gyroscope_X : 1;
-SIG_VALTYPE_ 1875 Acceleration_Y : 1;
-SIG_VALTYPE_ 1875 Gyroscope_Y : 1;
-SIG_VALTYPE_ 1876 Acceleration_Z : 1;
-SIG_VALTYPE_ 1876 Gyroscope_Z : 1;
-SIG_VALTYPE_ 1878 GPSLatitude : 1;
-SIG_VALTYPE_ 1878 GPSLongitude : 1;
-SIG_VALTYPE_ 1879 GPSHdop : 1;
-SIG_VALTYPE_ 1879 GPSVdop : 1;
-SIG_VALTYPE_ 1881 GPSPdop : 1;
-SIG_VALTYPE_ 1881 GPSSpeedkmh : 1;
-SIG_VALTYPE_ 1888 GPSAltitude : 1;
-SIG_VALTYPE_ 1888 GPSGeodHeight : 1;
-SIG_VALTYPE_ 1889 GPSTrueHeading : 1;
-SIG_VALTYPE_ 1889 GPSMagneticHeading : 1;
+SIG_VALTYPE_ 1874 ImuAGXAccel : 1;
+SIG_VALTYPE_ 1874 ImuAGXGyro : 1;
+SIG_VALTYPE_ 1875 ImuAGYAccel : 1;
+SIG_VALTYPE_ 1875 ImuAGYGyro : 1;
+SIG_VALTYPE_ 1876 ImuAGZAccel : 1;
+SIG_VALTYPE_ 1876 ImuAGZGyro : 1;
+SIG_VALTYPE_ 1877 ImuMXMag : 1;
+SIG_VALTYPE_ 1878 ImuMYMag : 1;
+SIG_VALTYPE_ 1879 ImuMZMag : 1;
 SIG_VALTYPE_ 1892 CPULoad : 1;
 
 SIG_VALTYPE_ 1696 InputVoltageA              : 1;
