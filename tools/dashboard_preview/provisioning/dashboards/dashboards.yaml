@@ -1,0 +1,21 @@
+apiVersion: 1
+
+providers:
+  # The repo's dashboards/ folder, laid out in LOG / PROD / TEST folders like production.
+  # Edit a JSON file and Grafana reloads it within a few seconds.
+  - name: sunlink
+    type: file
+    updateIntervalSeconds: 5
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards
+      foldersFromFilesStructure: true
+
+  # Dashboards loaded with `preview.py draft`, e.g. JSON exported from the production Grafana.
+  - name: drafts
+    type: file
+    folder: Drafts
+    updateIntervalSeconds: 5
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/drafts

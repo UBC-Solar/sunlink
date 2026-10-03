@@ -1,0 +1,15 @@
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    uid: P951FEA4DE68E13C5  # the uid every dashboard in ../../dashboards references
+    access: proxy
+    url: http://influxdb:8086
+    isDefault: true
+    jsonData:
+      version: Flux
+      organization: UBC Solar
+      defaultBucket: CAN_prod
+    secureJsonData:
+      token: $INFLUX_TOKEN

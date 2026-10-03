@@ -48,6 +48,9 @@ Depending on what you are using see **CAN Setup** or **Radio Setup** sections be
 
 ### [Data/Memorator UPLOAD](./tools/DATA_UPLOAD_SOP.md)
 
+### [Dashboard Preview Sandbox](./tools/dashboard_preview/README.md)
+Preview a Grafana dashboard with synthetic or logged CAN data, and check its queries against the DBC, without touching the real stack.
+
 ### Common Issues
 | **Problem**                                                | **Solution**                                                                                                                                                                                                                    |
 | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

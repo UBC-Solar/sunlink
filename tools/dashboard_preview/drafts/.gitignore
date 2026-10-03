@@ -1,0 +1,3 @@
+# Drafts are local scratch copies; keep the folder, not its contents
+*
+!.gitignore

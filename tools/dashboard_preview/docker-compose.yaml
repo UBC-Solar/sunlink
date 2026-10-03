@@ -1,0 +1,49 @@
+# Local sandbox for previewing Sunlink dashboards (see README.md in this folder).
+#
+# Same Grafana / InfluxDB versions and Grafana config as ../../docker-compose.yaml, but
+# isolated from the real stack: its own volumes, ports 3001 / 8087 on localhost only,
+# and fixed throwaway credentials so no .env is needed.
+name: sunlink-preview
+
+services:
+  influxdb:
+    image: influxdb:2.7.1
+    ports:
+      - "127.0.0.1:8087:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: sunlink-preview
+      DOCKER_INFLUXDB_INIT_ORG: UBC Solar
+      DOCKER_INFLUXDB_INIT_BUCKET: CAN_prod
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: sunlink-preview-token
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+      - influxdb-config:/etc/influxdb2
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana-oss:9.5.2
+    ports:
+      - "127.0.0.1:3001:3000"
+    depends_on:
+      - influxdb
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      INFLUX_TOKEN: sunlink-preview-token
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../../config/grafana.ini:/etc/grafana/grafana.ini:ro
+      - ./provisioning:/etc/grafana/provisioning:ro
+      - ../../dashboards:/var/lib/grafana/dashboards:ro
+      - ./drafts:/var/lib/grafana/drafts:ro
+    restart: unless-stopped
+
+volumes:
+  influxdb-data:
+  influxdb-config:
+  grafana-data:
