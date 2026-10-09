@@ -91,20 +91,21 @@ BO_ 512 BMSStatus: 8 MST
  SG_ MstHeartbeatCounter : 0|32@1+ (1,0) [0|4294967295] "" Vector__XXX
  SG_ ErrCommFail : 32|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ ErrSelfTest : 33|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ FaultOverTemp : 34|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FaultOverVolt : 34|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ FaultUnderVolt : 35|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ FaultOverVolt : 36|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FaultOverTemp : 36|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ FaultUnderTemp : 37|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ WarnLowVolt : 38|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ WarnHighVolt : 39|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WarnHighVolt : 38|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WarnLowVolt : 39|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ WarnHighTemp : 40|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ BalancingActive : 41|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ LlimEnable : 42|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ HlimEnable : 43|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ BalancingEnable : 44|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LlimEnable : 41|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ HlimEnable : 42|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BalancingEnable : 43|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BalancingActive : 44|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ ScrutineeringEnable : 45|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ NumTotalCommFails : 48|16@1+ (1,0) [0|65535] "" Vector__XXX
 
-BO_ 513 VoltSummary: 8 MST
+BO_ 513 VoltSummary: 6 MST
  SG_ TotalVoltage : 0|32@1+ (1,0) [0|4294967295] "mV" Vector__XXX
  SG_ MinVoltModuleIdx : 32|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ MaxVoltModuleIdx : 40|8@1+ (1,0) [0|255] "" Vector__XXX

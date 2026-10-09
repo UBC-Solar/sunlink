@@ -1202,21 +1202,7 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "index": 0,
-                  "text": "No"
-                },
-                "1": {
-                  "index": 1,
-                  "text": "Yes"
-                }
-              },
-              "type": "value"
-            }
-          ],
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1226,7 +1212,7 @@
               },
               {
                 "color": "red",
-                "value": 4100
+                "value": 10
               }
             ]
           }
@@ -1234,12 +1220,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 7,
         "w": 4,
         "x": 0,
         "y": 48
       },
-      "id": 11,
+      "id": 29,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1261,11 +1247,11 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MST\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BalancingActive\" or r[\"_field\"] == \"BalancingEnable\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MST\")\n  |> filter(fn: (r) => r[\"_field\"] == \"NumTotalCommFails\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
-      "title": "Balancing active and enabled",
+      "title": "isoSPI Comm errors ",
       "type": "stat"
     },
     {
@@ -1386,7 +1372,7 @@
       "gridPos": {
         "h": 4,
         "w": 4,
-        "x": 12,
+        "x": 10,
         "y": 48
       },
       "id": 24,
@@ -1421,6 +1407,82 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 0,
+                  "text": "No"
+                },
+                "1": {
+                  "index": 1,
+                  "text": "Yes"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 4100
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 4,
+        "y": 52
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MST\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BalancingActive\" or r[\"_field\"] == \"BalancingEnable\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Balancing active and enabled",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1448,7 +1510,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 52
+        "y": 55
       },
       "id": 23,
       "options": {
@@ -1508,7 +1570,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 60
+        "y": 63
       },
       "id": 5,
       "options": {
@@ -1569,7 +1631,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 60
+        "y": 63
       },
       "id": 3,
       "options": {
@@ -1630,7 +1692,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 66
+        "y": 69
       },
       "id": 2,
       "options": {
@@ -1706,7 +1768,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 74
+        "y": 77
       },
       "id": 4,
       "options": {
@@ -1746,7 +1808,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -1767,6 +1829,6 @@
   "timezone": "",
   "title": "PROD: BMS - Cascadia",
   "uid": "b3a6f82d-ddd1-44f2-b83b-b436107505bc",
-  "version": 18,
+  "version": 22,
   "weekStart": ""
 }
