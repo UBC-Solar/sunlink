@@ -400,11 +400,20 @@ BO_ 1280 MDITimeSinceBootup: 4 MDI
  SG_ MDITimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
 
 BO_ 1281 MDIDiagnostics: 1 MDI
- SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MDIOverVoltage : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MDIMotorOverTemp : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MDIRTDFault : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MDIRTDCommError : 4|1@1+ (1,0) [0|1] "" Vector__XXX
 
-BO_ 1282 MDIMotorTemperature: 5 MDI
- SG_ RTDReadSuccess : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+BO_ 1282 MDIMotorTemperature: 6 MDI
+ SG_ RTDReadSuccess : 0|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ MotorTemperature : 8|32@1- (1,0) [-100|300] "degC" Vector__XXX
+ SG_ RTDFaultFlags : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1283 MDIMCUHealth: 4 MDI
+ SG_ MCUVoltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ MCUTemperature : 16|16@1+ (1,0) [0|65535] "degC" Vector__XXX
 
 BO_ 1409 STRTimeSinceBootup: 4 STR
  SG_ STRTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
@@ -1033,14 +1042,20 @@ CM_ SG_ 1295 MCBDriveCmdTimeout "0 = no timeout, 1 = timeout";
 CM_ SG_ 1295 DirectionSentToMC "0 = reverse, 1 = forward";
 CM_ SG_ 1295 DriveModeToMC "0 = ECO mode, 1 = POWER mode";
 CM_ SG_ 1295 RegenSentToMC "0 = no regen requested, 1 = regen ON";
+CM_ SG_ 1281 MDIWatchdogReset "1 = fault: watchdog crash / IWDG reset";
+CM_ SG_ 1281 MDIOverVoltage "1 = fault: MDI voltage over threshold";
+CM_ SG_ 1281 MDIMotorOverTemp "1 = fault: sets at >=100C, clears at <=95C";
+CM_ SG_ 1281 MDIRTDFault "1 = RTD sensor fault for at least 5s in a row";
+CM_ SG_ 1281 MDIRTDCommError "1 = SPI error, or MAX31865 missing/reset";
+CM_ SG_ 1282 RTDReadSuccess "1 = valid read, 0 = fault/HAL error";
+CM_ SG_ 1282 RTDFaultFlags "0x80 = RTD high, 0x40 = RTD low, 0x04 = OV/UV, 0 = none";
+CM_ SG_ 1283 MCUVoltage "0 = read failed";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
 SIG_VALTYPE_ 1793 VoltSensor2 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
 SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
-SIG_VALTYPE_ 1283 MotorVelocity : 1;
-SIG_VALTYPE_ 1283 VehicleVelocity : 1;
 SIG_VALTYPE_ 1874 ImuAGXAccel : 1;
 SIG_VALTYPE_ 1874 ImuAGXGyro : 1;
 SIG_VALTYPE_ 1875 ImuAGYAccel : 1;

@@ -102,7 +102,7 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "off"
+              "mode": "line+area"
             }
           },
           "mappings": [],
@@ -110,7 +110,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 95
+              },
+              {
+                "color": "red",
+                "value": 100
               }
             ]
           },
@@ -215,6 +224,230 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
+      "description": "0 = read failed",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Read failed",
+                  "color": "red",
+                  "index": 0
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "mvolt",
+          "displayName": "MCU Voltage"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 8
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDI\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MCUVoltage\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "MCU Voltage",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "celsius",
+          "displayName": "MCU Temperature"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 8
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDI\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MCUTemperature\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "MCU Temperature",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "0x80 = RTD high, 0x40 = RTD low, 0x04 = OV/UV, 0 = none",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "None",
+                  "color": "green",
+                  "index": 0
+                },
+                "4": {
+                  "text": "OV/UV",
+                  "color": "red",
+                  "index": 1
+                },
+                "64": {
+                  "text": "RTD Low",
+                  "color": "red",
+                  "index": 2
+                },
+                "128": {
+                  "text": "RTD High",
+                  "color": "red",
+                  "index": 3
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none",
+          "displayName": "RTD Fault Flags"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 8
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDI\")\n  |> filter(fn: (r) => r[\"_field\"] == \"RTDFaultFlags\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "RTD Fault Flags",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -267,22 +500,88 @@
           {
             "matcher": {
               "id": "byName",
+              "options": "MDIOverVoltage {car=\"Brightside\", class=\"MDIDiagnostics\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Over Voltage"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MDIMotorOverTemp {car=\"Brightside\", class=\"MDIDiagnostics\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Motor Over-Temp"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MDIRTDFault {car=\"Brightside\", class=\"MDIDiagnostics\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "RTD Fault"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MDIRTDCommError {car=\"Brightside\", class=\"MDIDiagnostics\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "RTD Comm Error"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
               "options": "RTDReadSuccess {car=\"Brightside\", class=\"MDIMotorTemperature\"}"
             },
             "properties": [
               {
                 "id": "displayName",
                 "value": "RTD Read Success"
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "color": "red",
+                        "index": 0
+                      },
+                      "1": {
+                        "color": "green",
+                        "index": 1
+                      }
+                    }
+                  }
+                ]
               }
             ]
           }
         ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 10,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 14
       },
       "id": 15,
       "options": {
@@ -307,7 +606,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDI\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MDIWatchdogReset\" or r[\"_field\"] == \"RTDReadSuccess\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDI\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MDIWatchdogReset\" or r[\"_field\"] == \"MDIOverVoltage\" or r[\"_field\"] == \"MDIMotorOverTemp\" or r[\"_field\"] == \"MDIRTDFault\" or r[\"_field\"] == \"MDIRTDCommError\" or r[\"_field\"] == \"RTDReadSuccess\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -344,6 +643,6 @@
   "timezone": "",
   "title": "PROD: MDI - Brightside",
   "uid": "c48ee898-be3c-450f-ad98-496fbf51dc4e",
-  "version": 6,
+  "version": 7,
   "weekStart": ""
 }
