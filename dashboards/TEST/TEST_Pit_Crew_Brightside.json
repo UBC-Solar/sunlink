@@ -2990,7 +2990,7 @@
           },
           "gridPos": {
             "h": 6,
-            "w": 12,
+            "w": 8,
             "x": 0,
             "y": 44
           },
@@ -3063,8 +3063,8 @@
           },
           "gridPos": {
             "h": 6,
-            "w": 12,
-            "x": 12,
+            "w": 8,
+            "x": 8,
             "y": 44
           },
           "id": 65,
@@ -3095,6 +3095,92 @@
           ],
           "title": "MDI Watchdog Reset",
           "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 16,
+            "y": 44
+          },
+          "id": 104,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.5.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P951FEA4DE68E13C5"
+              },
+              "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDI\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorTemperature\" or r[\"_field\"] == \"RTDReadSuccess\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => r.RTDReadSuccess == 1)\n  |> map(fn: (r) => ({_time: r._time, _field: \"MotorTemperature\", _value: r.MotorTemperature}))\n  |> yield(name: \"last\")",
+              "refId": "A"
+            }
+          ],
+          "title": "RTD Motor Temperature",
+          "type": "timeseries"
         },
         {
           "datasource": {
