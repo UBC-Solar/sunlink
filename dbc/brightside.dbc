@@ -616,6 +616,9 @@ BO_ 1873 TELDiagnostics: 1 TEL
  SG_ IMUReadFail : 1|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ IMUWriteFail : 2|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ GPSReadFail : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ GPSWriteFail : 4|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MCUOvertemp : 5|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MCUUndervoltage : 6|1@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 1025 MotorCommand: 5 DRD
  SG_ ThrottleDAC : 0|16@1+ (1,0) [0|0] "" Vector__XXX
