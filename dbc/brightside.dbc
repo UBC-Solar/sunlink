@@ -613,7 +613,7 @@ BO_ 1879 TELImuMZ: 4 TEL
 BO_ 1891 CANBusLoad: 1 TEL
  SG_ BusLoad : 0|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1892 CPULoad: 4 TEL
+BO_ 1892 CPULoad: 2 TEL
  SG_ CPULoad : 0|32@1- (1,0) [0|0] "" Vector__XXX
  
 BO_ 1872 TELTimeSinceBootup: 4 TEL
