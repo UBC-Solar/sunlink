@@ -440,7 +440,6 @@ BO_ 1425 STRMCUHealth: 4 STR
 BO_ 1426 STRFlags: 1 STR
  SG_ STRMCUOverTemp : 0|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ STRMCUUnderVoltage : 1|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ STRADCReadFail : 2|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 1576 ModuleStatuses: 5 BMS
  SG_ MultiplexingBits M : 0|3@1+ (1,0) [0|0] "" Vector__XXX
@@ -1065,7 +1064,6 @@ CM_ SG_ 1425 STRMCUVoltage "0 = read failed";
 CM_ SG_ 1425 STRMCUTemperature "int16_t, signed, degC";
 CM_ SG_ 1426 STRMCUOverTemp "1 = fault: STR MCU over temperature";
 CM_ SG_ 1426 STRMCUUnderVoltage "1 = fault: STR MCU under voltage";
-CM_ SG_ 1426 STRReadFail "1 = fault: sensor/ADC read failed";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
