@@ -32,7 +32,7 @@ NS_ :
     SG_MUL_VAL_
 
 BS_: 
-BU_: HVC MST DIST TEL MDI STR DRD MPPT MC MEMORATOR AMB OBC 
+BU_: HVC MST DIST TEL MDI STR DRD MPPT MC MEMORATOR OBC 
 BO_ 512 BMSStatus: 8 MST
    SG_ MstHeartbeatCounter : 0|32@1+ (1,0) [0|4.29497e+09] "" HVC
    SG_ ErrCommFail : 32|1@1+ (1,0) [0|1] "" HVC
@@ -744,24 +744,6 @@ BO_ 1754 MPPTMaxOutputVoltageCommandD: 4 Vector__XXX
 BO_ 1755 MPPTMaxOutputCurrentCommandD: 4 Vector__XXX
    SG_ MaxOutputCurrentCmdD : 0|32@1- (1,0) [-3.4e+38|3.4e+38] "A" Vector__XXX
 
-BO_ 1793 VoltageSensorsData: 8 AMB
-   SG_ VoltSensor1 : 0|32@1- (1,0) [-3.4e+38|3.4e+38] "V" Vector__XXX
-   SG_ VoltSensor2 : 32|32@1- (1,0) [-3.4e+38|3.4e+38] "V" Vector__XXX
-
-BO_ 1794 CurrentSensorsData: 8 AMB
-   SG_ CurrentSensor1 : 0|32@1- (1,0) [-3.4e+38|3.4e+38] "A" Vector__XXX
-   SG_ CurrentSensor2 : 32|32@1- (1,0) [-3.4e+38|3.4e+38] "A" Vector__XXX
-
-BO_ 1795 TempSensorsData: 8 AMB
-   SG_ TempSensors1 : 0|8@1+ (1,0) [0|255] "degC" Vector__XXX
-   SG_ TempSensors2 : 8|8@1+ (1,0) [0|255] "degC" Vector__XXX
-   SG_ TempSensors3 : 16|8@1+ (1,0) [0|255] "degC" Vector__XXX
-   SG_ TempSensors4 : 24|8@1+ (1,0) [0|255] "degC" Vector__XXX
-   SG_ TempSensors5 : 32|8@1+ (1,0) [0|255] "degC" Vector__XXX
-   SG_ TempSensors6 : 40|8@1+ (1,0) [0|255] "degC" Vector__XXX
-   SG_ TempSensors7 : 48|8@1+ (1,0) [0|255] "degC" Vector__XXX
-   SG_ TempSensors8 : 56|8@1+ (1,0) [0|255] "degC" Vector__XXX
-
 BO_ 1872 TELTimeSinceBootup: 4 TEL
    SG_ TELTimeSinceBootUp : 0|32@1+ (1,0) [0|4.29497e+09] "s" HVC
 
@@ -989,11 +971,15 @@ BA_DEF_ BO_ "VFrameFormat" ENUM "StandardCAN","ExtendedCAN","reserved","J1939PG"
 BA_DEF_ BO_ "GenMsgCycleTime" INT 0 65535;
 BA_DEF_ BO_ "GenMsgBackgroundColor" STRING ;
 BA_DEF_ BO_ "GenMsgForegroundColor" STRING ;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
 BA_DEF_DEF_ "BusType" "CAN";
 BA_DEF_DEF_ "VFrameFormat" "StandardCAN";
 BA_DEF_DEF_ "GenMsgCycleTime" 0;
 BA_DEF_DEF_ "GenMsgBackgroundColor" "#ffffff";
 BA_DEF_DEF_ "GenMsgForegroundColor" "#000000";
+BA_DEF_DEF_ "matchingcriteria" 0;
+BA_DEF_DEF_ "filterlabeling" 0;
 BA_ "GenMsgCycleTime" BO_ 512 1000;
 BA_ "GenMsgCycleTime" BO_ 800 200;
 BA_ "GenMsgCycleTime" BO_ 801 200;
@@ -1122,10 +1108,6 @@ SIG_VALTYPE_ 1750 OutputVoltageBattSideD : 1;
 SIG_VALTYPE_ 1750 ConnectorTemperatureD : 1;
 SIG_VALTYPE_ 1754 MaxOutputVoltageCmdD : 1;
 SIG_VALTYPE_ 1755 MaxOutputCurrentCmdD : 1;
-SIG_VALTYPE_ 1793 VoltSensor1 : 1;
-SIG_VALTYPE_ 1793 VoltSensor2 : 1;
-SIG_VALTYPE_ 1794 CurrentSensor1 : 1;
-SIG_VALTYPE_ 1794 CurrentSensor2 : 1;
 SIG_VALTYPE_ 1874 ImuAGXAccel : 1;
 SIG_VALTYPE_ 1874 ImuAGXGyro : 1;
 SIG_VALTYPE_ 1875 ImuAGYAccel : 1;
