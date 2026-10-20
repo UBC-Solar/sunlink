@@ -429,6 +429,7 @@ BO_ 1408 STRDRDControl: 4 STR
  SG_ STRCruiseSetVelocity : 8|16@1+ (1,0) [0|0] "km/hr" Vector__XXX
  SG_ STRCruiseIncrement : 24|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ STRCruiseDecrement : 25|1@1+ (1,0) [0|1] "" Vector__XXX
+ 
 
 BO_ 1410 STRDiagnostics : 1 STR
  SG_ STRWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -661,6 +662,10 @@ BO_ 1027 DRDDiagnostics: 8 DRD
  SG_ CurrentTimeout : 52|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ AccelTimeout : 53|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ SOC : 56|8@1+ (1,0) [0|0] "%" Vector__XXX
+
+BO_ 1026 DRDMCUHealth: 4 DRD
+ SG_ DRDMCUSupplyVoltage : 0|16@1+ (1,0) [0|4000] "mV" Vector__XXX
+ SG_ DRDMCUTemperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
 
 BO_ 1028 DRDTimeSinceBootup: 4 DRD
  SG_ DRDTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "" Vector__XXX
