@@ -549,9 +549,14 @@
             {
               "options": {
                 "0": {
-                  "color": "red",
+                  "color": "green",
                   "index": 0,
-                  "text": "NO SATS"
+                  "text": "GOOD"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "FAULT"
                 }
               },
               "type": "value"
@@ -563,10 +568,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -622,9 +623,14 @@
             {
               "options": {
                 "0": {
-                  "color": "red",
+                  "color": "green",
                   "index": 0,
-                  "text": "NO SATS"
+                  "text": "GOOD"
+                },
+                "1": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "FAULT"
                 }
               },
               "type": "value"
@@ -636,10 +642,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -907,8 +909,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -997,8 +998,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "blue"
               },
               {
                 "color": "red",
@@ -1103,8 +1103,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1208,8 +1207,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1298,8 +1296,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1419,8 +1416,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1525,8 +1521,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1631,8 +1626,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1737,8 +1731,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1843,8 +1836,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1950,8 +1942,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2040,6 +2031,6 @@
   "timezone": "",
   "title": "PROD: TEL - Brightside",
   "uid": "aeaee04f-6ed5-432b-80bb-3a48470bcf34",
-  "version": 5,
+  "version": 7,
   "weekStart": ""
 }
