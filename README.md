@@ -15,6 +15,9 @@ source  environment/bin/activate
 ```
 This will activate the virtual environment that has the Python packages to run our system installed.
 
+### Cellular Physical Setup
+If you need help setting up Cellular physically, [click here](https://github.com/UBC-Solar/sunlink/blob/main/docs/CELLULAR_SETUP.md).
+
 ### Cellular Parser (Detailed Instructions)
 For full setup and usage details of the cellular parser container, see the Sunlite README:  
 https://github.com/UBC-Solar/sunlite/blob/main/src/grpc_cellular/README.md
@@ -51,7 +54,7 @@ Depending on what you are using see **CAN Setup** or **Radio Setup** sections be
 ### Common Issues
 | **Problem**                                                | **Solution**                                                                                                                                                                                                                    |
 | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RTNETLINK answers: Device or resource busy`    | Restart CAN peripheral by unplugging the PCAN and plugging it back in. [Then run the commands here.](#can-setup-on-native-linux).                                                                                             |
+| `RTNETLINK answers: Device or resource busy`    | Restart CAN peripheral by unplugging the PCAN and plugging it back in. [Then run the commands here](#can-setup-on-native-linux).                                                                                             |
 | `Cannot find device "can0"`    | [Follow this](https://github.com/UBC-Solar/sunlink/blob/main/docs/DETAILED_OVERVIEW.md#how-to-install-linux-pcan-drivers)                                                                                             |
 
 ### Connecting via TailScale network
