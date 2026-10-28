@@ -89,7 +89,7 @@ Make absolutely sure you have:
 #### Commands
 Organized by command then explanation.
 ```bash
-sudo ip link set can0 type can bitrate 500000
+sudo ip link set can0 type can bitrate 500000 listen-only on
 sudo ip link set can0 up
 ```
 **Optionally to dump/print out CAN messages**
