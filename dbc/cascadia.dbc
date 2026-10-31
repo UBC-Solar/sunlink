@@ -443,7 +443,12 @@ BO_ 928 DISTHeartBeat: 4 DIST
    SG_ DISTHeartbeatCounter : 7|32@0+ (1,0) [0|4.29497e+09] "" HVC
 
 BO_ 929 DISTFault: 1 DIST
-   SG_ DISTFault : 0|1@1+ (1,0) [0|1] "" HVC
+   SG_ DISTFaultDRDFuse : 0|1@1+ (1,0) [0|1] "" HVC
+   SG_ DISTFaultMDIFuse : 1|1@1+ (1,0) [0|1] "" HVC
+   SG_ DISTFaultSpareFuse : 2|1@1+ (1,0) [0|1] "" HVC
+   SG_ DISTFaultSpareCtrlFuse : 3|1@1+ (1,0) [0|1] "" HVC
+   SG_ DISTFaultEstop : 4|1@1+ (1,0) [0|1] "" HVC
+   SG_ DISTFaultHVC : 5|1@1+ (1,0) [0|1] "" HVC
 
 BO_ 930 DISTLVOn: 1 DIST
    SG_ DISTLVOn : 0|8@1+ (1,0) [0|1] "" HVC
@@ -920,7 +925,7 @@ CM_ BO_ 805 "LV current sensor, big-endian";
 CM_ BO_ 806 "DC-DC thermistor temperature, big-endian";
 CM_ SG_ 806 DcdcTemperature "Firmware sends milli-degC";
 CM_ BO_ 928 "32-bit big-endian counter (DIST PR 78)";
-CM_ BO_ 929 "Sent from the DIST FAULT state";
+CM_ BO_ 929 "Sent every 200 ms in all states. All zero until DIST enters FAULT, then holds the causes latched on FAULT entry until reset.";
 CM_ BO_ 931 "Each step is 5 mA; saturates at 1275 mA";
 CM_ BO_ 932 "Firmware branch ID";
 CM_ BO_ 1025 "Motor command to MDI. Also sent immediately when the brake is pressed.";

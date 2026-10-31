@@ -75,7 +75,12 @@ BO_ 928 DISTHeartBeat: 3 DIST
  SG_ DISTHeartbeatCounter : 15|16@0+ (1,0) [0|65535] "" Vector__XXX
 
 BO_ 929 DISTFault: 1 DIST
- SG_ DISTFault : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTFaultDRDFuse : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTFaultMDIFuse : 1|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTFaultSpareFuse : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTFaultSpareCtrlFuse : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTFaultEstop : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DISTFaultHVC : 5|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 930 DISTLVOn: 1 DIST
  SG_ DISTLVOn : 0|8@1+ (1,0) [0|1] "" Vector__XXX
@@ -933,6 +938,7 @@ BO_ 1755 MPPTMaxOutputCurrentCommandD: 4 MPPT
  SG_ MaxOutputCurrentCmdD :  0|32@1- (1,0) [0|0] "A" MPPT
 
 
+CM_ BO_ 929 "Sent every 200 ms in all states. All zero until DIST enters FAULT, then holds the causes latched on FAULT entry until reset.";
 CM_ SG_ 1572 b0x00 "Unused";
 CM_ SG_ 1572 SOH "Unused";
 CM_ SG_ 1573 AverageTemp "Twos Complement";
