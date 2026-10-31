@@ -439,6 +439,9 @@ BO_ 808 HvcMcPrecharge: 4 HVC
 BO_ 809 HvcMpptPrecharge: 4 HVC
    SG_ MpptPrechargeVoltage : 7|32@0- (1,0) [-2.14749e+09|2.14749e+09] "mV" Vector__XXX
 
+BO_ 810 Hvc12VRailVoltage: 4 HVC
+   SG_ Lv12VRailVoltage : 7|32@0+ (1,0) [0|4.29497e+09] "mV" Vector__XXX
+
 BO_ 928 DISTHeartBeat: 4 DIST
    SG_ DISTHeartbeatCounter : 7|32@0+ (1,0) [0|4.29497e+09] "" HVC
 
@@ -990,6 +993,7 @@ BA_ "GenMsgCycleTime" BO_ 806 200;
 BA_ "GenMsgCycleTime" BO_ 807 200;
 BA_ "GenMsgCycleTime" BO_ 808 200;
 BA_ "GenMsgCycleTime" BO_ 809 200;
+BA_ "GenMsgCycleTime" BO_ 810 200;
 BA_ "GenMsgCycleTime" BO_ 928 500;
 BA_ "GenMsgCycleTime" BO_ 930 500;
 BA_ "GenMsgCycleTime" BO_ 931 1000;
