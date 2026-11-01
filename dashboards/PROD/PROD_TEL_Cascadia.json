@@ -491,90 +491,9 @@
       "id": 7
     },
     {
-      "type": "stat",
-      "title": "TEL: Fault status",
-      "description": "ACTIVE FAULT (red): a bit on the fault strip is set in the latest frame. FAULT IN WINDOW (yellow): a bit was set somewhere in the time range shown but none is set now. NO FAULTS: nothing set in the range.",
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "data = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\n  |> filter(fn: (r) => r[\"class\"] == \"TELDiagnostics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TELWatchdogReset\" or r[\"_field\"] == \"IMUReadFail\" or r[\"_field\"] == \"IMUWriteFail\" or r[\"_field\"] == \"GPSReadFail\" or r[\"_field\"] == \"GPSWriteFail\" or r[\"_field\"] == \"MCUOvertemp\" or r[\"_field\"] == \"MCUUndervoltage\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> toInt()\nactive = data |> last() |> map(fn: (r) => ({r with _value: r._value * 2}))\nseen = data |> max()\nunion(tables: [active, seen])\n  |> group()\n  |> max()\n  |> map(fn: (r) => ({_time: r._time, _field: \"Fault status\", _value: r._value}))\n  |> yield(name: \"status\")",
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none",
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "transparent",
-                "value": null
-              }
-            ]
-          },
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "NO FAULTS",
-                  "color": "transparent",
-                  "index": 0
-                },
-                "1": {
-                  "text": "FAULT IN WINDOW",
-                  "color": "#f2cc0c",
-                  "index": 1
-                },
-                "2": {
-                  "text": "ACTIVE FAULT",
-                  "color": "#ff1a1a",
-                  "index": 2
-                }
-              }
-            }
-          ]
-        },
-        "overrides": []
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.5.2",
-      "gridPos": {
-        "x": 0,
-        "y": 6,
-        "w": 4,
-        "h": 6
-      },
-      "id": 8
-    },
-    {
       "type": "state-timeline",
       "title": "TEL: Faults",
-      "description": "TELDiagnostics bits (max per window, so a single faulted frame is never averaged away).",
+      "description": "TELDiagnostics bits (max per window, so a single faulted frame is never averaged away). Per row: OK, FAULT (red) while set, CLEARED (yellow) once it has faulted in the time range shown. Zoom the time range past an old fault to clear the yellow.",
       "datasource": {
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
@@ -585,7 +504,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\n  |> filter(fn: (r) => r[\"class\"] == \"TELDiagnostics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TELWatchdogReset\" or r[\"_field\"] == \"IMUReadFail\" or r[\"_field\"] == \"IMUWriteFail\" or r[\"_field\"] == \"GPSReadFail\" or r[\"_field\"] == \"GPSWriteFail\" or r[\"_field\"] == \"MCUOvertemp\" or r[\"_field\"] == \"MCUUndervoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"max\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"TEL\")\n  |> filter(fn: (r) => r[\"class\"] == \"TELDiagnostics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"TELWatchdogReset\" or r[\"_field\"] == \"IMUReadFail\" or r[\"_field\"] == \"IMUWriteFail\" or r[\"_field\"] == \"GPSReadFail\" or r[\"_field\"] == \"GPSWriteFail\" or r[\"_field\"] == \"MCUOvertemp\" or r[\"_field\"] == \"MCUUndervoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> toInt()\n  |> duplicate(column: \"_value\", as: \"now\")\n  |> cumulativeSum(columns: [\"_value\"])\n  |> map(fn: (r) => ({_time: r._time, _field: r._field, _value: if r.now > 0 then 2 else if r._value > 0 then 1 else 0}))\n  |> yield(name: \"fault_state\")",
           "refId": "A"
         }
       ],
@@ -615,9 +534,14 @@
                   "index": 0
                 },
                 "1": {
+                  "text": "CLEARED",
+                  "color": "#f2cc0c",
+                  "index": 1
+                },
+                "2": {
                   "text": "FAULT",
                   "color": "#ff1a1a",
-                  "index": 1
+                  "index": 2
                 }
               }
             },
@@ -629,7 +553,7 @@
                 "result": {
                   "text": "UNKNOWN",
                   "color": "#ff9830",
-                  "index": 2
+                  "index": 3
                 }
               }
             }
@@ -663,12 +587,12 @@
       },
       "pluginVersion": "9.5.2",
       "gridPos": {
-        "x": 4,
+        "x": 0,
         "y": 6,
-        "w": 20,
+        "w": 24,
         "h": 6
       },
-      "id": 9
+      "id": 8
     },
     {
       "type": "row",
@@ -681,7 +605,7 @@
         "w": 24,
         "h": 1
       },
-      "id": 10
+      "id": 9
     },
     {
       "type": "geomap",
@@ -813,7 +737,7 @@
         "w": 12,
         "h": 14
       },
-      "id": 11
+      "id": 10
     },
     {
       "type": "state-timeline",
@@ -1029,7 +953,7 @@
         "w": 12,
         "h": 6
       },
-      "id": 12
+      "id": 11
     },
     {
       "type": "timeseries",
@@ -1121,7 +1045,7 @@
         "w": 6,
         "h": 8
       },
-      "id": 13
+      "id": 12
     },
     {
       "type": "timeseries",
@@ -1218,7 +1142,7 @@
         "w": 6,
         "h": 8
       },
-      "id": 14
+      "id": 13
     },
     {
       "type": "row",
@@ -1231,7 +1155,7 @@
         "w": 24,
         "h": 1
       },
-      "id": 15
+      "id": 14
     },
     {
       "type": "timeseries",
@@ -1320,7 +1244,7 @@
         "w": 8,
         "h": 7
       },
-      "id": 16
+      "id": 15
     },
     {
       "type": "timeseries",
@@ -1410,7 +1334,7 @@
         "w": 8,
         "h": 7
       },
-      "id": 17
+      "id": 16
     },
     {
       "type": "timeseries",
@@ -1498,7 +1422,7 @@
         "w": 8,
         "h": 7
       },
-      "id": 18
+      "id": 17
     },
     {
       "type": "timeseries",
@@ -1595,7 +1519,7 @@
         "w": 8,
         "h": 7
       },
-      "id": 19
+      "id": 18
     },
     {
       "type": "stat",
@@ -1656,7 +1580,7 @@
         "w": 8,
         "h": 7
       },
-      "id": 20
+      "id": 19
     },
     {
       "type": "timeseries",
@@ -1744,7 +1668,7 @@
         "w": 8,
         "h": 7
       },
-      "id": 21
+      "id": 20
     },
     {
       "type": "row",
@@ -1757,7 +1681,7 @@
         "w": 24,
         "h": 1
       },
-      "id": 22
+      "id": 21
     },
     {
       "type": "timeseries",
@@ -1845,7 +1769,7 @@
         "w": 8,
         "h": 8
       },
-      "id": 23
+      "id": 22
     },
     {
       "type": "timeseries",
@@ -1933,7 +1857,7 @@
         "w": 8,
         "h": 8
       },
-      "id": 24
+      "id": 23
     },
     {
       "type": "timeseries",
@@ -2021,7 +1945,7 @@
         "w": 8,
         "h": 8
       },
-      "id": 25
+      "id": 24
     }
   ]
 }
