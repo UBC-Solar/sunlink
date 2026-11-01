@@ -38,6 +38,7 @@ except Exception:  # noqa: BLE001
 UV_MV = {"TEL": 2000, "DRD": 2000, "STR": 2400}
 OT_C = {"TEL": 125, "DRD": 125, "STR": 105}
 MOTOR_OT_SET, MOTOR_OT_CLEAR = 100, 95
+MOTOR_MAX_C = 140.0   # simulator ceiling for the motor model
 
 DRIVE_STATES = {"PARK": 3, "FORWARD": 1, "REVERSE": 4, "CRUISE": 2}
 GPS_FIX = {"NoFix": 0, "DeadReckoning": 1, "Fix2D": 2, "Fix3D": 3, "GnssDeadReckoning": 4, "TimeOnly": 5}
@@ -163,6 +164,7 @@ class Sim:
         power = (st.throttle / 100.0) * (self.speed / 25.0) if st.drive_state != "PARK" else 0.0
         heat_in = 4.0 * st.motor_heat * power
         self.motor_temp += (heat_in - 0.012 * (self.motor_temp - 25.0)) * dt
+        self.motor_temp = min(self.motor_temp, MOTOR_MAX_C)   # keep runaway heating plausible
         if not self.motor_ot and self.motor_temp >= MOTOR_OT_SET:
             self.motor_ot = True
         elif self.motor_ot and self.motor_temp <= MOTOR_OT_CLEAR:
