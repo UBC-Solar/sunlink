@@ -135,6 +135,8 @@ def serve(sim, mod, port=8090):
                             sim.reset_board(arg)
                         elif what == "motor_temp":
                             sim.motor_temp = float(arg)
+                        elif what == "reset":
+                            sim.reset_all()
                     else:
                         return self._send(404, "{}")
                 except (KeyError, ValueError, AttributeError) as e:
@@ -155,7 +157,8 @@ PAGE = r"""<!doctype html>
  --btn:#262a32;--on:#5794f2;--on-text:#0b0d10;--bad:#ff1f3d;--bad-bg:#3d0a12;--warn:#ff9830}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-apple-system,sans-serif}
 header{position:sticky;top:0;z-index:2;background:var(--bg);padding:12px 16px 8px;border-bottom:1px solid var(--line)}
-h1{font-size:17px;margin:0 0 8px}.status{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-variant-numeric:tabular-nums}
+h1{font-size:17px;margin:0}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+button.reset{font-weight:600;border-color:var(--on);color:var(--on)}.status{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-variant-numeric:tabular-nums}
 .status b{color:var(--text);font-weight:600}.status .alarm b{color:#fff;background:var(--bad);padding:1px 7px;border-radius:5px;font-weight:800;box-shadow:0 0 10px var(--bad)}
 .scen{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 button{font:inherit;border:1px solid var(--line);background:var(--btn);color:var(--text);border-radius:8px;padding:7px 11px;cursor:pointer}
@@ -172,7 +175,8 @@ main{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1
 .seg{display:flex;flex-wrap:wrap;gap:4px}.seg button{padding:5px 9px}
 .desc{color:var(--muted);margin-top:6px;min-height:1.4em}
 </style></head><body>
-<header><h1>Cascadia CAN simulator: what goes in</h1>
+<header><div class="top"><h1>Cascadia CAN simulator: what goes in</h1>
+<button id="reset" class="reset" title="Normal inputs, latches cleared, and the simulated fault history deleted from the local database">Reset everything to normal</button></div>
 <div class="status" id="status"></div>
 <div class="scen" id="scen"></div><div class="desc" id="desc"></div></header>
 <main id="main"></main>
@@ -234,6 +238,8 @@ function render(){
     <span class="${state.motor_ot ? "alarm" : ""}">motor <b>${state.motor_temp} °C${state.motor_ot ? " OVERTEMP" : ""}</b></span>
     <span>SOC <b>${state.soc} %</b></span><span>frames written <b>${state.frames}</b></span>`;
 }
+$("#reset").onclick = () => { $("#reset").textContent = "Resetting…";
+  post("/api/action", {name:"reset.all"}).then(() => { $("#reset").textContent = "Reset everything to normal"; }); };
 fetch("/api/spec").then(r => r.json()).then(s => { spec = s; build();
   const tick = () => fetch("/api/state").then(r => r.json()).then(st => { state = st; render(); }).catch(() => {});
   tick(); setInterval(tick, 700); });

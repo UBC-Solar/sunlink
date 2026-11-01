@@ -116,9 +116,11 @@ def apply_scenario(sim: "Sim", name: str):
 
 
 class Sim:
-    def __init__(self, dbc: str, writer):
+    def __init__(self, dbc: str, writer, clear_history=None):
         self.db = cantools.database.load_file(dbc)
         self.write = writer
+        self.clear_history = clear_history
+        self.lock = threading.Lock()
         self.state = State()
         self.boot = {b: time.time() - random.uniform(300, 900) for b in ("TEL", "MDI", "DRD", "STR")}
         self.speed = 0.0            # m/s
@@ -132,6 +134,17 @@ class Sim:
 
     def reset_board(self, b):
         self.boot[b] = time.time()
+
+    def reset_all(self):
+        """Back to normal and forget the past: normal inputs, latches cleared, and the simulated
+        TEL/MDI/DRD/STR history deleted from the (local) bucket so no old faults show as CLEARED."""
+        with self.lock:
+            apply_scenario(self, "normal")
+            self.scenario = "normal"
+            self.motor_ot = False
+            self.rtd_bad = 0
+            if self.clear_history:
+                self.clear_history()
 
     # ------------------------------------------------------------------ physics
     def step(self, dt):
@@ -284,7 +297,8 @@ class Sim:
             for name, sigs in self.frames_now():
                 sender, vals = self.roundtrip(name, sigs)
                 pts.append((sender, name, vals))
-            self.write(pts)
+            with self.lock:
+                self.write(pts)
             self.frames += len(pts)
             self.tick += 1
             time.sleep(max(0.0, 1 / hz - (time.time() - start)))
@@ -304,6 +318,21 @@ def influx_writer(url, token, org, bucket):
         if pts:
             w.write(bucket=bucket, record=pts)
     return write
+
+
+HISTORY_START = "2026-10-01T00:00:00Z"   # simulator era; older data (e.g. copied real logs) is kept
+
+
+def influx_clearer(url, token, org, bucket):
+    from datetime import datetime, timezone
+    from influxdb_client import InfluxDBClient
+    d = InfluxDBClient(url=url, token=token, org=org).delete_api()
+
+    def clear():
+        stop = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        for m in ("TEL", "MDI", "DRD", "STR"):
+            d.delete(HISTORY_START, stop, f'_measurement="{m}"', bucket=bucket, org=org)
+    return clear
 
 
 # ---------------------------------------------------------------------- GUI
@@ -349,6 +378,14 @@ def gui(sim: Sim):
         for var, getter in vars_:
             var.set(getter())
     ttk.OptionMenu(top, sc, "normal", *SCENARIOS, command=load).pack(side="left")
+
+    def reset_all():
+        sim.reset_all()
+        sc.set("normal")
+        desc.config(text="Reset: normal inputs, fault history cleared")
+        for var, getter in vars_:
+            var.set(getter())
+    ttk.Button(top, text="Reset everything (clear fault history)", command=reset_all).pack(side="left", padx=8)
     desc.pack(anchor="w", padx=8)
 
     nb = ttk.Notebook(root); nb.pack(fill="both", expand=True, padx=6, pady=6)
@@ -425,7 +462,8 @@ def main():
         sys.exit(f"refusing to write simulated data to {a.url}; pass --allow-remote if you really mean it")
     from dotenv import dotenv_values
     env = dotenv_values(ROOT / ".env")
-    sim = Sim(a.dbc, influx_writer(a.url, env["INFLUX_TOKEN"], env["INFLUX_ORG"], a.bucket))
+    sim = Sim(a.dbc, influx_writer(a.url, env["INFLUX_TOKEN"], env["INFLUX_ORG"], a.bucket),
+              influx_clearer(a.url, env["INFLUX_TOKEN"], env["INFLUX_ORG"], a.bucket))
     apply_scenario(sim, a.scenario)
     sim.scenario = a.scenario
     if a.headless:
