@@ -150,25 +150,25 @@ PAGE = r"""<!doctype html>
 <title>Cascadia Sim Controls</title>
 <style>
 :root{--bg:#f4f5f7;--card:#fff;--text:#1d2129;--muted:#6b7280;--line:#e3e5e8;--btn:#eef0f3;
- --on:#3b6fd8;--on-text:#fff;--bad:#d9363e;--warn:#d97a0b;--ok:#6b7280}
+ --on:#3b6fd8;--on-text:#fff;--bad:#e0000f;--bad-bg:#ffe1e3;--warn:#d97a0b;--ok:#6b7280}
 @media (prefers-color-scheme:dark){:root{--bg:#111317;--card:#1b1e24;--text:#e6e8eb;--muted:#9aa1ab;--line:#2b2f37;
- --btn:#262a32;--on:#5794f2;--on-text:#0b0d10;--bad:#f2495c;--warn:#ff9830}}
+ --btn:#262a32;--on:#5794f2;--on-text:#0b0d10;--bad:#ff1f3d;--bad-bg:#3d0a12;--warn:#ff9830}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-apple-system,sans-serif}
 header{position:sticky;top:0;z-index:2;background:var(--bg);padding:12px 16px 8px;border-bottom:1px solid var(--line)}
 h1{font-size:17px;margin:0 0 8px}.status{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-variant-numeric:tabular-nums}
-.status b{color:var(--text);font-weight:600}.status .alarm b{color:var(--bad)}
+.status b{color:var(--text);font-weight:600}.status .alarm b{color:#fff;background:var(--bad);padding:1px 7px;border-radius:5px;font-weight:800;box-shadow:0 0 10px var(--bad)}
 .scen{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 button{font:inherit;border:1px solid var(--line);background:var(--btn);color:var(--text);border-radius:8px;padding:7px 11px;cursor:pointer}
 button:hover{border-color:var(--muted)}button.active{background:var(--on);color:var(--on-text);border-color:var(--on)}
-button.bad.active{background:var(--bad);border-color:var(--bad);color:#fff}
+button.bad.active{background:var(--bad);border-color:var(--bad);color:#fff;font-weight:700;box-shadow:0 0 0 2px var(--bad-bg),0 0 12px var(--bad)}
 main{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px;padding:12px 16px 24px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
 .card h2{font-size:15px;margin:0 0 10px;display:flex;justify-content:space-between;align-items:center}
 .card h2 a{font-size:12px;font-weight:400;color:var(--on);text-decoration:none}
 .row{display:flex;align-items:center;gap:10px;margin:7px 0}.row label{flex:0 0 118px;color:var(--muted)}
 .row.choice{flex-direction:column;align-items:flex-start;gap:4px}.row.choice label{flex:none}
-.row input[type=range]{flex:1;min-width:0}.val{flex:0 0 70px;text-align:right;font-variant-numeric:tabular-nums}
-.val.alarm{color:var(--bad);font-weight:600}.toggles{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.row input[type=range]{flex:1;min-width:0}.val{flex:0 0 82px;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.val.alarm{color:#fff;background:var(--bad);font-weight:800;border-radius:5px;padding:0 6px;box-shadow:0 0 10px var(--bad)}.toggles{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .seg{display:flex;flex-wrap:wrap;gap:4px}.seg button{padding:5px 9px}
 .desc{color:var(--muted);margin-top:6px;min-height:1.4em}
 </style></head><body>
