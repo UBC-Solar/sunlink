@@ -199,6 +199,11 @@ class Sim:
             v, c, ot, uv = mcu("TEL")
             lat, lon, heading, r = self.position()
             fix = GPS_FIX[st.gps_fix]
+            # a receiver can't hold a fix it doesn't have satellites for
+            if st.sats < 3 and fix in (2, 3, 4):
+                fix = 0
+            elif st.sats < 4 and fix in (3, 4):
+                fix = 2
             out += [("TELDiagnostics", {"TELWatchdogReset": int(st.watchdog["TEL"]), "IMUReadFail": int(st.imu_read_fail),
                                         "IMUWriteFail": 0, "GPSReadFail": int(st.gps_read_fail), "GPSWriteFail": 0,
                                         "MCUOvertemp": ot, "MCUUndervoltage": uv}),

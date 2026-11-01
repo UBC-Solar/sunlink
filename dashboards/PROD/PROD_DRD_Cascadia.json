@@ -45,7 +45,7 @@
     {
       "type": "stat",
       "title": "DRD: Fault banner",
-      "description": "Red with the signal names while a fault bit is set; blank otherwise. Faults that have cleared show as yellow CLEARED on the fault strip below.",
+      "description": "Red: a fault bit is set now (names listed). Orange: something is wrong that is not a fault bit: DRD link lost / rebooted; Speed data timeout; DriveState data timeout; SOC data timeout; Voltage data timeout; Current data timeout; Accel data timeout; Drive state INVALID. Blank when everything is normal.",
       "datasource": {
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
@@ -56,7 +56,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "import \"array\"\nimport \"strings\"\nst = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"class\"] == \"DRDDiagnostics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ADCOutOfRange\" or r[\"_field\"] == \"ADCMismatch\" or r[\"_field\"] == \"DRDWatchdogReset\" or r[\"_field\"] == \"MotorCommFault\" or r[\"_field\"] == \"DRDMCUOverTemp\" or r[\"_field\"] == \"DRDMCUUnderVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> toInt()\n  |> duplicate(column: \"_value\", as: \"now\")\n  |> cumulativeSum(columns: [\"_value\"])\n  |> map(fn: (r) => ({_time: r._time, _field: r._field, _value: if r.now > 0 then 2 else if r._value > 0 then 1 else 0}))\n  |> last()\n  |> group()\nact = st |> filter(fn: (r) => r._value == 2) |> findColumn(fn: (key) => true, column: \"_field\")\nmsg = if length(arr: act) > 0 then \"ACTIVE FAULT: \" + strings.joinStr(arr: act, v: \", \")\n      else \"\"\narray.from(rows: [{_value: msg}]) |> yield(name: \"banner\")",
+          "query": "import \"array\"\nimport \"strings\"\nst = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"class\"] == \"DRDDiagnostics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ADCOutOfRange\" or r[\"_field\"] == \"ADCMismatch\" or r[\"_field\"] == \"DRDWatchdogReset\" or r[\"_field\"] == \"MotorCommFault\" or r[\"_field\"] == \"DRDMCUOverTemp\" or r[\"_field\"] == \"DRDMCUUnderVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> toInt()\n  |> duplicate(column: \"_value\", as: \"now\")\n  |> cumulativeSum(columns: [\"_value\"])\n  |> map(fn: (r) => ({_time: r._time, _field: r._field, _value: if r.now > 0 then 2 else if r._value > 0 then 1 else 0}))\n  |> last()\n  |> group()\nact = st |> filter(fn: (r) => r._value == 2) |> findColumn(fn: (key) => true, column: \"_field\")\nwl = from(bucket: \"CAN_prod\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\" and r[\"class\"] == \"DRDTimeSinceBootup\")\n  |> last()\n  |> map(fn: (r) => ({r with _value:\n      if float(v: uint(v: now()) - uint(v: r._time)) / 1000000000.0 > 3.0 then \"DRD link lost\"\n      else if float(v: r._value) < 60.0 then \"DRD rebooted \" + string(v: int(v: r._value)) + \" s ago\"\n      else \"\"}))\n  |> keep(columns: [\"_value\"])\nw0 = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\" and r[\"class\"] == \"DRDDiagnostics\" and r[\"_field\"] == \"SpeedTimeout\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value == 1 then \"Speed data timeout\" + \"\" else \"\"}))\n  |> keep(columns: [\"_value\"])\nw1 = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\" and r[\"class\"] == \"DRDDiagnostics\" and r[\"_field\"] == \"DriveStateTimeout\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value == 1 then \"DriveState data timeout\" + \"\" else \"\"}))\n  |> keep(columns: [\"_value\"])\nw2 = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\" and r[\"class\"] == \"DRDDiagnostics\" and r[\"_field\"] == \"SOCTimeout\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value == 1 then \"SOC data timeout\" + \"\" else \"\"}))\n  |> keep(columns: [\"_value\"])\nw3 = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\" and r[\"class\"] == \"DRDDiagnostics\" and r[\"_field\"] == \"VoltageTimeout\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value == 1 then \"Voltage data timeout\" + \"\" else \"\"}))\n  |> keep(columns: [\"_value\"])\nw4 = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\" and r[\"class\"] == \"DRDDiagnostics\" and r[\"_field\"] == \"CurrentTimeout\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value == 1 then \"Current data timeout\" + \"\" else \"\"}))\n  |> keep(columns: [\"_value\"])\nw5 = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\" and r[\"class\"] == \"DRDDiagnostics\" and r[\"_field\"] == \"AccelTimeout\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value == 1 then \"Accel data timeout\" + \"\" else \"\"}))\n  |> keep(columns: [\"_value\"])\nw6 = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\" and r[\"class\"] == \"DRDDiagnostics\" and r[\"_field\"] == \"DriveState\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value == 0 then \"Drive state INVALID\" + \"\" else \"\"}))\n  |> keep(columns: [\"_value\"])\nwarn = union(tables: [wl, w0, w1, w2, w3, w4, w5, w6]) |> group() |> filter(fn: (r) => r._value != \"\") |> findColumn(fn: (key) => true, column: \"_value\")\nf = if length(arr: act) > 0 then \"ACTIVE FAULT: \" + strings.joinStr(arr: act, v: \", \") else \"\"\nw = if length(arr: warn) > 0 then \"WARNING: \" + strings.joinStr(arr: warn, v: \", \") else \"\"\nmsg = if f != \"\" and w != \"\" then f + \"   |   \" + w else f + w\narray.from(rows: [{_value: msg}]) |> yield(name: \"banner\")",
           "refId": "A"
         }
       ],
@@ -79,10 +79,20 @@
             {
               "type": "regex",
               "options": {
-                "pattern": "^ACTIVE.*",
+                "pattern": "^ACTIVE FAULT.*",
                 "result": {
                   "color": "#ff1a1a",
                   "index": 0
+                }
+              }
+            },
+            {
+              "type": "regex",
+              "options": {
+                "pattern": "^WARNING.*",
+                "result": {
+                  "color": "#ff9830",
+                  "index": 1
                 }
               }
             },
@@ -93,7 +103,7 @@
                 "result": {
                   "text": " ",
                   "color": "transparent",
-                  "index": 1
+                  "index": 2
                 }
               }
             }
@@ -115,7 +125,7 @@
         "orientation": "auto",
         "textMode": "value",
         "text": {
-          "valueSize": 30
+          "valueSize": 28
         }
       },
       "pluginVersion": "9.5.2",
