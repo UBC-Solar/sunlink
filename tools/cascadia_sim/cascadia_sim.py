@@ -138,7 +138,8 @@ class Sim:
 
     def reset_all(self):
         """Back to normal and forget the past: normal inputs, latches cleared, and the simulated
-        TEL/MDI/DRD/STR history deleted from the (local) bucket so no old faults show as CLEARED."""
+        TEL/MDI/DRD/STR history (points tagged source=cascadia_sim) deleted, so no old faults show as
+        CLEARED. Real data in the same bucket is left alone."""
         with self.lock:
             apply_scenario(self, "normal")
             self.scenario = "normal"
@@ -321,13 +322,16 @@ def influx_writer(url, token, org, bucket):
         pts = []
         for sender, cls, vals in frames:
             for k, v in vals.items():
-                pts.append(Point(sender).tag("car", CAR_NAME).tag("class", cls).field(k, v))
+                pts.append(Point(sender).tag("car", CAR_NAME).tag("class", cls).tag("source", SOURCE_TAG).field(k, v))
         if pts:
             w.write(bucket=bucket, record=pts)
     return write
 
 
-HISTORY_START = "2026-10-01T00:00:00Z"   # simulator era; older data (e.g. copied real logs) is kept
+# Every simulated point carries source=cascadia_sim, so "reset" deletes only simulated data and never
+# touches real logs imported into the same bucket. Dashboards ignore the tag.
+SOURCE_TAG = "cascadia_sim"
+HISTORY_START = "1970-01-01T00:00:00Z"
 
 
 def influx_clearer(url, token, org, bucket):
@@ -338,7 +342,7 @@ def influx_clearer(url, token, org, bucket):
     def clear():
         stop = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         for m in ("TEL", "MDI", "DRD", "STR"):
-            d.delete(HISTORY_START, stop, f'_measurement="{m}"', bucket=bucket, org=org)
+            d.delete(HISTORY_START, stop, f'_measurement="{m}" AND source="{SOURCE_TAG}"', bucket=bucket, org=org)
     return clear
 
 

@@ -176,7 +176,7 @@ main{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1
 .desc{color:var(--muted);margin-top:6px;min-height:1.4em}
 </style></head><body>
 <header><div class="top"><h1>Cascadia CAN simulator: what goes in</h1>
-<button id="reset" class="reset" title="Normal inputs, latches cleared, and the simulated fault history deleted from the local database">Reset everything to normal</button></div>
+<button id="reset" class="reset" title="Normal inputs, latches cleared, and the simulated fault history deleted (only simulated points; real data is kept)">Reset everything to normal</button></div>
 <div class="status" id="status"></div>
 <div class="scen" id="scen"></div><div class="desc" id="desc"></div></header>
 <main id="main"></main>
