@@ -43,17 +43,102 @@
   ],
   "panels": [
     {
+      "type": "stat",
+      "title": "MDI: Fault banner",
+      "description": "Red with the signal names while a fault bit is set; blank otherwise. Faults that have cleared show as yellow CLEARED on the fault strip below.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "import \"array\"\nimport \"strings\"\nst = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDI\")\n  |> filter(fn: (r) => r[\"class\"] == \"MDIDiagnostics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MDIWatchdogReset\" or r[\"_field\"] == \"MDIVoltageOverThreshold\" or r[\"_field\"] == \"MDIMotorOverTemp\" or r[\"_field\"] == \"MDIRTDFault\" or r[\"_field\"] == \"MDIRTDCommError\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> toInt()\n  |> duplicate(column: \"_value\", as: \"now\")\n  |> cumulativeSum(columns: [\"_value\"])\n  |> map(fn: (r) => ({_time: r._time, _field: r._field, _value: if r.now > 0 then 2 else if r._value > 0 then 1 else 0}))\n  |> last()\n  |> group()\nact = st |> filter(fn: (r) => r._value == 2) |> findColumn(fn: (key) => true, column: \"_field\")\nmsg = if length(arr: act) > 0 then \"ACTIVE FAULT: \" + strings.joinStr(arr: act, v: \", \")\n      else \"\"\narray.from(rows: [{_value: msg}]) |> yield(name: \"banner\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "regex",
+              "options": {
+                "pattern": "^ACTIVE.*",
+                "result": {
+                  "color": "#ff1a1a",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "special",
+              "options": {
+                "match": "empty",
+                "result": {
+                  "text": " ",
+                  "color": "transparent",
+                  "index": 1
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "colorMode": "background_solid",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "textMode": "value",
+        "text": {
+          "valueSize": 30
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 3
+      },
+      "id": 1
+    },
+    {
       "type": "row",
       "title": "Health & faults",
       "collapsed": false,
       "panels": [],
       "gridPos": {
         "x": 0,
-        "y": 0,
+        "y": 3,
         "w": 24,
         "h": 1
       },
-      "id": 1
+      "id": 2
     },
     {
       "type": "stat",
@@ -105,7 +190,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "background",
+        "colorMode": "background_solid",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -114,11 +199,11 @@
       "pluginVersion": "9.5.2",
       "gridPos": {
         "x": 0,
-        "y": 1,
+        "y": 4,
         "w": 6,
         "h": 5
       },
-      "id": 2
+      "id": 3
     },
     {
       "type": "stat",
@@ -166,7 +251,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "background",
+        "colorMode": "background_solid",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -175,11 +260,11 @@
       "pluginVersion": "9.5.2",
       "gridPos": {
         "x": 6,
-        "y": 1,
+        "y": 4,
         "w": 6,
         "h": 5
       },
-      "id": 3
+      "id": 4
     },
     {
       "type": "stat",
@@ -235,7 +320,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "background",
+        "colorMode": "background_solid",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -244,11 +329,11 @@
       "pluginVersion": "9.5.2",
       "gridPos": {
         "x": 12,
-        "y": 1,
+        "y": 4,
         "w": 6,
         "h": 5
       },
-      "id": 4
+      "id": 5
     },
     {
       "type": "stat",
@@ -323,7 +408,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "background",
+        "colorMode": "background_solid",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -332,11 +417,11 @@
       "pluginVersion": "9.5.2",
       "gridPos": {
         "x": 18,
-        "y": 1,
+        "y": 4,
         "w": 6,
         "h": 5
       },
-      "id": 5
+      "id": 6
     },
     {
       "type": "state-timeline",
@@ -436,11 +521,11 @@
       "pluginVersion": "9.5.2",
       "gridPos": {
         "x": 0,
-        "y": 6,
+        "y": 9,
         "w": 24,
         "h": 6
       },
-      "id": 6
+      "id": 7
     },
     {
       "type": "row",
@@ -449,11 +534,11 @@
       "panels": [],
       "gridPos": {
         "x": 0,
-        "y": 12,
+        "y": 15,
         "w": 24,
         "h": 1
       },
-      "id": 7
+      "id": 8
     },
     {
       "type": "timeseries",
@@ -546,11 +631,11 @@
       "pluginVersion": "9.5.2",
       "gridPos": {
         "x": 0,
-        "y": 13,
+        "y": 16,
         "w": 16,
         "h": 9
       },
-      "id": 8
+      "id": 9
     },
     {
       "type": "state-timeline",
@@ -645,11 +730,11 @@
       "pluginVersion": "9.5.2",
       "gridPos": {
         "x": 16,
-        "y": 13,
+        "y": 16,
         "w": 8,
         "h": 4
       },
-      "id": 9
+      "id": 10
     },
     {
       "type": "state-timeline",
@@ -754,11 +839,11 @@
       "pluginVersion": "9.5.2",
       "gridPos": {
         "x": 16,
-        "y": 17,
+        "y": 20,
         "w": 8,
         "h": 5
       },
-      "id": 10
+      "id": 11
     }
   ]
 }
