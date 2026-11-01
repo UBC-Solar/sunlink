@@ -854,6 +854,96 @@
         "h": 5
       },
       "id": 11
+    },
+    {
+      "type": "row",
+      "title": "Raw / diagnostic (bench, bug reports)",
+      "collapsed": true,
+      "panels": [
+        {
+          "type": "table",
+          "title": "MDI: All signals (latest raw values)",
+          "description": "Every signal this board sent in the time range, decoded with the DBC: latest value and when it arrived. Use for bench checks and when filing a bug.",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P951FEA4DE68E13C5"
+              },
+              "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MDI\")\n  |> last()\n  |> toFloat()\n  |> keep(columns: [\"_time\", \"class\", \"_field\", \"_value\"])\n  |> group()\n  |> sort(columns: [\"class\", \"_field\"])\n  |> rename(columns: {class: \"Message\", _field: \"Signal\", _value: \"Latest value\", _time: \"Received\"})\n  |> yield(name: \"raw\")",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none",
+              "custom": {
+                "align": "auto",
+                "filterable": true
+              },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#8e8e8e",
+                    "value": null
+                  }
+                ]
+              },
+              "mappings": []
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Received"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "dateTimeAsLocal"
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "showHeader": true,
+            "cellHeight": "sm",
+            "footer": {
+              "show": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Message",
+                "desc": false
+              }
+            ]
+          },
+          "pluginVersion": "9.5.2",
+          "gridPos": {
+            "x": 0,
+            "y": 26,
+            "w": 24,
+            "h": 14
+          },
+          "id": 13
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 25,
+        "w": 24,
+        "h": 1
+      },
+      "id": 12
     }
   ]
 }
