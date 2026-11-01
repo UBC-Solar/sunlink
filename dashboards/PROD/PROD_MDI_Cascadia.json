@@ -83,11 +83,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               },
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": 3.0
               }
             ]
@@ -105,7 +105,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -148,7 +148,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               }
             ]
@@ -166,7 +166,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -209,7 +209,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               },
               {
@@ -217,7 +217,7 @@
                 "value": 95
               },
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": 100
               }
             ]
@@ -235,7 +235,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -278,7 +278,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               }
             ]
@@ -289,12 +289,12 @@
               "options": {
                 "0": {
                   "text": "FAILED",
-                  "color": "#f2495c",
+                  "color": "#ff1a1a",
                   "index": 0
                 },
                 "1": {
                   "text": "OK",
-                  "color": "#8e8e8e",
+                  "color": "transparent",
                   "index": 1
                 }
               }
@@ -323,7 +323,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -383,7 +383,7 @@
                 },
                 "1": {
                   "text": "FAULT",
-                  "color": "#f2495c",
+                  "color": "#ff1a1a",
                   "index": 1
                 }
               }
@@ -486,7 +486,7 @@
                 "value": 95
               },
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": 100
               }
             ]
@@ -587,7 +587,7 @@
               "options": {
                 "0": {
                   "text": "READ FAIL",
-                  "color": "#f2495c",
+                  "color": "#ff1a1a",
                   "index": 0
                 },
                 "1": {
@@ -691,17 +691,17 @@
                 },
                 "4": {
                   "text": "OV/UV",
-                  "color": "#f2495c",
+                  "color": "#ff1a1a",
                   "index": 1
                 },
                 "64": {
                   "text": "RTD LOW",
-                  "color": "#f2495c",
+                  "color": "#ff1a1a",
                   "index": 2
                 },
                 "128": {
                   "text": "RTD HIGH",
-                  "color": "#f2495c",
+                  "color": "#ff1a1a",
                   "index": 3
                 }
               }

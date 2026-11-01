@@ -83,11 +83,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               },
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": 3.0
               }
             ]
@@ -105,7 +105,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -148,7 +148,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               }
             ]
@@ -166,7 +166,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -209,11 +209,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": null
               },
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": 2000
               }
             ]
@@ -231,7 +231,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -274,11 +274,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               },
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": 125
               }
             ]
@@ -296,7 +296,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -339,7 +339,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               },
               {
@@ -347,7 +347,7 @@
                 "value": 70
               },
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": 90
               }
             ]
@@ -367,7 +367,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -410,7 +410,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               }
             ]
@@ -436,12 +436,12 @@
                 },
                 "3": {
                   "text": "3D FIX",
-                  "color": "#8e8e8e",
+                  "color": "transparent",
                   "index": 3
                 },
                 "4": {
                   "text": "GNSS + DR",
-                  "color": "#8e8e8e",
+                  "color": "transparent",
                   "index": 4
                 },
                 "5": {
@@ -475,7 +475,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -535,7 +535,7 @@
                 },
                 "1": {
                   "text": "FAULT",
-                  "color": "#f2495c",
+                  "color": "#ff1a1a",
                   "index": 1
                 }
               }
@@ -978,7 +978,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": null
               },
               {
@@ -1078,7 +1078,7 @@
                 "value": 5
               },
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": 20
               }
             ]
@@ -1455,7 +1455,7 @@
                 "value": 2.5
               },
               {
-                "color": "#f2495c",
+                "color": "#ff1a1a",
                 "value": 6
               }
             ]
@@ -1544,7 +1544,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#8e8e8e",
+                "color": "transparent",
                 "value": null
               }
             ]
@@ -1562,7 +1562,7 @@
           "fields": "",
           "values": false
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
