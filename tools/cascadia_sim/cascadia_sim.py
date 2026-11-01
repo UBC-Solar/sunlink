@@ -7,7 +7,8 @@ encodes them with the DBC, decodes them back the way the parser does, and writes
 InfluxDB with sunlink's layout (measurement = sender, field = signal, tags car/class).
 A small window lets you change the situation while it runs; presets jump to common cases.
 
-    python tools/cascadia_sim/cascadia_sim.py                      # GUI, writes to local CAN_prod
+    python tools/cascadia_sim/cascadia_sim.py                      # browser control panel (localhost:8090)
+    python tools/cascadia_sim/cascadia_sim.py --tk                 # same controls in a Tk window
     python tools/cascadia_sim/cascadia_sim.py --scenario gps_lost --headless --duration 120
     python tools/cascadia_sim/cascadia_sim.py --list-scenarios
 
@@ -413,6 +414,8 @@ def main():
     ap.add_argument("--duration", type=float, help="seconds (headless)")
     ap.add_argument("--allow-remote", action="store_true", help="allow writing to a non-localhost InfluxDB")
     ap.add_argument("--list-scenarios", action="store_true")
+    ap.add_argument("--tk", action="store_true", help="use the Tk window instead of the browser control panel")
+    ap.add_argument("--port", type=int, default=8090, help="browser control panel port (localhost only)")
     a = ap.parse_args()
     if a.list_scenarios:
         for k, (d, _) in SCENARIOS.items():
@@ -424,13 +427,27 @@ def main():
     env = dotenv_values(ROOT / ".env")
     sim = Sim(a.dbc, influx_writer(a.url, env["INFLUX_TOKEN"], env["INFLUX_ORG"], a.bucket))
     apply_scenario(sim, a.scenario)
+    sim.scenario = a.scenario
     if a.headless:
         print(f"scenario {a.scenario}: {SCENARIOS[a.scenario][0]} -> {a.url} {a.bucket}")
         sim.run(duration=a.duration)
         print("frames written:", sim.frames)
-    else:
+    elif a.tk:
         threading.Thread(target=sim.run, daemon=True).start()
         gui(sim)
+    else:
+        import webbrowser
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import web_ui
+        httpd = web_ui.serve(sim, sys.modules[__name__], a.port)
+        threading.Thread(target=sim.run, daemon=True).start()
+        url = f"http://localhost:{a.port}"
+        print(f"control panel: {url}   (Ctrl+C to stop)")
+        webbrowser.open(url)
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            sim.stop.set()
 
 
 if __name__ == "__main__":
