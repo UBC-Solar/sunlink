@@ -493,6 +493,7 @@
           },
           "mappings": [],
           "decimals": 0,
+          "min": 0,
           "custom": {
             "drawStyle": "line",
             "lineWidth": 2,

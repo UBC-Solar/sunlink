@@ -201,7 +201,7 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "mvolt",
+          "unit": "suffix: mV",
           "color": {
             "mode": "thresholds"
           },
