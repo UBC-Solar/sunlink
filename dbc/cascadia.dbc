@@ -470,6 +470,10 @@ BO_ 1025 MotorCommand: 5 DRD
    SG_ EcoModeOn : 33|1@1+ (1,0) [0|1] "" MDI
    SG_ SpeedUnits : 34|1@1+ (1,0) [0|1] "" STR
 
+BO_ 1026 DRDMCUHealth: 4 DRD
+   SG_ DRDMCUSupplyVoltage : 0|16@1+ (1,0) [0|4000] "mV" Vector__XXX
+   SG_ DRDMCUTemperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
+
 BO_ 1027 DRDDiagnostics: 8 DRD
    SG_ RawADC1 : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
    SG_ RawADC2 : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
@@ -479,6 +483,8 @@ BO_ 1027 DRDDiagnostics: 8 DRD
    SG_ ADCMismatch : 35|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ DRDWatchdogReset : 36|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ MotorCommFault : 37|1@1+ (1,0) [0|1] "" Vector__XXX
+   SG_ DRDMCUOverTemp : 38|1@1+ (1,0) [0|1] "" Vector__XXX
+   SG_ DRDMCUUnderVoltage : 39|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ DriveState : 40|8@1+ (1,0) [0|255] "" Vector__XXX
    SG_ SpeedTimeout : 48|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ DriveStateTimeout : 49|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -498,10 +504,13 @@ BO_ 1281 MDIDiagnostics: 1 MDI
    SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ MDIVoltageOverThreshold : 1|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ MDIMotorOverTemp : 2|1@1+ (1,0) [0|1] "" Vector__XXX
+   SG_ MDIRTDFault : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+   SG_ MDIRTDCommError : 4|1@1+ (1,0) [0|1] "" Vector__XXX
 
-BO_ 1282 MDIMotorTemperature: 5 MDI
+BO_ 1282 MDIMotorTemperature: 6 MDI
    SG_ RTDReadSuccess : 0|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ MotorTemperature : 8|32@1- (1,0) [-100|300] "degC" Vector__XXX
+   SG_ RTDFaultFlags : 40|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 1408 STRDRDControl: 8 STR
    SG_ STRRegenEnabled : 0|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -520,6 +529,14 @@ BO_ 1409 STRTimeSinceBootup: 4 STR
 
 BO_ 1410 STRDiagnostics: 1 STR
    SG_ STRWatchdogReset : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 1425 STRMCUHealth: 4 STR
+   SG_ STRMCUVoltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+   SG_ STRMCUTemperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
+
+BO_ 1426 STRFlags: 1 STR
+   SG_ STRMCUUnderVoltage : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+   SG_ STRMCUOverTemp : 1|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 1696 MPPTInputMeasurementsA: 8 MPPT
    SG_ InputVoltageA : 0|32@1- (1,0) [-3.4e+38|3.4e+38] "V" Vector__XXX
@@ -758,6 +775,8 @@ BO_ 1873 TELDiagnostics: 1 TEL
    SG_ IMUWriteFail : 2|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ GPSReadFail : 3|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ GPSWriteFail : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+   SG_ MCUOvertemp : 5|1@1+ (1,0) [0|1] "" Vector__XXX
+   SG_ MCUUndervoltage : 6|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 1874 TELImuAG_X: 8 TEL
    SG_ ImuAGXAccel : 0|32@1- (1,0) [-3.4e+38|3.4e+38] "m/s^2" Vector__XXX
@@ -812,8 +831,9 @@ BO_ 1883 TELGpsUtcTime: 6 TEL
 BO_ 1891 CANBusLoad: 1 TEL
    SG_ BusLoad : 0|8@1+ (1,0) [0|100] "%" Vector__XXX
 
-BO_ 1892 CPULoad: 4 TEL
-   SG_ CPULoad : 0|32@1- (1,0) [-3.4e+38|3.4e+38] "" Vector__XXX
+BO_ 1892 TELMCUHealth: 4 TEL
+   SG_ MCU_Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+   SG_ MCU_Temperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
 
 BO_ 2290418213 Mitsuba_Frame0: 8 MC
    SG_ BatteryVoltage : 0|10@1+ (0.5,0) [0|511.5] "V" DRD
@@ -931,6 +951,17 @@ CM_ BO_ 932 "Firmware branch ID";
 CM_ BO_ 1025 "Motor command to MDI. Also sent immediately when the brake is pressed.";
 CM_ SG_ 1027 SOC "SOC_MAX is 1.04 so values up to 104 are possible";
 CM_ SG_ 1281 MDIMotorOverTemp "Set at 100 degC, cleared at 95 degC";
+CM_ SG_ 1281 MDIVoltageOverThreshold "Not set by current MDI firmware (always 0)";
+CM_ SG_ 1281 MDIRTDFault "1 = RTD fault latched: +1 per faulted read, -1 per clean read, sets at 5, clears at 0";
+CM_ SG_ 1281 MDIRTDCommError "1 = SPI error, or MAX31865 missing/reset";
+CM_ SG_ 1282 RTDReadSuccess "1 = valid read, 0 = fault/HAL error";
+CM_ SG_ 1282 RTDFaultFlags "MAX31865 fault register: 0x80 = RTD high, 0x40 = RTD low, 0x04 = OV/UV, 0 = none";
+CM_ SG_ 1026 DRDMCUSupplyVoltage "0 = read failed";
+CM_ SG_ 1027 DRDMCUOverTemp "1 = fault: DRD MCU over temperature";
+CM_ SG_ 1027 DRDMCUUnderVoltage "1 = fault: DRD MCU under voltage";
+CM_ SG_ 1425 STRMCUVoltage "0 = read failed";
+CM_ SG_ 1426 STRMCUUnderVoltage "1 = fault: STR MCU Vdd below 2400 mV";
+CM_ SG_ 1426 STRMCUOverTemp "1 = fault: STR MCU above 105 degC";
 CM_ BO_ 1408 "Steering inputs. Firmware sends 8 bytes; bytes 4-7 are 0.";
 CM_ BO_ 1410 "Not sent by current STR firmware (kept for existing dashboards)";
 CM_ BO_ 1704 "Command to MPPT A";
@@ -949,7 +980,7 @@ CM_ BO_ 1872 "HVC uses this as the TEL heartbeat";
 CM_ BO_ 1880 "Only sent with a valid fix";
 CM_ BO_ 1881 "Only sent with a valid fix";
 CM_ BO_ 1883 "Only sent with a valid UTC date and time";
-CM_ BO_ 1892 "Not sent by current TEL firmware";
+CM_ BO_ 1892 "TEL MCU health: Vdd and die temperature, 10 Hz (firmware tel/app/diagnostics.c)";
 CM_ BO_ 2290418213 "Sent in response to MitsubaDataRequest";
 CM_ SG_ 2290418213 MotorRotatingSpeed "rpm x 0.106688 (0.283 m wheel radius). Raw value is rpm.";
 CM_ SG_ 2290418213 PWMDuty "Only valid in PWM control mode";
@@ -1000,6 +1031,7 @@ BA_ "GenMsgCycleTime" BO_ 930 500;
 BA_ "GenMsgCycleTime" BO_ 931 1000;
 BA_ "GenMsgCycleTime" BO_ 932 1000;
 BA_ "GenMsgCycleTime" BO_ 1025 25;
+BA_ "GenMsgCycleTime" BO_ 1026 1000;
 BA_ "GenMsgCycleTime" BO_ 1027 100;
 BA_ "GenMsgCycleTime" BO_ 1028 1000;
 BA_ "GenMsgCycleTime" BO_ 1280 1000;
@@ -1007,6 +1039,8 @@ BA_ "GenMsgCycleTime" BO_ 1281 1000;
 BA_ "GenMsgCycleTime" BO_ 1282 1000;
 BA_ "GenMsgCycleTime" BO_ 1408 100;
 BA_ "GenMsgCycleTime" BO_ 1409 1000;
+BA_ "GenMsgCycleTime" BO_ 1425 100;
+BA_ "GenMsgCycleTime" BO_ 1426 100;
 BA_ "GenMsgCycleTime" BO_ 1872 1000;
 BA_ "GenMsgCycleTime" BO_ 1873 100;
 BA_ "GenMsgCycleTime" BO_ 1874 100;
@@ -1020,6 +1054,7 @@ BA_ "GenMsgCycleTime" BO_ 1881 1000;
 BA_ "GenMsgCycleTime" BO_ 1882 1000;
 BA_ "GenMsgCycleTime" BO_ 1883 1000;
 BA_ "GenMsgCycleTime" BO_ 1891 100;
+BA_ "GenMsgCycleTime" BO_ 1892 100;
 BA_ "VFrameFormat" BO_ 2290418213 1;
 BA_ "GenMsgCycleTime" BO_ 2290418213 100;
 BA_ "VFrameFormat" BO_ 2291466789 1;
@@ -1034,6 +1069,7 @@ VAL_ 1025 Direction 1 "Forward" 0 "Reverse";
 VAL_ 1025 EcoModeOn 1 "Eco" 0 "Power";
 VAL_ 1025 SpeedUnits 1 "KPH" 0 "MPH";
 VAL_ 1027 DriveState 4 "REVERSE" 3 "PARK" 2 "CRUISE" 1 "FORWARD" 0 "INVALID";
+VAL_ 1282 RTDFaultFlags 128 "RTD high" 64 "RTD low" 4 "OV/UV" 0 "None";
 VAL_ 1882 GpsFixType 5 "TimeOnly" 4 "GnssDeadReckoning" 3 "Fix3D" 2 "Fix2D" 1 "DeadReckoning" 0 "NoFix";
 VAL_ 2290418213 BatteryCurrentDirection 1 "Negative" 0 "Positive";
 VAL_ 2291466789 PowerMode 1 "Power" 0 "Eco";
@@ -1122,4 +1158,3 @@ SIG_VALTYPE_ 1876 ImuAGZGyro : 1;
 SIG_VALTYPE_ 1877 ImuMXMag : 1;
 SIG_VALTYPE_ 1878 ImuMYMag : 1;
 SIG_VALTYPE_ 1879 ImuMZMag : 1;
-SIG_VALTYPE_ 1892 CPULoad : 1;
