@@ -1,6 +1,5 @@
 import struct
 from parser.parameters import *
-import parser.parameters as parameters  # read CAR_DBC at call time so --dbc takes effect
 from time import strftime, localtime
 from datetime import datetime
 
@@ -109,8 +108,7 @@ class CAN:
     """    
     def get_measurements(self, identifier, data_bytes):
         try:
-            # decode_choices=False: store enum (VAL_) signals as raw ints; InfluxDB can't write NamedSignalValue
-            measurements = parameters.CAR_DBC.decode_message(identifier, data_bytes, decode_choices=False)
+            measurements = CAR_DBC.decode_message(identifier, data_bytes)
             if measurements == {}:
                 raise Exception(f"Could not decode_message on ID = {identifier} with data = {data_bytes}")
             return measurements
@@ -129,7 +127,7 @@ class CAN:
     """
     def get_message(self, identifier):
         try:
-            message = parameters.CAR_DBC.get_message_by_frame_id(identifier)
+            message = CAR_DBC.get_message_by_frame_id(identifier)
             return message
         except Exception as e:
             generate_exception(e, "get_message")

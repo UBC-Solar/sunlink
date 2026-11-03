@@ -4,7 +4,7 @@ import time
 from datetime import timedelta
 
 # Get format specifiers
-import parser.parameters as parameters  # read CAR_DBC at call time so --dbc takes effect
+from parser.parameters import CAR_DBC
 
 # Constants
 SECONDS_IN_DAY = 86400
@@ -59,7 +59,7 @@ class RandomMessage:
         
         # collect CAN IDs
         can_ids = list()
-        for message in parameters.CAR_DBC.messages:
+        for message in CAR_DBC.messages:
             can_ids.append(message.frame_id)
 
         # Convert current time to a 32 bit unsigned integer to latin-1 string 

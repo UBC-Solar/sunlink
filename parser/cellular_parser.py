@@ -207,7 +207,7 @@ class CanIngestService(canlink_pb2_grpc.CanIngestServicer):
                     continue
 
                 try:
-                    vals = msg.decode(bytes(f.data), decode_choices=False)  # raw ints for enum (VAL_) signals
+                    vals = msg.decode(bytes(f.data))
                 except Exception as e:
                     metrics["decodes_failed"] += 1
                     _log_fail(f.can_id, f.is_extended_id, bytes(f.data), f"DECODE_FAIL:{type(e).__name__}")
