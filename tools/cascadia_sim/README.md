@@ -3,8 +3,8 @@
 Generates realistic Cascadia CAN data for the **TEL, MDI, DRD and STR** boards and writes it to your
 local InfluxDB. Use it to look at the Cascadia Grafana dashboards without the car. It sends the same
 frame IDs, rates and fault logic as `firmware_v4`. Each frame is encoded with `dbc/cascadia.dbc` and
-then decoded the way the parser does. Points are written with sunlink's layout: measurement = sender,
-field = signal, tags `car` and `class`.
+decoded back, with enum signals stored as raw ints (the dashboards map them back to names). Points
+are written with sunlink's layout: measurement = sender, field = signal, tags `car` and `class`.
 
 A control panel lets you change what's happening while it runs: drive state, throttle, GPS fix,
 temperatures, supply voltages, faults and so on. Presets jump straight to common cases.

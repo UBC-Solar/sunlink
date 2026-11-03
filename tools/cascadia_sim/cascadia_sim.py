@@ -3,7 +3,7 @@
 cascadia_sim.py: adjustable, realistic Cascadia CAN data for TEL, MDI, DRD and STR.
 
 Builds the frames each board sends (same IDs, rates and fault logic as firmware_v4),
-encodes them with the DBC, decodes them back the way the parser does, and writes them to
+encodes them with the DBC, decodes them back (enums as raw ints), and writes them to
 InfluxDB with sunlink's layout (measurement = sender, field = signal, tags car/class).
 A small window lets you change the situation while it runs; presets jump to common cases.
 
@@ -291,7 +291,7 @@ class Sim:
         return out
 
     def roundtrip(self, name, signals):
-        """Encode with the DBC and decode back like the parser (raw ints for enums)."""
+        """Encode with the DBC and decode back, enums as raw ints (what the dashboards expect)."""
         msg = self.db.get_message_by_name(name)
         data = msg.encode(signals, scaling=True, padding=True, strict=False)
         return msg.senders[0], msg.decode(data, decode_choices=False)
