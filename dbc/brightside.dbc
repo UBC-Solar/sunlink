@@ -43,8 +43,8 @@ BO_ 808 HvcMcPrecharge: 4 HVC
 BO_ 809 HvcMpptPrecharge: 4 HVC
  SG_ MpptPrechargeVoltage : 7|32@0- (1,0) [-2147483648|2147483647] "mV" Vector__XXX
 
-BO_ 801 HvcFault: 2 HVC
- SG_ TelHeartbeatTimeout : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+BO_ 801 HVC_Fault: 3 HVC
+ SG_ WatchdogFired : 0|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ DcdcFault : 1|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ DistFaultFlag : 2|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ UndercurrentFault : 3|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -52,8 +52,17 @@ BO_ 801 HvcFault: 2 HVC
  SG_ MasterboardFault : 5|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ ImdFault : 6|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ EstopFault : 7|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ DistHeartbeatTimeout : 14|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ MstHeartbeatTimeout : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TelHeartbeatTimeout : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LvPowerupTimeout : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MpptPrechargeTimeout : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MotorPrechargeTimeout : 11|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MotorDischargeTimeout : 12|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MstCheckTimeout : 13|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MstReadyTimeout : 14|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MvpLvPowerupTimeout : 15|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DcdcThermistorFault : 21|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DistHeartbeatTimeout : 22|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MstHeartbeatTimeout : 23|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 802 HVCHeartbeat: 4 HVC
  SG_ HVCTimeSinceBootUp : 23|16@0+ (1,0) [0|65535] "" Vector__XXX
