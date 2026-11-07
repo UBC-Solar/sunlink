@@ -64,6 +64,10 @@ BO_ 514 TempSummary: 4 MST
 BO_ 515 BalanceData: 4 MST
    SG_ BalanceBitmap : 0|32@1+ (1,0) [0|4.29497e+09] "" Vector__XXX
 
+BO_ 516 MSTCommitHash: 5 MST
+   SG_ MSTCommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
+   SG_ MSTCommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+
 BO_ 528 ModuleVoltData0: 8 MST
    SG_ Mod0Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
    SG_ Mod1Voltage : 16|16@1+ (1,0) [0|65535] "mV" Vector__XXX
@@ -403,8 +407,8 @@ BO_ 768 RTCTimestamp: 8 MEMORATOR
 BO_ 800 HVCShuntCurrent: 4 HVC
    SG_ PackCurrent : 7|32@0- (1,0) [-2.14749e+09|2.14749e+09] "mA" Vector__XXX
 
-BO_ 801 HvcFault: 2 HVC
-   SG_ TelHeartbeatTimeout : 0|1@1+ (1,0) [0|1] "" DIST
+BO_ 801 HvcFault: 3 HVC
+   SG_ HVCWatchdogReset : 0|1@1+ (1,0) [0|1] "" DIST
    SG_ DcdcFault : 1|1@1+ (1,0) [0|1] "" DIST
    SG_ DistFaultFlag : 2|1@1+ (1,0) [0|1] "" DIST
    SG_ UndercurrentFault : 3|1@1+ (1,0) [0|1] "" DIST
@@ -412,8 +416,17 @@ BO_ 801 HvcFault: 2 HVC
    SG_ MasterboardFault : 5|1@1+ (1,0) [0|1] "" DIST
    SG_ ImdFault : 6|1@1+ (1,0) [0|1] "" DIST
    SG_ EstopFault : 7|1@1+ (1,0) [0|1] "" DIST
-   SG_ DistHeartbeatTimeout : 14|1@1+ (1,0) [0|1] "" DIST
-   SG_ MstHeartbeatTimeout : 15|1@1+ (1,0) [0|1] "" DIST
+   SG_ TelHeartbeatTimeout : 8|1@1+ (1,0) [0|1] "" DIST
+   SG_ LvPowerupTimeout : 9|1@1+ (1,0) [0|1] "" DIST
+   SG_ MpptPrechargeTimeout : 10|1@1+ (1,0) [0|1] "" DIST
+   SG_ MotorPrechargeTimeout : 11|1@1+ (1,0) [0|1] "" DIST
+   SG_ MotorDischargeTimeout : 12|1@1+ (1,0) [0|1] "" DIST
+   SG_ MstCheckTimeout : 13|1@1+ (1,0) [0|1] "" DIST
+   SG_ MstReadyTimeout : 14|1@1+ (1,0) [0|1] "" DIST
+   SG_ MvpLvPowerupTimeout : 15|1@1+ (1,0) [0|1] "" DIST
+   SG_ DcdcThermistorFault : 21|1@1+ (1,0) [0|1] "" DIST
+   SG_ DistHeartbeatTimeout : 22|1@1+ (1,0) [0|1] "" DIST
+   SG_ MstHeartbeatTimeout : 23|1@1+ (1,0) [0|1] "" DIST
 
 BO_ 802 HVCHeartbeat: 4 HVC
    SG_ HVCTimeSinceBootUp : 23|16@0+ (1,0) [0|65535] "" Vector__XXX
@@ -439,6 +452,10 @@ BO_ 808 HvcMcPrecharge: 4 HVC
 BO_ 809 HvcMpptPrecharge: 4 HVC
    SG_ MpptPrechargeVoltage : 7|32@0- (1,0) [-2.14749e+09|2.14749e+09] "mV" Vector__XXX
 
+BO_ 811 HVCCommitHash: 5 HVC
+   SG_ HVCCommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
+   SG_ HVCCommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+
 BO_ 928 DISTHeartBeat: 4 DIST
    SG_ DISTHeartbeatCounter : 7|32@0+ (1,0) [0|4.29497e+09] "" HVC
 
@@ -462,6 +479,10 @@ BO_ 931 DistCurrents: 5 DIST
 
 BO_ 932 DISTBranchId: 1 DIST
    SG_ DISTBranchId : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 933 DISTCommitHash: 5 DIST
+   SG_ DISTCommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
+   SG_ DISTCommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 1025 MotorCommand: 5 DRD
    SG_ ThrottleDAC : 0|16@1+ (1,0) [0|1023] "" MDI
@@ -497,6 +518,10 @@ BO_ 1027 DRDDiagnostics: 8 DRD
 BO_ 1028 DRDTimeSinceBootup: 4 DRD
    SG_ DRDTimeSinceBootUp : 0|32@1+ (1,0) [0|4.29497e+09] "" Vector__XXX
 
+BO_ 1029 DRDCommitHash: 5 DRD
+   SG_ DRDCommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
+   SG_ DRDCommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+
 BO_ 1280 MDITimeSinceBootup: 4 MDI
    SG_ MDITimeSinceBootUp : 0|32@1+ (1,0) [0|4.29497e+09] "s" Vector__XXX
 
@@ -511,6 +536,10 @@ BO_ 1282 MDIMotorTemperature: 6 MDI
    SG_ RTDReadSuccess : 0|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ MotorTemperature : 8|32@1- (1,0) [-100|300] "degC" Vector__XXX
    SG_ RTDFaultFlags : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1284 MDICommitHash: 5 MDI
+   SG_ MDICommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
+   SG_ MDICommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 1408 STRDRDControl: 8 STR
    SG_ STRRegenEnabled : 0|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -529,6 +558,10 @@ BO_ 1409 STRTimeSinceBootup: 4 STR
 
 BO_ 1410 STRDiagnostics: 1 STR
    SG_ STRWatchdogReset : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 1411 STRCommitHash: 5 STR
+   SG_ STRCommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
+   SG_ STRCommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
 
 BO_ 1425 STRMCUHealth: 4 STR
    SG_ STRMCUVoltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
@@ -828,6 +861,10 @@ BO_ 1883 TELGpsUtcTime: 6 TEL
    SG_ GpsMonth : 32|8@1+ (1,0) [0.99999|12] "" Vector__XXX
    SG_ GpsYear : 40|8@1+ (1,2000) [2000|2255] "" Vector__XXX
 
+BO_ 1884 TELCommitHash: 5 TEL
+   SG_ TELCommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
+   SG_ TELCommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+
 BO_ 1891 CANBusLoad: 1 TEL
    SG_ BusLoad : 0|8@1+ (1,0) [0|100] "%" Vector__XXX
 
@@ -998,6 +1035,13 @@ CM_ SG_ 2292515365 ControllerVoltageSensorError "12V line voltage sensor error";
 CM_ SG_ 2292515365 PowerSystemError "Power line error";
 CM_ SG_ 2292515365 MotorLock "Motor locked and not rotating";
 CM_ BO_ 2297992512 "Sent by DRD every ~100 ms";
+CM_ BO_ 516 "First 4 bytes of the git commit SHA the MST firmware was built from (0 = unknown). Dirty = built with uncommitted changes.";
+CM_ BO_ 811 "First 4 bytes of the git commit SHA the HVC firmware was built from (0 = unknown). Dirty = built with uncommitted changes.";
+CM_ BO_ 933 "First 4 bytes of the git commit SHA the DIST firmware was built from (0 = unknown). Dirty = built with uncommitted changes.";
+CM_ BO_ 1029 "First 4 bytes of the git commit SHA the DRD firmware was built from (0 = unknown). Dirty = built with uncommitted changes.";
+CM_ BO_ 1284 "First 4 bytes of the git commit SHA the MDI firmware was built from (0 = unknown). Dirty = built with uncommitted changes.";
+CM_ BO_ 1411 "First 4 bytes of the git commit SHA the STR firmware was built from (0 = unknown). Dirty = built with uncommitted changes.";
+CM_ BO_ 1884 "First 4 bytes of the git commit SHA the TEL firmware was built from (0 = unknown). Dirty = built with uncommitted changes.";
 CM_ SG_ 2297992512 RequestForFrames "Bitmask of frames requested: bit0 Frame0, bit1 Frame1, bit2 Frame2 (0b111 = all frames)";
 CM_ SG_ 2566869221 CCsignalStatus "CC resistance in charger gun: 1.5k ohm = 8A max, 680 ohm = 16A, 220 ohm = 32A";
 CM_ SG_ 2566869221 CPSignalStatus "CP duty cycle indicates supply capacity";
