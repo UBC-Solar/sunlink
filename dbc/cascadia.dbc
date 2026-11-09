@@ -466,8 +466,8 @@ BO_ 932 DISTBranchId: 1 DIST
 BO_ 933 DIST_COMMIT_HASH_ID: 8 DIST
    SG_ DIST_COMMIT_HASH_IDSig278 : 1|1@0+ (1,0) [0|1] "" Vector__XXX
 
-BO_ 934 DISTTelemetryCurrent: 1 DIST
-   SG_ TELCurrent : 1|1@0+ (1,0) [0|65535] "mA" Vector__XXX
+BO_ 934 DIST_TEL_CURRENT: 2 DIST
+   SG_ TEL_Current : 7|16@0+ (1,0) [0|65535] "mA" Vector__XXX
 
 BO_ 1025 MotorCommand: 5 DRD
    SG_ ThrottleDAC : 0|16@1+ (1,0) [0|1023] "" MDI
