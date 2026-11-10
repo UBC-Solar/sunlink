@@ -399,12 +399,14 @@ BO_ 1104 ECUStatus: 7 ECU
 BO_ 1280 MDITimeSinceBootup: 4 MDI
  SG_ MDITimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
 
-BO_ 1281 MDIDiagnostics: 1 MDI
+BO_ 1281 MDIDiagnostics: 3 MDI
  SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ MDIOverVoltage : 1|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ MDIMotorOverTemp : 2|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ MDIRTDFault : 3|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ MDIRTDCommError : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MDITEC : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ MDIREC : 16|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 1282 MDIMotorTemperature: 6 MDI
  SG_ RTDReadSuccess : 0|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -436,6 +438,8 @@ BO_ 1410 STRDiagnostics : 1 STR
 BO_ 1425 STRMCUHealth: 4 STR
  SG_ STRMCUVoltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
  SG_ STRMCUTemperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
+ SG_ STRTEC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ STRREC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 1426 STRFlags: 1 STR
  SG_ STRMCUOverTemp : 0|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -624,7 +628,9 @@ BO_ 1891 CANBusLoad: 1 TEL
 BO_ 1892 TELMCUHealth: 4 TEL
  SG_ MCU_Voltage : 0|16@1+ (1,0) [0|0] "mV" Vector__XXX
  SG_ MCU_Temperature : 16|16@1+ (1,0) [0|0] "Celsius" Vector__XXX
- 
+ SG_ TELTEC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TELREC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+
 BO_ 1872 TELTimeSinceBootup: 4 TEL
  SG_ TELTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "s" Vector__XXX
 
@@ -643,6 +649,12 @@ BO_ 1025 MotorCommand: 5 DRD
  SG_ Direction : 32|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ EcoModeOn : 33|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ SpeedUnitKPH : 34|1@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1026 DRDMCUHealth: 6 DRD
+ SG_ DRDMCUVoltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
+ SG_ DRDMCUTemperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
+ SG_ DRDTEC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ DRDREC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 1027 DRDDiagnostics: 8 DRD
  SG_ RawADC1 : 0|16@1+ (1,0) [0|0] "" Vector__XXX
