@@ -691,10 +691,6 @@ BO_ 1027 DRDDiagnostics: 8 DRD
  SG_ AccelTimeout : 53|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ SOC : 56|8@1+ (1,0) [0|0] "%" Vector__XXX
 
-BO_ 1026 DRDMCUHealth: 4 DRD
- SG_ DRDMCUSupplyVoltage : 0|16@1+ (1,0) [0|4000] "mV" Vector__XXX
- SG_ DRDMCUTemperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
-
 BO_ 1028 DRDTimeSinceBootup: 4 DRD
  SG_ DRDTimeSinceBootUp : 0|32@1+ (1,0) [0|0] "" Vector__XXX
 
