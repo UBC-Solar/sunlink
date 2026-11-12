@@ -1073,13 +1073,21 @@ CM_ SG_ 1281 MDIOverVoltage "1 = fault: MDI voltage over threshold";
 CM_ SG_ 1281 MDIMotorOverTemp "1 = fault: sets at >=100C, clears at <=95C";
 CM_ SG_ 1281 MDIRTDFault "1 = RTD fault latched: +1 per faulted read, -1 per clean read, sets at 5, clears at 0";
 CM_ SG_ 1281 MDIRTDCommError "1 = SPI error, or MAX31865 missing/reset";
+CM_ SG_ 1281 MDITEC "CAN transmit error counter (TEC) read from the CAN peripheral. +8 per failed transmit, -1 per successful one. 0 = healthy, >127 = error passive, >255 = bus-off. A lone node with no ACK sits at 128.";
+CM_ SG_ 1281 MDIREC "CAN receive error counter (REC) read from the CAN peripheral. +1 per receive error, -1 per good frame. 0 = healthy, >127 = error passive.";
 CM_ SG_ 1282 RTDReadSuccess "1 = valid read, 0 = fault/HAL error";
 CM_ SG_ 1282 RTDFaultFlags "0x80 = RTD high, 0x40 = RTD low, 0x04 = OV/UV, 0 = none";
 CM_ SG_ 1283 MCUVoltage "0 = read failed";
 CM_ SG_ 1425 STRMCUVoltage "0 = read failed";
 CM_ SG_ 1425 STRMCUTemperature "int16_t, signed, degC";
+CM_ SG_ 1425 STRTEC "CAN transmit error counter (TEC) read from the CAN peripheral. +8 per failed transmit, -1 per successful one. 0 = healthy, >127 = error passive, >255 = bus-off. A lone node with no ACK sits at 128.";
+CM_ SG_ 1425 STRREC "CAN receive error counter (REC) read from the CAN peripheral. +1 per receive error, -1 per good frame. 0 = healthy, >127 = error passive.";
 CM_ SG_ 1426 STRMCUOverTemp "1 = fault: STR MCU over temperature";
 CM_ SG_ 1426 STRMCUUnderVoltage "1 = fault: STR MCU under voltage";
+CM_ SG_ 1026 DRDTEC "CAN transmit error counter (TEC) read from the CAN peripheral. +8 per failed transmit, -1 per successful one. 0 = healthy, >127 = error passive, >255 = bus-off. A lone node with no ACK sits at 128.";
+CM_ SG_ 1026 DRDREC "CAN receive error counter (REC) read from the CAN peripheral. +1 per receive error, -1 per good frame. 0 = healthy, >127 = error passive.";
+CM_ SG_ 1892 TELTEC "CAN transmit error counter (TEC) read from the CAN peripheral. +8 per failed transmit, -1 per successful one. 0 = healthy, >127 = error passive, >255 = bus-off. A lone node with no ACK sits at 128.";
+CM_ SG_ 1892 TELREC "CAN receive error counter (REC) read from the CAN peripheral. +1 per receive error, -1 per good frame. 0 = healthy, >127 = error passive.";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 SIG_VALTYPE_ 1793 VoltSensor1 : 1;
@@ -1177,7 +1185,6 @@ SIG_VALTYPE_ 1707 MaxOutputCurrentCmdA       : 1;
 SIG_VALTYPE_ 1723 MaxOutputCurrentCmdB       : 1;
 SIG_VALTYPE_ 1739 MaxOutputCurrentCmdC       : 1;
 SIG_VALTYPE_ 1755 MaxOutputCurrentCmdD       : 1;
-
 
 
 
