@@ -484,6 +484,9 @@ BO_ 933 DISTCommitHash: 5 DIST
    SG_ DISTCommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
    SG_ DISTCommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
 
+BO_ 934 DIST_TEL_CURRENT: 2 DIST
+   SG_ TEL_Current : 7|16@0+ (1,0) [0|65535] "mA" Vector__XXX
+
 BO_ 1025 MotorCommand: 5 DRD
    SG_ ThrottleDAC : 0|16@1+ (1,0) [0|1023] "" MDI
    SG_ RegenDAC : 16|16@1+ (1,0) [0|1023] "" MDI
