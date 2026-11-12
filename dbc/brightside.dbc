@@ -435,7 +435,7 @@ BO_ 1408 STRDRDControl: 4 STR
 BO_ 1410 STRDiagnostics : 1 STR
  SG_ STRWatchdogReset : 0|1@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1425 STRMCUHealth: 4 STR
+BO_ 1425 STRMCUHealth: 6 STR
  SG_ STRMCUVoltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
  SG_ STRMCUTemperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
  SG_ STRTEC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
@@ -625,7 +625,7 @@ BO_ 1879 TELImuMZ: 4 TEL
 BO_ 1891 CANBusLoad: 1 TEL
  SG_ BusLoad : 0|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 1892 TELMCUHealth: 4 TEL
+BO_ 1892 TELMCUHealth: 6 TEL
  SG_ MCU_Voltage : 0|16@1+ (1,0) [0|0] "mV" Vector__XXX
  SG_ MCU_Temperature : 16|16@1+ (1,0) [0|0] "Celsius" Vector__XXX
  SG_ TELTEC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
