@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 10,
+  "id": 14,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -868,7 +868,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ADCOutOfRange\" or r[\"_field\"] == \"ADCMismatch\" or r[\"_field\"] == \"DRDWatchdogReset\" or r[\"_field\"] == \"MotorCommFault\" or r[\"_field\"] == \"RegenEnabled\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ADCOutOfRange\" or r[\"_field\"] == \"ADCMismatch\" or r[\"_field\"] == \"DRDWatchdogReset\" or r[\"_field\"] == \"MotorCommFault\" or r[\"_field\"] == \"RegenEnabled\" or r[\"_field\"] == \"DRDMCUOverTemp\" or r[\"_field\"] == \"DRDMCUUnderVoltage\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
           "refId": "A"
         }
       ],
@@ -1026,9 +1026,189 @@
       ],
       "title": "DRD Cyclic Data Timeouts",
       "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 0,
+        "y": 23
+      },
+      "id": 22,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"DRDMCUSupplyVoltage\")\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) / 1000.0 }))\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "DRD MCU Voltage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 6,
+        "y": 23
+      },
+      "id": 23,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"DRDMCUTemperature\")\n  |> filter(fn: (r) => r[\"_measurement\"] == \"DRD\")\n  |> aggregateWindow(every: 1ms, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "title": "DRD MCU Temperature",
+      "type": "timeseries"
     }
   ],
-  "refresh": "1s",
+  "refresh": false,
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -1036,8 +1216,8 @@
     "list": []
   },
   "time": {
-    "from": "now-1m",
-    "to": "now"
+    "from": "2026-10-28T03:07:56.494Z",
+    "to": "2026-10-28T03:09:56.494Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -1057,6 +1237,6 @@
   "timezone": "",
   "title": "PROD: DRD - Brightside",
   "uid": "df3bf64b-567e-4b48-a04c-c7479dcf240b",
-  "version": 6,
+  "version": 4,
   "weekStart": ""
 }

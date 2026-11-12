@@ -50,7 +50,7 @@ services:
     restart: unless-stopped
     command: python -u /app/parser/cellular_parser.py
     environment:
-      - DBC_FILE=/app/dbc/brightside.dbc
+      - DBC_FILE=/app/dbc/cascadia.dbc
       - INFLUX_URL=${INFLUX_URL}
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_BUCKET=CAN_test

@@ -1,0 +1,809 @@
+{
+  "title": "PROD: STR - Cascadia",
+  "uid": "cascadia-prod-str",
+  "tags": [
+    "cascadia",
+    "prod"
+  ],
+  "description": "Steering wheel: link health, faults, button/switch states and cruise set speed.",
+  "editable": true,
+  "graphTooltip": 1,
+  "fiscalYearStartMonth": 0,
+  "liveNow": false,
+  "refresh": "1s",
+  "schemaVersion": 38,
+  "version": 1,
+  "style": "dark",
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "title": "Cascadia boards",
+      "type": "dashboards",
+      "tags": [
+        "cascadia",
+        "prod"
+      ],
+      "asDropdown": false,
+      "includeVars": false,
+      "keepTime": true,
+      "icon": "external link",
+      "targetBlank": false
+    }
+  ],
+  "panels": [
+    {
+      "type": "stat",
+      "title": "STR: Fault banner",
+      "description": "Red: a fault bit is set now (names listed). Orange: something is wrong that is not a fault bit: STR link lost / rebooted. Blank when everything is normal.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "import \"array\"\nimport \"strings\"\nst = from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"class\"] == \"STRFlags\")\n  |> filter(fn: (r) => r[\"_field\"] == \"STRMCUUnderVoltage\" or r[\"_field\"] == \"STRMCUOverTemp\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> toInt()\n  |> duplicate(column: \"_value\", as: \"now\")\n  |> cumulativeSum(columns: [\"_value\"])\n  |> map(fn: (r) => ({_time: r._time, _field: r._field, _value: if r.now > 0 then 2 else if r._value > 0 then 1 else 0}))\n  |> last()\n  |> group()\nact = st |> filter(fn: (r) => r._value == 2) |> findColumn(fn: (key) => true, column: \"_field\")\nwl = from(bucket: \"CAN_prod\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\" and r[\"class\"] == \"STRTimeSinceBootup\")\n  |> last()\n  |> map(fn: (r) => ({r with _value:\n      if float(v: uint(v: now()) - uint(v: r._time)) / 1000000000.0 > 3.0 then \"STR link lost\"\n      else if float(v: r._value) < 60.0 then \"STR rebooted \" + string(v: int(v: r._value)) + \" s ago\"\n      else \"\"}))\n  |> keep(columns: [\"_value\"])\nwarn = wl |> group() |> filter(fn: (r) => r._value != \"\") |> findColumn(fn: (key) => true, column: \"_value\")\nf = if length(arr: act) > 0 then \"ACTIVE FAULT: \" + strings.joinStr(arr: act, v: \", \") else \"\"\nw = if length(arr: warn) > 0 then \"WARNING: \" + strings.joinStr(arr: warn, v: \", \") else \"\"\nmsg = if f != \"\" and w != \"\" then f + \"   |   \" + w else f + w\narray.from(rows: [{_value: msg}]) |> yield(name: \"banner\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "regex",
+              "options": {
+                "pattern": "^ACTIVE FAULT.*",
+                "result": {
+                  "color": "#ff1a1a",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "regex",
+              "options": {
+                "pattern": "^WARNING.*",
+                "result": {
+                  "color": "#ff9830",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "special",
+              "options": {
+                "match": "empty",
+                "result": {
+                  "text": " ",
+                  "color": "transparent",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "colorMode": "background_solid",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "textMode": "value",
+        "text": {
+          "valueSize": 28
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 3
+      },
+      "id": 1
+    },
+    {
+      "type": "row",
+      "title": "Health & faults",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 3,
+        "w": 24,
+        "h": 1
+      },
+      "id": 2
+    },
+    {
+      "type": "stat",
+      "title": "STR: Link (s since last frame)",
+      "description": "Time since the last STRTimeSinceBootup frame reached InfluxDB (looks back 1 h). Red after 3 s: the board, CAN or the radio link is down.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"class\"] == \"STRTimeSinceBootup\")\n  |> last()\n  |> map(fn: (r) => ({_time: r._time, _field: \"Last frame\", _value: float(v: uint(v: now()) - uint(v: r._time)) / 1000000000.0}))\n  |> yield(name: \"age\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "#ff1a1a",
+                "value": 3.0
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background_solid",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 6,
+        "h": 5
+      },
+      "id": 3
+    },
+    {
+      "type": "stat",
+      "title": "STR: Uptime (s)",
+      "description": "STRTimeSinceBootUp: seconds since boot. A drop to ~0 means the board reset.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"class\"] == \"STRTimeSinceBootup\")\n  |> filter(fn: (r) => r[\"_field\"] == \"STRTimeSinceBootUp\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background_solid",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 6,
+        "y": 4,
+        "w": 6,
+        "h": 5
+      },
+      "id": 4
+    },
+    {
+      "type": "stat",
+      "title": "STR: MCU Vdd (mV)",
+      "description": "STRMCUVoltage: MCU supply. Red below 2400 mV, where firmware sets the undervoltage flag. 0 means the ADC read failed.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"class\"] == \"STRMCUHealth\")\n  |> filter(fn: (r) => r[\"_field\"] == \"STRMCUVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "suffix: mV",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "#ff1a1a",
+                "value": 0
+              },
+              {
+                "color": "transparent",
+                "value": 2400
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background_solid",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 6,
+        "h": 5
+      },
+      "id": 5
+    },
+    {
+      "type": "stat",
+      "title": "STR: MCU temperature (\u00b0C)",
+      "description": "STRMCUTemperature: MCU die temperature. Red at 105 \u00b0C, where firmware sets the overtemperature flag.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"class\"] == \"STRMCUHealth\")\n  |> filter(fn: (r) => r[\"_field\"] == \"STRMCUTemperature\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "#ff1a1a",
+                "value": 105
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background_solid",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 18,
+        "y": 4,
+        "w": 6,
+        "h": 5
+      },
+      "id": 6
+    },
+    {
+      "type": "state-timeline",
+      "title": "STR: Faults",
+      "description": "STRFlags. Current STR firmware has no watchdog-reset flag (STRDiagnostics 0x582 is not sent). Per row: OK, FAULT (red) while set, CLEARED (yellow) once it has faulted in the time range shown. Zoom the time range past an old fault to clear the yellow.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"class\"] == \"STRFlags\")\n  |> filter(fn: (r) => r[\"_field\"] == \"STRMCUUnderVoltage\" or r[\"_field\"] == \"STRMCUOverTemp\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> toInt()\n  |> duplicate(column: \"_value\", as: \"now\")\n  |> cumulativeSum(columns: [\"_value\"])\n  |> map(fn: (r) => ({_time: r._time, _field: r._field, _value: if r.now > 0 then 2 else if r._value > 0 then 1 else 0}))\n  |> yield(name: \"fault_state\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#8e8e8e"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#8e8e8e",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "OK",
+                  "color": "#8e8e8e",
+                  "index": 0
+                },
+                "1": {
+                  "text": "CLEARED",
+                  "color": "#f2cc0c",
+                  "index": 1
+                },
+                "2": {
+                  "text": "FAULT",
+                  "color": "#ff1a1a",
+                  "index": 2
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": -1000000000000.0,
+                "to": 1000000000000.0,
+                "result": {
+                  "text": "UNKNOWN",
+                  "color": "#ff9830",
+                  "index": 3
+                }
+              }
+            }
+          ],
+          "custom": {
+            "fillOpacity": 80,
+            "lineWidth": 0,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showValue": "auto",
+        "mergeValues": true,
+        "alignValue": "left",
+        "rowHeight": 0.85,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 9,
+        "w": 24,
+        "h": 4
+      },
+      "id": 7
+    },
+    {
+      "type": "row",
+      "title": "Driver controls",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 13,
+        "w": 24,
+        "h": 1
+      },
+      "id": 8
+    },
+    {
+      "type": "state-timeline",
+      "title": "STR: Buttons & switches",
+      "description": "STRDRDControl inputs (max per window so short presses still show).",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"class\"] == \"STRDRDControl\")\n  |> filter(fn: (r) => r[\"_field\"] == \"STRRegenEnabled\" or r[\"_field\"] == \"STRCruiseEnabled\" or r[\"_field\"] == \"STRLeftTurnSignalEnabled\" or r[\"_field\"] == \"STRRightTurnSignalEnabled\" or r[\"_field\"] == \"STRHornEnabled\" or r[\"_field\"] == \"STRPushToTalkEnabled\" or r[\"_field\"] == \"STRLCDScreenNextPage\" or r[\"_field\"] == \"STRCruiseIncrement\" or r[\"_field\"] == \"STRCruiseDecrement\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"max\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#8e8e8e"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#8e8e8e",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "OFF",
+                  "color": "#464c54",
+                  "index": 0
+                },
+                "1": {
+                  "text": "ON",
+                  "color": "#5794f2",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": -1000000000000.0,
+                "to": 1000000000000.0,
+                "result": {
+                  "text": "UNKNOWN",
+                  "color": "#ff9830",
+                  "index": 2
+                }
+              }
+            }
+          ],
+          "custom": {
+            "fillOpacity": 80,
+            "lineWidth": 0,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showValue": "auto",
+        "mergeValues": true,
+        "alignValue": "left",
+        "rowHeight": 0.85,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 16,
+        "h": 10
+      },
+      "id": 9
+    },
+    {
+      "type": "timeseries",
+      "title": "STR: Cruise set speed (km/h)",
+      "description": "STRCruiseSetVelocity requested by the driver.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> filter(fn: (r) => r[\"class\"] == \"STRDRDControl\")\n  |> filter(fn: (r) => r[\"_field\"] == \"STRCruiseSetVelocity\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "velocitykmh",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 0,
+          "min": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineWidth": 2,
+            "fillOpacity": 0,
+            "showPoints": "never",
+            "spanNulls": true,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "lineInterpolation": "linear",
+            "gradientMode": "none",
+            "barAlignment": 0,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 16,
+        "y": 14,
+        "w": 8,
+        "h": 10
+      },
+      "id": 10
+    },
+    {
+      "type": "row",
+      "title": "Raw / diagnostic (bench, bug reports)",
+      "collapsed": true,
+      "panels": [
+        {
+          "type": "table",
+          "title": "STR: All signals (latest raw values)",
+          "description": "Every signal this board sent in the time range, decoded with the DBC: latest value and when it arrived. Use for bench checks and when filing a bug.",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "P951FEA4DE68E13C5"
+              },
+              "query": "from(bucket: \"CAN_prod\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"STR\")\n  |> last()\n  |> toFloat()\n  |> keep(columns: [\"_time\", \"class\", \"_field\", \"_value\"])\n  |> group()\n  |> sort(columns: [\"class\", \"_field\"])\n  |> rename(columns: {class: \"Message\", _field: \"Signal\", _value: \"Latest value\", _time: \"Received\"})\n  |> yield(name: \"raw\")",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "none",
+              "custom": {
+                "align": "auto",
+                "filterable": true
+              },
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#8e8e8e",
+                    "value": null
+                  }
+                ]
+              },
+              "mappings": []
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Received"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "dateTimeAsLocal"
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "showHeader": true,
+            "cellHeight": "sm",
+            "footer": {
+              "show": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Message",
+                "desc": false
+              }
+            ]
+          },
+          "pluginVersion": "9.5.2",
+          "gridPos": {
+            "x": 0,
+            "y": 25,
+            "w": 24,
+            "h": 14
+          },
+          "id": 12
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 24,
+        "h": 1
+      },
+      "id": 11
+    }
+  ]
+}
