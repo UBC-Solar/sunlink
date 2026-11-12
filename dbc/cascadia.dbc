@@ -491,9 +491,11 @@ BO_ 1025 MotorCommand: 5 DRD
    SG_ EcoModeOn : 33|1@1+ (1,0) [0|1] "" MDI
    SG_ SpeedUnits : 34|1@1+ (1,0) [0|1] "" STR
 
-BO_ 1026 DRDMCUHealth: 4 DRD
+BO_ 1026 DRDMCUHealth: 6 DRD
    SG_ DRDMCUSupplyVoltage : 0|16@1+ (1,0) [0|4000] "mV" Vector__XXX
    SG_ DRDMCUTemperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
+   SG_ DRDTEC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+   SG_ DRDREC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 1027 DRDDiagnostics: 8 DRD
    SG_ RawADC1 : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
@@ -525,12 +527,14 @@ BO_ 1029 DRDCommitHash: 5 DRD
 BO_ 1280 MDITimeSinceBootup: 4 MDI
    SG_ MDITimeSinceBootUp : 0|32@1+ (1,0) [0|4.29497e+09] "s" Vector__XXX
 
-BO_ 1281 MDIDiagnostics: 1 MDI
+BO_ 1281 MDIDiagnostics: 3 MDI
    SG_ MDIWatchdogReset : 0|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ MDIVoltageOverThreshold : 1|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ MDIMotorOverTemp : 2|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ MDIRTDFault : 3|1@1+ (1,0) [0|1] "" Vector__XXX
    SG_ MDIRTDCommError : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+   SG_ MDITEC : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+   SG_ MDIREC : 16|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 1282 MDIMotorTemperature: 6 MDI
    SG_ RTDReadSuccess : 0|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -563,9 +567,11 @@ BO_ 1411 STRCommitHash: 5 STR
    SG_ STRCommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
    SG_ STRCommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
 
-BO_ 1425 STRMCUHealth: 4 STR
+BO_ 1425 STRMCUHealth: 6 STR
    SG_ STRMCUVoltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
    SG_ STRMCUTemperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
+   SG_ STRTEC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+   SG_ STRREC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 1426 STRFlags: 1 STR
    SG_ STRMCUUnderVoltage : 0|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -868,9 +874,11 @@ BO_ 1884 TELCommitHash: 5 TEL
 BO_ 1891 CANBusLoad: 1 TEL
    SG_ BusLoad : 0|8@1+ (1,0) [0|100] "%" Vector__XXX
 
-BO_ 1892 TELMCUHealth: 4 TEL
+BO_ 1892 TELMCUHealth: 6 TEL
    SG_ MCU_Voltage : 0|16@1+ (1,0) [0|65535] "mV" Vector__XXX
    SG_ MCU_Temperature : 16|16@1- (1,0) [-40|125] "degC" Vector__XXX
+   SG_ TELTEC : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+   SG_ TELREC : 40|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 2290418213 Mitsuba_Frame0: 8 MC
    SG_ BatteryVoltage : 0|10@1+ (0.5,0) [0|511.5] "V" DRD
@@ -991,12 +999,18 @@ CM_ SG_ 1281 MDIMotorOverTemp "Set at 100 degC, cleared at 95 degC";
 CM_ SG_ 1281 MDIVoltageOverThreshold "Not set by current MDI firmware (always 0)";
 CM_ SG_ 1281 MDIRTDFault "1 = RTD fault latched: +1 per faulted read, -1 per clean read, sets at 5, clears at 0";
 CM_ SG_ 1281 MDIRTDCommError "1 = SPI error, or MAX31865 missing/reset";
+CM_ SG_ 1281 MDITEC "CAN transmit error counter (TEC) read from the CAN peripheral. +8 per failed transmit, -1 per successful one. 0 = healthy, >127 = error passive, >255 = bus-off. A lone node with no ACK sits at 128.";
+CM_ SG_ 1281 MDIREC "CAN receive error counter (REC) read from the CAN peripheral. +1 per receive error, -1 per good frame. 0 = healthy, >127 = error passive.";
 CM_ SG_ 1282 RTDReadSuccess "1 = valid read, 0 = fault/HAL error";
 CM_ SG_ 1282 RTDFaultFlags "MAX31865 fault register: 0x80 = RTD high, 0x40 = RTD low, 0x04 = OV/UV, 0 = none";
 CM_ SG_ 1026 DRDMCUSupplyVoltage "0 = read failed";
+CM_ SG_ 1026 DRDTEC "CAN transmit error counter (TEC) read from the CAN peripheral. +8 per failed transmit, -1 per successful one. 0 = healthy, >127 = error passive, >255 = bus-off. A lone node with no ACK sits at 128.";
+CM_ SG_ 1026 DRDREC "CAN receive error counter (REC) read from the CAN peripheral. +1 per receive error, -1 per good frame. 0 = healthy, >127 = error passive.";
 CM_ SG_ 1027 DRDMCUOverTemp "1 = fault: DRD MCU over temperature";
 CM_ SG_ 1027 DRDMCUUnderVoltage "1 = fault: DRD MCU under voltage";
 CM_ SG_ 1425 STRMCUVoltage "0 = read failed";
+CM_ SG_ 1425 STRTEC "CAN transmit error counter (TEC) read from the CAN peripheral. +8 per failed transmit, -1 per successful one. 0 = healthy, >127 = error passive, >255 = bus-off. A lone node with no ACK sits at 128.";
+CM_ SG_ 1425 STRREC "CAN receive error counter (REC) read from the CAN peripheral. +1 per receive error, -1 per good frame. 0 = healthy, >127 = error passive.";
 CM_ SG_ 1426 STRMCUUnderVoltage "1 = fault: STR MCU Vdd below 2400 mV";
 CM_ SG_ 1426 STRMCUOverTemp "1 = fault: STR MCU above 105 degC";
 CM_ BO_ 1408 "Steering inputs. Firmware sends 8 bytes; bytes 4-7 are 0.";
@@ -1046,6 +1060,8 @@ CM_ SG_ 2297992512 RequestForFrames "Bitmask of frames requested: bit0 Frame0, b
 CM_ SG_ 2566869221 CCsignalStatus "CC resistance in charger gun: 1.5k ohm = 8A max, 680 ohm = 16A, 220 ohm = 32A";
 CM_ SG_ 2566869221 CPSignalStatus "CP duty cycle indicates supply capacity";
 CM_ SG_ 2566869221 ChargingSocketTempFault "Overheating when temp > 90 degC for > 15 min, or temp > 120 degC";
+CM_ SG_ 1892 TELTEC "CAN transmit error counter (TEC) read from the CAN peripheral. +8 per failed transmit, -1 per successful one. 0 = healthy, >127 = error passive, >255 = bus-off. A lone node with no ACK sits at 128.";
+CM_ SG_ 1892 TELREC "CAN receive error counter (REC) read from the CAN peripheral. +1 per receive error, -1 per good frame. 0 = healthy, >127 = error passive.";
 BA_DEF_ "BusType" STRING ;
 BA_DEF_ BO_ "VFrameFormat" ENUM "StandardCAN","ExtendedCAN","reserved","J1939PG";
 BA_DEF_ BO_ "GenMsgCycleTime" INT 0 65535;
