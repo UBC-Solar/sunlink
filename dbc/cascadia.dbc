@@ -408,25 +408,31 @@ BO_ 800 HVCShuntCurrent: 4 HVC
    SG_ PackCurrent : 7|32@0- (1,0) [-2.14749e+09|2.14749e+09] "mA" Vector__XXX
 
 BO_ 801 HvcFault: 3 HVC
-   SG_ HVCWatchdogReset : 0|1@1+ (1,0) [0|1] "" DIST
-   SG_ DcdcFault : 1|1@1+ (1,0) [0|1] "" DIST
-   SG_ DistFaultFlag : 2|1@1+ (1,0) [0|1] "" DIST
-   SG_ UndercurrentFault : 3|1@1+ (1,0) [0|1] "" DIST
-   SG_ OvercurrentFault : 4|1@1+ (1,0) [0|1] "" DIST
-   SG_ MasterboardFault : 5|1@1+ (1,0) [0|1] "" DIST
-   SG_ ImdFault : 6|1@1+ (1,0) [0|1] "" DIST
    SG_ EstopFault : 7|1@1+ (1,0) [0|1] "" DIST
-   SG_ TelHeartbeatTimeout : 8|1@1+ (1,0) [0|1] "" DIST
-   SG_ LvPowerupTimeout : 9|1@1+ (1,0) [0|1] "" DIST
-   SG_ MpptPrechargeTimeout : 10|1@1+ (1,0) [0|1] "" DIST
-   SG_ MotorPrechargeTimeout : 11|1@1+ (1,0) [0|1] "" DIST
-   SG_ MotorDischargeTimeout : 12|1@1+ (1,0) [0|1] "" DIST
-   SG_ MstCheckTimeout : 13|1@1+ (1,0) [0|1] "" DIST
-   SG_ MstReadyTimeout : 14|1@1+ (1,0) [0|1] "" DIST
-   SG_ MvpLvPowerupTimeout : 15|1@1+ (1,0) [0|1] "" DIST
-   SG_ DcdcThermistorFault : 21|1@1+ (1,0) [0|1] "" DIST
-   SG_ DistHeartbeatTimeout : 22|1@1+ (1,0) [0|1] "" DIST
-   SG_ MstHeartbeatTimeout : 23|1@1+ (1,0) [0|1] "" DIST
+   SG_ ImdFault : 6|1@1+ (1,0) [0|1] "" DIST
+   SG_ MstFault : 5|1@1+ (1,0) [0|1] "" DIST
+   SG_ MstUnhealthy : 4|1@1+ (1,0) [0|1] "" DIST
+   SG_ OvercurrentFault : 3|1@1+ (1,0) [0|1] "" DIST
+   SG_ ReverseCurrentFault : 2|1@1+ (1,0) [0|1] "" DIST
+   SG_ DistFaultFlag : 1|1@1+ (1,0) [0|1] "" DIST
+   SG_ DcdcFault : 0|1@1+ (1,0) [0|1] "" DIST
+   SG_ SuppFault : 15|1@1+ (1,0) [0|1] "" DIST
+   SG_ HVCWatchdogReset : 14|1@1+ (1,0) [0|1] "" DIST
+   SG_ DcdcOvertempFault : 13|1@1+ (1,0) [0|1] "" DIST
+   SG_ TelStartupTimeout : 12|1@1+ (1,0) [0|1] "" DIST
+   SG_ MstHandshakeTimeout : 11|1@1+ (1,0) [0|1] "" DIST
+   SG_ MstStatusCheckTimeout : 10|1@1+ (1,0) [0|1] "" DIST
+   SG_ HvConnectTimeout : 9|1@1+ (1,0) [0|1] "" DIST
+   SG_ OpenDischargeRelayTimeout : 8|1@1+ (1,0) [0|1] "" DIST
+   SG_ MotorPrechargeTimeout : 23|1@1+ (1,0) [0|1] "" DIST
+   SG_ MpptPrechargeTimeout : 22|1@1+ (1,0) [0|1] "" DIST
+   SG_ LvPowerupTimeout : 21|1@1+ (1,0) [0|1] "" DIST
+   SG_ TelHeartbeatTimeout : 20|1@1+ (1,0) [0|1] "" DIST
+   SG_ MstHeartbeatTimeout : 19|1@1+ (1,0) [0|1] "" DIST
+   SG_ DistHeartbeatTimeout : 18|1@1+ (1,0) [0|1] "" DIST
+
+BO_ 802 HVCHeartbeat: 4 HVC
+   SG_ HVCHeartbeatCounter : 7|32@0+ (1,0) [0|4294967295] "" Vector__XXX
 
 BO_ 802 HVCHeartbeat: 4 HVC
    SG_ HVCTimeSinceBootUp : 23|16@0+ (1,0) [0|65535] "" Vector__XXX
@@ -435,8 +441,8 @@ BO_ 803 HVCLvPowerupSent: 1 HVC
    SG_ HVCLvPowerupSent : 0|8@1+ (1,0) [0|1] "" DIST
 
 BO_ 804 HvcStatus: 1 HVC
-   SG_ HVCState : 0|8@1+ (1,0) [0|14] "" Vector__XXX
-
+   SG_ HVCState : 0|8@1+ (1,0) [0|13] "" Vector__XXX
+   
 BO_ 805 HvcLvCurrent: 2 HVC
    SG_ LvCurrent : 7|16@0- (1,0) [-32768|32767] "mA" Vector__XXX
 
@@ -984,10 +990,8 @@ CM_ BO_ 563 "Per-module warnings (bits 0-2) and faults (bits 4-7) for Mod24-Mod3
 CM_ BO_ 768 "Logger RTC timestamp. TEL uses it once as a fallback until GPS time is valid.";
 CM_ BO_ 800 "INA228 HV pack current, big-endian";
 CM_ BO_ 801 "DIST treats any non-zero byte as an external fault";
-CM_ BO_ 802 "Heartbeat. Firmware counter is uint16 sent big-endian in 4 bytes; bytes 0-1 are always 0.";
-CM_ BO_ 803 "Sent once on entering LV_POWERUP; DIST starts on bit 0";
-CM_ BO_ 805 "LV current sensor, big-endian";
-CM_ BO_ 806 "DC-DC thermistor temperature, big-endian";
+CM_ BO_ 802 "Heartbeat. uint32 counter, big-endian, +1 every send (every 1 s).";
+CM_ BO_ 803 "LV power-up request. Resent every 500 ms until DIST acks.";CM_ BO_ 806 "DC-DC thermistor temperature, big-endian";
 CM_ SG_ 806 DcdcTemperature "Firmware sends milli-degC";
 CM_ BO_ 928 "32-bit big-endian counter (DIST PR 78)";
 CM_ BO_ 929 "Sent every 200 ms in all states. All zero until DIST enters FAULT, then holds the causes latched on FAULT entry until reset.";
@@ -1124,7 +1128,7 @@ BA_ "GenMsgCycleTime" BO_ 2292515365 100;
 BA_ "VFrameFormat" BO_ 2297992512 1;
 BA_ "GenMsgCycleTime" BO_ 2297992512 100;
 BA_ "VFrameFormat" BO_ 2566869221 1;
-VAL_ 804 HVCState 14 "UNKNOWN" 13 "FAULT" 12 "MONITORING" 11 "LV_POWERUP" 10 "CLOSE_HLIM" 9 "CLOSE_LLIM" 8 "MPPT_PRECHARGE" 7 "MOTOR_PRECHARGE" 6 "MOTOR_DISCHARGE" 5 "HV_CONNECT" 4 "FANS_POWERUP" 3 "MST_CHECK" 2 "MST_READY" 1 "MVP_LV_POWERUP" 0 "HVC_RESET";
+VAL_ 804 HVCState 13 "FAULT" 12 "MONITORING" 11 "LV_POWERUP" 10 "CLOSE_HLIM" 9 "CLOSE_LLIM" 8 "MPPT_PRECHARGE" 7 "MOTOR_PRECHARGE" 6 "OPEN_DISCHARGE_RELAY" 5 "HV_CONNECT" 4 "FANS_POWERUP" 3 "MST_STATUS_CHECK" 2 "MST_HANDSHAKE" 1 "TEL_STARTUP" 0 "RESET" ;
 VAL_ 1025 Direction 1 "Forward" 0 "Reverse";
 VAL_ 1025 EcoModeOn 1 "Eco" 0 "Power";
 VAL_ 1025 SpeedUnits 1 "KPH" 0 "MPH";
