@@ -487,6 +487,9 @@ BO_ 933 DISTCommitHash: 5 DIST
    SG_ DISTCommitHash : 7|32@0+ (1,0) [0|4.29497e+09] "" Vector__XXX
    SG_ DISTCommitDirty : 32|1@1+ (1,0) [0|1] "" Vector__XXX
 
+BO_ 934 DistTelCurrent: 2 DIST
+   SG_ TELCurrent : 7|16@0+ (1,0) [0|65535] "mA" Vector__XXX
+
 BO_ 1025 MotorCommand: 5 DRD
    SG_ ThrottleDAC : 0|16@1+ (1,0) [0|1023] "" MDI
    SG_ RegenDAC : 16|16@1+ (1,0) [0|1023] "" MDI
@@ -996,6 +999,7 @@ CM_ BO_ 928 "32-bit big-endian counter (DIST PR 78)";
 CM_ BO_ 929 "Sent every 200 ms in all states. All zero until DIST enters FAULT, then holds the causes latched on FAULT entry until reset.";
 CM_ BO_ 931 "Each step is 5 mA; saturates at 1275 mA";
 CM_ BO_ 932 "Firmware branch ID";
+CM_ BO_ 934 "TEL supply current, uint16 mA big-endian.";
 CM_ BO_ 1025 "Motor command to MDI. Also sent immediately when the brake is pressed.";
 CM_ SG_ 1027 SOC "SOC_MAX is 1.04 so values up to 104 are possible";
 CM_ SG_ 1281 MDIMotorOverTemp "Set at 100 degC, cleared at 95 degC";
@@ -1093,6 +1097,7 @@ BA_ "GenMsgCycleTime" BO_ 928 500;
 BA_ "GenMsgCycleTime" BO_ 930 500;
 BA_ "GenMsgCycleTime" BO_ 931 1000;
 BA_ "GenMsgCycleTime" BO_ 932 1000;
+BA_ "GenMsgCycleTime" BO_ 934 1000;
 BA_ "GenMsgCycleTime" BO_ 1025 25;
 BA_ "GenMsgCycleTime" BO_ 1026 1000;
 BA_ "GenMsgCycleTime" BO_ 1027 100;
