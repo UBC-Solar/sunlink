@@ -1,0 +1,2105 @@
+{
+  "title": "TEST: MC (Mitsuba) - Cascadia",
+  "uid": "cascadia-test-mc",
+  "tags": [
+    "cascadia",
+    "test"
+  ],
+  "description": "Mitsuba motor controller: speed, battery power, temperatures, driver inputs and error flags (Mitsuba_Frame0/1/2).",
+  "editable": true,
+  "graphTooltip": 1,
+  "fiscalYearStartMonth": 0,
+  "liveNow": false,
+  "refresh": "1s",
+  "schemaVersion": 38,
+  "version": 1,
+  "style": "dark",
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "title": "Cascadia test boards",
+      "type": "dashboards",
+      "tags": [
+        "cascadia",
+        "test"
+      ],
+      "asDropdown": false,
+      "includeVars": false,
+      "keepTime": true,
+      "icon": "external link",
+      "targetBlank": false
+    }
+  ],
+  "panels": [
+    {
+      "type": "stat",
+      "title": "MC: Fault banner",
+      "description": "Red: a Mitsuba_Frame2 error bit is set now (names listed). Orange: MC link lost (no Frame0 in 3 s), overheat level > 0, or FET temperature ≥ 80 °C. Blank when everything is normal.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "import \"array\"\nimport \"strings\"\nlabel = (f) =>\n    if f == \"AnalogSensorError\" then \"Analog (AD) sensor\"\n    else if f == \"MotorCurrentSensorUError\" then \"Motor current sensor U\"\n    else if f == \"MotorCurrentSensorWError\" then \"Motor current sensor W\"\n    else if f == \"FETThermistorError\" then \"FET thermistor\"\n    else if f == \"BatteryVoltageSensorError\" then \"Battery voltage sensor\"\n    else if f == \"BatteryCurrentSensorError\" then \"Battery current sensor\"\n    else if f == \"BatteryCurrentSensorAdjustError\" then \"Battery current sensor zero\"\n    else if f == \"MotorCurrentSensorAdjustError\" then \"Motor current sensor zero\"\n    else if f == \"AcceleratorPositionError\" then \"Accelerator position\"\n    else if f == \"ControllerVoltageSensorError\" then \"12 V line sensor\"\n    else if f == \"PowerSystemError\" then \"Power system\"\n    else if f == \"OverCurrentError\" then \"Over current\"\n    else if f == \"OverVoltageError\" then \"Over voltage\"\n    else if f == \"OverCurrentLimit\" then \"Over current limit\"\n    else if f == \"MotorSystemError\" then \"Motor system\"\n    else if f == \"MotorLock\" then \"Motor locked\"\n    else if f == \"HallSensorShort\" then \"Hall sensor short\"\n    else if f == \"HallSensorOpen\" then \"Hall sensor open\"\n    else f\nst = from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame2\")\n  |> filter(fn: (r) => r[\"_field\"] == \"AnalogSensorError\" or r[\"_field\"] == \"MotorCurrentSensorUError\" or r[\"_field\"] == \"MotorCurrentSensorWError\" or r[\"_field\"] == \"FETThermistorError\" or r[\"_field\"] == \"BatteryVoltageSensorError\" or r[\"_field\"] == \"BatteryCurrentSensorError\" or r[\"_field\"] == \"BatteryCurrentSensorAdjustError\" or r[\"_field\"] == \"MotorCurrentSensorAdjustError\" or r[\"_field\"] == \"AcceleratorPositionError\" or r[\"_field\"] == \"ControllerVoltageSensorError\" or r[\"_field\"] == \"PowerSystemError\" or r[\"_field\"] == \"OverCurrentError\" or r[\"_field\"] == \"OverVoltageError\" or r[\"_field\"] == \"OverCurrentLimit\" or r[\"_field\"] == \"MotorSystemError\" or r[\"_field\"] == \"MotorLock\" or r[\"_field\"] == \"HallSensorShort\" or r[\"_field\"] == \"HallSensorOpen\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> toInt()\n  |> duplicate(column: \"_value\", as: \"now\")\n  |> cumulativeSum(columns: [\"_value\"])\n  |> map(fn: (r) => ({_time: r._time, _field: r._field, _value: if r.now > 0 then 2 else if r._value > 0 then 1 else 0}))\n  |> last()\n  |> group()\nact = st |> filter(fn: (r) => r._value == 2) |> map(fn: (r) => ({r with _field: label(f: r._field)})) |> findColumn(fn: (key) => true, column: \"_field\")\noh = from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\" and r[\"class\"] == \"Mitsuba_Frame2\" and r[\"_field\"] == \"OverHeatLevel\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value > 0 then \"Overheat level \" + string(v: int(v: r._value)) else \"\"}))\n  |> keep(columns: [\"_value\"])\nwl = from(bucket: \"CAN_test\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\" and r[\"class\"] == \"Mitsuba_Frame0\" and r[\"_field\"] == \"BatteryVoltage\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if float(v: uint(v: now()) - uint(v: r._time)) / 1000000000.0 > 3.0 then \"MC link lost\" else \"\"}))\n  |> keep(columns: [\"_value\"])\nwt = from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\" and r[\"class\"] == \"Mitsuba_Frame0\" and r[\"_field\"] == \"FETTemperature\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value >= 80 then \"FET temperature: \" + string(v: int(v: r._value)) + \" °C\" else \"\"}))\n  |> keep(columns: [\"_value\"])\nwarn = union(tables: [oh, wl, wt]) |> group() |> filter(fn: (r) => r._value != \"\") |> findColumn(fn: (key) => true, column: \"_value\")\nf = if length(arr: act) > 0 then \"ACTIVE FAULT: \" + strings.joinStr(arr: act, v: \", \") else \"\"\nw = if length(arr: warn) > 0 then \"WARNING: \" + strings.joinStr(arr: warn, v: \", \") else \"\"\nmsg = if f != \"\" and w != \"\" then f + \"   |   \" + w else f + w\narray.from(rows: [{_value: msg}]) |> yield(name: \"banner\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "regex",
+              "options": {
+                "pattern": "^ACTIVE FAULT.*",
+                "result": {
+                  "color": "#ff1a1a",
+                  "index": 0
+                }
+              }
+            },
+            {
+              "type": "regex",
+              "options": {
+                "pattern": "^WARNING.*",
+                "result": {
+                  "color": "#ff9830",
+                  "index": 1
+                }
+              }
+            },
+            {
+              "type": "special",
+              "options": {
+                "match": "empty",
+                "result": {
+                  "text": " ",
+                  "color": "transparent",
+                  "index": 2
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "colorMode": "background_solid",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "textMode": "value",
+        "text": {
+          "valueSize": 28
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 3
+      },
+      "id": 1
+    },
+    {
+      "type": "row",
+      "title": "Overview",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 3,
+        "w": 24,
+        "h": 1
+      },
+      "id": 2
+    },
+    {
+      "type": "stat",
+      "title": "Link (s since last frame)",
+      "description": "Time since the last Mitsuba_Frame0 reached InfluxDB (looks back 1 h). Red after 3 s: MC, the DRD data request, CAN or the radio link is down.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryVoltage\")\n  |> last()\n  |> map(fn: (r) => ({_time: r._time, _field: \"Last frame\", _value: float(v: uint(v: now()) - uint(v: r._time)) / 1000000000.0}))\n  |> yield(name: \"age\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "#ff1a1a",
+                "value": 3.0
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background_solid",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "textMode": "value"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "id": 3
+    },
+    {
+      "type": "stat",
+      "title": "Speed",
+      "description": "MotorRotatingSpeed (km/h).",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorRotatingSpeed\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "velocitykmh",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#5794f2",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "textMode": "value"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 4,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "id": 4
+    },
+    {
+      "type": "stat",
+      "title": "Battery voltage",
+      "description": "BatteryVoltage as measured by the motor controller.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "volt",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#73bf69",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "textMode": "value"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 8,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "id": 5
+    },
+    {
+      "type": "stat",
+      "title": "Battery current",
+      "description": "Signed: positive = drawing from the pack, negative = regen into the pack (BatteryCurrentDirection = 1).",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryCurrent\" or r[\"_field\"] == \"BatteryCurrentDirection\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => exists r.BatteryCurrent and exists r.BatteryCurrentDirection)\n  |> map(fn: (r) => ({r with _field: \"Battery current\", _value: if float(v: r.BatteryCurrentDirection) == 1.0 then -float(v: r.BatteryCurrent) else float(v: r.BatteryCurrent)}))\n  |> keep(columns: [\"_start\", \"_stop\", \"_time\", \"_value\", \"_field\"])\n  |> group(columns: [\"_field\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"signed\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "amp",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#73bf69",
+                "value": null
+              },
+              {
+                "color": "#f2cc0c",
+                "value": 0
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "textMode": "value"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "id": 6
+    },
+    {
+      "type": "stat",
+      "title": "FET temperature",
+      "description": "Controller FET temperature (5 °C resolution). Orange at 80 °C, red at 100 °C.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"FETTemperature\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#73bf69",
+                "value": null
+              },
+              {
+                "color": "#ff9830",
+                "value": 80
+              },
+              {
+                "color": "#ff1a1a",
+                "value": 100
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "textMode": "value"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 16,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "id": 7
+    },
+    {
+      "type": "stat",
+      "title": "Drive",
+      "description": "DriveActionStatus from Mitsuba_Frame1.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveActionStatus\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "STOP",
+                  "color": "#8e8e8e",
+                  "index": 0
+                },
+                "1": {
+                  "text": "RFU",
+                  "color": "#ff9830",
+                  "index": 1
+                },
+                "2": {
+                  "text": "FORWARD",
+                  "color": "#73bf69",
+                  "index": 2
+                },
+                "3": {
+                  "text": "REVERSE",
+                  "color": "#5794f2",
+                  "index": 3
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": -1000000000000.0,
+                "to": 1000000000000.0,
+                "result": {
+                  "text": "UNKNOWN",
+                  "color": "#ff9830",
+                  "index": 4
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "textMode": "value"
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 20,
+        "y": 4,
+        "w": 4,
+        "h": 4
+      },
+      "id": 8
+    },
+    {
+      "type": "row",
+      "title": "Power & motion (Frame 0)",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 24,
+        "h": 1
+      },
+      "id": 9
+    },
+    {
+      "type": "timeseries",
+      "title": "Speed",
+      "description": "MotorRotatingSpeed. The DBC scale converts motor rpm to km/h (0.283 m wheel radius).",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorRotatingSpeed\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "velocitykmh",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#5794f2"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": 5000,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisCenteredZero": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "min": 0,
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 9,
+        "w": 12,
+        "h": 8
+      },
+      "id": 10
+    },
+    {
+      "type": "timeseries",
+      "title": "Battery current",
+      "description": "Signed battery current: positive = drive (discharging), negative = regen (charging).",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryCurrent\" or r[\"_field\"] == \"BatteryCurrentDirection\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> filter(fn: (r) => exists r.BatteryCurrent and exists r.BatteryCurrentDirection)\n  |> map(fn: (r) => ({r with _field: \"Battery current\", _value: if float(v: r.BatteryCurrentDirection) == 1.0 then -float(v: r.BatteryCurrent) else float(v: r.BatteryCurrent)}))\n  |> keep(columns: [\"_start\", \"_stop\", \"_time\", \"_value\", \"_field\"])\n  |> group(columns: [\"_field\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"signed\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "amp",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#f2cc0c"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": 5000,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisCenteredZero": true,
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 12,
+        "y": 9,
+        "w": 12,
+        "h": 8
+      },
+      "id": 11
+    },
+    {
+      "type": "timeseries",
+      "title": "Battery voltage",
+      "description": "BatteryVoltage (0.5 V resolution).",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"BatteryVoltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "volt",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#73bf69"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": 5000,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisCenteredZero": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 17,
+        "w": 12,
+        "h": 8
+      },
+      "id": 12
+    },
+    {
+      "type": "timeseries",
+      "title": "Motor current (peak average)",
+      "description": "MotorCurrentPeakAverage.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"MotorCurrentPeakAverage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "amp",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#ff9830"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": 5000,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisCenteredZero": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "min": 0,
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 12,
+        "y": 17,
+        "w": 12,
+        "h": 8
+      },
+      "id": 13
+    },
+    {
+      "type": "timeseries",
+      "title": "FET temperature",
+      "description": "Controller FET temperature (5 °C steps). Shaded orange from 80 °C, red from 100 °C.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"FETTemperature\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"max\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#ff1a1a"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": 5000,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisCenteredZero": false,
+            "thresholdsStyle": {
+              "mode": "line+area"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "rgba(255,152,48,0.15)",
+                "value": 80
+              },
+              {
+                "color": "rgba(255,26,26,0.2)",
+                "value": 100
+              }
+            ]
+          },
+          "mappings": [],
+          "min": 0,
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 25,
+        "w": 8,
+        "h": 8
+      },
+      "id": 14
+    },
+    {
+      "type": "timeseries",
+      "title": "PWM duty",
+      "description": "PWMDuty. Only valid in PWM control mode.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"PWMDuty\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#b877d9"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": 5000,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisCenteredZero": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "min": 0,
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 8,
+        "y": 25,
+        "w": 8,
+        "h": 8
+      },
+      "id": 15
+    },
+    {
+      "type": "timeseries",
+      "title": "Lead angle",
+      "description": "Electrical lead angle (0.5° resolution).",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame0\")\n  |> filter(fn: (r) => r[\"_field\"] == \"LeadAngle\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "degree",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#8ab8ff"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": 5000,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisCenteredZero": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "min": 0,
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 16,
+        "y": 25,
+        "w": 8,
+        "h": 8
+      },
+      "id": 16
+    },
+    {
+      "type": "row",
+      "title": "Driver inputs & mode (Frame 1)",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 33,
+        "w": 24,
+        "h": 1
+      },
+      "id": 17
+    },
+    {
+      "type": "timeseries",
+      "title": "Pedal inputs",
+      "description": "AcceleratorPosition and RegenerationVRPosition as seen by the motor controller.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"AcceleratorPosition\" or r[\"_field\"] == \"RegenerationVRPosition\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": 5000,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisCenteredZero": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "min": 0,
+          "decimals": 1
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "AcceleratorPosition"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Accelerator"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#73bf69"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RegenerationVRPosition"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Regen"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#5794f2"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 34,
+        "w": 12,
+        "h": 8
+      },
+      "id": 18
+    },
+    {
+      "type": "timeseries",
+      "title": "Output target",
+      "description": "OutputTargetValue: target current in current-control mode.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OutputTargetValue\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "amp",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#ff9830"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": 5000,
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisCenteredZero": false,
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "min": 0,
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 12,
+        "y": 34,
+        "w": 12,
+        "h": 8
+      },
+      "id": 19
+    },
+    {
+      "type": "state-timeline",
+      "title": "Controller mode",
+      "description": "Mode flags from Mitsuba_Frame1. Digit switch shows the raw 0–15 position.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame1\")\n  |> filter(fn: (r) => r[\"_field\"] == \"DriveActionStatus\" or r[\"_field\"] == \"RegenerationStatus\" or r[\"_field\"] == \"PowerMode\" or r[\"_field\"] == \"MotorControlMode\" or r[\"_field\"] == \"DigitSWPosition\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"last\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#8e8e8e"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#8e8e8e",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [],
+          "custom": {
+            "fillOpacity": 80,
+            "lineWidth": 0,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DriveActionStatus"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Drive"
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "STOP",
+                        "color": "#8e8e8e",
+                        "index": 0
+                      },
+                      "1": {
+                        "text": "RFU",
+                        "color": "#ff9830",
+                        "index": 1
+                      },
+                      "2": {
+                        "text": "FORWARD",
+                        "color": "#73bf69",
+                        "index": 2
+                      },
+                      "3": {
+                        "text": "REVERSE",
+                        "color": "#5794f2",
+                        "index": 3
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": -1000000000000.0,
+                      "to": 1000000000000.0,
+                      "result": {
+                        "text": "UNKNOWN",
+                        "color": "#ff9830",
+                        "index": 4
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RegenerationStatus"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Regen"
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "DRIVE",
+                        "color": "#8e8e8e",
+                        "index": 0
+                      },
+                      "1": {
+                        "text": "REGEN",
+                        "color": "#73bf69",
+                        "index": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": -1000000000000.0,
+                      "to": 1000000000000.0,
+                      "result": {
+                        "text": "UNKNOWN",
+                        "color": "#ff9830",
+                        "index": 2
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PowerMode"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Power mode"
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "ECO",
+                        "color": "#73bf69",
+                        "index": 0
+                      },
+                      "1": {
+                        "text": "POWER",
+                        "color": "#5794f2",
+                        "index": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": -1000000000000.0,
+                      "to": 1000000000000.0,
+                      "result": {
+                        "text": "UNKNOWN",
+                        "color": "#ff9830",
+                        "index": 2
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MotorControlMode"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Control mode"
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "CURRENT",
+                        "color": "#5794f2",
+                        "index": 0
+                      },
+                      "1": {
+                        "text": "PWM",
+                        "color": "#b877d9",
+                        "index": 1
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": -1000000000000.0,
+                      "to": 1000000000000.0,
+                      "result": {
+                        "text": "UNKNOWN",
+                        "color": "#ff9830",
+                        "index": 2
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DigitSWPosition"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Digit switch"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#5f6a7a"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showValue": "auto",
+        "mergeValues": true,
+        "alignValue": "left",
+        "rowHeight": 0.85,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 42,
+        "w": 24,
+        "h": 7
+      },
+      "id": 20
+    },
+    {
+      "type": "row",
+      "title": "Errors (Frame 2)",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 49,
+        "w": 24,
+        "h": 1
+      },
+      "id": 21
+    },
+    {
+      "type": "state-timeline",
+      "title": "MC: Error flags",
+      "description": "Mitsuba_Frame2 error bits (RFU bits hidden). Per row: OK, FAULT (red) while set, CLEARED (yellow) once it has faulted in the time range shown. Zoom the time range past an old fault to clear the yellow.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame2\")\n  |> filter(fn: (r) => r[\"_field\"] == \"AnalogSensorError\" or r[\"_field\"] == \"MotorCurrentSensorUError\" or r[\"_field\"] == \"MotorCurrentSensorWError\" or r[\"_field\"] == \"FETThermistorError\" or r[\"_field\"] == \"BatteryVoltageSensorError\" or r[\"_field\"] == \"BatteryCurrentSensorError\" or r[\"_field\"] == \"BatteryCurrentSensorAdjustError\" or r[\"_field\"] == \"MotorCurrentSensorAdjustError\" or r[\"_field\"] == \"AcceleratorPositionError\" or r[\"_field\"] == \"ControllerVoltageSensorError\" or r[\"_field\"] == \"PowerSystemError\" or r[\"_field\"] == \"OverCurrentError\" or r[\"_field\"] == \"OverVoltageError\" or r[\"_field\"] == \"OverCurrentLimit\" or r[\"_field\"] == \"MotorSystemError\" or r[\"_field\"] == \"MotorLock\" or r[\"_field\"] == \"HallSensorShort\" or r[\"_field\"] == \"HallSensorOpen\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> toInt()\n  |> duplicate(column: \"_value\", as: \"now\")\n  |> cumulativeSum(columns: [\"_value\"])\n  |> map(fn: (r) => ({_time: r._time, _field: r._field, _value: if r.now > 0 then 2 else if r._value > 0 then 1 else 0}))\n  |> yield(name: \"fault_state\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#8e8e8e"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#8e8e8e",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "OK",
+                  "color": "#8e8e8e",
+                  "index": 0
+                },
+                "1": {
+                  "text": "CLEARED",
+                  "color": "#f2cc0c",
+                  "index": 1
+                },
+                "2": {
+                  "text": "FAULT",
+                  "color": "#ff1a1a",
+                  "index": 2
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": -1000000000000.0,
+                "to": 1000000000000.0,
+                "result": {
+                  "text": "UNKNOWN",
+                  "color": "#ff9830",
+                  "index": 3
+                }
+              }
+            }
+          ],
+          "custom": {
+            "fillOpacity": 80,
+            "lineWidth": 0,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "AnalogSensorError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Analog (AD) sensor"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MotorCurrentSensorUError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Motor current sensor U"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MotorCurrentSensorWError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Motor current sensor W"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FETThermistorError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "FET thermistor"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "BatteryVoltageSensorError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Battery voltage sensor"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "BatteryCurrentSensorError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Battery current sensor"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "BatteryCurrentSensorAdjustError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Battery current sensor zero"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MotorCurrentSensorAdjustError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Motor current sensor zero"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "AcceleratorPositionError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Accelerator position"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ControllerVoltageSensorError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "12 V line sensor"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PowerSystemError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Power system"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OverCurrentError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Over current"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OverVoltageError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Over voltage"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OverCurrentLimit"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Over current limit"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MotorSystemError"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Motor system"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "MotorLock"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Motor locked"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "HallSensorShort"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Hall sensor short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "HallSensorOpen"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Hall sensor open"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showValue": "auto",
+        "mergeValues": true,
+        "alignValue": "left",
+        "rowHeight": 0.85,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 50,
+        "w": 24,
+        "h": 14
+      },
+      "id": 22
+    },
+    {
+      "type": "state-timeline",
+      "title": "MC: Overheat level",
+      "description": "OverHeatLevel (0 = none, 3 = worst).",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"CAN_test\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MC\")\n  |> filter(fn: (r) => r[\"class\"] == \"Mitsuba_Frame2\")\n  |> filter(fn: (r) => r[\"_field\"] == \"OverHeatLevel\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> yield(name: \"max\")",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#8e8e8e"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#8e8e8e",
+                "value": null
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "NONE",
+                  "color": "#8e8e8e",
+                  "index": 0
+                },
+                "1": {
+                  "text": "LEVEL 1",
+                  "color": "#f2cc0c",
+                  "index": 1
+                },
+                "2": {
+                  "text": "LEVEL 2",
+                  "color": "#ff9830",
+                  "index": 2
+                },
+                "3": {
+                  "text": "LEVEL 3",
+                  "color": "#ff1a1a",
+                  "index": 3
+                }
+              }
+            },
+            {
+              "type": "range",
+              "options": {
+                "from": -1000000000000.0,
+                "to": 1000000000000.0,
+                "result": {
+                  "text": "UNKNOWN",
+                  "color": "#ff9830",
+                  "index": 4
+                }
+              }
+            }
+          ],
+          "custom": {
+            "fillOpacity": 80,
+            "lineWidth": 0,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "OverHeatLevel"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Overheat"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showValue": "auto",
+        "mergeValues": true,
+        "alignValue": "left",
+        "rowHeight": 0.85,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "gridPos": {
+        "x": 0,
+        "y": 64,
+        "w": 24,
+        "h": 3
+      },
+      "id": 23
+    }
+  ]
+}

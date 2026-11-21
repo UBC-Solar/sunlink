@@ -138,3 +138,6 @@ logfiles/*
 dbgfiles/*
 failfiles/*
 **.DS_Store
+
+# Accidental nested clone of this repo
+/sunlink/
